@@ -89,6 +89,6 @@ void opcontrol() {
 		int turn = master.get_analog(ANALOG_RIGHT_Y);  // Gets the turn left/right from right joystick
 		left_mg.move(dir);                      // Sets left motor voltage
 		right_mg.move(turn);                     // Sets right motor voltage
-		pros::delay(20);                               // Run for 20 ms then update
+		pros::delay(200);                               // Run for 20 ms then update
 	}
 }
