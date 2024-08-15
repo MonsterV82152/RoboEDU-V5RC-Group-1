@@ -1,5 +1,7 @@
 #include "main.h"
-
+#include "odometry.h"
+#include <string>
+#include <stdlib.h> 
 /**
  * A callback function for LLEMU's center button.
  *
@@ -25,10 +27,13 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+	
 	pros::lcd::initialize();
 	pros::lcd::set_text(1, "Hello PROS User!");
+	// pros::lcd::register_btn1_cb(on_center_button);
 
-	pros::lcd::register_btn1_cb(on_center_button);
+	//horizontal = 4
+	//vertical = 20
 }
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -75,48 +80,173 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::ADIDigitalOut clawp ('A');
-	pros::Motor intake(-5);
-	pros::Motor hook(-17);
+	pros::Imu imu_sensor(19);
+	pros::Rotation verticaltracking(20);
+	pros::Rotation horizontaltracking(4);
+	verticaltracking.reset();
+	horizontaltracking.reset();
+	verticaltracking.set_position(0);
+	horizontaltracking.set_position(0);
+	imu_sensor.reset();
+	pros::delay(2000);
+	odom thisbot(0,0,0,0,0,1.375);
+
+
+	pros::ADIDigitalOut clawp ('H');
+	pros::ADIDigitalOut wing ('E');
+	pros::Motor intake(2); 
+	pros::Motor hook(-8);
+	pros::Motor swall(15);
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::MotorGroup left_mg({-1, -2, -3});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-	pros::MotorGroup right_mg({10, 6, 7});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+	pros::Controller master2(pros::E_CONTROLLER_PARTNER);
+	pros::MotorGroup right_mg({12, -10, 6});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+	pros::MotorGroup left_mg({-14, 18, -16});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+	
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 
 	bool boolintake = false;
 	bool boolhook = false;
-
+	bool boolwing = false;
+	bool boolclaw = false;
+	bool wallstake = false;
+	bool detect = true;
+	int counter = 0;
+	int redcolourcounter = 0;
+	bool redcolour = false;
+	int bluecolourcounter = 0;
+	bool bluecolour = false;
+	pros::c::optical_rgb_s_t RGB_values;
 	while (true) {
-		int dir = master.get_analog(ANALOG_LEFT_Y);
-		int turn = master.get_analog(ANALOG_RIGHT_Y);
-		left_mg.move(dir);
-		right_mg.move(turn);
+		
+		int left = master.get_analog(ANALOG_LEFT_Y);
+		int right = master.get_analog(ANALOG_RIGHT_X);
+		left_mg.move(left+(right*1.05));
+		right_mg.move(left-(right*1.05));
+		RGB_values = pros::c::optical_get_rgb(17);
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			detect = !detect;
+		}
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
 			
-			if (boolintake) {
-				intake.move(127);
-			} else {
-				intake.brake();
-			}
-
 			boolintake = !boolintake;
+			
 
 		}
-				
 		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-			if (boolhook) {
-				hook.move(127);
+			
+			boolclaw = !boolclaw;
+
+		}	
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+			counter = 10;
+			wallstake = true;
+			swall.move(127);
+
+		} else if (wallstake) {
+			swall.move(-127);
+			if (counter <= 0 || master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+				if (abs(swall.get_actual_velocity()) < 10) {
+					wallstake = false;
+					swall.brake();
+					
+				}
+				
 			} else {
-				hook.brake();
+				counter--;
+
 			}
+		}
+
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
 			
 			boolhook = !boolhook;
 
 		}
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+			boolwing = !boolwing;
 
-	pros::delay(20);  
+		}
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) or master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+			hook.move(-127);
+			intake.move(-127);
+		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)){
+			hook.move(50);
+			intake.move(50);
+		} else {
+			if (boolhook) {
+				if (detect) {
+					if (RGB_values.red >= 100) {
+						redcolour = true;
+					}
+					if (RGB_values.blue >= 100) {
+						bluecolour = true;
+					}
+					if (redcolour) {
+						redcolourcounter--;
+					}
+					if (bluecolour) {
+						bluecolourcounter--;
+					}
+					if (redcolourcounter <= 2) {
+						hook.brake();
+					} else if (bluecolourcounter <= 4 && master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+						hook.move(-127);
+					} else {
+						hook.move(127);
+					}
+					if (redcolourcounter <= 0) {
+						redcolour = false;
+						redcolourcounter = 5;
+					}
+					if (bluecolourcounter <= 0) {
+						bluecolour = false;
+						bluecolourcounter = 7;
+					}
+				} else {
+					bluecolour = false;
+					redcolour = false;
+					redcolourcounter = 5;
+					bluecolourcounter = 7;
+					hook.move(127);
+				}
+			} else {
+				hook.brake();
+			}
+			
+			if (boolintake) {
+				
+			} else {
+
+				intake.brake();
+			}
+		}
+		if (!boolclaw) {
+			// master.print(1,1,"CLAW UP  ");
+			clawp.set_value(true);
+		} else {
+			// master.print(1,1,"CLAW DOWN");
+			clawp.set_value(false);
+		}
+		if (!boolwing) {
+			wing.set_value(true);
+		} else {
+			wing.set_value(false);
+		}
+		// int vertical_position = verticaltracking.get_position()/100;
+		// int horizontal_position = horizontaltracking.get_position()/100;
+		// int heading = imu_sensor.get_heading();
+		// thisbot.change(heading,horizontal_position,vertical_position);
+
+		
+		// pros::screen::erase();
+		// pros::screen::print(TEXT_SMALL, 3, "X: %lf", thisbot.ypos);
+		// pros::screen::print(TEXT_SMALL, 10, "Y: %lf", thisbot.xpos);
+
+		pros::delay(20);  
+
+		
 	}
 	// int intakecooldown = 25;
 	// int clawcooldown = 25;
