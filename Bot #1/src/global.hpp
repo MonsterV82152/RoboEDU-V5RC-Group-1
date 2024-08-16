@@ -1,5 +1,10 @@
 #include "main.h"
-#include "odometry.h"
+
+
+#ifndef CONFIG_HPP
+#define CONFIG_HPP
+
+
 #include <string>
 #include <stdlib.h>
 
@@ -42,29 +47,29 @@
 
 /* ------------------------------------------------------------------------------------------------------------------------ */
 // Sensors & Calibration
-pros::Imu imu_sensor(IMUport);
-pros::Rotation verticaltracking(VTWport);
-pros::Rotation horizontaltracking(HTWport);
-verticaltracking.reset();
-horizontaltracking.reset();
-verticaltracking.set_position(0);
-horizontaltracking.set_position(0);
-imu_sensor.reset();
-pros::delay(2000);
+inline pros::Imu imu_sensor(IMUport);
+inline pros::Rotation verticaltracking(VTWport);
+inline pros::Rotation horizontaltracking(HTWport);
+inline pros::Optical optical_sensor(17);
+
 
 // Motors & Pnumatics
 
-pros::ADIDigitalOut clawp(clawport);
-pros::ADIDigitalOut wing(wingport);
+inline pros::ADIDigitalOut clawp(clawport);
+inline pros::ADIDigitalOut wing(wingport);
 
-pros::Motor intake(RIport);
-pros::Motor hook(HSMport);
-pros::Motor swall(HSSMport);
+inline pros::Motor intake(RIport);
+inline pros::Motor hook(HSMport);
+inline pros::Motor swall(WSSMport);
 
-pros::MotorGroup right_mg({right_motor_1, right_motor_2, right_motor_3});
-pros::MotorGroup left_mg({left_motor_1, left_motor_2, left_motor_3});
+inline pros::MotorGroup right_mg({right_motor_1, right_motor_2, right_motor_3});
+inline pros::MotorGroup left_mg({left_motor_1, left_motor_2, left_motor_3});
 
 // Controllers
 
-pros::Controller master(driver);
-pros::Controller master2(driver_2);
+inline pros::Controller master(driver);
+inline pros::Controller master2(driver_2);
+
+
+
+#endif 

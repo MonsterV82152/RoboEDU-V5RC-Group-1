@@ -1,8 +1,9 @@
 #include "main.h"
+#include "global.hpp"
 #include "odometry.hpp"
 #include <string>
 #include <stdlib.h>
-#include "global.hpp"
+
 /**
  * A callback function for LLEMU's center button.
  *
@@ -10,13 +11,16 @@
  * "I was pressed!" and nothing.
  */
 
-
-void on_center_button() {
+void on_center_button()
+{
 	static bool pressed = false;
 	pressed = !pressed;
-	if (pressed) {
+	if (pressed)
+	{
 		pros::lcd::set_text(2, "I was pressed!");
-	} else {
+	}
+	else
+	{
 		pros::lcd::clear_line(2);
 	}
 }
@@ -27,14 +31,19 @@ void on_center_button() {
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-void initialize() {
-	
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
+void initialize()
+{
+
+	verticaltracking.reset();
+	horizontaltracking.reset();
+	verticaltracking.set_position(0);
+	horizontaltracking.set_position(0);
+	imu_sensor.reset();
+
 	// pros::lcd::register_btn1_cb(on_center_button);
 
-	//horizontal = 4
-	//vertical = 20
+	// horizontal = 4
+	// vertical = 20
 }
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -80,7 +89,8 @@ void autonomous() {}
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
-void opcontrol() {
+void opcontrol()
+{
 	// pros::Imu imu_sensor(19);
 	// pros::Rotation verticaltracking(20);
 	// pros::Rotation horizontaltracking(4);
@@ -90,19 +100,10 @@ void opcontrol() {
 	// horizontaltracking.set_position(0);
 	// imu_sensor.reset();
 	// pros::delay(2000);
-	odom thisbot(0,0,0,0,0,1.375);
 
+	// Create Odom Environment
+	odom thisbot(0, 0, 0, 0, 0, 1.375);
 
-	// pros::ADIDigitalOut clawp ('H');
-	// pros::ADIDigitalOut wing ('E');
-	// pros::Motor intake(2); 
-	// pros::Motor hook(-8);
-	// pros::Motor swall(15);
-	// pros::Controller master(pros::E_CONTROLLER_MASTER);
-	// pros::Controller master2(pros::E_CONTROLLER_PARTNER);
-	// pros::MotorGroup right_mg({12, -10, 6});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-	// pros::MotorGroup left_mg({-14, 18, -16});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
-	
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -118,121 +119,165 @@ void opcontrol() {
 	bool redcolour = false;
 	int bluecolourcounter = 0;
 	bool bluecolour = false;
-	pros::c::optical_rgb_s_t RGB_values;
-	while (true) {
-		
+	optical_sensor.set_led_pwm(100);
+
+	while (true)
+	{
+
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		int right = master.get_analog(ANALOG_RIGHT_X);
-		left_mg.move(left+(right*1.05));
-		right_mg.move(left-(right*1.05));
-		RGB_values = pros::c::optical_get_rgb(17);
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+		left_mg.move(left + (right * 1.05));
+		right_mg.move(left - (right * 1.05));
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))
+		{
 			detect = !detect;
+			if (detect)
+			{
+				master.print(1, 1, "Detect On ");
+			}
+			else
+			{
+				master.print(1, 1, "Detect Off");
+			}
 		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1)) {
-			
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1))
+		{
+
 			boolintake = !boolintake;
-			
-
 		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-			
-			boolclaw = !boolclaw;
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
+		{
 
-		}	
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+			boolclaw = !boolclaw;
+		}
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A))
+		{
 			counter = 10;
 			wallstake = true;
 			swall.move(127);
-
-		} else if (wallstake) {
+		}
+		else if (wallstake)
+		{
 			swall.move(-127);
-			if (counter <= 0 || master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
-				if (abs(swall.get_actual_velocity()) < 10) {
+			if (counter <= 0 || master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))
+			{
+				if (abs(swall.get_actual_velocity()) < 10)
+				{
 					wallstake = false;
 					swall.brake();
-					
 				}
-				
-			} else {
+			}
+			else
+			{
 				counter--;
-
 			}
 		}
 
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2)) {
-			
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2))
+		{
+
 			boolhook = !boolhook;
-
 		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y))
+		{
 			boolwing = !boolwing;
-
 		}
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) or master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) or master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
+		{
 			hook.move(-127);
 			intake.move(-127);
-		} else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)){
+		}
+		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+		{
 			hook.move(50);
 			intake.move(50);
-		} else {
-			if (boolhook) {
-				if (detect) {
-					if (RGB_values.red >= 100) {
+		}
+		else
+		{
+			if (boolhook)
+			{
+				if (detect)
+				{
+					double a = optical_sensor.get_hue();
+					if (a >= 0 && a <= 30)
+					{
 						redcolour = true;
 					}
-					if (RGB_values.blue >= 100) {
+					if (a >= 100 && a <= 220)
+					{
 						bluecolour = true;
 					}
-					if (redcolour) {
+					if (redcolour)
+					{
 						redcolourcounter--;
 					}
-					if (bluecolour) {
+					if (bluecolour)
+					{
 						bluecolourcounter--;
 					}
-					if (redcolourcounter <= 2) {
-						hook.brake();
-					} else if (bluecolourcounter <= 4 && master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+					if (redcolourcounter <= 2 && redcolour)
+					{
 						hook.move(-127);
-					} else {
+					}
+					else if (bluecolourcounter <= 17 && master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN) && bluecolour)
+					{
+						hook.move(-127);
+					}
+					else
+					{
 						hook.move(127);
 					}
-					if (redcolourcounter <= 0) {
+					if (redcolourcounter <= 0)
+					{
 						redcolour = false;
-						redcolourcounter = 5;
+						redcolourcounter = 6;
 					}
-					if (bluecolourcounter <= 0) {
+					if (bluecolourcounter <= 0)
+					{
 						bluecolour = false;
-						bluecolourcounter = 7;
+						bluecolourcounter = 19;
 					}
-				} else {
+				}
+				else
+				{
 					bluecolour = false;
 					redcolour = false;
 					redcolourcounter = 5;
-					bluecolourcounter = 7;
+					bluecolourcounter = 19;
 					hook.move(127);
 				}
-			} else {
+			}
+			else
+			{
 				hook.brake();
 			}
-			
-			if (boolintake) {
-				
-			} else {
+
+			if (boolintake)
+			{
+				intake.move(127);
+			}
+			else
+			{
 
 				intake.brake();
 			}
 		}
-		if (!boolclaw) {
+		if (!boolclaw)
+		{
 			// master.print(1,1,"CLAW UP  ");
 			clawp.set_value(true);
-		} else {
+		}
+		else
+		{
 			// master.print(1,1,"CLAW DOWN");
 			clawp.set_value(false);
 		}
-		if (!boolwing) {
+		if (!boolwing)
+		{
 			wing.set_value(true);
-		} else {
+		}
+		else
+		{
 			wing.set_value(false);
 		}
 		// int vertical_position = verticaltracking.get_position()/100;
@@ -240,14 +285,11 @@ void opcontrol() {
 		// int heading = imu_sensor.get_heading();
 		// thisbot.change(heading,horizontal_position,vertical_position);
 
-		
 		// pros::screen::erase();
 		// pros::screen::print(TEXT_SMALL, 3, "X: %lf", thisbot.ypos);
 		// pros::screen::print(TEXT_SMALL, 10, "Y: %lf", thisbot.xpos);
 
-		pros::delay(20);  
-
-		
+		pros::delay(20);
 	}
 	// int intakecooldown = 25;
 	// int clawcooldown = 25;
@@ -257,8 +299,6 @@ void opcontrol() {
 	// 	pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 	// 	                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 	// 	                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
-
-
 
 	// 	if (intakecooldown != 0) {
 	// 		intakecooldown = intakecooldown-1;
@@ -282,7 +322,7 @@ void opcontrol() {
 	// 		}
 	// 		clawcooldown = 25;
 	// 	}
-		  // Gets the turn left/right from right joystick
+	// Gets the turn left/right from right joystick
 	// 	if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
 	// 		intake.move(-127);
 	// 	}
@@ -307,7 +347,7 @@ void opcontrol() {
 	// 	else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
 	// 		fourbar.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	// 	}
-		                  // Sets right motor voltage
+	// Sets right motor voltage
 	// 	                             // Run for 20 ms then update
 	// }
 }
