@@ -1,7 +1,8 @@
 #include "main.h"
-#include "odometry.h"
+#include "odometry.hpp"
 #include <string>
-#include <stdlib.h> 
+#include <stdlib.h>
+#include "global.hpp"
 /**
  * A callback function for LLEMU's center button.
  *
@@ -80,27 +81,27 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Imu imu_sensor(19);
-	pros::Rotation verticaltracking(20);
-	pros::Rotation horizontaltracking(4);
-	verticaltracking.reset();
-	horizontaltracking.reset();
-	verticaltracking.set_position(0);
-	horizontaltracking.set_position(0);
-	imu_sensor.reset();
-	pros::delay(2000);
+	// pros::Imu imu_sensor(19);
+	// pros::Rotation verticaltracking(20);
+	// pros::Rotation horizontaltracking(4);
+	// verticaltracking.reset();
+	// horizontaltracking.reset();
+	// verticaltracking.set_position(0);
+	// horizontaltracking.set_position(0);
+	// imu_sensor.reset();
+	// pros::delay(2000);
 	odom thisbot(0,0,0,0,0,1.375);
 
 
-	pros::ADIDigitalOut clawp ('H');
-	pros::ADIDigitalOut wing ('E');
-	pros::Motor intake(2); 
-	pros::Motor hook(-8);
-	pros::Motor swall(15);
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Controller master2(pros::E_CONTROLLER_PARTNER);
-	pros::MotorGroup right_mg({12, -10, 6});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-	pros::MotorGroup left_mg({-14, 18, -16});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+	// pros::ADIDigitalOut clawp ('H');
+	// pros::ADIDigitalOut wing ('E');
+	// pros::Motor intake(2); 
+	// pros::Motor hook(-8);
+	// pros::Motor swall(15);
+	// pros::Controller master(pros::E_CONTROLLER_MASTER);
+	// pros::Controller master2(pros::E_CONTROLLER_PARTNER);
+	// pros::MotorGroup right_mg({12, -10, 6});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
+	// pros::MotorGroup left_mg({-14, 18, -16});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 	
 	intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
