@@ -11,7 +11,7 @@ class odom {
         double wheelr;
 
         odom(int x, int y, int irad, int xirad, int yirad, int iwheelr);
-        void change(int imu, int xtrack, int ytrack);
+        void change(double imu, double xtrack, double ytrack);
         void move_to(double targetx, double targety);
 
 
