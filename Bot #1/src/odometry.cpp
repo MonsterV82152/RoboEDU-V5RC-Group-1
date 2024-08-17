@@ -38,7 +38,6 @@ void odometry::change(double imu, double xtrack, double ytrack) {
 
 }
 
-<<<<<<< HEAD
 /**
  *  Moves the Robot to a target location
  * 
@@ -46,9 +45,6 @@ void odometry::change(double imu, double xtrack, double ytrack) {
  * \param targety y component of target location
  */
 void odom::move_to(double targetx, double targety) {
-=======
-void odometry::move_to(double targetx, double targety) {
->>>>>>> 23a911fb2a1a64d08ac53ef9a27f4087926a4d15
     double xdif = targetx-xpos;
     double ydif = targety-ypos;
     double angle = asin(ydif/xdif);
