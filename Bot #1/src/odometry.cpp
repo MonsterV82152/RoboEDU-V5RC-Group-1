@@ -11,7 +11,7 @@ Parameters:
 
 
 */
-odom::odom(int x, int y, int irad, int xirad, int yirad, int iwheelr) {
+odometry::odometry(int x, int y, int irad, int xirad, int yirad, int iwheelr) {
     xpos = x;
     ypos = y;
     orad = irad;
@@ -21,7 +21,7 @@ odom::odom(int x, int y, int irad, int xirad, int yirad, int iwheelr) {
 }
 
 
-void odom::change(double imu, double xtrack, double ytrack) {
+void odometry::change(double imu, double xtrack, double ytrack) {
     xtrack = xtrack*PI/180;
     ytrack = ytrack*PI/180;
     double xdif = xtrack-xrad;
@@ -38,6 +38,7 @@ void odom::change(double imu, double xtrack, double ytrack) {
 
 }
 
+<<<<<<< HEAD
 /**
  *  Moves the Robot to a target location
  * 
@@ -45,6 +46,9 @@ void odom::change(double imu, double xtrack, double ytrack) {
  * \param targety y component of target location
  */
 void odom::move_to(double targetx, double targety) {
+=======
+void odometry::move_to(double targetx, double targety) {
+>>>>>>> 23a911fb2a1a64d08ac53ef9a27f4087926a4d15
     double xdif = targetx-xpos;
     double ydif = targety-ypos;
     double angle = asin(ydif/xdif);

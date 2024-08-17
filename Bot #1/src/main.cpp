@@ -102,11 +102,11 @@ void opcontrol()
 	// pros::delay(2000);
 
 	// Create Odom Environment
-	odom thisbot(0, 0, 0, 0, 0, 1.375);
+	odometry thisbot(0, 0, 0, 0, 0, 1.375);
 
-	intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	intake.set_brake_mode(COAST);
+	left_mg.set_brake_mode(COAST);
+	right_mg.set_brake_mode(COAST);
 
 	bool boolintake = false;
 	bool boolhook = false;
@@ -128,7 +128,7 @@ void opcontrol()
 		int right = master.get_analog(ANALOG_RIGHT_X);
 		left_mg.move(left + (right * 1.05));
 		right_mg.move(left - (right * 1.05));
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))
+		if (master.get_digital_new_press(button_B))
 		{
 			detect = !detect;
 			if (detect)
@@ -140,17 +140,17 @@ void opcontrol()
 				master.print(1, 1, "Detect Off");
 			}
 		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1))
+		if (master.get_digital_new_press(button_R1))
 		{
 
 			boolintake = !boolintake;
 		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
+		if (master.get_digital_new_press(button_X))
 		{
 
 			boolclaw = !boolclaw;
 		}
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A))
+		if (master.get_digital(button_A))
 		{
 			counter = 10;
 			wallstake = true;
@@ -159,7 +159,7 @@ void opcontrol()
 		else if (wallstake)
 		{
 			swall.move(-127);
-			if (counter <= 0 || master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))
+			if (counter <= 0 || master.get_digital_new_press(button_B))
 			{
 				if (abs(swall.get_actual_velocity()) < 10)
 				{
@@ -173,21 +173,21 @@ void opcontrol()
 			}
 		}
 
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2))
+		if (master.get_digital_new_press(button_R2))
 		{
 
 			boolhook = !boolhook;
 		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y))
+		if (master.get_digital_new_press(button_Y))
 		{
 			boolwing = !boolwing;
 		}
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) or master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
+		if (master.get_digital(button_L1) or master.get_digital(button_L2))
 		{
 			hook.move(-127);
 			intake.move(-127);
 		}
-		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+		else if (master.get_digital(button_UP))
 		{
 			hook.move(50);
 			intake.move(50);
@@ -219,7 +219,7 @@ void opcontrol()
 					{
 						hook.move(-127);
 					}
-					else if (bluecolourcounter <= 17 && master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN) && bluecolour)
+					else if (bluecolourcounter <= 17 && master.get_digital(button_DOWN) && bluecolour)
 					{
 						hook.move(-127);
 					}
