@@ -47,6 +47,8 @@
 
 
 // Drivetrain Motors
+
+// Assume clamp is front, 1 is front, 3 is back
 #define right_motor_1 12
 #define right_motor_2 -10
 #define right_motor_3 6
