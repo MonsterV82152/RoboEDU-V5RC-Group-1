@@ -3,18 +3,20 @@
 #ifndef Odomc
 #define Odomc
 
-/*
-Constructor: Creates Odometry Environment for the Robot and sets up relevant parameters
-
-Parameters:
-`
-
-
-*/
+/**
+ * Moves the Robot to a target location
+ * 
+ * \param x Starting X pos
+ * \param y Starting Y pos
+ * \param irad Starting Heading
+ * \param xirad Horizontal Tracking Wheel position
+ * \param yirad Vertical Tracking Wheel position
+ * \param iwheelr Tracking wheel Radius
+ */
 odometry::odometry(int x, int y, int irad, int xirad, int yirad, int iwheelr) {
     xpos = x;
     ypos = y;
-    orad = irad;
+    orad = irad*PI/180;
     xrad = xirad*PI/180;
     yrad = yirad*PI/180;
     wheelr = iwheelr;
