@@ -190,6 +190,8 @@ void opcontrol()
 		{
 			boolwing = !boolwing;
 		}
+
+		// Toggle Activation
 		if (master.get_digital(button_L1) or master.get_digital(button_L2))
 		{
 			hook.move(-127);
@@ -204,6 +206,9 @@ void opcontrol()
 		{
 			if (boolhook)
 			{
+				// Detection Code
+				// redcolourcounter & bluecolourcounter are delays
+				// redcolour & bluecolour are if the sensor sees the colour
 				if (detect)
 				{
 					double a = optical_sensor.get_hue();
@@ -288,74 +293,13 @@ void opcontrol()
 		{
 			wing.set_value(false);
 		}
+
+		// Odometry Update Code
 		// int vertical_position = verticaltracking.get_position()/100;
 		// int horizontal_position = horizontaltracking.get_position()/100;
 		// int heading = imu_sensor.get_heading();
 		// thisbot.change(heading,horizontal_position,vertical_position);
 
-		// pros::screen::erase();
-		// pros::screen::print(TEXT_SMALL, 3, "X: %lf", thisbot.ypos);
-		// pros::screen::print(TEXT_SMALL, 10, "Y: %lf", thisbot.xpos);
-
 		pros::delay(20);
 	}
-	// int intakecooldown = 25;
-	// int clawcooldown = 25;
-	// bool boolintake = false;
-	// bool claw = false;
-	// while (true) {
-	// 	pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-	// 	                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-	// 	                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
-
-	// 	if (intakecooldown != 0) {
-	// 		intakecooldown = intakecooldown-1;
-	// 		//pros::lcd::set_text(1, intakecooldown);
-	// 		}
-	// 	if (clawcooldown != 0) {
-	// 		clawcooldown = clawcooldown-1;
-	// 		}
-
-	// 	if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X) == true and intakecooldown == 0) {
-	// 		boolintake = !boolintake;
-	// 		intakecooldown = 25;
-	// 	}
-	// 	if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A) == true and clawcooldown == 0) {
-	// 		bool claw = !claw;
-	// 		if (claw) {
-	// 			clawp.set_value(true);
-	// 		}
-	// 		else {
-	// 			clawp.set_value(false);
-	// 		}
-	// 		clawcooldown = 25;
-	// 	}
-	// Gets the turn left/right from right joystick
-	// 	if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-	// 		intake.move(-127);
-	// 	}
-	// 	else if (boolintake) {
-	// 		intake.move(127);
-	// 	}
-	// 	else {
-	// 		intake.brake();
-	// 	}
-	// 	if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
-	// 		fourbar.move(127);
-	// 	}
-	// 	else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-	// 		fourbar.move(-127);
-	// 	}
-	// 	else {
-	// 		fourbar.brake();
-	// 	}
-	// 	if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-	// 		fourbar.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	// 	}
-	// 	else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-	// 		fourbar.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	// 	}
-	// Sets right motor voltage
-	// 	                             // Run for 20 ms then update
-	// }
-}
+}	
