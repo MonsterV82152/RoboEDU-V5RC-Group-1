@@ -17,6 +17,19 @@
 #define TWradius 1.375
 #define driver pros::E_CONTROLLER_MASTER
 #define driver_2 pros::E_CONTROLLER_PARTNER
+#define button_R1 pros::E_CONTROLLER_DIGITAL_R1
+#define button_R2 pros::E_CONTROLLER_DIGITAL_R2
+#define button_L1 pros::E_CONTROLLER_DIGITAL_L1
+#define button_L2 pros::E_CONTROLLER_DIGITAL_L2
+#define button_A pros::E_CONTROLLER_DIGITAL_A
+#define button_B pros::E_CONTROLLER_DIGITAL_B
+#define button_Y pros::E_CONTROLLER_DIGITAL_Y
+#define button_X pros::E_CONTROLLER_DIGITAL_X
+#define button_UP pros::E_CONTROLLER_DIGITAL_UP
+#define button_DOWN pros::E_CONTROLLER_DIGITAL_DOWN
+#define button_LEFT pros::E_CONTROLLER_DIGITAL_LEFT
+#define button_RIGHT pros::E_CONTROLLER_DIGITAL_RIGHT
+
 
 
 // Pnumatic Ports
