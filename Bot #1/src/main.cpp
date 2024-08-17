@@ -11,7 +11,7 @@
  * "I was pressed!" and nothing.
  */
 
-void on_center_button()1
+void on_center_button()
 {
 	static bool pressed = false;
 	pressed = !pressed;
