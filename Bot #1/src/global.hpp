@@ -15,8 +15,10 @@
 // Constants
 #define PI 3.141592653589793238462643383279502884197169399375105820
 #define TWradius 1.375
+
 #define driver pros::E_CONTROLLER_MASTER
 #define driver_2 pros::E_CONTROLLER_PARTNER
+
 #define button_R1 pros::E_CONTROLLER_DIGITAL_R1
 #define button_R2 pros::E_CONTROLLER_DIGITAL_R2
 #define button_L1 pros::E_CONTROLLER_DIGITAL_L1
@@ -29,6 +31,7 @@
 #define button_DOWN pros::E_CONTROLLER_DIGITAL_DOWN
 #define button_LEFT pros::E_CONTROLLER_DIGITAL_LEFT
 #define button_RIGHT pros::E_CONTROLLER_DIGITAL_RIGHT
+#define COAST pros::E_MOTOR_BRAKE_COAST
 
 
 
