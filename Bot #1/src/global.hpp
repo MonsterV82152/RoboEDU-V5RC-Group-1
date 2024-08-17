@@ -32,6 +32,8 @@
 #define button_LEFT pros::E_CONTROLLER_DIGITAL_LEFT
 #define button_RIGHT pros::E_CONTROLLER_DIGITAL_RIGHT
 #define COAST pros::E_MOTOR_BRAKE_COAST
+#define BRAKE pros::E_MOTOR_BRAKE_BRAKE
+#define HOLD pros::E_MOTOR_BRAKE_HOLD
 
 
 
