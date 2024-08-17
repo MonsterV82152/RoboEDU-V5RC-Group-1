@@ -145,7 +145,7 @@ void opcontrol()
 
 			boolintake = !boolintake;
 		}
-		if (master.get_digital_new_press(button_X)
+		if (master.get_digital_new_press(button_X))
 		{
 
 			boolclaw = !boolclaw;
