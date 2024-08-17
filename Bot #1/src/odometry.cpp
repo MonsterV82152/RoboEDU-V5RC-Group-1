@@ -7,8 +7,7 @@
 Constructor: Creates Odometry Environment for the Robot and sets up relevant parameters
 
 Parameters:
-
-int x: 
+`
 
 
 */
@@ -29,7 +28,7 @@ void odom::change(double imu, double xtrack, double ytrack) {
     double ydif = ytrack-yrad;
     double xdis = xdif*wheelr;
     double ydis = ydif*wheelr;
-    orad = imu*3.1416/180;
+    orad = imu*PI/180;
     double ychange = ydis * cos(orad);// - xdis * sin(orad);
     double xchange = ydis * sin(orad);// + xdis * cos(orad);
     xrad = xtrack;
@@ -39,6 +38,12 @@ void odom::change(double imu, double xtrack, double ytrack) {
 
 }
 
+/**
+ *  Moves the Robot to a target location
+ * 
+ * \param targetx x component of target location
+ * \param targety y component of target location
+ */
 void odom::move_to(double targetx, double targety) {
     double xdif = targetx-xpos;
     double ydif = targety-ypos;
