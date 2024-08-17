@@ -91,15 +91,6 @@ void autonomous() {}
  */
 void opcontrol()
 {
-	// pros::Imu imu_sensor(19);
-	// pros::Rotation verticaltracking(20);
-	// pros::Rotation horizontaltracking(4);
-	// verticaltracking.reset();
-	// horizontaltracking.reset();
-	// verticaltracking.set_position(0);
-	// horizontaltracking.set_position(0);
-	// imu_sensor.reset();
-	// pros::delay(2000);
 
 	// Create Odom Environment
 	odometry thisbot(0, 0, 0, 0, 0, 1.375);
@@ -108,6 +99,8 @@ void opcontrol()
 	left_mg.set_brake_mode(COAST);
 	right_mg.set_brake_mode(COAST);
 
+	/* -------------------------------------------------------------------- */
+	// Variable Definition 
 	bool boolintake = false;
 	bool boolhook = false;
 	bool boolwing = false;
@@ -121,13 +114,18 @@ void opcontrol()
 	bool bluecolour = false;
 	optical_sensor.set_led_pwm(100);
 
+	/* -------------------------------------------------------------------- */
+	// While True Loop
 	while (true)
 	{
 
+		// Drivetrain Code
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		int right = master.get_analog(ANALOG_RIGHT_X);
 		left_mg.move(left + (right * 1.05));
 		right_mg.move(left - (right * 1.05));
+
+		// Detection Toggle - B
 		if (master.get_digital_new_press(button_B))
 		{
 			detect = !detect;
@@ -140,26 +138,32 @@ void opcontrol()
 				master.print(1, 1, "Detect Off");
 			}
 		}
+
+		// Intake Toggle - R1
 		if (master.get_digital_new_press(button_R1))
 		{
 
 			boolintake = !boolintake;
 		}
+
+		// Claw Piston Toggle - X
 		if (master.get_digital_new_press(button_X))
 		{
 
 			boolclaw = !boolclaw;
 		}
+
+		// HSSM Code
 		if (master.get_digital(button_A))
 		{
 			counter = 10;
 			wallstake = true;
 			swall.move(127);
 		}
-		else if (wallstake)
+		else if (wallstake) // Spins HSSM in reverse until designated spot
 		{
 			swall.move(-127);
-			if (counter <= 0 || master.get_digital_new_press(button_B))
+			if (counter <= 0)
 			{
 				if (abs(swall.get_actual_velocity()) < 10)
 				{
@@ -173,11 +177,14 @@ void opcontrol()
 			}
 		}
 
+		// Hook Toggle - R2
 		if (master.get_digital_new_press(button_R2))
 		{
 
 			boolhook = !boolhook;
 		}
+
+		// Wing Piston Toggle - Y
 		if (master.get_digital_new_press(button_Y))
 		{
 			boolwing = !boolwing;
