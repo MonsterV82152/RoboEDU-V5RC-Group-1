@@ -44,7 +44,7 @@ void odometry::change(double imu, double xtrack, double ytrack) {
  * \param targetx x component of target location
  * \param targety y component of target location
  */
-void odom::move_to(double targetx, double targety) {
+void odometry::move_to(double targetx, double targety) {
     double xdif = targetx-xpos;
     double ydif = targety-ypos;
     double angle = asin(ydif/xdif);
