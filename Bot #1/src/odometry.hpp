@@ -6,9 +6,11 @@ class odometry {
         double xpos;
         double ypos;
         double orad;
+        double odeg;
         double xrad;
         double yrad;
         double wheelr;
+        
 
         odometry(int x, int y, int irad, int xirad, int yirad, int iwheelr);
         void change(double imu, double xtrack, double ytrack);

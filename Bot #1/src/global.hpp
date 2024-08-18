@@ -1,4 +1,5 @@
 #include "main.h"
+#include <cmath>
 
 
 #ifndef CONFIG_HPP

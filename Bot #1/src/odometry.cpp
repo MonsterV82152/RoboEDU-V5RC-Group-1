@@ -17,6 +17,7 @@ odometry::odometry(int x, int y, int irad, int xirad, int yirad, int iwheelr) {
     xpos = x;
     ypos = y;
     orad = irad*PI/180;
+    odeg = irad;
     xrad = xirad*PI/180;
     yrad = yirad*PI/180;
     wheelr = iwheelr;
@@ -40,6 +41,7 @@ void odometry::change(double imu, double xtrack, double ytrack) {
     double xdis = xdif*wheelr;
     double ydis = ydif*wheelr;
     orad = imu*PI/180;
+    odeg = imu;
     double ychange = ydis * cos(orad);// - xdis * sin(orad);
     double xchange = ydis * sin(orad);// + xdis * cos(orad);
     xrad = xtrack;
@@ -58,8 +60,32 @@ void odometry::change(double imu, double xtrack, double ytrack) {
 void odometry::move_to(double targetx, double targety) {
     double xdif = targetx-xpos;
     double ydif = targety-ypos;
-    double angle = asin(ydif/xdif);
-    while (abs(xdif) <= 0.1 && abs(ydif) <= 0.1) {}
+    double totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
+    double angle = asin(xdif/totaldis);
+    double angledif = angle-odeg;
+    double mult = angledif/90;
+    while (abs(xdif) >= 0.2 && abs(ydif) >= 0.2) {
+
+        xdif = targetx-xpos;
+        ydif = targety-ypos;
+        totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
+        angle = asin(xdif/totaldis);
+        double angledif = angle-odeg;
+        double mult = abs(angledif)/90;
+
+        if (mult > 1) {mult=1;}
+        if (angledif < 0) {
+
+            left_mg.move(127);
+            right_mg.move((-254*mult)+127);
+        } else {
+            left_mg.move((-254*mult)+127);
+            right_mg.move(127);
+        }
+        pros::delay(20);
+    }
+    left_mg.brake();
+    right_mg.brake();
 
 }
 
