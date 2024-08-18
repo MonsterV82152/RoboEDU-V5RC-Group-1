@@ -1,7 +1,6 @@
 
 #include "odometry.hpp"
-#ifndef Odomc
-#define Odomc
+
 
 /*
 Constructor: Creates Odometry Environment for the Robot and sets up relevant parameters
@@ -42,11 +41,9 @@ void odom::move_to(double targetx, double targety) {
     double xdif = targetx-xpos;
     double ydif = targety-ypos;
     double angle = asin(ydif/xdif);
-    while (abs(xdif) <= 0.1 && abs(ydif) <= 0.1)
+    while (abs(xdif) <= 0.1 && abs(ydif) <= 0.1) {
+        
+    }
 
 }
 
-
-
-
-#endif
