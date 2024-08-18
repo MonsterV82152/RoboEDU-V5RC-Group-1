@@ -1,5 +1,5 @@
 #include "main.h"
-#include "global.hpp"
+#include "globals.hpp"
 #include "odometry.hpp"
 #include <string>
 #include <stdlib.h>
@@ -91,23 +91,17 @@ void autonomous() {}
  */
 void opcontrol()
 {
-	// pros::Imu imu_sensor(19);
-	// pros::Rotation verticaltracking(20);
-	// pros::Rotation horizontaltracking(4);
-	// verticaltracking.reset();
-	// horizontaltracking.reset();
-	// verticaltracking.set_position(0);
-	// horizontaltracking.set_position(0);
-	// imu_sensor.reset();
-	// pros::delay(2000);
 
 	// Create Odom Environment
-	odom thisbot(0, 0, 0, 0, 0, 1.375);
+	
+	odometry thisbot(0, 0, 0, 0, 0, 1.375);
 
-	intake.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	left_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	right_mg.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	intake.set_brake_mode(COAST);
+	left_mg.set_brake_mode(COAST);
+	right_mg.set_brake_mode(COAST);
 
+	/* -------------------------------------------------------------------- */
+	// Variable Definition 
 	bool boolintake = false;
 	bool boolhook = false;
 	bool boolwing = false;
@@ -121,14 +115,19 @@ void opcontrol()
 	bool bluecolour = false;
 	optical_sensor.set_led_pwm(100);
 
+	/* -------------------------------------------------------------------- */
+	// While True Loop
 	while (true)
 	{
 
+		// Drivetrain Code
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		int right = master.get_analog(ANALOG_RIGHT_X);
 		left_mg.move(left + (right * 1.05));
 		right_mg.move(left - (right * 1.05));
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))
+
+		// Detection Toggle - B
+		if (master.get_digital_new_press(button_B))
 		{
 			detect = !detect;
 			if (detect)
@@ -140,26 +139,32 @@ void opcontrol()
 				master.print(1, 1, "Detect Off");
 			}
 		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R1))
+
+		// Intake Toggle - R1
+		if (master.get_digital_new_press(button_R1))
 		{
 
 			boolintake = !boolintake;
 		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
+
+		// Claw Piston Toggle - X
+		if (master.get_digital_new_press(button_X))
 		{
 
 			boolclaw = !boolclaw;
 		}
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A))
+
+		// HSSM Code
+		if (master.get_digital(button_A))
 		{
 			counter = 10;
 			wallstake = true;
 			swall.move(127);
 		}
-		else if (wallstake)
+		else if (wallstake) // Spins HSSM in reverse until designated spot
 		{
 			swall.move(-127);
-			if (counter <= 0 || master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B))
+			if (counter <= 0)
 			{
 				if (abs(swall.get_actual_velocity()) < 10)
 				{
@@ -173,21 +178,26 @@ void opcontrol()
 			}
 		}
 
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_R2))
+		// Hook Toggle - R2
+		if (master.get_digital_new_press(button_R2))
 		{
 
 			boolhook = !boolhook;
 		}
-		if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y))
+
+		// Wing Piston Toggle - Y
+		if (master.get_digital_new_press(button_Y))
 		{
 			boolwing = !boolwing;
 		}
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1) or master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
+
+		// Toggle Activation
+		if (master.get_digital(button_L1) or master.get_digital(button_L2))
 		{
 			hook.move(-127);
 			intake.move(-127);
 		}
-		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP))
+		else if (master.get_digital(button_UP))
 		{
 			hook.move(50);
 			intake.move(50);
@@ -196,6 +206,9 @@ void opcontrol()
 		{
 			if (boolhook)
 			{
+				// Detection Code
+				// redcolourcounter & bluecolourcounter are delays
+				// redcolour & bluecolour are if the sensor sees the colour
 				if (detect)
 				{
 					double a = optical_sensor.get_hue();
@@ -219,7 +232,7 @@ void opcontrol()
 					{
 						hook.move(-127);
 					}
-					else if (bluecolourcounter <= 17 && master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN) && bluecolour)
+					else if (bluecolourcounter <= 17 && master.get_digital(button_DOWN) && bluecolour)
 					{
 						hook.move(-127);
 					}
@@ -280,74 +293,13 @@ void opcontrol()
 		{
 			wing.set_value(false);
 		}
+
+		// Odometry Update Code
 		// int vertical_position = verticaltracking.get_position()/100;
 		// int horizontal_position = horizontaltracking.get_position()/100;
 		// int heading = imu_sensor.get_heading();
 		// thisbot.change(heading,horizontal_position,vertical_position);
 
-		// pros::screen::erase();
-		// pros::screen::print(TEXT_SMALL, 3, "X: %lf", thisbot.ypos);
-		// pros::screen::print(TEXT_SMALL, 10, "Y: %lf", thisbot.xpos);
-
 		pros::delay(20);
 	}
-	// int intakecooldown = 25;
-	// int clawcooldown = 25;
-	// bool boolintake = false;
-	// bool claw = false;
-	// while (true) {
-	// 	pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-	// 	                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-	// 	                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
-
-	// 	if (intakecooldown != 0) {
-	// 		intakecooldown = intakecooldown-1;
-	// 		//pros::lcd::set_text(1, intakecooldown);
-	// 		}
-	// 	if (clawcooldown != 0) {
-	// 		clawcooldown = clawcooldown-1;
-	// 		}
-
-	// 	if (master.get_digital(pros::E_CONTROLLER_DIGITAL_X) == true and intakecooldown == 0) {
-	// 		boolintake = !boolintake;
-	// 		intakecooldown = 25;
-	// 	}
-	// 	if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A) == true and clawcooldown == 0) {
-	// 		bool claw = !claw;
-	// 		if (claw) {
-	// 			clawp.set_value(true);
-	// 		}
-	// 		else {
-	// 			clawp.set_value(false);
-	// 		}
-	// 		clawcooldown = 25;
-	// 	}
-	// Gets the turn left/right from right joystick
-	// 	if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-	// 		intake.move(-127);
-	// 	}
-	// 	else if (boolintake) {
-	// 		intake.move(127);
-	// 	}
-	// 	else {
-	// 		intake.brake();
-	// 	}
-	// 	if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
-	// 		fourbar.move(127);
-	// 	}
-	// 	else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-	// 		fourbar.move(-127);
-	// 	}
-	// 	else {
-	// 		fourbar.brake();
-	// 	}
-	// 	if (master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-	// 		fourbar.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	// 	}
-	// 	else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-	// 		fourbar.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	// 	}
-	// Sets right motor voltage
-	// 	                             // Run for 20 ms then update
-	// }
-}
+}	
