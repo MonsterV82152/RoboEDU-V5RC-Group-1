@@ -4,6 +4,7 @@
 #include <string>
 #include <stdlib.h>
 
+
 /**
  * A callback function for LLEMU's center button.
  *
@@ -40,6 +41,8 @@ void initialize()
 	horizontaltracking.set_position(0);
 	imu_sensor.reset();
 
+
+
 	// pros::lcd::register_btn1_cb(on_center_button);
 
 	// horizontal = 4
@@ -75,7 +78,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	intake.move(127);
+	thisbot.move_to()
 }
 
 /**
@@ -96,7 +99,7 @@ void opcontrol()
 
 	// Create Odom Environment
 	
-	odometry thisbot(0, 0, 0, 0, 0, 1.375);
+
 
 	intake.set_brake_mode(COAST);
 	left_mg.set_brake_mode(COAST);
