@@ -1,4 +1,5 @@
 #include "main.h"
+#include "pidcontrol.hpp"
 #include <cmath>
 
 
@@ -12,10 +13,8 @@
 /* ------------------------------------------------------------------------------------------------------------------------ */
 // All #Defines
 
-odometry thisbot(0, 0, 0, 0, 0, 1.375);
-
 // Constants
-#define PI 3.141592653589793238462643383279502884197169399375105820
+#define PI 3.1415//92653589793238462643383279502884197169399375105820
 #define TWradius 1.375
 
 #define driver pros::E_CONTROLLER_MASTER
@@ -67,6 +66,12 @@ odometry thisbot(0, 0, 0, 0, 0, 1.375);
 #define VTWport 20
 #define HTWport 4
 
+//PID Values
+    //Odom Pid
+    #define odomKp 25
+    #define odomKi 25
+    #define odomKd 25
+
 /* ------------------------------------------------------------------------------------------------------------------------ */
 // Sensors & Calibration
 inline pros::Imu imu_sensor(IMUport);
@@ -91,6 +96,11 @@ inline pros::MotorGroup left_mg({left_motor_1, left_motor_2, left_motor_3});
 
 inline pros::Controller master(driver);
 inline pros::Controller master2(driver_2);
+
+
+template <typename T> constexpr T sgn(T value) { return value < 0 ? -1 : 1; }
+
+pid odomPID(odomKp,odomKi,odomKd)
 
 
 

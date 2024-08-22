@@ -5,6 +5,9 @@
 #include <stdlib.h>
 
 
+odometry thisbot(0, 0, 0, 0, 0, 1.375);
+
+
 /**
  * A callback function for LLEMU's center button.
  *
@@ -78,7 +81,17 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	thisbot.move_to()
+	
+	verticaltracking.reset();
+	horizontaltracking.reset();
+	verticaltracking.set_position(0);
+	horizontaltracking.set_position(0);
+	imu_sensor.reset();
+	thisbot.reset(0, 0, 0, 0, 0, 1.375);
+	pros::delay(2000);
+	
+	thisbot.move_to(5,0);
+	// left_mg.move(40);
 }
 
 /**
@@ -98,7 +111,13 @@ void opcontrol()
 {
 
 	// Create Odom Environment
-	
+	verticaltracking.reset();
+	horizontaltracking.reset();
+	verticaltracking.set_position(0);
+	horizontaltracking.set_position(0);
+	imu_sensor.reset();
+	pros::delay(2000);
+	thisbot.reset(0, 0, 0, 0, 0, 1.375);
 
 
 	intake.set_brake_mode(COAST);
@@ -109,7 +128,7 @@ void opcontrol()
 	// Variable Definition 
 	bool boolintake = false;
 	bool boolhook = false;
-	bool boolwing = false;
+	bool boolwing = true;
 	bool boolclaw = false;
 	bool wallstake = false;
 	bool detect = true;
@@ -124,11 +143,11 @@ void opcontrol()
 	// While True Loop
 	while (true)
 	{
-
 		// Drivetrain Code
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		int right = master.get_analog(ANALOG_RIGHT_X);
 		left_mg.move(left + (right * 1.05));
+		// left_mg.move(60);
 		right_mg.move(left - (right * 1.05));
 
 		// Detection Toggle - B
@@ -260,7 +279,7 @@ void opcontrol()
 				{
 					bluecolour = false;
 					redcolour = false;
-					redcolourcounter = 5;
+					redcolourcounter = 6;
 					bluecolourcounter = 19;
 					hook.move(127);
 				}
@@ -300,11 +319,17 @@ void opcontrol()
 		}
 
 		// Odometry Update Code
-		// int vertical_position = verticaltracking.get_position()/100;
-		// int horizontal_position = horizontaltracking.get_position()/100;
-		// int heading = imu_sensor.get_heading();
-		// thisbot.change(heading,horizontal_position,vertical_position);
-
+		int vertical_position = verticaltracking.get_position()/100;
+		int horizontal_position = horizontaltracking.get_position()/100;
+		int heading = imu_sensor.get_heading();
+		thisbot.change(heading,horizontal_position,vertical_position);
+		std::cout << "[";
+		std::cout << thisbot.odeg;
+		std::cout << ", ";
+		std::cout << thisbot.xpos;
+		std::cout << ", ";
+		std::cout << thisbot.ypos;
+		std::cout << "]   ";
 		pros::delay(20);
 	}
 }	

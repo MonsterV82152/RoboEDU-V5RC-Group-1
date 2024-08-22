@@ -22,6 +22,15 @@ odometry::odometry(int x, int y, int irad, int xirad, int yirad, int iwheelr) {
     yrad = yirad*PI/180;
     wheelr = iwheelr;
 }
+void odometry::reset(int x, int y, int irad, int xirad, int yirad, int iwheelr) {
+    xpos = x;
+    ypos = y;
+    orad = irad*PI/180;
+    odeg = irad;
+    xrad = xirad*PI/180;
+    yrad = yirad*PI/180;
+    wheelr = iwheelr;
+}
 
 /**
  * Updates the Bot Position
@@ -62,28 +71,45 @@ void odometry::move_to(double targetx, double targety) {
     double ydif = targety-ypos;
     double totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
     double angle = asin(xdif/totaldis);
+    angle = angle*180/PI;
+    std::cout << angle << '\n';
     double angledif = angle-odeg;
     double mult = angledif/90;
-    while (abs(xdif) >= 0.2 && abs(ydif) >= 0.2) {
-
+    while (abs(xdif) >= 0.2 || abs(ydif) >= 0.2) {
+        change(imu_sensor.get_heading(),horizontaltracking.get_position()/100,verticaltracking.get_position()/100);
         xdif = targetx-xpos;
         ydif = targety-ypos;
         totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
         angle = asin(xdif/totaldis);
-        double angledif = angle-odeg;
-        double mult = abs(angledif)/90;
+        angle = angle*180/PI;
+        if (abs(odeg-angle) <= abs(odeg-(angle+360))) {
+            angledif = angle-odeg;
+        } else {
+            angledif = (360-odeg)-angle;
+        }
+        std::cout << "[";
+        std::cout << xpos;
+        std::cout << ", ";
+        std::cout << ypos;
+        // std::cout << ", ";
+        // angledif = angle-odeg;
+        // std::cout << angledif;
+        std::cout << "]";
+        std::cout << "\n";
+        mult = abs(angledif)/90;
 
         if (mult > 1) {mult=1;}
-        if (angledif < 0) {
+        if (angledif > 0) {
 
-            left_mg.move(127);
-            right_mg.move((-254*mult)+127);
+            left_mg.move(60);
+            right_mg.move((-120*mult)+60);
         } else {
-            left_mg.move((-254*mult)+127);
-            right_mg.move(127);
+            left_mg.move((-120*mult)+60);
+            right_mg.move(60);
         }
         pros::delay(20);
     }
+    std::cout << 'done';
     left_mg.brake();
     right_mg.brake();
 
