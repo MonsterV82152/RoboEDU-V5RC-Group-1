@@ -1,7 +1,6 @@
 
 #include "odometry.hpp"
-#ifndef Odomc
-#define Odomc
+
 
 /**
  * Moves the Robot to a target location
@@ -38,9 +37,6 @@ void odometry::reset(int x, int y, int irad, int xirad, int yirad, int iwheelr) 
  * \param imu Current IMU Heading
  * \param xtrack Current Horizontal Tracking Wheel Position
  * \param ytrack Current Vertical Tracking Wheel Position
- * \param xirad Horizontal Tracking Wheel position
- * \param yirad Vertical Tracking Wheel position
- * \param iwheelr Tracking wheel Radius
  */
 void odometry::change(double imu, double xtrack, double ytrack) {
     xtrack = xtrack*PI/180;
@@ -115,7 +111,5 @@ void odometry::move_to(double targetx, double targety) {
 
 }
 
+}
 
-
-
-#endif

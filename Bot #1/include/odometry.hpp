@@ -1,5 +1,7 @@
-#include "global.hpp"
+#include "globals.hpp"
 #include "main.h"
+#ifndef Odomc
+#define Odomc
 
 class odometry {
     public:
@@ -19,3 +21,5 @@ class odometry {
 
 
 };
+
+#endif
