@@ -1,5 +1,4 @@
 #include "pidcontrol.hpp"
-#include "global.hpp"
 
 
 pid::pid(float kP, float kI, float kD, float windupRange, bool signFlipReset)

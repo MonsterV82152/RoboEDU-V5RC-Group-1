@@ -1,6 +1,6 @@
 #include "main.h"
-#include "pidcontrol.hpp"
 #include <cmath>
+
 
 
 #ifndef CONFIG_HPP
@@ -98,9 +98,9 @@ inline pros::Controller master(driver);
 inline pros::Controller master2(driver_2);
 
 
-template <typename T> constexpr T sgn(T value) { return value < 0 ? -1 : 1; }
+template <typename T> constexpr T sgn(T value) { return value < 0 ? -1 : 1; };
 
-pid odomPID(odomKp,odomKi,odomKd)
+pid::pid odomPID(odomKp,odomKi,odomKd,5,true);
 
 
 
