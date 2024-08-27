@@ -67,11 +67,14 @@
 #define HTWport 4
 
 //PID Values
-    //Odom Pid
-    #define odomKp 25
-    #define odomKi 25
-    #define odomKd 25
+//Odom Pid
+#define odomKp 2
+#define odomKi 0
+#define odomKd 10
 
+#define turnKp 2
+#define turnKi 0
+#define turnKd 10
 /* ------------------------------------------------------------------------------------------------------------------------ */
 // Sensors & Calibration
 inline pros::Imu imu_sensor(IMUport);
@@ -98,9 +101,7 @@ inline pros::Controller master(driver);
 inline pros::Controller master2(driver_2);
 
 
-template <typename T> constexpr T sgn(T value) { return value < 0 ? -1 : 1; };
-
-pid::pid odomPID(odomKp,odomKi,odomKd,5,true);
+template <typename T> constexpr T sgn(T value) { return value < 0 ? -1 : 1; }
 
 
 

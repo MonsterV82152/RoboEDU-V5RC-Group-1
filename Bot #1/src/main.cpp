@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 
-odometry thisbot(0, 0, 0, 0, 0, 1.375);
+odometry thisbot(0, 0, 0, 0, 0, 1, 0, 1);
 
 
 /**
@@ -81,16 +81,22 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	
+	left_mg.set_brake_mode(BRAKE);
+	right_mg.set_brake_mode(BRAKE);
 	verticaltracking.reset();
 	horizontaltracking.reset();
 	verticaltracking.set_position(0);
 	horizontaltracking.set_position(0);
 	imu_sensor.reset();
-	thisbot.reset(0, 0, 0, 0, 0, 1.375);
 	pros::delay(2000);
 	
-	thisbot.move_to(5,0);
+	thisbot.move_to(48,48);
+	thisbot.move_to(-24,48);
+	thisbot.move_to(0,0);
+	// thisbot.move_to(15,5);
+	// thisbot.move_to(20,5);
+	// thisbot.move_to(30,5);
+	// thisbot.move_to(0,0);
 	// left_mg.move(40);
 }
 
@@ -133,10 +139,11 @@ void opcontrol()
 	bool wallstake = false;
 	bool detect = true;
 	int counter = 0;
-	int redcolourcounter = 0;
-	bool redcolour = false;
-	int bluecolourcounter = 0;
-	bool bluecolour = false;
+	int opcolourcounter = 0;
+	bool opcolour = false;
+	int alcolourcounter = 0;
+	bool alcolour = false;
+	bool redteam = false;
 	optical_sensor.set_led_pwm(100);
 
 	/* -------------------------------------------------------------------- */
@@ -231,32 +238,41 @@ void opcontrol()
 			if (boolhook)
 			{
 				// Detection Code
-				// redcolourcounter & bluecolourcounter are delays
-				// redcolour & bluecolour are if the sensor sees the colour
+				// opcolourcounter & alcolourcounter are delays
+				// opcolour & alcolour are if the sensor sees the colour
 				if (detect)
 				{
 					double a = optical_sensor.get_hue();
 					if (a >= 0 && a <= 30)
 					{
-						redcolour = true;
+						if (redteam) {
+							alcolour = true;
+						} else {
+							opcolour = true;
+						}
+							
 					}
 					if (a >= 100 && a <= 220)
 					{
-						bluecolour = true;
+						if (redteam) {
+							opcolour = true;
+						} else {
+							alcolour = true;
+						}
 					}
-					if (redcolour)
+					if (opcolour)
 					{
-						redcolourcounter--;
+						opcolourcounter--;
 					}
-					if (bluecolour)
+					if (alcolour)
 					{
-						bluecolourcounter--;
+						alcolourcounter--;
 					}
-					if (redcolourcounter <= 2 && redcolour)
+					if (opcolourcounter <= 2 && opcolour)
 					{
 						hook.move(-127);
 					}
-					else if (bluecolourcounter <= 17 && master.get_digital(button_DOWN) && bluecolour)
+					else if (alcolourcounter <= 17 && master.get_digital(button_DOWN) && alcolour)
 					{
 						hook.move(-127);
 					}
@@ -264,23 +280,23 @@ void opcontrol()
 					{
 						hook.move(127);
 					}
-					if (redcolourcounter <= 0)
+					if (opcolourcounter <= 0)
 					{
-						redcolour = false;
-						redcolourcounter = 6;
+						opcolour = false;
+						opcolourcounter = 6;
 					}
-					if (bluecolourcounter <= 0)
+					if (alcolourcounter <= 0)
 					{
-						bluecolour = false;
-						bluecolourcounter = 19;
+						alcolour = false;
+						alcolourcounter = 19;
 					}
 				}
 				else
 				{
-					bluecolour = false;
-					redcolour = false;
-					redcolourcounter = 6;
-					bluecolourcounter = 19;
+					alcolour = false;
+					opcolour = false;
+					opcolourcounter = 6;
+					alcolourcounter = 19;
 					hook.move(127);
 				}
 			}
@@ -322,7 +338,7 @@ void opcontrol()
 		int vertical_position = verticaltracking.get_position()/100;
 		int horizontal_position = horizontaltracking.get_position()/100;
 		int heading = imu_sensor.get_heading();
-		thisbot.change(heading,horizontal_position,vertical_position);
+		thisbot.change(heading,vertical_position);
 		std::cout << "[";
 		std::cout << thisbot.odeg;
 		std::cout << ", ";
