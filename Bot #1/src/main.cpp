@@ -283,12 +283,12 @@ void opcontrol()
 					if (opcolourcounter <= 0)
 					{
 						opcolour = false;
-						opcolourcounter = 6;
+						opcolourcounter = 8;
 					}
 					if (alcolourcounter <= 0)
 					{
 						alcolour = false;
-						alcolourcounter = 19;
+						alcolourcounter = 21;
 					}
 				}
 				else
