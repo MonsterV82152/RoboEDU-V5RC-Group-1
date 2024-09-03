@@ -11,33 +11,33 @@
  * \param irad Starting Heading
  * \param xirad Horizontal Tracking Wheel position
  * \param yirad Vertical Tracking Wheel position
- * \param iwheelr Tracking wheel Radius
+ * \param iwheelradius Tracking wheel Radius
  */
 
-// odometry::odometry(int x, int y, int irad, int xirad, int yirad, int iwheelr) {
+// odometry::odometry(int x, int y, int irad, int xirad, int yirad, int iwheelradius) {
 //     xpos = x;
 //     ypos = y;
-//     orad = irad*PI/180;
+//     orientationradian = irad*PI/180;
 //     odeg = irad;
 //     xrad = xirad*PI/180;
-//     yrad = yirad*PI/180;
-//     wheelr = iwheelr;
+//     horizontalradian = yirad*PI/180;
+//     wheelradius = iwheelradius;
 //     odomPID(odomKp,odomKi,odomKd,5,true);
     
 // }
 
-odometry::odometry(double x, double y, double irad, double xirad, double yirad, double iwheelr, double hdis, double vdis)
-    : xpos(x), ypos(y), orad(irad), xrad(xirad*PI/180), yrad(yirad*PI/180), wheelr(iwheelr),hdif(hdis),vdif(vdis),
+odometry::odometry(double x, double y, double irad, double xirad, double yirad, double iwheelradius, double hdis, double vdis)
+    : xpos(x), ypos(y), orientationradian(irad), horizontalradian(xirad*PI/180), verticalradian(yirad*PI/180), wheelradius(iwheelradius),hdif(hdis),vdif(vdis),
       odomPID(odomKp, odomKi, odomKd, 5, true), turnPID(turnKp, turnKi, turnKd, 5, true) {}
 
-void odometry::reset(double x, double y, double irad, double xirad, double yirad, double iwheelr) {
+void odometry::reset(double x, double y, double irad, double xirad, double yirad, double iwheelradius) {
     xpos = x;
     ypos = y;
-    orad = irad*PI/180;
+    orientationradian = irad*PI/180;
     odeg = irad;
-    xrad = xirad*PI/180;
-    yrad = yirad*PI/180;
-    wheelr = iwheelr;
+    horizontalradian = xirad*PI/180;
+    verticalradian = yirad*PI/180;
+    wheelradius = iwheelradius;
     odomPID.reset();
 }
 
@@ -55,18 +55,18 @@ void odometry::change(double imu, double ytrack) {
     ytrack = ytrack*PI/180;
     double offset = 2*vdif*PI*(angledif/(PI*2));
     // double xdif = xtrack-xrad;
-    double ydif = ytrack-yrad+offset;
+    double ydif = ytrack-horizontalradian+offset;
 
-    // double xdis = xdif*wheelr;
-    double ydis = ydif*wheelr;
+    // double xdis = xdif*wheelradius;
+    double ydis = ydif*wheelradius;
     odeg = imu;
-    orad = imu*PI/180;
+    orientationradian = imu*PI/180;
 
     
-    double ychange = ydis * cos(orad);// - xdis * sin(orad);
-    double xchange = ydis * sin(orad);// + xdis * cos(orad);
+    double ychange = ydis * cos(orientationradian);// - xdis * sin(orientationradian);
+    double xchange = ydis * sin(orientationradian);// + xdis * cos(orientationradian);
     // xrad = xtrack;
-    yrad = ytrack;
+    horizontalradian = ytrack;
     xpos = xpos + xchange;
     ypos = ypos + ychange;
 
@@ -82,13 +82,13 @@ void odometry::move_to(double targetx, double targety) {
     
     double xdif = targetx-xpos;
     double ydif = targety-ypos;
-    double totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
+    // double totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
     double angle = atan2(xdif, ydif);
     angle = angle * 180 / PI;
     if (angle < 0) {
         angle += 360;
     }
-    std::cout << '[' << xpos << ',' << ypos << ',' << orad << ',' << odeg << ',' << wheelr << ',' << angle << "]" << "\n";
+    std::cout << '[' << xpos << ',' << ypos << ',' << orientationradian << ',' << odeg << ',' << wheelradius << ',' << angle << "]" << "\n";
     std::cout << angle << '\n';
     double angledif = angle-odeg;
     double mult = angledif/90;

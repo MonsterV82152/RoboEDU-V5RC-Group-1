@@ -6,11 +6,11 @@ class odometry {
     public:
         double xpos;
         double ypos;
-        double orad;
+        double orientationradian;
         double odeg;
-        double xrad;
-        double yrad;
-        double wheelr;
+        double horizontalradian;
+        double verticalradian;
+        double wheelradius;
         double hdif;
         double vdif;
         pid odomPID;

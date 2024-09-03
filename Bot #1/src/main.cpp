@@ -1,12 +1,11 @@
 #include "main.h"
 #include "globals.hpp"
 #include "odometry.hpp"
+#include "threading.hpp"
 #include <string>
 #include <stdlib.h>
 
-
 odometry thisbot(0, 0, 0, 0, 0, 1, 0, 1);
-
 
 /**
  * A callback function for LLEMU's center button.
@@ -37,14 +36,14 @@ void on_center_button()
  */
 void initialize()
 {
-
+	swall.set_zero_position(0);
+	swall.get_encoder_units(MOTOR_ENCODER_DEGREES);
+	swall.set_brake_mode(HOLD);
 	verticaltracking.reset();
 	horizontaltracking.reset();
 	verticaltracking.set_position(0);
 	horizontaltracking.set_position(0);
 	imu_sensor.reset();
-
-
 
 	// pros::lcd::register_btn1_cb(on_center_button);
 
@@ -80,7 +79,8 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {
+void autonomous()
+{
 	left_mg.set_brake_mode(BRAKE);
 	right_mg.set_brake_mode(BRAKE);
 	verticaltracking.reset();
@@ -89,16 +89,17 @@ void autonomous() {
 	horizontaltracking.set_position(0);
 	imu_sensor.reset();
 	pros::delay(2000);
-	
-	thisbot.move_to(48,48);
-	thisbot.move_to(-24,48);
-	thisbot.move_to(0,0);
+
+	thisbot.move_to(48, 48);
+	thisbot.move_to(-24, 48);
+	thisbot.move_to(0, 0);
 	// thisbot.move_to(15,5);
 	// thisbot.move_to(20,5);
 	// thisbot.move_to(30,5);
 	// thisbot.move_to(0,0);
 	// left_mg.move(40);
 }
+
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -125,31 +126,32 @@ void opcontrol()
 	pros::delay(2000);
 	thisbot.reset(0, 0, 0, 0, 0, 1.375);
 
-
 	intake.set_brake_mode(COAST);
 	left_mg.set_brake_mode(COAST);
 	right_mg.set_brake_mode(COAST);
 
 	/* -------------------------------------------------------------------- */
-	// Variable Definition 
+	// Variable Definition
 	bool boolintake = false;
 	bool boolhook = false;
 	bool boolwing = true;
 	bool boolclaw = false;
-	bool wallstake = false;
 	bool detect = true;
-	int counter = 0;
+	int counter = 10;
 	int opcolourcounter = 0;
 	bool opcolour = false;
 	int alcolourcounter = 0;
 	bool alcolour = false;
 	bool redteam = false;
-	optical_sensor.set_led_pwm(100);
 
+	optical_sensor.set_led_pwm(100);
+	pros::Task wallscore(wallstake, nullptr, "Wallstake Task");
 	/* -------------------------------------------------------------------- */
 	// While True Loop
 	while (true)
 	{
+		auto state = wallscore.get_state();
+
 		// Drivetrain Code
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		int right = master.get_analog(ANALOG_RIGHT_X);
@@ -183,30 +185,6 @@ void opcontrol()
 		{
 
 			boolclaw = !boolclaw;
-		}
-
-		// HSSM Code
-		if (master.get_digital(button_A))
-		{
-			counter = 10;
-			wallstake = true;
-			swall.move(127);
-		}
-		else if (wallstake) // Spins HSSM in reverse until designated spot
-		{
-			swall.move(-127);
-			if (counter <= 0)
-			{
-				if (abs(swall.get_actual_velocity()) < 10)
-				{
-					wallstake = false;
-					swall.brake();
-				}
-			}
-			else
-			{
-				counter--;
-			}
 		}
 
 		// Hook Toggle - R2
@@ -245,18 +223,23 @@ void opcontrol()
 					double a = optical_sensor.get_hue();
 					if (a >= 0 && a <= 30)
 					{
-						if (redteam) {
+						if (redteam)
+						{
 							alcolour = true;
-						} else {
+						}
+						else
+						{
 							opcolour = true;
 						}
-							
 					}
-					if (a >= 100 && a <= 220)
+					if (a >= 150 && a <= 220)
 					{
-						if (redteam) {
+						if (redteam)
+						{
 							opcolour = true;
-						} else {
+						}
+						else
+						{
 							alcolour = true;
 						}
 					}
@@ -272,9 +255,13 @@ void opcontrol()
 					{
 						hook.move(-127);
 					}
-					else if (alcolourcounter <= 17 && master.get_digital(button_DOWN) && alcolour)
+					else if (alcolourcounter <= 16 && master.get_digital(button_DOWN) && alcolour)
 					{
-						hook.move(-127);
+						hook.move(-60);
+					}
+					else if (alcolour && master.get_digital(button_DOWN))
+					{
+						hook.move(60);
 					}
 					else
 					{
@@ -288,7 +275,7 @@ void opcontrol()
 					if (alcolourcounter <= 0)
 					{
 						alcolour = false;
-						alcolourcounter = 21;
+						alcolourcounter = 20;
 					}
 				}
 				else
@@ -335,17 +322,17 @@ void opcontrol()
 		}
 
 		// Odometry Update Code
-		int vertical_position = verticaltracking.get_position()/100;
-		int horizontal_position = horizontaltracking.get_position()/100;
-		int heading = imu_sensor.get_heading();
-		thisbot.change(heading,vertical_position);
-		std::cout << "[";
-		std::cout << thisbot.odeg;
-		std::cout << ", ";
-		std::cout << thisbot.xpos;
-		std::cout << ", ";
-		std::cout << thisbot.ypos;
-		std::cout << "]   ";
+		// int vertical_position = verticaltracking.get_position()/100;
+		// int horizontal_position = horizontaltracking.get_position()/100;
+		// int heading = imu_sensor.get_heading();
+		// thisbot.change(heading,vertical_position);
+		// std::cout << "[";
+		// std::cout << thisbot.odeg;
+		// std::cout << ", ";
+		// std::cout << thisbot.xpos;
+		// std::cout << ", ";
+		// std::cout << thisbot.ypos;
+		// std::cout << "]   ";
 		pros::delay(20);
 	}
-}	
+}
