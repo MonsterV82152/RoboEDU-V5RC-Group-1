@@ -1,7 +1,8 @@
 #include "main.h"
 #include "globals.hpp"
 #include "odometry.hpp"
-#include "threading.hpp"
+#include "threading.cpp"
+#include "bob.cpp"
 #include <string>
 #include <stdlib.h>
 
@@ -39,6 +40,15 @@ void initialize()
 	swall.set_zero_position(0);
 	swall.get_encoder_units(MOTOR_ENCODER_DEGREES);
 	swall.set_brake_mode(HOLD);
+
+	left_mg.set_gearing_all(pros::E_MOTOR_GEAR_600);
+	right_mg.set_gearing_all(pros::E_MOTOR_GEAR_600);
+	left_mg.set_encoder_units_all(MOTOR_ENCODER_DEGREES);
+	right_mg.set_encoder_units_all(MOTOR_ENCODER_DEGREES);
+	left_mg.set_zero_position_all(0);
+	right_mg.set_zero_position_all(0);
+
+	clawp.set_value(false);
 	verticaltracking.reset();
 	horizontaltracking.reset();
 	verticaltracking.set_position(0);
@@ -87,12 +97,10 @@ void autonomous()
 	horizontaltracking.reset();
 	verticaltracking.set_position(0);
 	horizontaltracking.set_position(0);
-	imu_sensor.reset();
-	pros::delay(2000);
+	
+	thisbot.move_to(5,5);
 
-	thisbot.move_to(48, 48);
-	thisbot.move_to(-24, 48);
-	thisbot.move_to(0, 0);
+	
 	// thisbot.move_to(15,5);
 	// thisbot.move_to(20,5);
 	// thisbot.move_to(30,5);
@@ -135,7 +143,7 @@ void opcontrol()
 	bool boolintake = false;
 	bool boolhook = false;
 	bool boolwing = true;
-	bool boolclaw = false;
+	bool boolclaw = true;
 	bool detect = true;
 	int counter = 10;
 	int opcolourcounter = 0;
@@ -162,14 +170,14 @@ void opcontrol()
 		// Detection Toggle - B
 		if (master.get_digital_new_press(button_B))
 		{
-			detect = !detect;
-			if (detect)
+			redteam = !redteam;
+			if (redteam)
 			{
-				master.print(1, 1, "Detect On ");
+				master.print(1, 1, "Red Team ");
 			}
 			else
 			{
-				master.print(1, 1, "Detect Off");
+				master.print(1, 1, "Blue Team ");
 			}
 		}
 
@@ -255,13 +263,13 @@ void opcontrol()
 					{
 						hook.move(-127);
 					}
-					else if (alcolourcounter <= 16 && master.get_digital(button_DOWN) && alcolour)
+					else if (alcolourcounter <= 29 && master.get_digital(button_DOWN) && alcolour)
 					{
 						hook.move(-60);
 					}
-					else if (alcolour && master.get_digital(button_DOWN))
+					else if (master.get_digital(button_DOWN))
 					{
-						hook.move(60);
+						hook.move_velocity(50);
 					}
 					else
 					{
@@ -275,15 +283,15 @@ void opcontrol()
 					if (alcolourcounter <= 0)
 					{
 						alcolour = false;
-						alcolourcounter = 20;
+						alcolourcounter = 50;
 					}
 				}
 				else
 				{
 					alcolour = false;
 					opcolour = false;
-					opcolourcounter = 6;
-					alcolourcounter = 19;
+					opcolourcounter = 8;
+					alcolourcounter = 50;
 					hook.move(127);
 				}
 			}
@@ -322,17 +330,17 @@ void opcontrol()
 		}
 
 		// Odometry Update Code
-		// int vertical_position = verticaltracking.get_position()/100;
-		// int horizontal_position = horizontaltracking.get_position()/100;
-		// int heading = imu_sensor.get_heading();
-		// thisbot.change(heading,vertical_position);
-		// std::cout << "[";
-		// std::cout << thisbot.odeg;
-		// std::cout << ", ";
-		// std::cout << thisbot.xpos;
-		// std::cout << ", ";
-		// std::cout << thisbot.ypos;
-		// std::cout << "]   ";
+		int vertical_position = verticaltracking.get_position()/100;
+		int horizontal_position = horizontaltracking.get_position()/100;
+		int heading = imu_sensor.get_heading();
+		thisbot.change(heading,vertical_position);
+		std::cout << "[";
+		std::cout << thisbot.odeg;
+		std::cout << ", ";
+		std::cout << thisbot.xpos;
+		std::cout << ", ";
+		std::cout << thisbot.ypos;
+		std::cout << "]   ";
 		pros::delay(20);
 	}
 }

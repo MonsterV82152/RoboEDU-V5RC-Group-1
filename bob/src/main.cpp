@@ -95,7 +95,7 @@ void opcontrol() {
 		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
 		int turn = master.get_analog(ANALOG_RIGHT_Y);  // Gets the turn left/right from right joystick
 		if (intake) {
-			intake.move(127)
+			swall.move(127)
 		}
 		left_mg.move(dir);                      // Sets left motor voltage
 		right_mg.move(turn);                     // Sets right motor voltage
