@@ -26,19 +26,23 @@
     
 // }
 
-odometry::odometry(double x, double y, double irad, double xirad, double yirad, double iwheelradius, double hdis, double vdis)
-    : xpos(x), ypos(y), orientationradian(irad), horizontalradian(xirad*PI/180), verticalradian(yirad*PI/180), wheelradius(iwheelradius),hdif(hdis),vdif(vdis),
-      odomPID(odomKp, odomKi, odomKd, 5, true), turnPID(turnKp, turnKi, turnKd, 5, true) {}
+odometry::odometry(double x = 0, double y = 0, double irad = 0, double xirad = 0, double yirad = 0, double iwheelradius = 0, double hdis = 0, double vdis = 0)
+    : xpos(x), ypos(y), orientationradian(irad*PI/180), horizontalradian(xirad*PI/180), verticalradian(yirad*PI/180), wheelradius(iwheelradius),hdif(hdis),vdif(vdis),
+      distanceodomPID(odomKp, odomKi, odomKd, 5, true), turnPID(turnKp, turnKi, turnKd, 5, true) {
+        imu_sensor.set_heading(irad);
+      }
 
-void odometry::reset(double x, double y, double irad, double xirad, double yirad, double iwheelradius) {
+void odometry::reset(double x, double y, double irad = false, double xirad = false, double yirad = false, double iwheelradius = false, double hdis = false, double vdis = false) {
     xpos = x;
     ypos = y;
-    orientationradian = irad*PI/180;
-    odeg = irad;
-    horizontalradian = xirad*PI/180;
-    verticalradian = yirad*PI/180;
-    wheelradius = iwheelradius;
-    odomPID.reset();
+    if (irad) {orientationradian = irad*PI/180;odeg = irad;imu_sensor.set_heading(irad);}
+    if (xirad) {horizontalradian = xirad*PI/180;}
+    if (yirad) {verticalradian = yirad*PI/180;}
+    if (iwheelradius) {wheelradius = iwheelradius;}
+    if (hdis) {hdif = hdis;}
+    if (vdis) {vdif = vdis;}
+    distanceodomPID.reset();
+    turnPID.reset();
 }
 
 /**
@@ -48,16 +52,16 @@ void odometry::reset(double x, double y, double irad, double xirad, double yirad
  * \param xtrack Current Horizontal Tracking Wheel Position
  * \param ytrack Current Vertical Tracking Wheel Position
  */
-void odometry::change(double imu, double ytrack) {
+void odometry::change(double imu, double ytrack, double xtrack) {
     //void odometry::change(double imu, double xtrack, double ytrack) {
-    // xtrack = xtrack*PI/180;
+    xtrack = xtrack*PI/180;
     double angledif = (imu-odeg)*PI/180;
     ytrack = ytrack*PI/180;
     double offset = 2*vdif*PI*(angledif/(PI*2));
-    // double xdif = xtrack-xrad;
-    double ydif = ytrack-horizontalradian+offset;
+    double xdif = xtrack-horizontalradian;
+    double ydif = ytrack-verticalradian+offset;
 
-    // double xdis = xdif*wheelradius;
+    double xdis = xdif*wheelradius;
     double ydis = ydif*wheelradius;
     odeg = imu;
     orientationradian = imu*PI/180;
@@ -66,7 +70,8 @@ void odometry::change(double imu, double ytrack) {
     double ychange = ydis * cos(orientationradian);// - xdis * sin(orientationradian);
     double xchange = ydis * sin(orientationradian);// + xdis * cos(orientationradian);
     // xrad = xtrack;
-    horizontalradian = ytrack;
+    verticalradian = ytrack;
+    horizontalradian = xtrack;
     xpos = xpos + xchange;
     ypos = ypos + ychange;
 
@@ -82,54 +87,49 @@ void odometry::move_to(double targetx, double targety) {
     
     double xdif = targetx-xpos;
     double ydif = targety-ypos;
-    // double totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
-    double angle = atan2(xdif, ydif);
-    angle = angle * 180 / PI;
+    double totaldis;
+    double angle = atan2(xdif, ydif) * 180 / PI;
     if (angle < 0) {
         angle += 360;
     }
-    std::cout << '[' << xpos << ',' << ypos << ',' << orientationradian << ',' << odeg << ',' << wheelradius << ',' << angle << "]" << "\n";
-    std::cout << angle << '\n';
     double angledif = angle-odeg;
-    double mult = angledif/90;
-    while (abs(xdif) >= 0.3 || abs(ydif) >= 0.3) {
-        std::cout << '[' << xpos << ',' << ypos << ',' << odeg << ',' << angle << "]" << "\n";
-        change(imu_sensor.get_heading(),verticaltracking.get_position()/100);
+    double mult;
+    while (abs(xdif) >= 0.1 || abs(ydif) >= 0.1) {
+        change(imu_sensor.get_heading(),-(verticaltracking.get_position()/100),0);
         xdif = targetx-xpos;
         ydif = targety-ypos;
-        // totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
-        double angle = atan2(xdif, ydif);
-        angle = angle * 180 / PI;
+        totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
+        double angle = atan2(xdif, ydif) * 180 / PI;
         if (angle < 0) {
             angle += 360;
         }
-        std::cout << '[' << xpos << ',' << ypos << ',' << odeg << ',' << angle << "]" << "\n";
         if (abs(odeg-angle) <= abs(odeg-(angle+360)) && abs(odeg-angle) <= abs((odeg+360)-angle)) {
             angledif = angle-odeg;
         } else if (abs(odeg-(angle+360)) <= abs((odeg+360)-angle)) {
-            
             angledif = (360-odeg)+angle;
         } else {
             angledif = -((360-angle)+odeg);
         }
-        // std::cout << "[" << xpos << "," << ypos << "]" << "\n";
-
-        float pidresult = odomPID.update(angledif);
-
-        mult = abs(angledif)/45;
-        if (mult > 1) {mult=1;}
-        // std::cout << angledif << "\n";
-        if (angledif > 0) {
-
-            left_mg.move(60+pidresult);
-            right_mg.move(((-120*mult)+60)-pidresult);
-        } else {
-            left_mg.move(((-120*mult)+60)-pidresult);
-            right_mg.move(60+pidresult);
+        if (abs(angledif) > 90) {
+            totaldis = -totaldis;
+            if (angledif < 0) {
+                angledif = 180+angledif;
+            } else {
+                angledif = -(180-angledif);
+            }
         }
+
+        float distancepidresult = distanceodomPID.update(totaldis);
+        float anglepidresult = turnPID.update(angledif);
+
+        left_mg.move((distancepidresult+anglepidresult));
+        right_mg.move((distancepidresult-anglepidresult));
+        
         pros::delay(20);
     }
-    std::cout << "done \n";
+    pros::screen::erase();
+    pros::screen::print(pros::E_TEXT_SMALL,0,"done");
+
     
     left_mg.brake();
     right_mg.brake();
@@ -165,4 +165,62 @@ void odometry::spin_to(double angle) {
     }
 }
 
+void odometry::move_to_backward(double targetx, double targety) {
+    
+    double xdif = targetx-xpos;
+    double ydif = targety-ypos;
+    // double totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
+    double angle = atan2(xdif, ydif);
+    angle = angle * 180 / PI;
+    if (angle < 0) {
+        angle += 360;
+    }
+    std::cout << '[' << xpos << ',' << ypos << ',' << orientationradian << ',' << odeg << ',' << wheelradius << ',' << angle << "]" << "\n";
+    std::cout << angle << '\n';
+    double angledif = angle-odeg;
+    double mult;
+    while (abs(xdif) >= 0.3 || abs(ydif) >= 0.3) {
+        // std::cout << '[' << xpos << ',' << ypos << ',' << odeg << ',' << angle << "]" << "\n";
+        change(imu_sensor.get_heading(),-(verticaltracking.get_position()/100),0);
+        xdif = targetx-xpos;
+        ydif = targety-ypos;
+        // totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
+        double angle = atan2(xdif, ydif);
+        angle = angle * 180 / PI;
+        if (angle < 0) {
+            angle += 360;
+        }
+        std::cout << '[' << xpos << ',' << ypos << ',' << odeg << ',' << angle << ',' << angledif << "]" << "\n";
+        if (abs(odeg-angle) <= abs(odeg-(angle+360)) && abs(odeg-angle) <= abs((odeg+360)-angle)) {
+            angledif = angle-odeg;
+        } else if (abs(odeg-(angle+360)) <= abs((odeg+360)-angle)) {
+            
+            angledif = (360-odeg)+angle;
+        } else {
+            angledif = -((360-angle)+odeg);
+        }
+        angledif = -angledif;
+        // std::cout << "[" << xpos << "," << ypos << "]" << "\n";
+
+        float pidresult = distanceodomPID.update(angledif);
+
+        mult = abs(angledif)/45;
+        if (mult > 1) {mult=1;}
+        // std::cout << angledif << "\n";
+        if (angledif > 0) {
+
+            left_mg.move(-60);
+            right_mg.move(-((-120*mult)+60));
+        } else {
+            left_mg.move(-((-120*mult)+60));
+            right_mg.move(-60);
+        }
+        pros::delay(20);
+    }
+    std::cout << "done \n";
+    
+    left_mg.brake();
+    right_mg.brake();
+
+}
 

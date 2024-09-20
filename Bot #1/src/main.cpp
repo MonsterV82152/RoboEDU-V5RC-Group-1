@@ -6,7 +6,7 @@
 #include <string>
 #include <stdlib.h>
 
-odometry thisbot(0, 0, 0, 0, 0, 1, 0, 1);
+odometry thisbot(10, 18, 180, 0, 0, 1, 0, 1);
 
 /**
  * A callback function for LLEMU's center button.
@@ -45,9 +45,7 @@ void initialize()
 	right_mg.set_gearing_all(pros::E_MOTOR_GEAR_600);
 	left_mg.set_encoder_units_all(MOTOR_ENCODER_DEGREES);
 	right_mg.set_encoder_units_all(MOTOR_ENCODER_DEGREES);
-	left_mg.set_zero_position_all(0);
-	right_mg.set_zero_position_all(0);
-
+	thisbot.reset(10, 18, 180, 0, 0, 1, 0, 1);
 	clawp.set_value(false);
 	verticaltracking.reset();
 	horizontaltracking.reset();
@@ -91,23 +89,32 @@ void competition_initialize() {}
  */
 void autonomous()
 {
+	thisbot.reset(10, 18, 180, 0, 0, 1, 0, 1);
 	left_mg.set_brake_mode(BRAKE);
 	right_mg.set_brake_mode(BRAKE);
 	verticaltracking.reset();
 	horizontaltracking.reset();
 	verticaltracking.set_position(0);
 	horizontaltracking.set_position(0);
-	
-	thisbot.move_to(5,5);
 
+	thisbot.move_to(12, 50);
+	thisbot.move_to(24, 54);
+	thisbot.move_to(24, 62);
+	clawp.set_value(true);
+	pros::delay(500);
+	intake.move(127);
+	hook.move(127);
+	thisbot.move_to(38, 40);
+	intake.brake();
+	hook.brake();
 	
+
 	// thisbot.move_to(15,5);
 	// thisbot.move_to(20,5);
 	// thisbot.move_to(30,5);
 	// thisbot.move_to(0,0);
 	// left_mg.move(40);
 }
-
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -125,14 +132,7 @@ void autonomous()
 void opcontrol()
 {
 
-	// Create Odom Environment
-	verticaltracking.reset();
-	horizontaltracking.reset();
-	verticaltracking.set_position(0);
-	horizontaltracking.set_position(0);
-	imu_sensor.reset();
-	pros::delay(2000);
-	thisbot.reset(0, 0, 0, 0, 0, 1.375);
+	
 
 	intake.set_brake_mode(COAST);
 	left_mg.set_brake_mode(COAST);
@@ -160,7 +160,8 @@ void opcontrol()
 	{
 		auto state = wallscore.get_state();
 
-		// Drivetrain Code
+		/* Drivetrain Code */
+
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		int right = master.get_analog(ANALOG_RIGHT_X);
 		left_mg.move(left + (right * 1.05));
@@ -330,10 +331,10 @@ void opcontrol()
 		}
 
 		// Odometry Update Code
-		int vertical_position = verticaltracking.get_position()/100;
-		int horizontal_position = horizontaltracking.get_position()/100;
+		int vertical_position = verticaltracking.get_position() / 100;
+		int horizontal_position = horizontaltracking.get_position() / 100;
 		int heading = imu_sensor.get_heading();
-		thisbot.change(heading,vertical_position);
+		thisbot.change(heading, vertical_position, 0);
 		std::cout << "[";
 		std::cout << thisbot.odeg;
 		std::cout << ", ";

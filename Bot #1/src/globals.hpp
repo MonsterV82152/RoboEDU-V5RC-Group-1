@@ -68,14 +68,23 @@
 
 //PID Values
 //Odom Pid
-#define odomKp 2
-#define odomKi 0
-#define odomKd 10
+#define odomKp 5.5
+#define odomKi 0.2
+#define odomKd 2
 
-#define turnKp 2
-#define turnKi 0
-#define turnKd 10
-/* ------------------------------------------------------------------------------------------------------------------------ */
+#define turnKp 4.2
+#define turnKi 0.1
+#define turnKd 2
+
+// #define odomKp 5
+// #define odomKi 0
+// #define odomKd 2
+
+// #define turnKp 3
+// #define turnKi 0
+// #define turnKd 0
+
+/* --------------- s--------------------------------------------------------------------------------------------------------- */
 // Sensors & Calibration
 inline pros::Imu imu_sensor(IMUport);
 inline pros::Rotation verticaltracking(VTWport);
