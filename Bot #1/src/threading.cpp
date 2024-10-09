@@ -3,14 +3,30 @@
 
 inline void wallstake(void *param)
 {
-	std::cout << "while loop";
-	swall.set_brake_mode(COAST);
+	//Wall Stake Mechanism
+	swallMotor.set_encoder_units(MOTOR_ENCODER_DEGREES);
+	swallMotor.set_zero_position(0);
+	bool wall = false;
+	int pos = swallMotor.get_position();
+	swallMotor.set_brake_mode(COAST);
+	
 	while (true)
 	{
-		if (master.get_digital(button_A)) {
-			swall.move(-127);
+		if (master.get_digital(button_A)) { // If A is Pressed
+			swallMotor.move(127);
+			wall = true;
+		} else if (wall) {
+
+			swallMotor.move(-127);
+			pros::delay(500);
+			while (pos > 20) {
+				pos = swallMotor.get_position();
+				pros::delay(100);
+			}
+			swallMotor.brake();
+			wall = false;
 		} else {
-			swall.brake();
+			swallMotor.brake();
 		}
 		pros::delay(100);
 	}

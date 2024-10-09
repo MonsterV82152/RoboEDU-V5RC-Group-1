@@ -77,6 +77,7 @@ void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	pros::Motor left_mg(1);    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
 	pros::Motor right_mg(-4);  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
+	pros::Motor mogo(3);
 
 
 	while (true) {
@@ -86,6 +87,11 @@ void opcontrol() {
 		int turn = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
 		left_mg.move(dir - turn);                      // Sets left motor voltage
 		right_mg.move(dir + turn);                     // Sets right motor voltage
+
+		if (master.get_digital(DIGITAL_A)) {
+			
+		}
+
 		pros::delay(20);                               // Run for 20 ms then update
 	}
 }

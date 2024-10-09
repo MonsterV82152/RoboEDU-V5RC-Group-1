@@ -2,18 +2,14 @@
 #include "globals.hpp"
 #include "odometry.hpp"
 #include "threading.cpp"
+#include "MovFunc.hpp"
 #include "bob.cpp"
 #include <string>
 #include <stdlib.h>
 
 odometry thisbot(10, 18, 180, 0, 0, 1, 0, 1);
+MasterControl bot(false, true, 0);
 
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
 
 void on_center_button()
 {
@@ -37,9 +33,10 @@ void on_center_button()
  */
 void initialize()
 {
-	swall.set_zero_position(0);
-	swall.get_encoder_units(MOTOR_ENCODER_DEGREES);
-	swall.set_brake_mode(HOLD);
+	
+	swallMotor.set_zero_position(0);
+	swallMotor.get_encoder_units(MOTOR_ENCODER_DEGREES);
+	swallMotor.set_brake_mode(HOLD);
 
 	left_mg.set_gearing_all(pros::E_MOTOR_GEAR_600);
 	right_mg.set_gearing_all(pros::E_MOTOR_GEAR_600);
@@ -53,10 +50,59 @@ void initialize()
 	horizontaltracking.set_position(0);
 	imu_sensor.reset();
 
-	// pros::lcd::register_btn1_cb(on_center_button);
 
-	// horizontal = 4
-	// vertical = 20
+	pros::screen::set_pen(0x000000FF);
+	pros::screen::fill_rect(0,0,240,240);
+	pros::screen::set_pen(0x00FF0000);
+	pros::screen::fill_rect(240,0,480,240);
+	pros::screen::set_pen(0x00000000);
+	pros::screen::fill_rect(10,10,230,230);
+	pros::screen::fill_rect(250,10,470,230);
+
+
+	pros::screen_touch_status_s_t status = pros::screen::touch_status();
+	while (true) {
+		status = pros::screen::touch_status();
+		if (status.x < 240 && status.press_count == 1) {
+			team = false;
+			pros::screen::set_pen(0x000000FF);
+			break;
+		} else if (status.x > 240 && status.press_count == 1){
+			team = true;
+			pros::screen::set_pen(0x00FF0000);
+			break;
+		}
+		pros::delay(100);
+	}
+
+	pros::screen::fill_rect(0,0,240,120);
+	pros::screen::fill_rect(240,0,480,120);
+	pros::screen::fill_rect(0,120,240,240);
+	pros::screen::fill_rect(240,120,480,240);
+	pros::screen::set_pen(0x00000000);
+	pros::screen::fill_rect(10,10,230,110);
+	pros::screen::fill_rect(250,10,470,110);
+	pros::screen::fill_rect(10,130,230,230);
+	pros::screen::fill_rect(250,130,470,230);
+
+	while (true) {
+		status = pros::screen::touch_status();
+		if (status.x < 240 && status.y < 120 && status.press_count == 2) {
+			autonselector = 1;
+			break;
+		} else if (status.x > 240 && status.y < 120 && status.press_count == 2){
+			autonselector = 3;
+			break;
+		} else if (status.x < 240 && status.y > 120 && status.press_count == 2){
+			autonselector = 2;
+			break;
+		} else if (status.x > 240 && status.y > 120 && status.press_count == 2){
+			autonselector = 4;
+			break;
+		}
+		pros::delay(100);
+	}
+	pros::screen::erase();
 }
 /**
  * Runs while the robot is in the disabled state of Field Management System or
@@ -89,7 +135,10 @@ void competition_initialize() {}
  */
 void autonomous()
 {
+	// Resets Odometry
 	thisbot.reset(10, 18, 180, 0, 0, 1, 0, 1);
+
+	//Motor & Sensor Settings
 	left_mg.set_brake_mode(BRAKE);
 	right_mg.set_brake_mode(BRAKE);
 	verticaltracking.reset();
@@ -97,23 +146,29 @@ void autonomous()
 	verticaltracking.set_position(0);
 	horizontaltracking.set_position(0);
 
-	thisbot.move_to(12, 50);
-	thisbot.move_to(24, 54);
-	thisbot.move_to(24, 62);
-	clawp.set_value(true);
-	pros::delay(500);
-	intake.move(127);
-	hook.move(127);
-	thisbot.move_to(38, 40);
-	intake.brake();
-	hook.brake();
-	
 
-	// thisbot.move_to(15,5);
-	// thisbot.move_to(20,5);
-	// thisbot.move_to(30,5);
-	// thisbot.move_to(0,0);
-	// left_mg.move(40);
+	//Autonomous
+
+	if (autonselector == 1 && !team) {
+		thisbot.move_to(12, 50);
+		thisbot.move_to(24, 54);
+		thisbot.move_to(24, 62);
+		clawp.set_value(true);
+		pros::delay(500);
+		bot.runIntake(127);
+		bot.runHook(127);
+		thisbot.move_to(38, 40);
+		bot.stopHook();
+		bot.stopIntake();
+	}
+	if (autonselector == 1 && !team) {
+	}
+	if (autonselector == 1 && !team) {
+	}
+	if (autonselector == 1 && !team) {
+	}
+	
+	
 }
 
 /**
@@ -131,14 +186,13 @@ void autonomous()
  */
 void opcontrol()
 {
-
-	
-
-	intake.set_brake_mode(COAST);
+	//Motor & Sensor Settings
+	intakeMotor.set_brake_mode(COAST);
 	left_mg.set_brake_mode(COAST);
 	right_mg.set_brake_mode(COAST);
 
 	/* -------------------------------------------------------------------- */
+
 	// Variable Definition
 	bool boolintake = false;
 	bool boolhook = false;
@@ -154,6 +208,7 @@ void opcontrol()
 
 	optical_sensor.set_led_pwm(100);
 	pros::Task wallscore(wallstake, nullptr, "Wallstake Task");
+
 	/* -------------------------------------------------------------------- */
 	// While True Loop
 	while (true)
@@ -165,11 +220,10 @@ void opcontrol()
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		int right = master.get_analog(ANALOG_RIGHT_X);
 		left_mg.move(left + (right * 1.05));
-		// left_mg.move(60);
 		right_mg.move(left - (right * 1.05));
 
-		// Detection Toggle - B
-		if (master.get_digital_new_press(button_B))
+		// Team Toggle - B
+		if (master.get_digital_new_press(button_B)) // If B is Pressed
 		{
 			redteam = !redteam;
 			if (redteam)
@@ -183,144 +237,72 @@ void opcontrol()
 		}
 
 		// Intake Toggle - R1
-		if (master.get_digital_new_press(button_R1))
+		if (master.get_digital_new_press(button_R1)) // If R1 is Pressed
 		{
-
 			boolintake = !boolintake;
 		}
 
 		// Claw Piston Toggle - X
-		if (master.get_digital_new_press(button_X))
+		if (master.get_digital_new_press(button_X)) // If X is Pressed
 		{
 
 			boolclaw = !boolclaw;
 		}
 
 		// Hook Toggle - R2
-		if (master.get_digital_new_press(button_R2))
+		if (master.get_digital_new_press(button_R2)) // If R2 is Pressed
 		{
 
 			boolhook = !boolhook;
 		}
 
 		// Wing Piston Toggle - Y
-		if (master.get_digital_new_press(button_Y))
+		if (master.get_digital_new_press(button_Y)) // If Y is Pressed
 		{
 			boolwing = !boolwing;
 		}
 
 		// Toggle Activation
-		if (master.get_digital(button_L1) or master.get_digital(button_L2))
+		if (master.get_digital(button_L1)) // If L1 is Pressed
 		{
-			hook.move(-127);
-			intake.move(-127);
+			bot.runHook(-127);
+			
 		}
-		else if (master.get_digital(button_UP))
+		else if (master.get_digital(button_UP)) // If UP is pressed
 		{
-			hook.move(50);
-			intake.move(50);
+			bot.runHook(50);
+			bot.runIntake(50);
+		} else if (master.get_digital(button_L2)) { // If L2 is Pressed
+			bot.runIntake(-127);
 		}
 		else
 		{
-			if (boolhook)
-			{
-				// Detection Code
-				// opcolourcounter & alcolourcounter are delays
-				// opcolour & alcolour are if the sensor sees the colour
-				if (detect)
-				{
-					double a = optical_sensor.get_hue();
-					if (a >= 0 && a <= 30)
-					{
-						if (redteam)
-						{
-							alcolour = true;
-						}
-						else
-						{
-							opcolour = true;
-						}
-					}
-					if (a >= 150 && a <= 220)
-					{
-						if (redteam)
-						{
-							opcolour = true;
-						}
-						else
-						{
-							alcolour = true;
-						}
-					}
-					if (opcolour)
-					{
-						opcolourcounter--;
-					}
-					if (alcolour)
-					{
-						alcolourcounter--;
-					}
-					if (opcolourcounter <= 2 && opcolour)
-					{
-						hook.move(-127);
-					}
-					else if (alcolourcounter <= 29 && master.get_digital(button_DOWN) && alcolour)
-					{
-						hook.move(-60);
-					}
-					else if (master.get_digital(button_DOWN))
-					{
-						hook.move_velocity(50);
-					}
-					else
-					{
-						hook.move(127);
-					}
-					if (opcolourcounter <= 0)
-					{
-						opcolour = false;
-						opcolourcounter = 8;
-					}
-					if (alcolourcounter <= 0)
-					{
-						alcolour = false;
-						alcolourcounter = 50;
-					}
-				}
-				else
-				{
-					alcolour = false;
-					opcolour = false;
-					opcolourcounter = 8;
-					alcolourcounter = 50;
-					hook.move(127);
-				}
+			//Toggle Hook On/Off
+			if (boolhook) {
+				bot.runHook(127);
+			} else {
+				bot.stopHook();
 			}
-			else
-			{
-				hook.brake();
-			}
-
 			if (boolintake)
 			{
-				intake.move(127);
+				bot.runIntake(127);
 			}
 			else
 			{
 
-				intake.brake();
+				bot.stopIntake();
 			}
 		}
+		//Toggle Claw On/Off
 		if (!boolclaw)
 		{
-			// master.print(1,1,"CLAW UP  ");
-			clawp.set_value(true);
+			bot.clampOn();
 		}
 		else
 		{
-			// master.print(1,1,"CLAW DOWN");
-			clawp.set_value(false);
+			bot.clampOff();
 		}
+		//Toggle Wing On/Off
 		if (!boolwing)
 		{
 			wing.set_value(true);

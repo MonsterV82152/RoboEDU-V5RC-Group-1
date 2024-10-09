@@ -9,6 +9,7 @@
 
 #include <string>
 #include <stdlib.h>
+#include <iostream>
 
 /* ------------------------------------------------------------------------------------------------------------------------ */
 // All #Defines
@@ -84,6 +85,11 @@
 // #define turnKi 0
 // #define turnKd 0
 
+//Team
+inline bool team = false;
+
+inline int autonselector = 0;
+
 /* --------------- s--------------------------------------------------------------------------------------------------------- */
 // Sensors & Calibration
 inline pros::Imu imu_sensor(IMUport);
@@ -97,9 +103,9 @@ inline pros::Optical optical_sensor(17);
 inline pros::ADIDigitalOut clawp(clawport);
 inline pros::ADIDigitalOut wing(wingport);
 
-inline pros::Motor intake(RIport);
-inline pros::Motor hook(HSMport);
-inline pros::Motor swall(WSSMport);
+inline pros::Motor intakeMotor(RIport);
+inline pros::Motor hookMotor(HSMport);
+inline pros::Motor swallMotor(WSSMport);
 
 
 inline pros::MotorGroup right_mg({right_motor_1, right_motor_2, right_motor_3});
@@ -112,8 +118,9 @@ inline pros::Controller master(driver);
 inline pros::Controller master2(driver_2);
 
 
-template <typename T> constexpr T sgn(T value) { return value < 0 ? -1 : 1; }
 
+
+template <typename T> constexpr T sgn(T value) { return value < 0 ? -1 : 1; }
 
 
 #endif 
