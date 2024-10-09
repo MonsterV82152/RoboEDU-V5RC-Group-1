@@ -41,8 +41,8 @@
 
 
 // Pnumatic Ports
-#define clawport 'H'
-#define wingport 'E'
+#define clawport 'E'
+#define wingport 'H'
 
 
 // Mechanism Motors

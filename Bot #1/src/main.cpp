@@ -151,7 +151,6 @@ void opcontrol()
 	// While True Loop
 	while (true)
 	{
-		auto state = wallscore.get_state();
 
 		/* Drivetrain Code */
 
