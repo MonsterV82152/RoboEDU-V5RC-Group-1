@@ -1,6 +1,6 @@
 #include "globals.hpp"
 
-void autonSelection() {
+extern void InitalizeSetup() {
     pros::screen::set_pen(0x000000FF);
 	pros::screen::fill_rect(0,0,240,240);
 	pros::screen::set_pen(0x00FF0000);

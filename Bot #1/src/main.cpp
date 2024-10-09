@@ -1,9 +1,9 @@
 #include "main.h"
 #include "globals.hpp"
 #include "odometry.hpp"
-#include "threading.cpp"
+#include "threading.hpp"
 #include "MovFunc.hpp"
-#include "funcs.cpp"
+#include "technical.hpp"
 
 #include <string>
 #include <stdlib.h>
@@ -77,7 +77,7 @@ void initialize()
 	imu_sensor.reset();
 
 	// Autonomous Selection
-	autonSelection();
+	InitalizeSetup();
 
 	// Position Update
 	pros::Task screen_task([&]() {
