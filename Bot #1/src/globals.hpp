@@ -10,6 +10,7 @@
 #include <string>
 #include <stdlib.h>
 #include <iostream>
+#include "lemlib/api.hpp"
 
 /* ------------------------------------------------------------------------------------------------------------------------ */
 // All #Defines
@@ -77,14 +78,6 @@
 #define turnKi 0.1
 #define turnKd 2
 
-// #define odomKp 5
-// #define odomKi 0
-// #define odomKd 2
-
-// #define turnKp 3
-// #define turnKi 0
-// #define turnKd 0
-
 //Team
 inline bool team = false;
 
@@ -93,8 +86,8 @@ inline int autonselector = 0;
 /* --------------- s--------------------------------------------------------------------------------------------------------- */
 // Sensors & Calibration
 inline pros::Imu imu_sensor(IMUport);
-inline pros::Rotation verticaltracking(VTWport);
-inline pros::Rotation horizontaltracking(HTWport);
+inline pros::Rotation vertical_tracking(VTWport);
+inline pros::Rotation horizontal_tracking(HTWport);
 inline pros::Optical optical_sensor(17);
 
 
@@ -107,9 +100,10 @@ inline pros::Motor intakeMotor(RIport);
 inline pros::Motor hookMotor(HSMport);
 inline pros::Motor swallMotor(WSSMport);
 
+inline pros::MotorGroup left_dr({left_motor_1,left_motor_2,left_motor_3});
+inline pros::MotorGroup right_dr({right_motor_1,right_motor_2,right_motor_3});
 
-inline pros::MotorGroup right_mg({right_motor_1, right_motor_2, right_motor_3});
-inline pros::MotorGroup left_mg({left_motor_1, left_motor_2, left_motor_3});
+
 
 
 // Controllers

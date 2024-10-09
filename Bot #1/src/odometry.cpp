@@ -95,7 +95,7 @@ void odometry::move_to(double targetx, double targety) {
     double angledif = angle-odeg;
     double mult;
     while (abs(xdif) >= 0.1 || abs(ydif) >= 0.1) {
-        change(imu_sensor.get_heading(),-(verticaltracking.get_position()/100),0);
+        change(imu_sensor.get_heading(),-(vertical_tracking.get_position()/100),0);
         xdif = targetx-xpos;
         ydif = targety-ypos;
         totaldis = sqrt(pow(xdif,2)+pow(ydif,2));
@@ -122,8 +122,8 @@ void odometry::move_to(double targetx, double targety) {
         float distancepidresult = distanceodomPID.update(totaldis);
         float anglepidresult = turnPID.update(angledif);
 
-        left_mg.move((distancepidresult+anglepidresult));
-        right_mg.move((distancepidresult-anglepidresult));
+        left_dr.move((distancepidresult+anglepidresult));
+        right_dr.move((distancepidresult-anglepidresult));
         
         pros::delay(20);
     }
@@ -131,8 +131,8 @@ void odometry::move_to(double targetx, double targety) {
     pros::screen::print(pros::E_TEXT_SMALL,0,"done");
 
     
-    left_mg.brake();
-    right_mg.brake();
+    left_dr.brake();
+    right_dr.brake();
 
 }
 
@@ -158,9 +158,9 @@ void odometry::spin_to(double angle) {
         }
         double pidresult = turnPID.update(angledif);
         if (angledif > 0) {
-            left_mg.move(pidresult);
+            left_dr.move(pidresult);
         } else {
-            right_mg.move(-pidresult);
+            right_dr.move(-pidresult);
         }
     }
 }
