@@ -77,7 +77,7 @@ void initialize()
 	imu_sensor.reset();
 
 	// Autonomous Selection
-	autonSelector();
+	autonSelection();
 
 	// Position Update
 	pros::Task screen_task([&]() {
