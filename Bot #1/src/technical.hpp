@@ -54,3 +54,62 @@ extern void InitalizeSetup() {
 	}
 	pros::screen::erase();
 }
+
+
+inline void coloursorter(void *param) {
+    
+	int speed = hookMotor.get_voltage();
+    optical_sensor.set_led_pwm(100);
+    while (true) {
+		if (master.get_digital(button_DOWN)) {
+			hookMotor.move(70);
+		} else {
+			int speed = hookMotor.get_voltage()/90;
+		}
+       
+
+		// std::cout << speed;
+        int mult = 2-(127/speed); // Calculate Delay Multiplier
+        double a = optical_sensor.get_hue();
+        pros::screen::set_pen(0x00DC143C);
+        pros::screen::erase();
+        pros::screen::draw_circle(speed,speed,10);
+		pros::screen::draw_circle(127,127,10);
+        if (speed != 0) {
+            if (a >= 0 && a <= 30)
+            {
+                if (!team) {
+                    pros::delay(50);
+                    hookMotor.move(-127);
+                    pros::delay(200);
+                    hookMotor.move(speed);
+					pros::delay(200);
+                } else if (master.get_digital(button_DOWN)) {
+					pros::delay(100);
+					hookMotor.move(-127);
+					pros::delay(2000);
+					hookMotor.move(speed);
+					pros::delay(200);
+				}
+            }
+            if (a >= 150 && a <= 220)
+            {
+                if (team) {
+                    pros::delay(50);
+                    hookMotor.move(-127);
+                    pros::delay(200);
+                    hookMotor.move(speed); 
+					pros::delay(200);
+                } else if (master.get_digital(button_DOWN)) {
+					pros::delay(100);
+					hookMotor.move(-127);
+					pros::delay(2000);
+					hookMotor.move(speed);
+					pros::delay(200);
+				}
+            }
+        }
+        pros::delay(50);
+					
+    }
+}

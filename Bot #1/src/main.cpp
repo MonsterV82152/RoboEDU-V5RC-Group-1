@@ -62,8 +62,8 @@ void on_center_button()
 
 void initialize()
 {
+	
 	chassis.calibrate();
-
 	left_dr.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
 	right_dr.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
 
@@ -146,6 +146,7 @@ void opcontrol()
 
 	optical_sensor.set_led_pwm(100);
 	pros::Task wallscore(wallstake, nullptr, "Wallstake Task");
+	pros::Task colour(coloursorter, nullptr, "Bob");
 
 	/* -------------------------------------------------------------------- */
 	// While True Loop
@@ -156,8 +157,8 @@ void opcontrol()
 
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		int right = master.get_analog(ANALOG_RIGHT_X);
-		right_dr.move(left + (right * 1.05));
-		left_dr.move(left - (right * 1.05));
+		left_dr.move(left + (right * 1.05));
+		right_dr.move(left - (right * 1.05));
 
 		// Team Toggle - B
 		if (master.get_digital_new_press(button_B)) // If B is Pressed
