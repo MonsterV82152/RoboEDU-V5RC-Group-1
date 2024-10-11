@@ -75,7 +75,7 @@ inline void coloursorter(void *param) {
         pros::screen::erase();
         pros::screen::draw_circle(speed,speed,10);
 		pros::screen::draw_circle(127,127,10);
-        if (speed != 0) {
+    
             if (a >= 0 && a <= 30)
             {
                 if (!team) {
@@ -108,7 +108,7 @@ inline void coloursorter(void *param) {
 					pros::delay(200);
 				}
             }
-        }
+
         pros::delay(50);
 					
     }
