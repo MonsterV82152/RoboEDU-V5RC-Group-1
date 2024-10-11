@@ -64,7 +64,7 @@ inline void coloursorter(void *param) {
 		if (master.get_digital(button_DOWN)) {
 			hookMotor.move(70);
 		} else {
-			int speed = hookMotor.get_voltage()/90;
+			int speed = hookMotor.get_voltage();
 		}
        
 
