@@ -48,16 +48,16 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
 
 void on_center_button()
 {
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed)
-	{
-		pros::lcd::set_text(2, "I was pressed!");
-	}
-	else
-	{
-		pros::lcd::clear_line(2);
-	}
+// 	static bool pressed = false;
+// 	pressed = !pressed;
+// 	if (pressed)
+// 	{
+// 		pros::lcd::set_text(2, "I was pressed!");
+// 	}
+// 	else
+// 	{
+// 		pros::lcd::clear_line(2);
+// 	}
 }
 
 void initialize()
@@ -76,8 +76,8 @@ void initialize()
 	clawp.set_value(false);
 	imu_sensor.reset();
 
-	// Autonomous Selection
-	InitalizeSetup();
+// 	// Autonomous Selection
+// 	//InitalizeSetup();
 
 	// Position Update
 	pros::Task screen_task([&]() {
@@ -109,16 +109,23 @@ void autonomous()
 
 
 	//Autonomous
-	if (autonselector == 1 && !team) {
-	}
-	if (autonselector == 1 && !team) {
-	}
-	if (autonselector == 1 && !team) {
-	}
-	if (autonselector == 1 && !team) {
-	}
-	
-	
+	left_dr.move(-110);
+	right_dr.move(-127);
+	pros::delay(650);
+	left_dr.brake();
+	right_dr.brake();
+	right_dr.move(-75);
+	left_dr.move(75);
+	pros::delay(250);
+	left_dr.brake();
+	right_dr.brake();
+	left_dr.move(-110);
+	right_dr.move(-127);
+	pros::delay(300);
+	left_dr.brake();
+	right_dr.brake();
+	bot.clampOn();
+
 }
 
 void opcontrol()
