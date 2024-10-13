@@ -57,7 +57,6 @@ extern void InitalizeSetup() {
 
 
 inline void coloursorter(void *param) {
-    
 	int speed = hookMotor.get_voltage();
     optical_sensor.set_led_pwm(100);
     while (true) {
