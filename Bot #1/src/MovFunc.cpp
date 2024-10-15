@@ -23,9 +23,11 @@ void MasterControl::stopIntake() {
 
 // Hook Control & Colour Check
 void MasterControl::runHook(int speed) {
-    
-    if (!hook) {
+    // pros::screen::erase();
+    if (!hook || speed != HookSpeed) {
         hookMotor.move(speed);
+        HookSpeed = speed;
+        // pros::screen::draw_circle(100,100,10);
     }
     hook = true;
 }
@@ -33,6 +35,7 @@ void MasterControl::runHook(int speed) {
 // Stops Hook
 void MasterControl::stopHook() {
     hookMotor.brake();
+    HookSpeed = 0;
     hook = false;
 }
 

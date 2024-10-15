@@ -8,41 +8,13 @@
 #include <string>
 #include <stdlib.h>
 
+
+
 // Master Control for All Bot Functions
 MasterControl bot(false, true, 0);
 
 
 
-// Lemlib Initialization
-lemlib::Drivetrain drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_325, 360, 2);
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_tracking, lemlib::Omniwheel::NEW_2, -1);
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_tracking, lemlib::Omniwheel::NEW_2, 1);
-lemlib::OdomSensors sensors(&vertical_tracking_wheel, nullptr, &horizontal_tracking_wheel, nullptr, &imu_sensor);
-lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
-											0, // integral gain (kI)
-											3, // derivative gain (kD)
-											3, // anti windup
-											1, // small error range, in inches
-											100, // small error range timeout, in milliseconds
-											3, // large error range, in inches
-											500, // large error range timeout, in milliseconds
-											20 // maximum acceleration (slew)
-);
-lemlib::ControllerSettings angular_controller(2, // proportional gain (kP)
-											0, // integral gain (kI)
-											10, // derivative gain (kD)
-											3, // anti windup
-											1, // small error range, in degrees
-											100, // small error range timeout, in milliseconds
-											3, // large error range, in degrees
-											500, // large error range timeout, in milliseconds
-											0 // maximum acceleration (slew)
-);
-lemlib::Chassis chassis(drivetrain, // drivetrain settings
-                        lateral_controller, // lateral PID settings
-                        angular_controller, // angular PID settings
-                        sensors // odometry sensors
-);
 
 
 
@@ -62,30 +34,32 @@ void on_center_button()
 
 void initialize()
 {
-	
-	chassis.calibrate();
 	left_dr.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
 	right_dr.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
+	chassis.calibrate();
+	pros::Task colour(coloursorter, nullptr, "Bob");
 
 	swallMotor.set_zero_position(0);
 	swallMotor.get_encoder_units(MOTOR_ENCODER_DEGREES);
 	swallMotor.set_brake_mode(HOLD);
-
-
+ 
 
 	clawp.set_value(false);
-	imu_sensor.reset();
+	// imu_sensor.reset();
 
-// 	// Autonomous Selection
-// 	//InitalizeSetup();
+	// Autonomous Selection
+	InitalizeSetup();
 
 	// Position Update
 	pros::Task screen_task([&]() {
         while (true) {
             // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+			pros::screen::print(TEXT_MEDIUM,1, "X: %f", chassis.getPose().x);
+			pros::screen::print(TEXT_MEDIUM,3, "Y: %f", chassis.getPose().y);
+			pros::screen::print(TEXT_MEDIUM,5, "Theta: %f", chassis.getPose().theta);
+            // pros::screen::print(0, "X: %f", chassis.getPose().x); // x
+            // pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            // pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             // delay to save resources
             pros::delay(20);
         }
@@ -102,34 +76,80 @@ void autonomous()
 {
 
 	//Motor & Sensor Settings
-	vertical_tracking.reset();
-	horizontal_tracking.reset();
-	vertical_tracking.set_position(0);
-	horizontal_tracking.set_position(0);
-
+	// vertical_tracking.reset();
+	// horizontal_tracking.reset();
+	// vertical_tracking.set_position(0);
+	// horizontal_tracking.set_position(0);
+	
 
 	//Autonomous
-	left_dr.move(-110);
-	right_dr.move(-127);
-	pros::delay(650);
-	left_dr.brake();
-	right_dr.brake();
-	right_dr.move(-75);
-	left_dr.move(75);
-	pros::delay(250);
-	left_dr.brake();
-	right_dr.brake();
-	left_dr.move(-110);
-	right_dr.move(-127);
-	pros::delay(300);
-	left_dr.brake();
-	right_dr.brake();
+	if (!team) {
+	chassis.setPose(58,16,180);
+	chassis.moveToPoint(58,0,1000);
+	chassis.turnToHeading(270,1000);
+	chassis.moveToPoint(60,0,1000,{false});
+	chassis.waitUntilDone();
+	bot.runHook(127);
+	pros::delay(800);
+	bot.stopHook();
+	chassis.moveToPoint(26,23,4000,{false,70});
+	chassis.waitUntilDone();
 	bot.clampOn();
+	pros::delay(200);
+	bot.runIntake(127);
+	bot.runHook(127);
+	chassis.moveToPoint(24,48,2000);
+	chassis.turnToHeading(270,1000);
+	chassis.moveToPoint(7,45,1000);
+	chassis.moveToPoint(24,45,1000,{false});
+	chassis.moveToPoint(12,24,2000,{false});
+	chassis.turnToHeading(315,1000);
+	chassis.waitUntilDone();
+	swallMotor.move(127);
+	pros::delay(1000);
+	swallMotor.brake();
+
+
+
+
+
+
+
+	} else {
+		chassis.setPose(-58,16,180);
+		chassis.moveToPoint(-58,0,1000);
+		chassis.turnToHeading(90,1000);
+		chassis.moveToPoint(-60,0,1000,{false});
+		chassis.waitUntilDone();
+		bot.runHook(127);
+		pros::delay(800);
+		bot.stopHook();
+		chassis.moveToPoint(-26,23,4000,{false,70});
+		chassis.waitUntilDone();
+		bot.clampOn();
+		pros::delay(200);
+		bot.runIntake(127);
+		bot.runHook(127);
+		chassis.moveToPoint(-24,48,2000);
+		chassis.turnToHeading(90,1000);
+		chassis.moveToPoint(-7,45,1000);
+		chassis.moveToPoint(-24,45,1000,{false});
+		chassis.moveToPoint(-12,24,2000,{false});
+		chassis.turnToHeading(45,1000);
+		chassis.waitUntilDone();
+		swallMotor.move(127);
+		pros::delay(1000);
+		swallMotor.brake();
+
+
+	}
 
 }
 
 void opcontrol()
 {
+	// TO DO: Macro to move forward 5 inch
+
 	//Motor & Sensor Settings
 	intakeMotor.set_brake_mode(COAST);
 	right_dr.set_brake_mode(COAST);
@@ -153,7 +173,7 @@ void opcontrol()
 
 	optical_sensor.set_led_pwm(100);
 	pros::Task wallscore(wallstake, nullptr, "Wallstake Task");
-	pros::Task colour(coloursorter, nullptr, "Bob");
+	
 
 	/* -------------------------------------------------------------------- */
 	// While True Loop
@@ -206,7 +226,7 @@ void opcontrol()
 		{
 			boolwing = !boolwing;
 		}
-
+		
 		// Toggle Activation
 		if (master.get_digital(button_L1)) // If L1 is Pressed
 		{

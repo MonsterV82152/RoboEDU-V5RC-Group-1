@@ -24,7 +24,11 @@ inline void wallstake(void *param)
 				pros::delay(100);
 			}
 			swallMotor.brake();
+			swallMotor.set_brake_mode(COAST);
 			wall = false;
+		} else if (master.get_digital(button_RIGHT)) {
+			swallMotor.move(127);
+			swallMotor.set_brake_mode(BRAKE);
 		} else {
 			swallMotor.brake();
 		}
