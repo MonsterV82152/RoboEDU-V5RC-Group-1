@@ -1,3 +1,16 @@
+// Includes all libraries that we use
+
+/* 
+
+main.h - Default (Nessesary)
+globals.hpp - All global variables such as motors and team colour are situated here & motor initialization
+odometry.hpp - Odometry File (Calculates Position & Movement)
+threading.hpp - Threading Functions such as the wallstake mechanism
+MovFunc.hpp - Master Control for the bot (All functions for the bot are here)
+technical.hpp - Misc Functions & functions related to sensors.
+
+*/
+
 #include "main.h"
 #include "globals.hpp"
 #include "odometry.hpp"
@@ -18,34 +31,21 @@ MasterControl bot(false, true, 0);
 
 
 
-void on_center_button()
-{
-// 	static bool pressed = false;
-// 	pressed = !pressed;
-// 	if (pressed)
-// 	{
-// 		pros::lcd::set_text(2, "I was pressed!");
-// 	}
-// 	else
-// 	{
-// 		pros::lcd::clear_line(2);
-// 	}
-}
+void on_center_button() {}
 
 void initialize()
 {
-	left_dr.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
-	right_dr.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
-	chassis.calibrate();
-	pros::Task colour(coloursorter, nullptr, "Bob");
-
 	swallMotor.set_zero_position(0);
 	swallMotor.get_encoder_units(MOTOR_ENCODER_DEGREES);
 	swallMotor.set_brake_mode(HOLD);
- 
+
+	left_dr.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
+	right_dr.set_gearing_all(pros::E_MOTOR_GEAR_BLUE);
+	chassis.calibrate();
+
+	pros::Task colour(coloursorter, nullptr, "Bob");
 
 	clawp.set_value(false);
-	// imu_sensor.reset();
 
 	// Autonomous Selection
 	InitalizeSetup();
@@ -57,9 +57,6 @@ void initialize()
 			pros::screen::print(TEXT_MEDIUM,1, "X: %f", chassis.getPose().x);
 			pros::screen::print(TEXT_MEDIUM,3, "Y: %f", chassis.getPose().y);
 			pros::screen::print(TEXT_MEDIUM,5, "Theta: %f", chassis.getPose().theta);
-            // pros::screen::print(0, "X: %f", chassis.getPose().x); // x
-            // pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            // pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
             // delay to save resources
             pros::delay(20);
         }
