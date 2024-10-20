@@ -57,16 +57,17 @@ extern void InitalizeSetup() {
 
 
 inline void coloursorter(void *param) {
+	pros::delay(3000);
+
 	int speed = hookMotor.get_voltage();
     optical_sensor.set_led_pwm(100);
-	bool slow = false;
     while (true) {
 		if (master.get_digital_new_press(button_DOWN)) {
 			slow = !slow;
 		}
 
 		if (slow) {
-			hookMotor.move_velocity(70);
+			hookMotor.move_velocity(60);
 		} else {
 			hookMotor.move(HookSpeed);
 		}
@@ -88,11 +89,15 @@ inline void coloursorter(void *param) {
                 if (!team) {
                     pros::delay(50);
                     hookMotor.move(-127);
+					
                     pros::delay(200);
                     hookMotor.move(HookSpeed);
 					pros::delay(200);
                 } else if (slow) {
-					pros::delay(220);
+					a = hookMotor.get_position();
+					while (hookMotor.get_position()-a < 90) {
+						pros::delay(10);
+					}
 					hookMotor.move(-70);
 					pros::delay(2000);
 					hookMotor.move(HookSpeed);
@@ -110,7 +115,10 @@ inline void coloursorter(void *param) {
                     hookMotor.move(HookSpeed); 
 					pros::delay(200);
                 } else if (slow) {
-					pros::delay(220);
+					a = hookMotor.get_position();
+					while (hookMotor.get_position()-a < 90) {
+						pros::delay(10);
+					}
 					hookMotor.move(-70);
 					pros::delay(2000);
 					hookMotor.move(HookSpeed);

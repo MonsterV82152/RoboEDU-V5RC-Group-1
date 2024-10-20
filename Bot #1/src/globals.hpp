@@ -70,21 +70,22 @@
 
 //PID Values
 //Odom Pid
-#define odomKp 5
-#define odomKi 0.2
-#define odomKd 2
+#define odomKp 3
+#define odomKi 0.4
+#define odomKd 3
 
 #define turnKp 2
 #define turnKi 0.2
-#define turnKd 3
+#define turnKd 4
 
 //Team
 inline bool team = false;
 
-inline int autonselector = 0;
+inline int autonselector = 5;
 
 inline int HookSpeed = 0;
 
+inline bool slow = false;
 
 
 /* --------------- s--------------------------------------------------------------------------------------------------------- */
@@ -119,12 +120,13 @@ inline pros::Controller master2(driver_2);
 // Lemlib Initialization
 inline lemlib::Drivetrain drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_325, 360, 2);
 inline lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_tracking, lemlib::Omniwheel::NEW_2, -1);
-inline lemlib::TrackingWheel vertical_tracking_wheel(&vertical_tracking, lemlib::Omniwheel::NEW_2, 1);
+inline lemlib::TrackingWheel vertical_tracking_wheel(&vertical_tracking, lemlib::Omniwheel::NEW_2, -1);
 inline lemlib::OdomSensors sensors(&vertical_tracking_wheel, nullptr, &horizontal_tracking_wheel, nullptr, &imu_sensor);
 inline lemlib::ControllerSettings lateral_controller(odomKp, // proportional gain (kP)
 											odomKi, // integral gain (kI)
 											odomKd, // derivative gain (kD)
 											3, // anti windup
+
 											1, // small error range, in inches
 											100, // small error range timeout, in milliseconds
 											3, // large error range, in inches

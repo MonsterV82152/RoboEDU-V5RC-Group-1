@@ -35,6 +35,10 @@ void on_center_button() {}
 
 void initialize()
 {
+	pros::Task selection([&]() {
+		InitalizeSetup();
+	});
+	
 	swallMotor.set_zero_position(0);
 	swallMotor.get_encoder_units(MOTOR_ENCODER_DEGREES);
 	swallMotor.set_brake_mode(HOLD);
@@ -46,21 +50,20 @@ void initialize()
 	pros::Task colour(coloursorter, nullptr, "Bob");
 
 	clawp.set_value(false);
+	
 
-	// Autonomous Selection
-	InitalizeSetup();
+	//Position Update
+	// pros::Task screen_task([&]() {
+    //     while (true) {
 
-	// Position Update
-	pros::Task screen_task([&]() {
-        while (true) {
-            // print robot location to the brain screen
-			pros::screen::print(TEXT_MEDIUM,1, "X: %f", chassis.getPose().x);
-			pros::screen::print(TEXT_MEDIUM,3, "Y: %f", chassis.getPose().y);
-			pros::screen::print(TEXT_MEDIUM,5, "Theta: %f", chassis.getPose().theta);
-            // delay to save resources
-            pros::delay(20);
-        }
-    });
+    //         // print robot location to the brain screen
+	// 		pros::screen::print(TEXT_MEDIUM,1, "X: %f", chassis.getPose().x);
+	// 		pros::screen::print(TEXT_MEDIUM,3, "Y: %f", chassis.getPose().y);
+	// 		pros::screen::print(TEXT_MEDIUM,5, "Theta: %f", chassis.getPose().theta);
+    //         // delay to save resources
+    //         pros::delay(20);
+    //     }
+    // });
 }
 
 void disabled() {}
@@ -78,41 +81,37 @@ void autonomous()
 	// vertical_tracking.set_position(0);
 	// horizontal_tracking.set_position(0);
 	
-
+	while (autonselector == 5){
+		pros::delay(50);
+	}
 	//Autonomous
-	if (!team) {
-	chassis.setPose(58,16,180);
-	chassis.moveToPoint(58,0,1000);
-	chassis.turnToHeading(270,1000);
-	chassis.moveToPoint(60,0,1000,{false});
-	chassis.waitUntilDone();
-	bot.runHook(127);
-	pros::delay(800);
-	bot.stopHook();
-	chassis.moveToPoint(26,23,4000,{false,70});
-	chassis.waitUntilDone();
-	bot.clampOn();
-	pros::delay(200);
-	bot.runIntake(127);
-	bot.runHook(127);
-	chassis.moveToPoint(24,48,2000);
-	chassis.turnToHeading(270,1000);
-	chassis.moveToPoint(7,45,1000);
-	chassis.moveToPoint(24,45,1000,{false});
-	chassis.moveToPoint(12,24,2000,{false});
-	chassis.turnToHeading(315,1000);
-	chassis.waitUntilDone();
-	swallMotor.move(127);
-	pros::delay(1000);
-	swallMotor.brake();
+	if (!team && autonselector == 1) {
+		chassis.setPose(58,16,180);
+		chassis.moveToPoint(58,0,1000);
+		chassis.turnToHeading(270,1000);
+		chassis.moveToPoint(60,0,1000,{false});
+		chassis.waitUntilDone();
+		bot.runHook(127);
+		pros::delay(800);
+		bot.stopHook();
+		chassis.moveToPoint(26,23,4000,{false,70});
+		chassis.waitUntilDone();
+		bot.clampOn();
+		pros::delay(200);
+		bot.runIntake(127);
+		bot.runHook(127);
+		chassis.moveToPoint(24,48,2000);
+		chassis.turnToHeading(270,1000);
+		chassis.moveToPoint(7,45,1000);
+		chassis.moveToPoint(24,45,1000,{false});
+		chassis.moveToPoint(12,24,2000,{false});
+		chassis.turnToHeading(315,1000);
+		chassis.waitUntilDone();
+		swallMotor.move(127);
+		pros::delay(1000);
+		swallMotor.brake();
 
-
-
-
-
-
-
-	} else {
+	} else if (team && autonselector == 1) {
 		chassis.setPose(-58,16,180);
 		chassis.moveToPoint(-58,0,1000);
 		chassis.turnToHeading(90,1000);
@@ -138,6 +137,72 @@ void autonomous()
 		pros::delay(1000);
 		swallMotor.brake();
 
+
+	} else if (team && autonselector == 4) {
+		chassis.setPose(-52,-4.5,0);
+		swallMotor.move(127);
+		pros::delay(1000);
+		swallMotor.move(-127);
+		pros::delay(500);
+		chassis.moveToPoint(-48,-24,2000,{false,70});
+		chassis.waitUntilDone();
+		bot.clampOn();
+		bot.runHook(127);
+		bot.runIntake(127);
+		chassis.moveToPoint(-24,-24,2000);
+
+		
+		chassis.moveToPoint(-24,-48,2000);
+		chassis.moveToPoint(0,-61,2000);
+		chassis.turnToPoint(27,-24,1000);
+		chassis.moveToPoint(27,-24,4000);
+		pros::delay(1000);
+		slow = true;
+		chassis.moveToPoint(25,-48,2000);
+		bot.stopHook();
+	
+		chassis.moveToPose(2,-55,270,5000,{true,0,0.8,127,20});
+		chassis.waitUntilDone();
+		pros::delay(127);
+		swallMotor.move(127);
+		pros::delay(1000);
+		swallMotor.move(-127);
+		pros::delay(1000);
+		swallMotor.brake();
+		slow = true;
+		bot.runHook(127);
+		pros::delay(2000);
+		bot.stopHook();
+		swallMotor.move(127);
+		pros::delay(1000);
+		swallMotor.move(-127);
+		chassis.moveToPoint(-48,-60,3000);
+		bot.runHook(127);
+		pros::delay(1000);
+		swallMotor.brake();
+		chassis.moveToPoint(-27,-50,1000,{false});
+		chassis.moveToPoint(-60,-48,2000);
+		chassis.moveToPoint(-60,-60,2000,{false});
+		chassis.waitUntilDone();
+		bot.clampOff();
+		chassis.moveToPoint(0,0,5000);
+		bot.stopHook();
+
+		chassis.moveToPoint(-24,24,2000);
+		bot.runHook(70);
+		pros::delay(500);
+		bot.stopHook();
+		chassis.moveToPoint(-48,24,2000,{false});
+		chassis.waitUntilDone();
+		bot.clampOn();
+		pros::delay(100);
+		chassis.moveToPoint(-24,48,3000);
+		chassis.moveToPoint(-60,48,5000);
+		chassis.moveToPoint(-27,50,1000,{false});
+		chassis.moveToPoint(-48,60,5000);
+		chassis.moveToPoint(-60,60,5000,{false});
+		chassis.waitUntilDone();
+		bot.clampOff();
 
 	}
 

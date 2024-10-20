@@ -7,6 +7,8 @@ MasterControl::MasterControl(bool ahook, bool acolourcheck, int aintakeSpeed) {
     intakeSpeed = aintakeSpeed;
     hook = ahook;
     colourcheck = acolourcheck;
+    hookMotor.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+    hookMotor.set_zero_position(0);
     
 }
 
