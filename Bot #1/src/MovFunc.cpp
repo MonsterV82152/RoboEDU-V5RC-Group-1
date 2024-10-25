@@ -1,7 +1,5 @@
 #include "MovFunc.hpp"
 
-
-
 // Definition & Constructor
 MasterControl::MasterControl(bool ahook, bool acolourcheck, int aintakeSpeed) {
     intakeSpeed = aintakeSpeed;

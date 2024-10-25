@@ -2,6 +2,9 @@
 #include "pidcontrol.hpp"
 #include "main.h"
 
+#ifndef ODOMETRY_HPP
+#define ODOMETRY_HPP
+
 class odometry {
     public:
         double xpos = 0;
@@ -25,3 +28,5 @@ class odometry {
 
 
 };
+
+#endif 

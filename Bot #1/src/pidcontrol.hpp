@@ -1,6 +1,9 @@
 #include "main.h"
 #include "globals.hpp"
 
+#ifndef PID_HPP
+#define PID_HPP
+
 class pid {
     public:
         
@@ -25,3 +28,5 @@ class pid {
         float integral = 0;
         float prevError = 0;
 };
+
+#endif

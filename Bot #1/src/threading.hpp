@@ -32,6 +32,13 @@ inline void wallstake(void *param)
 		} else {
 			swallMotor.brake();
 		}
+		if (master.get_digital_new_press(button_LEFT)) {
+			right_dr.move_velocity(50);
+			left_dr.move_velocity(50);
+			pros::delay(300);
+			left_dr.brake();
+			right_dr.brake();
+		}
 		pros::delay(100);
 	}
 }

@@ -13,18 +13,17 @@ technical.hpp - Misc Functions & functions related to sensors.
 
 #include "main.h"
 #include "globals.hpp"
-#include "odometry.hpp"
 #include "threading.hpp"
-#include "MovFunc.hpp"
 #include "technical.hpp"
+#include "skillsauton.hpp"
 
 #include <string>
 #include <stdlib.h>
 
+ASSET(startofauton2_txt)
+ASSET(middleofauton_txt)
 
 
-// Master Control for All Bot Functions
-MasterControl bot(false, true, 0);
 
 
 
@@ -52,7 +51,7 @@ void initialize()
 	clawp.set_value(false);
 	
 
-	//Position Update
+	// //Position Update
 	// pros::Task screen_task([&]() {
     //     while (true) {
 
@@ -74,7 +73,7 @@ void competition_initialize() {}
 
 void autonomous()
 {
-
+	
 	//Motor & Sensor Settings
 	// vertical_tracking.reset();
 	// horizontal_tracking.reset();
@@ -137,72 +136,30 @@ void autonomous()
 		pros::delay(1000);
 		swallMotor.brake();
 
+	} else if (team && autonselector == 2) {
+		
+		chassis.setPose(-58,35,90);
+		bot.runIntake(127);
+		
+		chassis.follow(startofauton2_txt, 15, 3000);
+		chassis.moveToPoint(-24,24,2000,{false});
+		chassis.waitUntilDone();
+		bot.clampOn();
+		pros::delay(200);
+		chassis.turnToPoint(-22,48,2000);
+		bot.runHook(127);
+		chassis.moveToPoint(-22,48,2000);
+		chassis.moveToPoint(-3,55,2000);
+		
+		chassis.follow(middleofauton_txt,15,4000,false);
+		pros::delay(300);
+		wing.set_value(true);
+
+
+
 
 	} else if (team && autonselector == 4) {
-		chassis.setPose(-52,-4.5,0);
-		swallMotor.move(127);
-		pros::delay(1000);
-		swallMotor.move(-127);
-		pros::delay(500);
-		chassis.moveToPoint(-48,-24,2000,{false,70});
-		chassis.waitUntilDone();
-		bot.clampOn();
-		bot.runHook(127);
-		bot.runIntake(127);
-		chassis.moveToPoint(-24,-24,2000);
-
-		
-		chassis.moveToPoint(-24,-48,2000);
-		chassis.moveToPoint(0,-61,2000);
-		chassis.turnToPoint(27,-24,1000);
-		chassis.moveToPoint(27,-24,4000);
-		pros::delay(1000);
-		slow = true;
-		chassis.moveToPoint(25,-48,2000);
-		bot.stopHook();
-	
-		chassis.moveToPose(2,-55,270,5000,{true,0,0.8,127,20});
-		chassis.waitUntilDone();
-		pros::delay(127);
-		swallMotor.move(127);
-		pros::delay(1000);
-		swallMotor.move(-127);
-		pros::delay(1000);
-		swallMotor.brake();
-		slow = true;
-		bot.runHook(127);
-		pros::delay(2000);
-		bot.stopHook();
-		swallMotor.move(127);
-		pros::delay(1000);
-		swallMotor.move(-127);
-		chassis.moveToPoint(-48,-60,3000);
-		bot.runHook(127);
-		pros::delay(1000);
-		swallMotor.brake();
-		chassis.moveToPoint(-27,-50,1000,{false});
-		chassis.moveToPoint(-60,-48,2000);
-		chassis.moveToPoint(-60,-60,2000,{false});
-		chassis.waitUntilDone();
-		bot.clampOff();
-		chassis.moveToPoint(0,0,5000);
-		bot.stopHook();
-
-		chassis.moveToPoint(-24,24,2000);
-		bot.runHook(70);
-		pros::delay(500);
-		bot.stopHook();
-		chassis.moveToPoint(-48,24,2000,{false});
-		chassis.waitUntilDone();
-		bot.clampOn();
-		pros::delay(100);
-		chassis.moveToPoint(-24,48,3000);
-		chassis.moveToPoint(-60,48,5000);
-		chassis.moveToPoint(-27,50,1000,{false});
-		chassis.moveToPoint(-48,60,5000);
-		chassis.moveToPoint(-60,60,5000,{false});
-		chassis.waitUntilDone();
-		bot.clampOff();
+		skillsauton();
 
 	}
 
@@ -211,6 +168,11 @@ void autonomous()
 void opcontrol()
 {
 	// TO DO: Macro to move forward 5 inch
+
+	// chassis.setPose(0,0,0);
+	// chassis.turnToHeading(90,10000);
+
+
 
 	//Motor & Sensor Settings
 	intakeMotor.set_brake_mode(COAST);
@@ -235,7 +197,7 @@ void opcontrol()
 
 	optical_sensor.set_led_pwm(100);
 	pros::Task wallscore(wallstake, nullptr, "Wallstake Task");
-	
+	bool brake = true;
 
 	/* -------------------------------------------------------------------- */
 	// While True Loop
@@ -243,11 +205,18 @@ void opcontrol()
 	{
 
 		/* Drivetrain Code */
-
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		int right = master.get_analog(ANALOG_RIGHT_X);
-		left_dr.move(left + (right * 1.05));
-		right_dr.move(left - (right * 1.05));
+		if (abs(left) > 10 || abs(right) > 10) {
+			left_dr.move(left + (right * 1.05));
+			right_dr.move(left - (right * 1.05));
+			brake = true;
+		} else if (brake){
+			left_dr.brake();
+			right_dr.brake();
+			brake = false;
+		}
+		
 
 		// Team Toggle - B
 		if (master.get_digital_new_press(button_B)) // If B is Pressed

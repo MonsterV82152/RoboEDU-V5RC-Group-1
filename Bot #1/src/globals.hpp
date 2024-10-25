@@ -7,13 +7,19 @@
 #define CONFIG_HPP
 
 
+
 #include <string>
 #include <stdlib.h>
 #include <iostream>
 #include "lemlib/api.hpp"
+#include "MovFunc.hpp"
+#include "odometry.hpp"
 
 /* ------------------------------------------------------------------------------------------------------------------------ */
 // All #Defines
+
+// Master Control for All Bot Functions
+inline MasterControl bot(false, true, 0);
 
 // Constants
 #define PI 3.1415//92653589793238462643383279502884197169399375105820
@@ -70,13 +76,15 @@
 
 //PID Values
 //Odom Pid
-#define odomKp 3
+#define odomKp 5
 #define odomKi 0.4
 #define odomKd 3
 
-#define turnKp 2
-#define turnKi 0.2
-#define turnKd 4
+//4,25
+
+#define turnKp 4
+#define turnKi 1
+#define turnKd 25
 
 //Team
 inline bool team = false;
@@ -122,7 +130,8 @@ inline lemlib::Drivetrain drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel:
 inline lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_tracking, lemlib::Omniwheel::NEW_2, -1);
 inline lemlib::TrackingWheel vertical_tracking_wheel(&vertical_tracking, lemlib::Omniwheel::NEW_2, -1);
 inline lemlib::OdomSensors sensors(&vertical_tracking_wheel, nullptr, &horizontal_tracking_wheel, nullptr, &imu_sensor);
-inline lemlib::ControllerSettings lateral_controller(odomKp, // proportional gain (kP)
+inline lemlib::ControllerSettings lateral_controller(
+											odomKp, // proportional gain (kP)
 											odomKi, // integral gain (kI)
 											odomKd, // derivative gain (kD)
 											3, // anti windup
@@ -134,16 +143,16 @@ inline lemlib::ControllerSettings lateral_controller(odomKp, // proportional gai
 											20 // maximum acceleration (slew)
 );
 inline lemlib::ControllerSettings angular_controller(turnKp, // proportional gain (kP)
-											turnKi, // integral gain (kI)
-											turnKd, // derivative gain (kD)
-											3, // anti windup
-											1, // small error range, in degrees
-											100, // small error range timeout, in milliseconds
-											3, // large error range, in degrees
-											500, // large error range timeout, in milliseconds
-											0 // maximum acceleration (slew)
+                                              turnKi, // integral gain (kI)
+                                              turnKd, // derivative gain (kD)
+                                              3, // anti windup
+                                              0, // small error range, in inches
+                                              0, // small error range timeout, in milliseconds
+                                              0, // large error range, in inches
+                                              0, // large error range timeout, in milliseconds
+                                              0 // maximum acceleration (slew)
 );
-inline lemlib::Chassis chassis(drivetrain, // drivetrain settings
+inline lemlib::Chassis chassis(drivetrain, // drivetrain settins
                         lateral_controller, // lateral PID settings
                         angular_controller, // angular PID settings
                         sensors // odometry sensors
@@ -151,6 +160,7 @@ inline lemlib::Chassis chassis(drivetrain, // drivetrain settings
 
 
 
+inline lemlib::ExitCondition exitCond(0.2,500);
 
 
 template <typename T> constexpr T sgn(T value) { return value < 0 ? -1 : 1; }

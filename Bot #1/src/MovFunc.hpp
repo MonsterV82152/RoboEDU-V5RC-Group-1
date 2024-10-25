@@ -1,4 +1,10 @@
+
+
 #include "globals.hpp"
+#include "main.h"
+
+#ifndef MOVFUNC_HPP
+#define MOVFUNC_HPP
 
 class MasterControl {
     public:
@@ -16,3 +22,5 @@ class MasterControl {
         
         
 };
+
+#endif

@@ -60,6 +60,7 @@ inline void coloursorter(void *param) {
 	pros::delay(3000);
 
 	int speed = hookMotor.get_voltage();
+	hookMotor.set_encoder_units(MOTOR_ENCODER_DEGREES);
     optical_sensor.set_led_pwm(100);
     while (true) {
 		if (master.get_digital_new_press(button_DOWN)) {
@@ -95,7 +96,7 @@ inline void coloursorter(void *param) {
 					pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
-					while (hookMotor.get_position()-a < 90) {
+					while (abs(hookMotor.get_position()-a) < 85) {
 						pros::delay(10);
 					}
 					hookMotor.move(-70);
@@ -116,7 +117,7 @@ inline void coloursorter(void *param) {
 					pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
-					while (hookMotor.get_position()-a < 90) {
+					while (abs(hookMotor.get_position()-a) < 85) {
 						pros::delay(10);
 					}
 					hookMotor.move(-70);
