@@ -74,17 +74,19 @@ inline MasterControl bot(false, true, 0);
 #define VTWport 20
 #define HTWport 4
 
+#define DS 11
+
 //PID Values
 //Odom Pid
 #define odomKp 5
-#define odomKi 0.4
-#define odomKd 3
+#define odomKi 0
+#define odomKd 25
 
 //4,25
 
 #define turnKp 4
-#define turnKi 1
-#define turnKd 25
+#define turnKi 0
+#define turnKd 50
 
 //Team
 inline bool team = false;
@@ -102,7 +104,7 @@ inline pros::Imu imu_sensor(IMUport);
 inline pros::Rotation vertical_tracking(VTWport);
 inline pros::Rotation horizontal_tracking(HTWport);
 inline pros::Optical optical_sensor(17);
-
+inline pros::Rotation rotate(DS);
 
 // Motors & Pnumatics
 
@@ -127,8 +129,8 @@ inline pros::Controller master2(driver_2);
 
 // Lemlib Initialization
 inline lemlib::Drivetrain drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_325, 360, 2);
-inline lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_tracking, lemlib::Omniwheel::NEW_2, -1);
-inline lemlib::TrackingWheel vertical_tracking_wheel(&vertical_tracking, lemlib::Omniwheel::NEW_2, -1);
+inline lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_tracking, lemlib::Omniwheel::NEW_2, -2);
+inline lemlib::TrackingWheel vertical_tracking_wheel(&vertical_tracking, 2 , 1.5);
 inline lemlib::OdomSensors sensors(&vertical_tracking_wheel, nullptr, &horizontal_tracking_wheel, nullptr, &imu_sensor);
 inline lemlib::ControllerSettings lateral_controller(
 											odomKp, // proportional gain (kP)
@@ -160,7 +162,7 @@ inline lemlib::Chassis chassis(drivetrain, // drivetrain settins
 
 
 
-inline lemlib::ExitCondition exitCond(0.2,500);
+// inline lemlib::ExitCondition ec(0.1, 1000);
 
 
 template <typename T> constexpr T sgn(T value) { return value < 0 ? -1 : 1; }

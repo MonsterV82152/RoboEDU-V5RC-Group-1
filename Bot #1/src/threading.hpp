@@ -35,7 +35,7 @@ inline void wallstake(void *param)
 		if (master.get_digital_new_press(button_LEFT)) {
 			right_dr.move_velocity(50);
 			left_dr.move_velocity(50);
-			pros::delay(300);
+			pros::delay(275);
 			left_dr.brake();
 			right_dr.brake();
 		}

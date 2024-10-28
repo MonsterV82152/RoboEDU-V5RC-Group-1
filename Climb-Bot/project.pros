@@ -255,7 +255,8 @@
       }
     },
     "upload_options": {
-      "icon": "robot"
+      "icon": "robot",
+      "slot": 2
     },
     "use_early_access": false
   }

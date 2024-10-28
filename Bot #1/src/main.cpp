@@ -22,7 +22,8 @@ technical.hpp - Misc Functions & functions related to sensors.
 
 ASSET(startofauton2_txt)
 ASSET(middleofauton_txt)
-
+ASSET(startofauton2blue_txt)
+ASSET(mogorushred_txt)
 
 
 
@@ -51,14 +52,17 @@ void initialize()
 	clawp.set_value(false);
 	
 
-	// //Position Update
+	// Position Update
 	// pros::Task screen_task([&]() {
     //     while (true) {
-
     //         // print robot location to the brain screen
-	// 		pros::screen::print(TEXT_MEDIUM,1, "X: %f", chassis.getPose().x);
-	// 		pros::screen::print(TEXT_MEDIUM,3, "Y: %f", chassis.getPose().y);
-	// 		pros::screen::print(TEXT_MEDIUM,5, "Theta: %f", chassis.getPose().theta);
+
+	// 		pros::screen::print(TEXT_SMALL,1, "X: %f", chassis.getPose().x);
+	// 		pros::screen::print(TEXT_SMALL,2, "Y: %f", chassis.getPose().y);
+	// 		pros::screen::print(TEXT_SMALL,3, "Theta: %f", chassis.getPose().theta);
+
+			
+			
     //         // delay to save resources
     //         pros::delay(20);
     //     }
@@ -111,52 +115,95 @@ void autonomous()
 		swallMotor.brake();
 
 	} else if (team && autonselector == 1) {
-		chassis.setPose(-58,16,180);
-		chassis.moveToPoint(-58,0,1000);
-		chassis.turnToHeading(90,1000);
-		chassis.moveToPoint(-60,0,1000,{false});
-		chassis.waitUntilDone();
-		bot.runHook(127);
-		pros::delay(800);
-		bot.stopHook();
-		chassis.moveToPoint(-26,23,4000,{false,70});
+		chassis.setPose(-58,-34,270);
+		chassis.follow(mogorushred_txt,15,3000,false);
 		chassis.waitUntilDone();
 		bot.clampOn();
-		pros::delay(200);
-		bot.runIntake(127);
 		bot.runHook(127);
-		chassis.moveToPoint(-24,48,2000);
-		chassis.turnToHeading(90,1000);
-		chassis.moveToPoint(-7,45,1000);
-		chassis.moveToPoint(-24,45,1000,{false});
-		chassis.moveToPoint(-12,24,2000,{false});
-		chassis.turnToHeading(45,1000);
+		bot.runIntake(127);
+		pros::delay(100);
+		chassis.moveToPoint(-24,-60,2000);
+		bot.stopHook();
+		chassis.turnToHeading(180,1000);
+		bot.clampOff();
+		chassis.moveToPoint(-24,-20,2000,{false});
 		chassis.waitUntilDone();
-		swallMotor.move(127);
-		pros::delay(1000);
-		swallMotor.brake();
+		bot.clampOn();
+		pros::delay(500);
+		bot.runHook(127);
+		// pros::delay(1000);
+		// bot.clampOff();
+		chassis.moveToPose(-34,8,0,3000,{true,0,0.6,127,60});
+		chassis.waitUntilDone();
+		wing.set_value(true);
+		chassis.moveToPoint(-36,-20,1000,{false});
+		chassis.waitUntilDone();
+		bot.stopHook();
+		wing.set_value(false);
+		chassis.moveToPoint(-47,-6,2000);
+		// chassis.moveToPoint(-58,0,2000);
+		// chassis.turnToHeading(90,2000);
 
 	} else if (team && autonselector == 2) {
 		
-		chassis.setPose(-58,35,90);
+		chassis.setPose(-60,36,90);
 		bot.runIntake(127);
 		
 		chassis.follow(startofauton2_txt, 15, 3000);
-		chassis.moveToPoint(-24,24,2000,{false});
+		chassis.moveToPoint(-24,20,2000,{false});
 		chassis.waitUntilDone();
 		bot.clampOn();
 		pros::delay(200);
-		chassis.turnToPoint(-22,48,2000);
+		chassis.turnToPoint(-24,48,2000);
 		bot.runHook(127);
-		chassis.moveToPoint(-22,48,2000);
-		chassis.moveToPoint(-3,55,2000);
+		chassis.moveToPoint(-24,55,2000);
+		chassis.turnToPoint(-12,55,1000);
+		chassis.moveToPoint(-9,55,2000);
+		chassis.moveToPoint(-17,55,2000,{false});
+
+		// chassis.moveToPose(-56,66,360,3000,{true,0,0.7,127,60});
+		// chassis.waitUntilDone();
+		// wing.set_value(true);
+		// pros::delay(500);
+		// chassis.moveToPoint(-50,48,2000,{false});
+		// chassis.moveToPoint(-70,70,1000);
+		// chassis.turnToHeading(270,1000);
+		// chassis.waitUntilDone();
+		// pros::delay(400);
+		// chassis.moveToPoint(-50,50,1000,{false});
 		
-		chassis.follow(middleofauton_txt,15,4000,false);
-		pros::delay(300);
-		wing.set_value(true);
+		// chassis.follow(middleofauton_txt,15,4000,false);
+		// pros::delay(300);
+		// wing.set_value(true);
+
+	} else if (!team && autonselector == 2) {
+		
+		chassis.setPose(60,36,270);
+		bot.runIntake(127);
+		
+		chassis.follow(startofauton2blue_txt, 15, 3000);
+		chassis.moveToPoint(24,20,2000,{false});
+		chassis.waitUntilDone();
+		bot.clampOn();
+		pros::delay(200);
+		chassis.turnToPoint(24,48,2000);
+		bot.runHook(127);
+		chassis.moveToPoint(24,55,2000);
+		chassis.turnToPoint(12,55,1000);
+		chassis.moveToPoint(10,55,2000);
+		chassis.moveToPoint(20,55,4000,{false});
+		
+
+		// chassis.follow(middleofauton_txt,15,4000,false);
+		// pros::delay(300);
+		// wing.set_value(true);
 
 
 
+	}else if (team && autonselector == 3) {
+		chassis.setPose(0,0,0);
+
+		chassis.moveToPose(0,24,270,10000,{true,0,0.9,127});
 
 	} else if (team && autonselector == 4) {
 		skillsauton();
