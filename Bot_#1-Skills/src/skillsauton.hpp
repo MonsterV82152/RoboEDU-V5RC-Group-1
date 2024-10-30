@@ -3,27 +3,34 @@
 
 
 void skillsauton() {
+
     chassis.setPose(-60.752, 0, 90);
+
     bot.runIntake(127);
     bot.runHook(127);
     pros::delay(500);
     chassis.moveToPoint(-23.607, -23.442, 2000);
+    chassis.waitUntilDone();
+    std::cout << "(-23.6, -23.4) Line 12: " << chassis.getPose().x <<", "<< chassis.getPose().y <<", "<< chassis.getPose().theta << std::endl;
     bot.stopHook();
     chassis.moveToPoint(-47.049, -23.607, 2000,{false});
     //Clamp
     chassis.waitUntilDone();
+    std::cout << "(-47.6, -23.6) Line 16: " << chassis.getPose().x <<", "<< chassis.getPose().y <<", "<< chassis.getPose().theta << std::endl;
     bot.clampOn();
     pros::delay(200);
     chassis.moveToPoint(-23.607, -47.215, 2000);
-    
+    std::cout << "(-23.6, -47.2) Line 16: " << chassis.getPose().x <<", "<< chassis.getPose().y <<", "<< chassis.getPose().theta << std::endl;
     pros::delay(500);
     bot.runHook(127);
     chassis.moveToPoint(0, -59, 2000);
     chassis.moveToPoint(23.607, -23.442, 2000);
+    std::cout << "(-23.6, -47.2) Line 16: " << chassis.getPose().x <<", "<< chassis.getPose().y <<", "<< chassis.getPose().theta << std::endl;
     pros::delay(500);
     slow = true;
     chassis.moveToPoint(24, -48, 2000);
-    chassis.moveToPoint(3, -62, 2000);
+    
+    chassis.moveToPoint(0, -62, 2000);
     bot.stopHook();
     chassis.turnToHeading(270,2000);
 
@@ -58,10 +65,10 @@ void skillsauton() {
     chassis.waitUntilDone();
     bot.clampOff();
     //Unclamp
-    chassis.moveToPoint(0.165, -0.33, 2000);
+    chassis.moveToPoint(0, 0, 3000);
     bot.stopHook();
     chassis.moveToPoint(-24, 24, 2000);
-    chassis.moveToPoint(-48, 24, 2000, {false});
+    chassis.moveToPoint(-50, 24, 2000, {false});
     chassis.waitUntilDone();
     bot.clampOn();
     //Clamp

@@ -1,3 +1,4 @@
+#include "main.h"
 #include "globals.hpp"
 
 inline void coloursorter(void *param) {
@@ -7,9 +8,9 @@ inline void coloursorter(void *param) {
 	hookMotor.set_encoder_units(MOTOR_ENCODER_DEGREES);
     optical_sensor.set_led_pwm(100);
     while (true) {
-		if (master.get_digital_new_press(button_DOWN)) {
-			slow = !slow;
-		}
+		// if (master.get_digital_new_press(button_DOWN)) {
+		// 	slow = !slow;
+		// }
 
 		if (slow) {
 			hookMotor.move_velocity(60);
@@ -72,6 +73,20 @@ inline void coloursorter(void *param) {
 				}
             }
 
+        pros::delay(50);
+					
+    }
+}
+
+
+
+inline void logs(void *param) {
+
+	float angle = imu_sensor.get_heading();
+    optical_sensor.set_led_pwm(100);
+    while (true) {
+		float angle = imu_sensor.get_heading();
+		
         pros::delay(50);
 					
     }

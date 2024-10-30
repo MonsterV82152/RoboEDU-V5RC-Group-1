@@ -13,7 +13,6 @@
 #include <iostream>
 #include "lemlib/api.hpp"
 #include "MovFunc.hpp"
-#include "odometry.hpp"
 
 /* ------------------------------------------------------------------------------------------------------------------------ */
 // All #Defines
@@ -104,7 +103,7 @@ inline pros::Imu imu_sensor(IMUport);
 inline pros::Rotation vertical_tracking(VTWport);
 inline pros::Rotation horizontal_tracking(HTWport);
 inline pros::Optical optical_sensor(17);
-inline pros::Rotation rotate(DS);
+inline pros::Distance distance(DS);
 
 // Motors & Pnumatics
 

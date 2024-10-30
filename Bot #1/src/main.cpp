@@ -15,7 +15,7 @@ technical.hpp - Misc Functions & functions related to sensors.
 #include "globals.hpp"
 #include "threading.hpp"
 #include "technical.hpp"
-#include "skillsauton.hpp"
+
 
 #include <string>
 #include <stdlib.h>
@@ -24,6 +24,7 @@ ASSET(startofauton2_txt)
 ASSET(middleofauton_txt)
 ASSET(startofauton2blue_txt)
 ASSET(mogorushred_txt)
+ASSET(mogorushredbluetxt_txt)
 
 
 
@@ -83,49 +84,75 @@ void autonomous()
 	// horizontal_tracking.reset();
 	// vertical_tracking.set_position(0);
 	// horizontal_tracking.set_position(0);
-	
+	pros::screen::print(TEXT_SMALL,3, "auton: %d", autonselector);
 	while (autonselector == 5){
 		pros::delay(50);
+		
 	}
 	//Autonomous
 	if (!team && autonselector == 1) {
-		chassis.setPose(58,16,180);
-		chassis.moveToPoint(58,0,1000);
-		chassis.turnToHeading(270,1000);
-		chassis.moveToPoint(60,0,1000,{false});
-		chassis.waitUntilDone();
-		bot.runHook(127);
-		pros::delay(800);
-		bot.stopHook();
-		chassis.moveToPoint(26,23,4000,{false,70});
+		chassis.setPose(58,-36,90);
+		// chassis.moveToPoint(-18,-36,1000,{false});
+		// chassis.turnToHeading(0,1000);
+		// chassis.moveToPoint(-18,-48,1000,{false});
+		// chassis.turnToHeading(270,1000);
+		chassis.follow(mogorushredbluetxt_txt,15,3000,false);
+		// chassis.moveToPoint(-18,-48,1000,{false});
+		
 		chassis.waitUntilDone();
 		bot.clampOn();
-		pros::delay(200);
-		bot.runIntake(127);
 		bot.runHook(127);
-		chassis.moveToPoint(24,48,2000);
-		chassis.turnToHeading(270,1000);
-		chassis.moveToPoint(7,45,1000);
-		chassis.moveToPoint(24,45,1000,{false});
-		chassis.moveToPoint(12,24,2000,{false});
-		chassis.turnToHeading(315,1000);
+		bot.runIntake(127);
+		pros::delay(200);
+		bot.clampOff();
+		chassis.moveToPoint(24,-60,2000);
+		bot.stopHook();
 		chassis.waitUntilDone();
-		swallMotor.move(127);
-		pros::delay(1000);
-		swallMotor.brake();
+		
+		bot.clampOff();
+
+		chassis.turnToHeading(180,1000);
+		
+		chassis.moveToPoint(24,-20,2000,{false});
+		chassis.waitUntilDone();
+		bot.clampOn();
+		pros::delay(500);
+		bot.runHook(127);
+		// pros::delay(1000);
+		// bot.clampOff();
+		chassis.turnToHeading(90,1000);
+		chassis.moveToPose(34,8,0,3000,{true,0,0.8,127});
+		chassis.waitUntilDone();
+		wing.set_value(true);
+		chassis.moveToPoint(36,-30,1000,{false});
+		chassis.waitUntilDone();
+		// bot.stopHook();
+		wing.set_value(false);
+		chassis.moveToPoint(47,-6,2000);
 
 	} else if (team && autonselector == 1) {
-		chassis.setPose(-58,-34,270);
+		chassis.setPose(-58,-36,270);
+		// chassis.moveToPoint(-18,-36,1000,{false});
+		// chassis.turnToHeading(0,1000);
+		// chassis.moveToPoint(-18,-48,1000,{false});
+		// chassis.turnToHeading(270,1000);
 		chassis.follow(mogorushred_txt,15,3000,false);
+		// chassis.moveToPoint(-18,-48,1000,{false});
+		
 		chassis.waitUntilDone();
 		bot.clampOn();
 		bot.runHook(127);
 		bot.runIntake(127);
-		pros::delay(100);
+		pros::delay(200);
+		bot.clampOff();
 		chassis.moveToPoint(-24,-60,2000);
 		bot.stopHook();
-		chassis.turnToHeading(180,1000);
+		chassis.waitUntilDone();
+		
 		bot.clampOff();
+
+		chassis.turnToHeading(180,1000);
+		
 		chassis.moveToPoint(-24,-20,2000,{false});
 		chassis.waitUntilDone();
 		bot.clampOn();
@@ -133,12 +160,13 @@ void autonomous()
 		bot.runHook(127);
 		// pros::delay(1000);
 		// bot.clampOff();
-		chassis.moveToPose(-34,8,0,3000,{true,0,0.6,127,60});
+		chassis.turnToHeading(270,1000);
+		chassis.moveToPose(-34,8,0,3000,{true,0,0.8,127});
 		chassis.waitUntilDone();
 		wing.set_value(true);
-		chassis.moveToPoint(-36,-20,1000,{false});
+		chassis.moveToPoint(-36,-30,1000,{false});
 		chassis.waitUntilDone();
-		bot.stopHook();
+		// bot.stopHook();
 		wing.set_value(false);
 		chassis.moveToPoint(-47,-6,2000);
 		// chassis.moveToPoint(-58,0,2000);
@@ -190,8 +218,8 @@ void autonomous()
 		bot.runHook(127);
 		chassis.moveToPoint(24,55,2000);
 		chassis.turnToPoint(12,55,1000);
-		chassis.moveToPoint(10,55,2000);
-		chassis.moveToPoint(20,55,4000,{false});
+		chassis.moveToPoint(9,55,2000);
+		chassis.moveToPoint(17,55,2000,{false});
 		
 
 		// chassis.follow(middleofauton_txt,15,4000,false);
@@ -204,10 +232,6 @@ void autonomous()
 		chassis.setPose(0,0,0);
 
 		chassis.moveToPose(0,24,270,10000,{true,0,0.9,127});
-
-	} else if (team && autonselector == 4) {
-		skillsauton();
-
 	}
 
 }
@@ -254,15 +278,7 @@ void opcontrol()
 		/* Drivetrain Code */
 		int left = master.get_analog(ANALOG_LEFT_Y);
 		int right = master.get_analog(ANALOG_RIGHT_X);
-		if (abs(left) > 10 || abs(right) > 10) {
-			left_dr.move(left + (right * 1.05));
-			right_dr.move(left - (right * 1.05));
-			brake = true;
-		} else if (brake){
-			left_dr.brake();
-			right_dr.brake();
-			brake = false;
-		}
+		
 		
 
 		// Team Toggle - B
@@ -278,7 +294,18 @@ void opcontrol()
 				master.print(1, 1, "Blue Team ");
 			}
 		}
-
+		if (distance.get_distance() < 100) {
+			master.rumble("-");
+			
+			left = left/5;
+			right = right/5;
+			left_dr.set_brake_mode(HOLD);
+			right_dr.set_brake_mode(HOLD);
+			pros::delay(100);
+		} else {
+			right_dr.set_brake_mode(COAST);
+			left_dr.set_brake_mode(COAST);
+		}
 		// Intake Toggle - R1
 		if (master.get_digital_new_press(button_R1)) // If R1 is Pressed
 		{
@@ -356,5 +383,15 @@ void opcontrol()
 		}
 
 		// Odometry Update Code
+
+		if (abs(left) > 10 || abs(right) > 10) {
+			left_dr.move(left + (right * 1.05));
+			right_dr.move(left - (right * 1.05));
+			brake = true;
+		} else if (brake){
+			left_dr.brake();
+			right_dr.brake();
+			brake = false;
+		}
 	}
 }
