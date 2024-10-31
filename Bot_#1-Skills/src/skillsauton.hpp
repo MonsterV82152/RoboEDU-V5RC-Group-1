@@ -9,30 +9,44 @@ void skillsauton() {
     bot.runIntake(127);
     bot.runHook(127);
     pros::delay(500);
-    chassis.moveToPoint(-23.607, -23.442, 2000);
-    chassis.waitUntilDone();
-    std::cout << "(-23.6, -23.4) Line 12: " << chassis.getPose().x <<", "<< chassis.getPose().y <<", "<< chassis.getPose().theta << std::endl;
+    chassis.moveToPoint(-23.607, -23.442, 1500);
     bot.stopHook();
-    chassis.moveToPoint(-47.049, -23.607, 2000,{false});
+    chassis.waitUntilDone();
+    
+    chassis.moveToPoint(-48, -24, 1500,{false});
     //Clamp
     chassis.waitUntilDone();
-    std::cout << "(-47.6, -23.6) Line 16: " << chassis.getPose().x <<", "<< chassis.getPose().y <<", "<< chassis.getPose().theta << std::endl;
     bot.clampOn();
-    pros::delay(200);
-    chassis.moveToPoint(-23.607, -47.215, 2000);
-    std::cout << "(-23.6, -47.2) Line 16: " << chassis.getPose().x <<", "<< chassis.getPose().y <<", "<< chassis.getPose().theta << std::endl;
-    pros::delay(500);
+    pros::delay(100);
+    // chassis.moveToPoint(-23.607, -47.215, 2000);
+
+    // pros::delay(500);
     bot.runHook(127);
-    chassis.moveToPoint(0, -59, 2000);
-    chassis.moveToPoint(23.607, -23.442, 2000);
-    std::cout << "(-23.6, -47.2) Line 16: " << chassis.getPose().x <<", "<< chassis.getPose().y <<", "<< chassis.getPose().theta << std::endl;
-    pros::delay(500);
+    // chassis.moveToPoint(0, -59, 2000);
+    // chassis.moveToPoint(23.607, -23.442, 2000);
+    // pros::delay(500);
+
+    chassis.follow(first_txt,15,6000);
+    chassis.waitUntil(100);
     slow = true;
-    chassis.moveToPoint(24, -48, 2000);
+    chassis.turnToPoint(24,-48,1000); 
+    chassis.moveToPoint(24, -48, 1000);
     
-    chassis.moveToPoint(0, -62, 2000);
+    chassis.moveToPoint(0, -62, 1000);
     bot.stopHook();
-    chassis.turnToHeading(270,2000);
+    chassis.turnToHeading(270,1000);
+    chassis.moveToPoint(-5,chassis.getPose().y,1000);
+    int time = 0;
+    while (time < 200) {
+        if (distance.get_distance() < 100) {
+            chassis.cancelAllMotions();
+            break;
+        }
+        time = time + 1;
+        
+        pros::delay(10);
+    }
+    chassis.moveToPoint(chassis.getPose().x+2,chassis.getPose().y,1000,{false});
 
                                                                                                                                                                                                                                                                                                                                                                  
     
@@ -53,7 +67,7 @@ void skillsauton() {
 
     bot.runHook(127);
     chassis.moveToPoint(-50, -60, 2000);
-    chassis.moveToPoint(-24,-48,2000,{false});
+    chassis.moveToPoint(-24,-48,1000,{false});
     chassis.turnToHeading(270, 1000);
     chassis.moveToPoint(-65,-48,1000);
 
@@ -61,43 +75,73 @@ void skillsauton() {
     // chassis.moveToPoint(-58.771, -47.215, 1000);
     // chassis.moveToPoint(-58.771, -57.615, 1000,{false});
     // chassis.moveToPoint(-40.215, -40.38, 1000);
-    chassis.moveToPoint(-58.605, -57.78, 1000,{false});
+    chassis.turnToPoint(0,0,1000);
+    chassis.moveToPoint(-70, -70, 1000,{false});
     chassis.waitUntilDone();
+    pros::delay(500);
     bot.clampOff();
     //Unclamp
-    chassis.moveToPoint(0, 0, 3000);
+    // chassis.moveToPoint(0, 0, 3000);
     bot.stopHook();
-    chassis.moveToPoint(-24, 24, 2000);
-    chassis.moveToPoint(-50, 24, 2000, {false});
+    // chassis.moveToPoint(-24, 24, 2000);
+    chassis.moveToPoint(-48, 0, 1000);
+    chassis.turnToHeading(180,1000);
+    chassis.moveToPoint(-48,24,2000,{false});
     chassis.waitUntilDone();
     bot.clampOn();
     //Clamp
     pros::delay(200);
     bot.runHook(127);
+    chassis.moveToPoint(-24,24,2000);
     chassis.moveToPoint(-23, 49, 2000);
+    chassis.moveToPoint(0,57,1000);
+    chassis.turnToPoint(-60,47,1000);
     chassis.moveToPoint(-59.183, 47.132, 2000);
     chassis.moveToPoint(-47.297, 58.853, 2000);
     chassis.moveToPoint(-60.504, 60.339, 2000, {false});
     chassis.waitUntilDone();
     bot.clampOff();
     //Unclamp
-    chassis.moveToPoint(0.284, 58.704, 2000);
-    chassis.moveToPoint(24.723, 46.571, 2000);
-    chassis.moveToPoint(-0.063, 59.051, 2000,{false});
-    chassis.moveToPoint(23.51, 23.865, 2000);
-    chassis.moveToPoint(46.736, -0.055, 2000,{false});
+    chassis.moveToPoint(0, 48, 2000);
+    bot.stopHook();
+    chassis.waitUntilDone();
+    chassis.moveToPoint(24,24,2000);
+
+    chassis.turnToHeading(315,1000);
+    chassis.moveToPoint(48,-5,2000,{false});
     chassis.waitUntilDone();
     bot.clampOn();
-    //Clamp
-    chassis.moveToPoint(47.256, 58.877, 2000);
-    chassis.moveToPoint(46.736, 34.438, 2000, {false});
-    chassis.moveToPoint(59.216, 47.264, 2000);
-    chassis.moveToPoint(46.909, 34.264, 2000);
-    chassis.moveToPoint(47.348, -58.923, 2000);
-    chassis.moveToPoint(58.788, -46.963, 2000);
-    chassis.moveToPoint(61.561, -58.576, 2000,{false});
-    chassis.waitUntilDone();
+    pros::delay(200);
+    bot.runHook(127);
+    chassis.moveToPoint(48,58,2000);
+    chassis.turnToPoint(0,0,1000);
+    chassis.moveToPoint(66,66,1000);
     bot.clampOff();
+    // chassis.turnToHeading(180,1000);
+    // chassis.moveToPoint(48,-58,3000);
+    // chassis.moveToPoint(66,-66,1000);
+    // chassis.waitUntilDone();
+    // bot.clampOff();
+    chassis.follow(thrid_txt,15,3000);
+    chassis.moveToPoint(0,0,1000,{false});
+
+
+    // chassis.moveToPoint(24.723, 46.571, 2000);
+    // chassis.moveToPoint(-0.063, 59.051, 2000,{false});
+    // chassis.moveToPoint(23.51, 23.865, 2000);
+    // chassis.moveToPoint(46.736, -0.055, 2000,{false});
+    // chassis.waitUntilDone();
+    // bot.clampOn();
+    // //Clamp
+    // chassis.moveToPoint(47.256, 58.877, 2000);
+    // chassis.moveToPoint(46.736, 34.438, 2000, {false});
+    // chassis.moveToPoint(59.216, 47.264, 2000);
+    // chassis.moveToPoint(46.909, 34.264, 2000);
+    // chassis.moveToPoint(47.348, -58.923, 2000);
+    // chassis.moveToPoint(58.788, -46.963, 2000);
+    // chassis.moveToPoint(61.561, -58.576, 2000,{false});
+    // chassis.waitUntilDone();
+    // bot.clampOff();
     //Unclamp
 
 

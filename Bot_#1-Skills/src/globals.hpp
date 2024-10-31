@@ -99,13 +99,17 @@ inline bool slow = false;
 inline int step = 0;
 
 
+ASSET(first_txt)
+ASSET(second_txt)
+ASSET(thrid_txt)
+
 /* --------------- s--------------------------------------------------------------------------------------------------------- */
 // Sensors & Calibration
 inline pros::Imu imu_sensor(IMUport);
 inline pros::Rotation vertical_tracking(VTWport);
 inline pros::Rotation horizontal_tracking(HTWport);
 inline pros::Optical optical_sensor(17);
-inline pros::Rotation rotate(DS);
+inline pros::Distance distance(DS);
 
 // Motors & Pnumatics
 
