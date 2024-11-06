@@ -11,7 +11,11 @@ inline void coloursorter(void *param) {
 		// if (master.get_digital_new_press(button_DOWN)) {
 		// 	slow = !slow;
 		// }
-
+		// if (HookSpeed > 100 && hookMotor.get_actual_velocity() < 10) {
+		// 	hookMotor.move(127);
+		// 	pros::delay(100);
+		// 	hookMotor.move(HookSpeed);
+		// }
 		if (slow) {
 			hookMotor.move_velocity(60);
 		} else {
@@ -33,12 +37,12 @@ inline void coloursorter(void *param) {
             if (a >= 0 && a <= 30)
             {
                 if (!team) {
-                    pros::delay(40);
-                    hookMotor.move(-127);
+                    // pros::delay(40);
+                    // hookMotor.move(-127);
 					
-                    pros::delay(200);
-                    hookMotor.move(HookSpeed);
-					pros::delay(200);
+                    // pros::delay(200);
+                    // hookMotor.move(HookSpeed);
+					// pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
 					while (abs(hookMotor.get_position()-a) < 82) {
@@ -52,14 +56,14 @@ inline void coloursorter(void *param) {
 
 				}
             }
-            if (a >= 150 && a <= 220)
+            if (a >= 160 && a <= 200)
             {
                 if (team) {
-                    pros::delay(40);
-                    hookMotor.move(-127);
-                    pros::delay(200);
-                    hookMotor.move(HookSpeed); 
-					pros::delay(200);
+                    // pros::delay(40);
+                    // hookMotor.move(-127);
+                    // pros::delay(200);
+                    // hookMotor.move(HookSpeed); 
+					// pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
 					while (abs(hookMotor.get_position()-a) < 82) {

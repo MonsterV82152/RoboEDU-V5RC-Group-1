@@ -16,7 +16,6 @@ inline void wallstake(void *param)
 			swallMotor.move(127);
 			wall = true;
 		} else if (wall) {
-
 			swallMotor.move(-127);
 			pros::delay(500);
 			while (pos > 20) {
@@ -26,16 +25,16 @@ inline void wallstake(void *param)
 			swallMotor.brake();
 			swallMotor.set_brake_mode(COAST);
 			wall = false;
-		} else if (master.get_digital(button_RIGHT)) {
-			swallMotor.move(127);
-			swallMotor.set_brake_mode(BRAKE);
+		// } else if (master.get_digital(button_RIGHT)) {
+		// 	swallMotor.move(127);
+		// 	swallMotor.set_brake_mode(BRAKE);
 		} else {
 			swallMotor.brake();
 		}
 		if (master.get_digital_new_press(button_LEFT)) {
 			right_dr.move_velocity(50);
 			left_dr.move_velocity(50);
-			pros::delay(275);
+			pros::delay(400);
 			left_dr.brake();
 			right_dr.brake();
 		}

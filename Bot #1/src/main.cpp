@@ -101,9 +101,10 @@ void autonomous()
 		
 		chassis.waitUntilDone();
 		bot.clampOn();
+		pros::delay(200);
 		bot.runHook(127);
 		bot.runIntake(127);
-		pros::delay(200);
+		pros::delay(500);
 		bot.clampOff();
 		chassis.moveToPoint(24,-60,2000);
 		bot.stopHook();
@@ -121,14 +122,14 @@ void autonomous()
 		// pros::delay(1000);
 		// bot.clampOff();
 		chassis.turnToHeading(90,1000);
-		chassis.moveToPose(34,8,0,3000,{true,0,0.8,127});
-		chassis.waitUntilDone();
-		wing.set_value(true);
-		chassis.moveToPoint(36,-30,1000,{false});
-		chassis.waitUntilDone();
-		// bot.stopHook();
-		wing.set_value(false);
-		chassis.moveToPoint(47,-6,2000);
+		// chassis.moveToPose(34,8,0,3000,{true,0,0.8,127});
+		// chassis.waitUntilDone();
+		// wing.set_value(true);
+		// chassis.moveToPoint(36,-30,1000,{false});
+		// chassis.waitUntilDone();
+		// // bot.stopHook();
+		// wing.set_value(false);
+		// chassis.moveToPoint(47,-6,2000);
 
 	} else if (team && autonselector == 1) {
 		chassis.setPose(-58,-36,270);
@@ -143,7 +144,7 @@ void autonomous()
 		bot.clampOn();
 		bot.runHook(127);
 		bot.runIntake(127);
-		pros::delay(200);
+		pros::delay(500);
 		bot.clampOff();
 		chassis.moveToPoint(-24,-60,2000);
 		bot.stopHook();
@@ -161,15 +162,15 @@ void autonomous()
 		// pros::delay(1000);
 		// bot.clampOff();
 		chassis.turnToHeading(270,1000);
-		chassis.moveToPose(-34,8,0,3000,{true,0,0.8,127});
-		chassis.waitUntilDone();
-		wing.set_value(true);
-		chassis.moveToPoint(-36,-30,1000,{false});
-		chassis.waitUntilDone();
-		// bot.stopHook();
-		wing.set_value(false);
-		chassis.moveToPoint(-47,-6,2000);
-		// chassis.moveToPoint(-58,0,2000);
+		// chassis.moveToPose(-34,8,0,3000,{true,0,0.8,127});
+		// chassis.waitUntilDone();
+		// wing.set_value(true);
+		// chassis.moveToPoint(-36,-30,1000,{false});
+		// chassis.waitUntilDone();
+		// // bot.stopHook();
+		// wing.set_value(false);
+		// chassis.moveToPoint(-47,-6,2000);
+		// // chassis.moveToPoint(-58,0,2000);
 		// chassis.turnToHeading(90,2000);
 
 	} else if (team && autonselector == 2) {
@@ -182,12 +183,18 @@ void autonomous()
 		chassis.waitUntilDone();
 		bot.clampOn();
 		pros::delay(200);
-		chassis.turnToPoint(-24,48,2000);
+		chassis.turnToPoint(-24,48,1000);
 		bot.runHook(127);
 		chassis.moveToPoint(-24,55,2000);
-		chassis.turnToPoint(-12,55,1000);
+		chassis.turnToHeading(90,1000);
 		chassis.moveToPoint(-9,55,2000);
 		chassis.moveToPoint(-17,55,2000,{false});
+		chassis.moveToPoint(-53,24,1000,{false});
+		chassis.turnToHeading(0,1000);
+		chassis.moveToPoint(-53,70,1000);
+		chassis.waitUntilDone();
+		wing.set_value(true);
+		// chassis.moveToPoint(0,0,2000,{false});
 
 		// chassis.moveToPose(-56,66,360,3000,{true,0,0.7,127,60});
 		// chassis.waitUntilDone();
@@ -284,8 +291,8 @@ void opcontrol()
 		// Team Toggle - B
 		if (master.get_digital_new_press(button_B)) // If B is Pressed
 		{
-			redteam = !redteam;
-			if (redteam)
+			team = !team;
+			if (team)
 			{
 				master.print(1, 1, "Red Team ");
 			}
@@ -294,7 +301,7 @@ void opcontrol()
 				master.print(1, 1, "Blue Team ");
 			}
 		}
-		if (distance.get_distance() < 100) {
+		if (distance.get_distance() < 100 && stop) {
 			master.rumble("-");
 			
 			left = left/5;
@@ -363,6 +370,7 @@ void opcontrol()
 				bot.stopIntake();
 			}
 		}
+
 		//Toggle Claw On/Off
 		if (!boolclaw)
 		{

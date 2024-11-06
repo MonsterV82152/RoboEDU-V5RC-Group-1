@@ -96,6 +96,9 @@ inline int HookSpeed = 0;
 
 inline bool slow = false;
 
+inline bool stop = false;
+
+
 
 /* --------------- s--------------------------------------------------------------------------------------------------------- */
 // Sensors & Calibration

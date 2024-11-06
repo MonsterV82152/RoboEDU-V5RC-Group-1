@@ -89,7 +89,7 @@ inline void coloursorter(void *param) {
             if (a >= 0 && a <= 30)
             {
                 if (!team) {
-                    pros::delay(40);
+                    pros::delay(30);
                     hookMotor.move(-127);
 					
                     pros::delay(200);
@@ -108,10 +108,10 @@ inline void coloursorter(void *param) {
 
 				}
             }
-            if (a >= 150 && a <= 220)
+            if (a >= 200 && a <= 220)
             {
                 if (team) {
-                    pros::delay(40);
+                    pros::delay(30);
                     hookMotor.move(-127);
                     pros::delay(200);
                     hookMotor.move(HookSpeed); 
