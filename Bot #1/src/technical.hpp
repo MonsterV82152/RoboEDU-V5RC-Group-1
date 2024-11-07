@@ -69,11 +69,11 @@ inline void coloursorter(void *param) {
 		}
 
 		if (slow) {
-			hookMotor.move_velocity(60);
+			hookMotor.move_velocity(30);
 		} else {
 			hookMotor.move(HookSpeed);
 		}
-		// } else {
+		// } else {9````
 		// 	int speed = hookMotor.get_voltage();
 		// }
        
@@ -97,7 +97,7 @@ inline void coloursorter(void *param) {
 					pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
-					while (abs(hookMotor.get_position()-a) < 85) {
+					while (abs(hookMotor.get_position()-a) < 87) {
 						pros::delay(10);
 					}
 					hookMotor.move(-70);
@@ -118,7 +118,7 @@ inline void coloursorter(void *param) {
 					pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
-					while (abs(hookMotor.get_position()-a) < 85) {
+					while (abs(hookMotor.get_position()-a) < 87) {
 						pros::delay(10);
 					}
 					hookMotor.move(-70);
