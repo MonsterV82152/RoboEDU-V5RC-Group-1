@@ -23,6 +23,8 @@ Drivetrain drive(&l_mg, &r_mg, // left, right motor group
 Motor lift(21, MotorGearset::red);
 Motor intake(7, MotorGearset::blue);
 
+
+
 // pneumatics
 ADIDigitalOut clamp('A');
 ADIDigitalOut pto('B');
@@ -33,18 +35,18 @@ Imu imu(10);
 Optical optical(14);
 ADIPotentiometer potmeter('H');
 ADIDigitalIn top_switch('G');       
-
+Rotation test(9);
 // encoder + settings
 adi::Encoder horz_enc('C', 'D', true); // horizontal encoder
 adi::Encoder vert_enc('E', 'F', true); // vertical encoder
 
 TrackingWheel horz_tc(&horz_enc, // horizontal encoder
-                      3.75, // old halfcut 2.75 omniwheel
+                      5, // old halfcut 2.75 omniwheel
                       0.75 // offset of 0.75 inch
 );
 
-TrackingWheel vert_tc(&vert_enc, // vertical encoder
-                      3.75, // old halfcut 2.75 omniwheel
+TrackingWheel vert_tc(&test, // vertical encoder
+                      Omniwheel::NEW_2, // old halfcut 2.75 omniwheel
                       0.375 // offset of 0.375 inch
 );
 

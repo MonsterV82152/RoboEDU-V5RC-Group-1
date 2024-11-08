@@ -24,7 +24,7 @@ void testCode () {
 	chassis.moveToPose(0, 0, 0, 3000);
 }
 
-void redPos(){
+void redPos() {
 	liftState = 2;
 	moveTo(0, 12.5, 0, 750, true, true);
 	moveTo(-8, 12.3, 750, 750, true, true); // should be 12.5 but it dosnt rotate enough for some reason

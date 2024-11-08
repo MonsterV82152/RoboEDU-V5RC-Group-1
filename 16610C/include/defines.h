@@ -29,6 +29,7 @@ extern Imu imu;
 extern Optical optical;
 extern ADIPotentiometer potmeter;
 extern ADIDigitalIn top_switch;
+extern Rotation test;
 
 // odom + settings
 extern adi::Encoder horz_enc; // horizontal encoder

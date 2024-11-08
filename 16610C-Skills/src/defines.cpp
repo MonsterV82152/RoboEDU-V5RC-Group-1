@@ -32,25 +32,27 @@ ADIDigitalOut pto('B');
 Imu imu(10);
 Optical optical(14);
 ADIPotentiometer potmeter('H');
-ADIDigitalIn top_switch('G');       
+ADIDigitalIn top_switch('G');      
+Rotation test(9); 
+
 
 // encoder + settings
-adi::Encoder horz_enc('C', 'D', true); // horizontal encoder
-adi::Encoder vert_enc('E', 'F', true); // vertical encoder
+// adi::Encoder horz_enc('C', 'D', true); // horizontal encoder
+// adi::Encoder vert_enc('E', 'F', true); // vertical encoder
 
-TrackingWheel horz_tc(&horz_enc, // horizontal encoder
-                      3.75, // old halfcut 2.75 omniwheel
-                      0.75 // offset of 0.75 inch
-);
+// TrackingWheel horz_tc(&horz_enc, // horizontal encoder
+//                       Omniwheel::OLD_275_HALF, // old halfcut 2.75 omniwheel
+//                       0.75 // offset of 0.75 inch
+// );
 
-TrackingWheel vert_tc(&vert_enc, // vertical encoder
-                      3.75, // old halfcut 2.75 omniwheel
+TrackingWheel vert_tc(&test, // vertical encoder
+                      2, // old halfcut 2.75 omniwheel
                       0.375 // offset of 0.375 inch
 );
 
 OdomSensors odom(&vert_tc, // vertical tracking wheel
                  nullptr, // using one vertical tracking wheel
-                 &horz_tc, // horizontal tracking wheel
+                 nullptr, // horizontal tracking wheel
                  nullptr, // using one horizontal tracking wheel
                  &imu // imu
 );

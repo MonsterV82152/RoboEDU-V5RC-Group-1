@@ -9,6 +9,7 @@ using namespace pros;
 using namespace lemlib;
 
 void initialize() {
+	test.reverse();
 	lcd::initialize();
 	master.clear();
 
@@ -51,6 +52,7 @@ void initialize() {
 		colorMin = redMin;
 		colorMax = redMax;
 	}
+
 }
 
 void disabled() {}

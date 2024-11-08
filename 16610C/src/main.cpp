@@ -24,6 +24,7 @@ void initialize() {
 	lift.set_brake_mode(E_MOTOR_BRAKE_COAST);
 	intake.set_brake_mode(E_MOTOR_BRAKE_COAST);
 	chassis.calibrate();
+	test.reset();
 	optical.set_led_pwm(100);
 
 
@@ -148,6 +149,7 @@ void opcontrol() {
 		lcd::print(4, "pos: %d", highIntakeTask.get_state());
 		lcd::print(5, "gay: %f", lift.get_position());
 		lcd::print(6, "les: %d", liftState);
+		lcd::print(7, "rot: %d", test.get_position()/100);
 		drive_(); // move bot
 		lift_(); // move lift
 		intake_(); // move intake

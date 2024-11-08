@@ -27,6 +27,8 @@ void liftFun (void *param) {
 			lift.move_velocity(0);
 		}
 		delay(20);
+		// Position Update
+	
 	}
 }
 
