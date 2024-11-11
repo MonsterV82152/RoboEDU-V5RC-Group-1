@@ -97,7 +97,7 @@ inline void coloursorter(void *param) {
 					pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
-					while (abs(hookMotor.get_position()-a) < 87) {
+					while (abs(hookMotor.get_position()-a) < 118) {
 						pros::delay(10);
 					}
 					hookMotor.move(-70);
@@ -118,7 +118,7 @@ inline void coloursorter(void *param) {
 					pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
-					while (abs(hookMotor.get_position()-a) < 87) {
+					while (abs(hookMotor.get_position()-a) < 118) {
 						pros::delay(10);
 					}
 					hookMotor.move(-70);

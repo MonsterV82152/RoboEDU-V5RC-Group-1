@@ -35,7 +35,7 @@ Imu imu(10);
 Optical optical(14);
 ADIPotentiometer potmeter('H');
 ADIDigitalIn top_switch('G');       
-Rotation test(9);
+Rotation test(19);
 // encoder + settings
 // adi::Encoder horz_enc('C', 'D', true); // horizontal encoder
 adi::Encoder vert_enc('E', 'F', true); // vertical encoder

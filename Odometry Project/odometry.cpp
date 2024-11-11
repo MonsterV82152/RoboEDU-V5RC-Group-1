@@ -26,9 +26,12 @@
     
 // }
 
-odometry::odometry(double x = 0, double y = 0, double irad = 0, double xirad = 0, double yirad = 0, double iwheelradius = 0, double hdis = 0, double vdis = 0)
+
+
+
+odometry::odometry(double x = 0, double y = 0, double irad = 0, double xirad = 0, double yirad = 0, double iwheelradius = 0, double hdis = 0, double vdis = 0, )
     : xpos(x), ypos(y), orientationradian(irad*PI/180), horizontalradian(xirad*PI/180), verticalradian(yirad*PI/180), wheelradius(iwheelradius),hdif(hdis),vdif(vdis),
-      distanceodomPID(odomKp, odomKi, odomKd, 5, true), turnPID(turnKp, turnKi, turnKd, 5, true) {
+      LateralController(odomKp, odomKi, odomKd, 5, true), AngularController(turnKp, turnKi, turnKd, 5, true) {
         imu_sensor.set_heading(irad);
       }
 

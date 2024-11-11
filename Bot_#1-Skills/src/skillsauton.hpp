@@ -105,33 +105,33 @@ void skillsauton() {
     chassis.moveToPoint(0, 48, 2000);
     bot.stopHook();
     chassis.waitUntilDone();    
-    chassis.moveToPoint(24,24,1000);
-    slow = true;
+    chassis.moveToPoint(24,21,1000);
+    // slow = true;
 
-    chassis.moveToPoint(0,66,1000,{false});
-    chassis.turnToHeading(90,1000);
-    chassis.moveToPoint(-5,chassis.getPose().y,1000,{false});
-    int time = 0;
-    while (time < 200) {
-        if (distance.get_distance() < 100) {
-            chassis.cancelAllMotions();
-            break;
-        }
-        time = time + 1;
+    // chassis.moveToPoint(0,66,1000,{false});
+    // chassis.turnToHeading(90,1000);
+    // chassis.moveToPoint(-5,chassis.getPose().y,1000,{false});
+    // time = 0;
+    // while (time < 200) {
+    //     if (distance.get_distance() < 100) {
+    //         chassis.cancelAllMotions();
+    //         break;
+    //     }
+    //     time = time + 1;
         
-        pros::delay(10);
-    }
-    chassis.moveToPoint(chassis.getPose().x+2,chassis.getPose().y,1000);
-    chassis.waitUntilDone();
-    pros::delay(127);
-    swallMotor.move(127);
-    pros::delay(800);
-    swallMotor.move(-127);
-    pros::delay(1000);
-    swallMotor.brake();
+    //     pros::delay(10);
+    // }
+    // chassis.moveToPoint(chassis.getPose().x+2,chassis.getPose().y,1000);
+    // chassis.waitUntilDone();
+    // pros::delay(127);
+    // swallMotor.move(127);
+    // pros::delay(800);
+    // swallMotor.move(-127);
+    // pros::delay(1000);
+    // swallMotor.brake();
 
     chassis.turnToHeading(315,1000);
-    chassis.moveToPoint(48,-8,2000,{false});
+    chassis.moveToPoint(48,-10,2000,{false});
     chassis.waitUntilDone();
     bot.clampOn();
 
@@ -153,11 +153,11 @@ void skillsauton() {
     // bot.clampOff();
     chassis.moveToPoint(48,0,1000);
     chassis.moveToPoint(60,-66,2000);
-    chassis.moveToPoint(-24,24,3000,{false,100,100});
+    chassis.moveToPoint(-24,24,2000,{false,100,100});
     chassis.waitUntilDone();
     left_dr.move(60);
     right_dr.move(60);
-    pros::delay(1000);
+    pros::delay(500);
     left_dr.brake();
     right_dr.brake();
 

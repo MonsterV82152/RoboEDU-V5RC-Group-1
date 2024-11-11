@@ -26,8 +26,8 @@ void testCode () {
 
 void redPos() {
 	liftState = 2;
-	moveTo(0, 12.5, 0, 750, true, true);
-	moveTo(-8, 12.3, 750, 750, true, true); // should be 12.5 but it dosnt rotate enough for some reason
+	moveTo(0, 12.5, 0, 1000, true, true);
+	moveTo(-9, 12.5, 1000, 1000, true, true); // should be 12.5 but it dosnt rotate enough for some reason
 	delay(750);
 	liftState = 4;
 	delay(500);
@@ -42,13 +42,13 @@ void redPos() {
 	chassis.turnToPoint(42, -34.5, 750);
 	delay(750);
 	clamp.set_value(false);
-	moveTo(42, -34.5, 750, 1000, false, false);
-	delay(1000);
-	intake.move_velocity(0);
-	clamp.set_value(true);
-	// delay(500);
-	// moveTo(36, -34.5, 0, 500, false, false);
-	// moveTo(40, -12, 750, 5000, false, false);
+	// moveTo(45, -34.5, 750, 1000, false, false);
+	// delay(1000);
+	// intake.move_velocity(0);
+	// clamp.set_value(true);
+	delay(500);
+	moveTo(36, -34.5, 0, 500, false, false);
+	moveTo(40, -12, 750, 5000, false, false);
 }
 
 void redNeg() {
@@ -67,21 +67,21 @@ void redNeg() {
 
 
 	liftState = 2;
-	moveTo(0, 13.5, 0, 750, true, true);
-	moveTo(8, 13.5, 750, 500, true, true);
+	moveTo(0, 9, 0, 750, true, true);
+	moveTo(8, 9, 750, 500, true, true);
 	delay(500);
 	liftState = 4;
 	delay(500);
-	moveTo(-4, 13.5, 0, 750, false, false);
-	moveTo(-23.5, -8.5, 500, 1250, false, false);
+	moveTo(-4, 8, 0, 750, false, false);
+	moveTo(-24, -9, 500, 1250, false, false);
 	delay(1250);
 	intake.move_velocity(-600);
 	clampStat = true;
 	delay(500);
 
-	moveTo(-40, -26, 1000, 1000, true, true);
+	moveTo(-45, -33, 1000, 1500, true, true);
 	moveTo(-30, -21, 500, 750, false, false);
-	moveTo(-41, -33, 500, 1000, true, true);
+	moveTo(-45, -39, 500, 1000, true, true);
 	moveTo(-28, -11, 500, 1000, false, false);
 	moveTo(-28, -38, 750, 1500, true, true);
 	liftState = 3;
@@ -90,13 +90,13 @@ void redNeg() {
 
 void bluePos() {
 	liftState = 2;
-	moveTo(0, 12.5, 0, 750, true, true);
-	moveTo(8, 12.5, 750, 750, true, true);
+	moveTo(0, 9, 0, 750, true, true);
+	moveTo(8, 9, 750, 750, true, true);
 	delay(750);
 	liftState = 4;
 	delay(500);
 	
-	moveTo(-4, 12.5, 0, 1000, false, false);
+	moveTo(-4, 9, 0, 1000, false, false);
 
 	moveTo(-28, -10, 500, 1500, false, false);
 	delay(1500);
@@ -106,32 +106,33 @@ void bluePos() {
 	chassis.turnToPoint(-42, -34.5, 750);
 	delay(750);
 	clamp.set_value(false);
-	moveTo(-44, -34.5, 750, 1000, false, false);
-	delay(1000);
-	intake.move_velocity(0);
-	clamp.set_value(true);
-	// delay(500);
-	// moveTo(-36, -34.5, 0, 500, false, false); 
-	// moveTo(-40, -12, 750, 5000, false, false);
+	// moveTo(-44, -34.5, 750, 1000, false, false);
+	// delay(1000);
+	// intake.move_velocity(0);
+	// clamp.set_value(true);
+	delay(500);
+	moveTo(-36, -34.5, 0, 500, false, false); 
+	moveTo(-40, -12, 750, 5000, false, false);
 }
 
 void blueNeg() {
+	pto.set_value(true);
 	liftState = 2;
-	moveTo(0, 12.5, 0, 750, true, true);
-	moveTo(-8, 12.5, 750, 750, true, true);
+	moveTo(0, 10, 0, 1000, true, true);
+	moveTo(-8, 10, 750, 750, true, true);
 	delay(750);
 	liftState = 4;
 	delay(500);
-	moveTo(4, 12.5, 0, 750, false, false);
-	moveTo(23.5, -8.5, 500, 1250, false, false);
+	moveTo(4, 9, 0, 750, false, false);
+	moveTo(28, -13, 500, 1250, false, false);
 	delay(1250);
 	intake.move_velocity(-600);
 	clampStat = true;
 	delay(500);
 
-	moveTo(40, -26, 1000, 1000, true, true);
-	moveTo(30, -21, 500, 750, false, false);
-	moveTo(41, -33, 500, 750, true, true);
+	moveTo(41, -34, 1000, 1000, true, true);
+	moveTo(30, -24, 500, 750, false, false);
+	moveTo(41, -40, 500, 750, true, true);
 	moveTo(28, -11, 500, 1000, false, false);
 	moveTo(28, -38, 750, 1250, true, true);
 	liftState = 3;

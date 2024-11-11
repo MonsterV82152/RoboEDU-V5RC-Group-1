@@ -1,8 +1,9 @@
-#include "main.h"
-#include "globals.hpp"
+
 
 #ifndef PID_HPP
 #define PID_HPP
+
+template <typename T> constexpr T sgn(T value) { return value < 0 ? -1 : 1; }
 
 class pid {
     public:

@@ -1,6 +1,5 @@
-#include "globals.hpp"
+#include "UMGlobals.hpp"
 #include "pidcontrol.hpp"
-#include "main.h"
 
 #ifndef ODOMETRY_HPP
 #define ODOMETRY_HPP
@@ -16,8 +15,8 @@ class odometry {
         double wheelradius = 0;
         double hdif = 0;
         double vdif = 0;
-        pid distanceodomPID;
-        pid turnPID;
+        pid LateralController;
+        pid AngularController;
 
         odometry(double x, double y, double irad, double xirad, double yirad, double iwheelr, double hdis, double vdis);
         void reset(double x, double y, double irad, double xirad, double yirad, double iwheelr, double hdis, double vdis);

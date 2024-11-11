@@ -37,15 +37,15 @@ inline void coloursorter(void *param) {
             if (a >= 0 && a <= 30)
             {
                 if (!team) {
-                    // pros::delay(40);
-                    // hookMotor.move(-127);
+                    pros::delay(10);
+                    hookMotor.move(-127);
 					
-                    // pros::delay(200);
-                    // hookMotor.move(HookSpeed);
-					// pros::delay(200);
+                    pros::delay(200);
+                    hookMotor.move(HookSpeed);
+					pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
-					while (abs(hookMotor.get_position()-a) < 82) {
+					while (abs(hookMotor.get_position()-a) < 84) {
 						pros::delay(10);
 					}
 					hookMotor.move(-70);
@@ -59,14 +59,14 @@ inline void coloursorter(void *param) {
             if (a >= 160 && a <= 200)
             {
                 if (team) {
-                    // pros::delay(40);
-                    // hookMotor.move(-127);
-                    // pros::delay(200);
-                    // hookMotor.move(HookSpeed); 
-					// pros::delay(200);
+                    pros::delay(10);
+                    hookMotor.move(-127);
+                    pros::delay(200);
+                    hookMotor.move(HookSpeed); 
+					pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
-					while (abs(hookMotor.get_position()-a) < 82) {
+					while (abs(hookMotor.get_position()-a) < 84) {
 						pros::delay(10);
 					}
 					hookMotor.move(-70);

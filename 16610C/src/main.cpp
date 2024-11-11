@@ -14,6 +14,7 @@ using namespace pros;
 using namespace lemlib;
 
 void initialize() {
+	test.reverse();
 	lcd::initialize();
 	master.clear();
 
@@ -65,18 +66,19 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {	
+	chassis.setPose(0,0,0);
 	hasStart = true;
-	skills();
+	// skills();
 
-	// if (redSide && !posSide) {
-	// 	redNeg();
-	// } else if (redSide && posSide) {
-	// 	redPos();
-	// } else if (!redSide && !posSide) {
-	// 	blueNeg();
-	// } else if (!redSide && posSide) {
-	// 	bluePos();
-	// }
+	if (redSide && !posSide) {
+		redNeg();
+	} else if (redSide && posSide) {
+		redPos();
+	} else if (!redSide && !posSide) {
+		blueNeg();
+	} else if (!redSide && posSide) {
+		bluePos();
+	}
 }
 
 void opcontrol() {

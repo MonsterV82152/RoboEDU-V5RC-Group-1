@@ -48,6 +48,13 @@ void lift_() {
 			liftState = 2;
 		}
 	}
+	if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
+		if (liftState == 0) {
+			liftState = 1;
+		} else {
+			liftState = 0;
+		}
+	}
 
 
 }

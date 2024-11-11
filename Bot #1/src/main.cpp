@@ -162,16 +162,16 @@ void autonomous()
 		// pros::delay(1000);
 		// bot.clampOff();
 		chassis.turnToHeading(270,1000);
-		// chassis.moveToPose(-34,8,0,3000,{true,0,0.8,127});
-		// chassis.waitUntilDone();
-		// wing.set_value(true);
-		// chassis.moveToPoint(-36,-30,1000,{false});
-		// chassis.waitUntilDone();
-		// // bot.stopHook();
-		// wing.set_value(false);
-		// chassis.moveToPoint(-47,-6,2000);
-		// // chassis.moveToPoint(-58,0,2000);
-		// chassis.turnToHeading(90,2000);
+		chassis.moveToPose(-34,8,0,3000,{true,70,0.8,127});
+		chassis.waitUntilDone();
+		wing.set_value(true);
+		chassis.moveToPoint(-36,-30,1000,{false});
+		chassis.waitUntilDone();
+		// bot.stopHook();
+		wing.set_value(false);
+		chassis.moveToPoint(-47,-6,1000);
+		// chassis.moveToPoint(-58,0,2000);
+		chassis.turnToHeading(90,2000);
 
 	} else if (team && autonselector == 2) {
 		

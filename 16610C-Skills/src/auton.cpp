@@ -85,26 +85,28 @@ void skills() {
 	chassis.moveToPoint(-48,48,1000,{false});
 	chassis.turnToPoint(0,0,1000);
 	liftState = 1;
-	chassis.moveToPoint(-66,66,1000,{false});
-	intake.move_velocity(600);
 	chassis.waitUntilDone();
 	clamp.set_value(false);
+	chassis.moveToPoint(-66,66,1000,{false});
+	// intake.move_velocity(600);
+	chassis.waitUntilDone();
+	
 
 
 	chassis.moveToPoint(0,48,2000);
 	chassis.moveToPoint(30,30,2000);
 	chassis.turnToHeading(315,1000);
 	intake.brake();
-	chassis.moveToPoint(52,-4,2000,{false});
+	chassis.moveToPoint(56,-8,2000,{false});
 	chassis.waitUntilDone();
 	clamp.set_value(true);
 	pros::delay(300);
 	intake.move(-600);
 	chassis.turnToHeading(0,1000);
-	chassis.moveToPoint(48,56,2000,{.maxSpeed = 100});
+	chassis.moveToPoint(48,56,1500,{.maxSpeed = 100});
 	chassis.moveToPoint(48,48,1000,{false});
 	chassis.turnToPoint(0,0,1000);
-	chassis.moveToPoint(60,60,1000,{false});
+	chassis.moveToPoint(70,70,1000,{false});
 	intake.move(600);
 	clamp.set_value(false);
 	chassis.follow(abcdefg_txt,15,5000);
