@@ -1,6 +1,6 @@
 #include "TBTrackingWheel.hpp"
 
-TBTrackingWheel::TBTrackingWheel(pros::Rotation *Isensor, float Iwheeldiameter) {
+TBTrackingWheel::TBTrackingWheel(pros::Rotation *Isensor, float Iwheeldiameter, float Ioffset) {
     wheeldiameter = Iwheeldiameter;
     rotationalSensor = Isensor;
     distance = 0;
@@ -8,6 +8,13 @@ TBTrackingWheel::TBTrackingWheel(pros::Rotation *Isensor, float Iwheeldiameter) 
 
 float TBTrackingWheel::getDistance() {
     return rotationalSensor->get_angle()/360 * wheeldiameter * PI;
+}
+
+float TBTrackingWheel::getDifference() {
+    float newDistance = rotationalSensor->get_angle()/360 * wheeldiameter * PI;
+    float difference = newDistance-distance;
+    distance = newDistance;
+    return difference;
 }
 
 float TBTrackingWheel::getWheelDiameter() {

@@ -102,6 +102,10 @@ inline int step = 0;
 ASSET(first_txt)
 ASSET(second_txt)
 ASSET(thrid_txt)
+ASSET(skillsV21_txt)
+ASSET(skillsV22_txt)
+ASSET(skillsV23_txt)
+ASSET(skillsV24_txt)
 
 /* --------------- s--------------------------------------------------------------------------------------------------------- */
 // Sensors & Calibration
@@ -136,7 +140,7 @@ inline pros::Controller master2(driver_2);
 inline lemlib::Drivetrain drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_325, 360, 2);
 inline lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_tracking, lemlib::Omniwheel::NEW_2, -2);
 inline lemlib::TrackingWheel vertical_tracking_wheel(&vertical_tracking, 2 , 1.5);
-inline lemlib::OdomSensors sensors(&vertical_tracking_wheel, nullptr, &horizontal_tracking_wheel, nullptr, &imu_sensor);
+inline lemlib::OdomSensors sensors(&vertical_tracking_wheel, nullptr, nullptr, nullptr, &imu_sensor);
 inline lemlib::ControllerSettings lateral_controller(
 											odomKp, // proportional gain (kP)
 											odomKi, // integral gain (kI)

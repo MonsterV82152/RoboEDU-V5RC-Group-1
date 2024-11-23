@@ -9,6 +9,7 @@ class TBTrackingWheel {
     public:
     float getDistance();
     float getWheelDiameter();
+    float getDifference();
     void calibrate();
-    TBTrackingWheel(pros::Rotation *Isensor, float Iwheelradius);
+    TBTrackingWheel(pros::Rotation *Isensor, float Iwheelradius, float Ioffset);
 };

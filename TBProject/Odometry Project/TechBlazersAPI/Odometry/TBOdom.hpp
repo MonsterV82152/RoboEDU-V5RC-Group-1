@@ -14,6 +14,8 @@ class TankDR {
     TBPid *lateralController;
     TBTrackingWheel *verticalTW;
     TBTrackingWheel *horizontalTW;
+    float vertTWOffset;
+    float horiTWOffset;
     pros::IMU *TBImu;
     pros::MotorGroup *TBrightDr;
     pros::MotorGroup *TBleftDr;
@@ -27,7 +29,9 @@ class TankDR {
            TBPid *lateralControllerI, 
            pros::IMU *imuI, 
            TBTrackingWheel *verticalTWI, 
-           TBTrackingWheel *horizontalTWI);
+           float vertTWOffsetI,
+           TBTrackingWheel *horizontalTWI,
+           float horiTWOffsetI);
     void update();
     void setPose(float x, float y, float theta);
     void moveToPoint(float x, float y, float timeout, bool forwards = true, float maxSpeed = 127, float minSpeed = 0);

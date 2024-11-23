@@ -11,6 +11,7 @@
 #include <string>
 #include <stdlib.h>
 #include <iostream>
+#include <sstream>
 #include "lemlib/api.hpp"
 #include "MovFunc.hpp"
 
@@ -88,7 +89,7 @@ inline MasterControl bot(false, true, 0);
 #define turnKd 50
 
 //Team
-inline bool team = false;
+inline bool team = true;
 
 inline int autonselector = 5;
 

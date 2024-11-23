@@ -3,7 +3,7 @@
 class TBTrackingWheel {
     private:
     float wheelradius;
-    PROS::Rotation *sensor;
+    pros::Rotation *sensor;
 
     public:
     float getDistance();

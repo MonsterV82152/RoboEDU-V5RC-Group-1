@@ -6,8 +6,10 @@ TankDR::TankDR(pros::MotorGroup *rightDrI,
                TBPid *lateralControllerI, 
                pros::IMU *imuI, 
                TBTrackingWheel *verticalTWI, 
-               TBTrackingWheel *horizontalTWI): 
-               TBrightDr(rightDrI), TBleftDr(leftDrI), angularController(angularControllerI), lateralController(lateralControllerI), TBImu(imuI), verticalTW(verticalTWI), horizontalTW(horizontalTWI), movement(nullptr), timeoutTask(nullptr), exit(false) {
+               float vertTWOffsetI,
+               TBTrackingWheel *horizontalTWI,
+               float horiTWOffsetI): 
+               TBrightDr(rightDrI), TBleftDr(leftDrI), angularController(angularControllerI), lateralController(lateralControllerI), TBImu(imuI), verticalTW(verticalTWI), horizontalTW(horizontalTWI), movement(nullptr), timeoutTask(nullptr), exit(false), vertTWOffset(vertTWOffsetI), horiTWOffset(horiTWOffsetI) {
                 movement.suspend();
                 timeoutTask.suspend();
 }
@@ -80,8 +82,11 @@ void TankDR::moveToPoint(float x, float y, float timeout, bool forwards = true, 
             
             pros::delay(20);
         }
-        TBleftDr->brake();
-        TBrightDr->brake();
+        if (!exit) {
+            TBleftDr->brake();
+            TBrightDr->brake();
+        }
+        
         exit = false;
         timeoutTask.suspend();
         movement.suspend();
@@ -92,6 +97,40 @@ void TankDR::moveToPoint(float x, float y, float timeout, bool forwards = true, 
 
     
     
+}
+
+void TankDR::setPose(float x, float y, float theta) {
+    while (movement.get_state() != pros::E_TASK_STATE_SUSPENDED) {
+        pros::delay(20);
+    }
+    xPos = x;
+    yPos = y;
+    TBImu->set_heading(theta);
+    update();
+}
+
+void TankDR::update() {
+
+    float currentHD = TBImu->get_heading();
+    float difference = currentHD-HeadingDeg;
+
+    HeadingDeg = currentHD;
+    HeadingRad = HeadingDeg*PI/180;
+
+    float vert = verticalTW->getDifference();
+    float hori = horizontalTW->getDifference();
+
+
+    double Voffset = vertTWOffset*PI*difference/360;
+    vert = vert+Voffset;
+
+    
+    double ychange = vert * cos(HeadingRad) - hori * sin(HeadingRad);
+    double xchange = vert * sin(HeadingRad) + hori * cos(HeadingRad);
+
+
+    xPos = xPos + xchange;
+    yPos = yPos + ychange;
 }
 
 void TankDR::turnToHeading(float theta, float timeout) {

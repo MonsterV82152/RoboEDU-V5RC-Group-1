@@ -36,6 +36,7 @@ void on_center_button() {}
 
 void initialize()
 {
+	// hookMotor.set_gearing(MOTOR_GEAR_BLUE);
 	pros::Task selection([&]() {
 		InitalizeSetup();
 	});
@@ -84,7 +85,7 @@ void autonomous()
 	// horizontal_tracking.reset();
 	// vertical_tracking.set_position(0);
 	// horizontal_tracking.set_position(0);
-	pros::screen::print(TEXT_SMALL,3, "auton: %d", autonselector);
+	
 	while (autonselector == 5){
 		pros::delay(50);
 		
@@ -257,7 +258,6 @@ void opcontrol()
 	right_dr.set_brake_mode(COAST);
 	left_dr.set_brake_mode(COAST);
 
-
 	/* -------------------------------------------------------------------- */
 
 	// Variable Definition
@@ -347,7 +347,8 @@ void opcontrol()
 		}
 		else if (master.get_digital(button_UP)) // If UP is pressed
 		{
-			bot.runHook(50);
+			hookMotor.move_velocity(133);
+			// bot.runHook(50);
 			bot.runIntake(50);
 		} else if (master.get_digital(button_L2)) { // If L2 is Pressed
 			bot.runIntake(-127);
