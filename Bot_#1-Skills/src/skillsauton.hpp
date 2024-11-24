@@ -27,32 +27,26 @@ void skillsauton() {
     // pros::delay(500);
 
     chassis.follow(skillsV21_txt,15,6000);
-    chassis.waitUntil(150);
+    chassis.waitUntil(140);
     slow = true;
     // chassis.turnToPoint(24,-48,1000); 
     // chassis.moveToPoint(24, -48, 1000);
     
-    chassis.moveToPoint(5, -68, 500);
+    chassis.moveToPoint(5, -68, 800);
     bot.stopHook();
     chassis.turnToHeading(270,1000);
-    chassis.waitUntilDone();
+    chassis.moveToPoint(-20,chassis.getPose().y,1200);
     int time = 0;
-    while (time < 300) {
+    while (time < 200) {
         if (distance.get_distance() < 150) {
             chassis.cancelAllMotions();
             break;
-        }
-        if (time == 50) {
-            chassis.moveToPoint(-15,chassis.getPose().y,1500,{.maxSpeed = 40});
         }
         time = time + 1;
         
         pros::delay(5);
     }
-    left_dr.brake();
-    right_dr.brake();
-    chassis.cancelAllMotions();
-    chassis.moveToPoint(chassis.getPose().x+2,chassis.getPose().y,700,{false});
+    chassis.moveToPoint(chassis.getPose().x+1,chassis.getPose().y,700,{false});
 
                                                                                                                                                                                                                                                                                                                                                                  
     
@@ -72,8 +66,8 @@ void skillsauton() {
     // swallMotor.move(-127);
 
     bot.runHook(127);
-    chassis.moveToPoint(-56, -60, 1200);
-    chassis.moveToPoint(-24,-44,750,{false});
+    chassis.moveToPoint(-60, -60, 1200);
+    chassis.moveToPoint(-24,-48,750,{false});
     chassis.turnToHeading(270, 750);
     chassis.moveToPoint(-65,-44,1000);
 
@@ -99,12 +93,12 @@ void skillsauton() {
     pros::delay(200);
     bot.runHook(127);
     chassis.moveToPoint(-24,18,1000);
-    chassis.turnToPoint(-24,40,1000);
+    chassis.turnToPoint(-24,39,1000);
     // chassis.follow(skillsV22_txt,15,3000);
-    chassis.moveToPoint(-24, 40, 1000);
-    chassis.moveToPoint(0,50,1000);
+    chassis.moveToPoint(-24, 39, 1000);
+    chassis.moveToPoint(0,48,1000);
     chassis.moveToPoint(24,40,1400);
-    pros::delay(700);
+    pros::delay(1000);
     slow = true;
     chassis.moveToPoint(0,65,1500,{false});
     
@@ -112,7 +106,7 @@ void skillsauton() {
     chassis.waitUntilDone();
     time = 0;
     while (time < 200) {
-        if (distance.get_distance() < 100) {
+        if (distance.get_distance() < 150) {
             chassis.cancelAllMotions();
             break;
         }
@@ -153,7 +147,7 @@ void skillsauton() {
     bot.stopHook();
     chassis.moveToPoint(66,7,1000);
     chassis.turnToPoint(66,60,750,{.forwards=false});
-    chassis.moveToPoint(68,60,1500,{false});
+    chassis.moveToPoint(68,63,1300,{false});
     chassis.moveToPoint(52,24,700);
     chassis.turnToHeading(15,700);
     // chassis.moveToPoint()
@@ -169,7 +163,7 @@ void skillsauton() {
     bot.runHook(127);
     // chassis.follow(skillsV23_txt,15,2500);
     chassis.turnToHeading(0,750);
-    chassis.moveToPoint(50,58,1000,{.minSpeed = 80});
+    chassis.moveToPoint(50,66,1000,{.minSpeed = 80});
     // chassis.turnToHeading(0,1000);
     // chassis.moveToPoint(52,63,1000);
     chassis.moveToPoint(48,48,750,{false});
@@ -193,11 +187,20 @@ void skillsauton() {
     chassis.waitUntilDone();
     bot.clampOff();
     bot.runHook(-127);
-    left_dr.move(-70);
-    right_dr.move(-90);
+    left_dr.move(-30);
+    right_dr.move(-127);
     pros::delay(600);
     left_dr.move(70);
     right_dr.move(70);
+    pros::delay(200);
+    chassis.turnToPoint(0,0,750,{.forwards = false});
+    chassis.moveToPoint(0,0,1500,{.forwards = false, .maxSpeed = 100});
+    chassis.waitUntilDone();
+    left_dr.move(60);
+    right_dr.move(60);
+    pros::delay(100);
+    left_dr.brake();
+    right_dr.brake();
     // chassis.moveToPoint(50,-50,500);
     // chassis.moveToPoint(-66,-66,500,{false});
 

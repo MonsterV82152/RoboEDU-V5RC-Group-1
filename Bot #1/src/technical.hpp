@@ -1,5 +1,5 @@
 #include "globals.hpp"
-// #include "images.hpp"
+#include "images.hpp"
 
 
 
@@ -41,7 +41,7 @@ inline void coloursorter(void *param) {
 					pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
-					while (abs(hookMotor.get_position()-a) < 54) {
+					while (abs(hookMotor.get_position()-a) < 50) {
 						pros::delay(5);
 					}
 					hookMotor.brake();
@@ -64,7 +64,7 @@ inline void coloursorter(void *param) {
 					pros::delay(200);
                 } else if (slow) {
 					a = hookMotor.get_position();
-					while (abs(hookMotor.get_position()-a) < 54) {
+					while (abs(hookMotor.get_position()-a) < 50) {
 						pros::delay(5);
 					}
 					hookMotor.brake();
@@ -143,9 +143,9 @@ extern void InitalizeSetup() {
 	// pros::screen::erase();
 	// pros::screen::set_pen(RGB2COLOR(255, 255, 255));
 	// pros::screen::print(TEXT_LARGE,3, "Selected Auton: %d", autonselector);
-	// if (team) {
-	// 	drawLogo();
-	// } else {
-	// 	drawRick1();
-	// }
+	if (team) {
+		drawLogo();
+	} else {
+		drawRick1();
+	}
 }
