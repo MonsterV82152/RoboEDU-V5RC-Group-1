@@ -2,6 +2,8 @@
 #include <fstream>
 #include <vector>
 
+using namespace std;
+
 #pragma pack(push, 1) // Ensure no padding for the struct
 struct BMPHeader {
     uint16_t fileType;        // File type ("BM")
@@ -93,21 +95,30 @@ int main(int argc, char** argv) {
 
     int width, height;
 
+
     try {
         // Read the BMP image and get the pixel array
         PixelArray pixels = readBMP(argv[1], width, height);
 
         // Print RGB values (you can access the array directly)
         
+        ofstream myfile;
+        myfile.open("image.cpp");
+        // myfile.clear();
+        myfile << "static int image_array_size = " << width*height << ";\n";
+        myfile << "static int image_width = " << width << ";\n";
+        myfile << "static int image_height = " << height << ";\n";
+        myfile << "static int image1[" << width*height << "][3]" << " = {";
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 RGB pixel = pixels[y][x];
-                std::cout << "{" << y << ", " << x << "): "
-                          << "R=" << static_cast<int>(pixel.red) << " "
-                          << "G=" << static_cast<int>(pixel.green) << " "
-                          << "B=" << static_cast<int>(pixel.blue) << std::endl;
+                myfile << "{" << static_cast<int>(pixel.red) << ","
+                          << static_cast<int>(pixel.green) << ","
+                          << static_cast<int>(pixel.blue) << "},";
             }
         }
+        myfile << "};";
+        myfile.close();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
         return -1;
