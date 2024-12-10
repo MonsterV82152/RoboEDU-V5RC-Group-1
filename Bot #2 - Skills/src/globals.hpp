@@ -65,7 +65,7 @@
 
 //Lady Brown
 
-#define lbfirst 33
+#define lbfirst 30
 #define lbsecond 130
 #define lbthird 150
 
