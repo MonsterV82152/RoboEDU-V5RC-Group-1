@@ -105,7 +105,7 @@ int mogoOverwriteCountdown = 20;
 
 int unjamCountdown = 10, unjamCooldown = 20;
 
-int colourSorterCountdown = 8, colourSorterCooldown = 20;
+int colourSorterCountdown = 6, colourSorterCooldown = 20;
 
 int currentColour = 0;
 
@@ -147,7 +147,7 @@ inline pros::Optical colour(PORT_Colour);
 /*----------------------LEMLIB INIT----------------------*/
 
 inline lemlib::Drivetrain LEMLIB_drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_275, 450, 2);
-inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, 2, 0);
+inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, 2, 1.5);
 
 inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, nullptr, nullptr, &IMU);
 
