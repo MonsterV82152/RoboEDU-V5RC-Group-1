@@ -19,7 +19,7 @@ void SkillsAuton() {
     mogo_clamp.set_value(true);
     pros::delay(300);
     hookSpeed = 127;
-    chassis.follow(skillsV21_txt,15,7000);
+    chassis.follow(skillsV21_txt,15,5500);
 
 
     //Scoring Wall Stake 1

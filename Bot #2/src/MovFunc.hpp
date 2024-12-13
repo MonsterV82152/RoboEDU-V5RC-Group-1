@@ -88,6 +88,7 @@ period here and the intake/hook system.
 void mainMovement() {
     // Tank Drive
     if (driverControl) {
+        
         left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
         right_controller_position_X = master.get_analog(ANALOG_RIGHT_X);
 
