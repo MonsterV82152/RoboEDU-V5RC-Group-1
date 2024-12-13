@@ -14,19 +14,19 @@ void initialize() {
 	MotorInit();
 	SensorInit();
 
-	pros::Task screen_task([&]() {
-        while (true) {
-            // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            // delay to save resources
-            pros::delay(20);
-        }
-    });
+	// pros::Task screen_task([&]() {
+    //     while (true) {
+    //         // print robot location to the brain screen
+    //         pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+    //         pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+    //         pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+    //         // delay to save resources
+    //         pros::delay(20);
+    //     }
+    // });
 	pros::Task(mainWhileLoop, nullptr, "mainWhileLoop");
-	// pros::Task(AutonomousSelector, nullptr, "AutonSelector");
-	// pros::Task(ColourSorter, nullptr, "Colour");
+	pros::Task(AutonomousSelector, nullptr, "AutonSelector");
+	pros::Task(ColourSorter, nullptr, "Colour");
 	
 	chassis.calibrate();
 	
