@@ -17,22 +17,23 @@ void ColourSorter(void* param) {
         if (BOOL_colourSorter) {
             currentColour = colour.get_hue(); // Aquires the colour in front of the sensor
             if (colourSorterCountdown == 0 && colourSorterCooldown != 0) { // Reverses hook if countdown == 0
-                hookOverwriteSpeed = -11;
+                hook.move(-97);
+                hookOverwriteSpeed = -97;
                 colourSorterCooldown--;
             } else if (colourSorterCooldown == 0) { // Stops reversing if cooldown is 0
-                if (hookOverwriteSpeed == -11) {
+                if (hookOverwriteSpeed == -97) {
                     hookOverwriteSpeed = 0;
                 }
                 // Resets all the variables
                 colourSorterCooldown = 20;
 
-                colourSorterCountdown = 8;
+                colourSorterCountdown = 5;
             }
             // Starts countdown if detected colour
-            else if ((currentColour > 180 && currentColour < 240 && SelectedTeam) || ((currentColour < 30 || currentColour > 350) && !SelectedTeam) || colourSorterCountdown != 8) {
+            else if ((currentColour > 180 && currentColour < 240 && SelectedTeam) || ((currentColour < 30 || currentColour > 350) && !SelectedTeam) || colourSorterCountdown != 5) {
                 colourSorterCountdown--;
             } else {
-                colourSorterCountdown = 8;
+                colourSorterCountdown = 5;
             }
             // Checks if we loaded a ring - Used for autoUnjam
             if (((currentColour > 180 && currentColour < 240 && !SelectedTeam) || ((currentColour < 30 || currentColour > 350) && SelectedTeam)) && LadyBrownState == 1) {
@@ -90,16 +91,19 @@ void mainMovement() {
         left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
         right_controller_position_X = master.get_analog(ANALOG_RIGHT_X);
 
-        if (master.get_digital(button_LEFT)) {
-            left_dr.move(-60);
-            right_dr.move(-60);
-        } else {
-            left_dr.move(left_controller_position_Y+right_controller_position_X); // Moves the left drivetrain with the left joystick
-            right_dr.move(left_controller_position_Y-right_controller_position_X); // Moves the right drivetrain with the right joystick
+        chassis.arcade(left_controller_position_Y, right_controller_position_X, false, 0.5);
 
-        }
+        // if (master.get_digital(button_LEFT)) {
+        //     left_dr.move(-60);
+        //     right_dr.move(-60);
+        // } else {
+        //     left_dr.move(left_controller_position_Y+right_controller_position_X); // Moves the left drivetrain with the left joystick
+        //     right_dr.move(left_controller_position_Y-right_controller_position_X); // Moves the right drivetrain with the right joystick
+
+        // }
 
     }
+    
     
     if (master.get_digital_new_press(button_R2)) {
         if (hookSpeed == 0) { // Runs the hook if hook is stationary
