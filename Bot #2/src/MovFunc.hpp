@@ -17,22 +17,25 @@ void ColourSorter(void* param) {
         if (BOOL_colourSorter) {
             currentColour = colour.get_hue(); // Aquires the colour in front of the sensor
             if (colourSorterCountdown == 0 && colourSorterCooldown != 0) { // Reverses hook if countdown == 0
-                hookOverwriteSpeed = -97;
+                hookOverwriteSpeed = -1;
+                intakeOverwriteSpeed = -1;
+            
                 colourSorterCooldown--;
             } else if (colourSorterCooldown == 0) { // Stops reversing if cooldown is 0
-                if (hookOverwriteSpeed == -97) {
+                if (hookOverwriteSpeed == -1) {
                     hookOverwriteSpeed = 0;
+                    intakeOverwriteSpeed = 0;
                 }
                 // Resets all the variables
                 colourSorterCooldown = 20;
 
-                colourSorterCountdown = 5;
+                colourSorterCountdown = 4;
             }
             // Starts countdown if detected colour
-            else if ((currentColour > 180 && currentColour < 240 && SelectedTeam) || ((currentColour < 30 || currentColour > 350) && !SelectedTeam) || colourSorterCountdown != 5) {
+            else if ((SelectedTeam && currentColour > 180 && currentColour < 240) || (!SelectedTeam && (currentColour < 30 || currentColour > 350)) || colourSorterCountdown != 4) {
                 colourSorterCountdown--;
             } else {
-                colourSorterCountdown = 5;
+                colourSorterCountdown = 4;
             }
             // Checks if we loaded a ring - Used for autoUnjam
             if (((currentColour > 180 && currentColour < 240 && !SelectedTeam) || ((currentColour < 30 || currentColour > 350) && SelectedTeam)) && LadyBrownState == 1) {
@@ -73,7 +76,7 @@ void HookUnjam() {
 
         unjamCountdown = 10;
     }
-    else if (hook.get_actual_velocity() < 10 && hookSpeed > 0 && !loadedRing) {
+    else if (hook.get_actual_velocity() < 10 && hookSpeed > 0 && !loadedRing && LadyBrownState != 1) {
         unjamCountdown--;
     } else {
         unjamCountdown = 10;
@@ -91,15 +94,6 @@ void mainMovement() {
         right_controller_position_X = master.get_analog(ANALOG_RIGHT_X);
 
         chassis.arcade(left_controller_position_Y,right_controller_position_X,false,0.5);
-
-        // if (master.get_digital(button_LEFT)) {
-        //     left_dr.move(-60);
-        //     right_dr.move(-60);
-        // } else {
-        //     left_dr.move(left_controller_position_Y+right_controller_position_X); // Moves the left drivetrain with the left joystick
-        //     right_dr.move(left_controller_position_Y-right_controller_position_X); // Moves the right drivetrain with the right joystick
-
-        // }
 
     }
     
@@ -196,7 +190,6 @@ void LadyBrown() {
 
     // Gets the Lady Brown position divided by the gear ratio and translate centidegrees to degrees
     LadyBrownPosition = lbRotation.get_position()/400;
-
     // Sets the stages of the Lady Brown based on controls
     if ((master.get_digital_new_press(button_DOWN) && user == 0)||(master.get_digital_new_press(button_L1) && user == 1)) {
         if (LadyBrownState == 0) {

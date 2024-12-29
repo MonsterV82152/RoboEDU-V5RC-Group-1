@@ -50,7 +50,7 @@
 //Mechanisms
 #define PORT_intake 7
 #define PORT_hook 8
-#define PORT_lbMech -9
+#define PORT_lbMech -15
 
 //Pnuematics
 #define PORT_mogo_clamp 'A'
@@ -65,7 +65,7 @@
 
 //Lady Brown
 
-#define lbfirst 32
+#define lbfirst 31.5
 #define lbsecond 130
 #define lbthird 150
 

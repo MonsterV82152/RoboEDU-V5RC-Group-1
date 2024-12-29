@@ -50,7 +50,7 @@
 //Mechanisms
 #define PORT_intake 7
 #define PORT_hook 8
-#define PORT_lbMech -9
+#define PORT_lbMech -15
 
 //Pnuematics
 #define PORT_mogo_clamp 'A'
@@ -58,7 +58,7 @@
 #define PORT_left_wing 'C'
 
 //Sensors
-#define PORT_lbRotation 10
+#define PORT_lbRotation 10  
 
 #define PORT_IMU 14
 #define PORT_Vertical_TW 12
@@ -66,7 +66,7 @@
 
 //Lady Brown
 
-double lbfirst = 32;
+double lbfirst = 33;
 #define lbsecond 130
 #define lbthird 150
 
@@ -105,7 +105,7 @@ int mogoOverwriteCountdown = 20;
 
 int unjamCountdown = 10, unjamCooldown = 20;
 
-int colourSorterCountdown = 6, colourSorterCooldown = 20;
+int colourSorterCountdown = 4, colourSorterCooldown = 20;
 
 int currentColour = 0;
 
