@@ -24,7 +24,7 @@ void BlueMogoRush() {
     intakeSpeed = 127;
     
     chassis.moveToPoint(30,-40,500);
-    chassis.turnToHeading(270,700,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
+    chassis.turnToHeading(270,700,{.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
     pros::delay(500);
     BOOL_mogo_clamp = false;
     hookOverwriteSpeed = -50;
@@ -52,6 +52,7 @@ void BlueMogoRush() {
     BOOL_mogo_clamp = false;
     hookOverwriteSpeed = -50;
     chassis.waitUntilDone();
+    pros::delay(400);
     hookSpeed = 0;
     chassis.moveToPoint(53,6,700,{.forwards = false,.earlyExitRange = 2});
     chassis.turnToHeading(270,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
@@ -168,7 +169,7 @@ void RedMogoRush() {
     pros::delay(200);
     hookSpeed = 127;
     chassis.waitUntilDone();
-    pros::delay(800);
+    pros::delay(400);
     
     
     left_dr.move(60);
@@ -199,11 +200,8 @@ void FinalsRedMogoRush() {
     intakeSpeed = 127;
     hookSpeed = 127;
     chassis.moveToPoint(-24,-48,1000,{.minSpeed = 60,.earlyExitRange = 5});
-    chassis.moveToPoint(-54,-12,700);
-    chassis.moveToPoint(-54,13,2000,{.maxSpeed = 60});
-    chassis.swingToPoint(-57,-48,lemlib::DriveSide::LEFT,700);
-    chassis.moveToPoint(-57,-48,1000);
-    chassis.moveToPoint(-60,-60,1500);
+    chassis.moveToPoint(-53,-53,2000);
+    chassis.turnToPoint(-60,-60,1000);
     chassis.waitUntilDone();
     pros::delay(200);
     for (int i = 0; i < 3; i++) {

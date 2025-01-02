@@ -90,12 +90,14 @@ period here and the intake/hook system.
 void mainMovement() {
     // Tank Drive
     if (driverControl) {
+        
         left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
         right_controller_position_X = master.get_analog(ANALOG_RIGHT_X);
 
         chassis.arcade(left_controller_position_Y,right_controller_position_X,false,0.5);
 
     }
+    
     
     if (master.get_digital_new_press(button_R2)) {
         if (hookSpeed == 0) { // Runs the hook if hook is stationary
