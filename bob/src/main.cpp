@@ -6,6 +6,8 @@
  * When this callback is fired, it will toggle line 2 of the LCD text between
  * "I was pressed!" and nothing.
  */
+
+
 void on_center_button() {
 	static bool pressed = false;
 	pressed = !pressed;
@@ -27,8 +29,8 @@ void initialize() {
 	pros::lcd::set_text(1, "Hello PROS User!");
 
 	pros::lcd::register_btn1_cb(on_center_button);
+	pros::Motor motor (1);
 }
-
 /**
  * Runs while the robot is in the disabled state of Field Management System or
  * the VEX Competition Switch, following either autonomous or opcontrol. When
@@ -79,14 +81,22 @@ void opcontrol() {
 	pros::MotorGroup right_mg({-4, 5, -6});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
 
 
+
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
 
 		// Arcade control scheme
+		bool intake = false;
+		if (master.get_digital(DIGITAL_A) == true) {
+			bool intake = !intake;
+		}
 		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
 		int turn = master.get_analog(ANALOG_RIGHT_Y);  // Gets the turn left/right from right joystick
+		if (intake) {
+			swall.move(127)
+		}
 		left_mg.move(dir);                      // Sets left motor voltage
 		right_mg.move(turn);                     // Sets right motor voltage
 		pros::delay(20);                               // Run for 20 ms then update

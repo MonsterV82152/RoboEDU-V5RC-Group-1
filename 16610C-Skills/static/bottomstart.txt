@@ -1,0 +1,77 @@
+-23.607, -23.607, 69.931
+-23.607, -25.607, 69.915
+-23.604, -27.607, 69.897
+-23.601, -29.607, 69.873
+-23.594, -31.607, 69.802
+-23.584, -33.607, 69.683
+-23.568, -35.607, 69.477
+-23.541, -37.607, 68.836
+-23.488, -39.606, 65.175
+-23.377, -41.603, 64.726
+-23.319, -43.602, 60.675
+-23.291, -45.602, 56.333
+-23.158, -47.583, 51.663
+-22.428, -49.444, 46.491
+-21.361, -51.129, 40.679
+-19.866, -52.447, 45.602
+-18.092, -53.365, 57.797
+-16.204, -54.02, 62.914
+-14.269, -54.527, 66.106
+-12.315, -54.95, 67.972
+-10.35, -55.325, 68.743
+-8.381, -55.672, 69.267
+-6.408, -56.003, 69.621
+-4.434, -56.324, 69.856
+-2.459, -56.64, 69.942
+-0.484, -56.955, 69.967
+0.846, -55.563, 69.215
+2.107, -54.011, 69.068
+3.353, -52.447, 68.997
+4.584, -50.871, 68.957
+5.799, -49.282, 68.966
+6.996, -47.68, 69.018
+8.178, -46.066, 69.101
+9.344, -44.441, 69.263
+10.497, -42.807, 69.384
+11.639, -41.165, 69.502
+12.773, -39.518, 69.613
+13.899, -37.865, 69.712
+15.02, -36.208, 69.796
+16.137, -34.549, 69.832
+17.25, -32.888, 69.894
+18.362, -31.226, 66.797
+19.473, -29.562, 62.88
+20.582, -27.898, 58.702
+21.691, -26.234, 54.202
+22.801, -24.57, 49.294
+23.916, -22.91, 43.839
+25.063, -21.271, 37.602
+26.289, -19.692, 30.1
+27.725, -18.311, 20
+28.722, -19.415, 48.739
+28.544, -21.405, 64.802
+28.204, -23.376, 67.573
+27.804, -25.335, 68.886
+27.375, -27.289, 69.638
+26.935, -29.24, 69.916
+26.492, -31.19, 66.811
+26.055, -33.142, 62.895
+25.631, -35.096, 58.718
+25.227, -37.055, 54.22
+24.85, -39.019, 49.313
+24.513, -40.99, 43.861
+24.228, -42.97, 37.628
+24.021, -44.959, 30.131
+23.935, -46.957, 20
+23.937, -47.38, 0
+23.937, -47.38, 0
+24.044, -67.379, 0
+endData
+127
+70
+200
+-23.607, -23.607, -23.607, -47.38, -23.36, -35.493, -23.277, -47.215
+-23.277, -47.215, -21.247, -53.735, -18.563, -54.075, -0.323, -56.98
+-0.323, -56.98, 7.766, -47.24, 11.721, -41.189, 23.442, -23.607
+23.442, -23.607, 35.163, -6.026, 23.69, -35.493, 23.937, -47.38
+#PATH.JERRYIO-DATA {"appVersion":"0.8.3","format":"LemLib v0.5","gc":{"robotWidth":15,"robotHeight":15,"robotIsHolonomic":false,"showRobot":true,"uol":2.54,"pointDensity":2,"controlMagnetDistance":1.968503937007874,"fieldImage":{"displayName":"V5RC 2025 - High Stakes (Skills)","signature":"V5RC 2025 - High Stakes (Skills)","origin":{"__type":"built-in"}},"coordinateSystem":"VEX Gaming Positioning System"},"paths":[{"segments":[{"controls":[{"uid":"DFOWuBDqVU","x":-23.60728346456693,"y":-23.60728346456693,"lock":false,"visible":true,"heading":180,"__type":"end-point"},{"uid":"hXlHnB1G15","x":-23.60728346456693,"y":-47.379652827487476,"lock":false,"visible":true,"__type":"control"},{"uid":"lYLFtw7ZSP","x":-23.359654617036508,"y":-35.493468146027205,"lock":false,"visible":true,"__type":"control"},{"uid":"gioK2YbAeU","x":-23.2771116678597,"y":-47.21456692913386,"lock":false,"visible":true,"heading":0,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"mbdAIf8spW"},{"controls":[{"uid":"gioK2YbAeU","x":-23.2771116678597,"y":-47.21456692913386,"lock":false,"visible":true,"heading":0,"__type":"end-point"},{"uid":"NwqaG3HTU6","x":-21.246555118110244,"y":-53.73545991410165,"lock":false,"visible":true,"__type":"control"},{"uid":"3onmuPxBy5","x":-18.562992125984255,"y":-54.074803149606296,"lock":false,"visible":true,"__type":"control"},{"uid":"h3DHFrS6NY","x":-0.3228346456692913,"y":-56.98031496062992,"lock":false,"visible":true,"heading":0,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"LfdcgX7waT"},{"controls":[{"uid":"h3DHFrS6NY","x":-0.3228346456692913,"y":-56.98031496062992,"lock":false,"visible":true,"heading":0,"__type":"end-point"},{"uid":"o4HriUJkc9","x":7.766374373657836,"y":-47.24024695776664,"lock":false,"visible":true,"__type":"control"},{"uid":"r7yB1lBcqH","x":11.721098783106658,"y":-41.188931639226915,"lock":false,"visible":true,"__type":"control"},{"uid":"ZncxgR0JVp","x":23.442197566213316,"y":-23.60728346456693,"lock":false,"visible":true,"heading":0,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"7uWTz7kA6Y"},{"controls":[{"uid":"ZncxgR0JVp","x":23.442197566213316,"y":-23.60728346456693,"lock":false,"visible":true,"heading":0,"__type":"end-point"},{"uid":"sFRlk9Z6Bi","x":35.16329634931998,"y":-6.025635289906944,"lock":false,"visible":true,"__type":"control"},{"uid":"StwiRSH1ZB","x":23.689826413743738,"y":-35.493468146027205,"lock":false,"visible":true,"__type":"control"},{"uid":"484SYRZsZk","x":23.93745526127416,"y":-47.379652827487476,"lock":false,"visible":true,"heading":0,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"eiRcXKSt5w"}],"pc":{"speedLimit":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":127,"label":"127"},"step":1,"from":20,"to":70},"bentRateApplicableRange":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":1,"label":"1"},"step":0.001,"from":0,"to":0.1},"maxDecelerationRate":127},"name":"Path","uid":"1CyMUvYUBW","lock":false,"visible":true}]}
