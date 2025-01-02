@@ -6,7 +6,7 @@
 
 void BlueMogoRush() {
     
-    chassis.setPose(53,-36,270);
+    chassis.setPose(51,-30,270);
     chassis.follow(Blue_Mogo_Rush_txt,15,1000);
     chassis.waitUntil(28);
     BOOL_left_wing = true;
@@ -112,7 +112,7 @@ void FinalsBlueMogoRush() {
 }
 
 void RedMogoRush() {
-    chassis.setPose(-53,-36,90);
+    chassis.setPose(-51,-30,90);
     chassis.follow(Red_Mogo_Rush_txt,15,1000);
     chassis.waitUntil(30);
     BOOL_right_wing = true;

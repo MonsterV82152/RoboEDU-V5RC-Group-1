@@ -73,27 +73,16 @@ void mainMovement() {
     if (master.get_digital_new_press(button_R2)) {
         if (hookSpeed == 0) { // Runs the hook if hook is stationary
             hookSpeed = hookDefaultSpeed;
-            if (intakeSpeed == 0) { // Runs the intake if intake is stationary
-                intakeSpeed = intakeDefaultSpeed;
-                hookIntake = true; // Sets intake to be run by the hook
-            }
         } else {
             hookSpeed = 0; // Stops the hook
-            if (hookIntake) { // Stops the intake if the intake is being run by the hook
-                intakeSpeed = 0;
-            }
         }
     }
     if (master.get_digital_new_press(button_R1)) {
         if (intakeSpeed == 0) { // Runs the intake if the intake is stationary
             intakeSpeed = intakeDefaultSpeed;
-            hookIntake = false; // Sets intake to be self-powered
-        } else if (!hookIntake && intakeSpeed == intakeDefaultSpeed && hookSpeed <= 0) { // Stops the intake if hook is not running
+        } else { // Stops the intake if hook is not running
             intakeSpeed = 0;
-        } else {
-            hookIntake = !hookIntake; // Sets intake to be run by hook
         }
-        
     }
     HookUnjam();
     if ((master.get_digital(button_L1) && user == 0)||(master.get_digital(button_B) && user == 1)) {
@@ -162,7 +151,7 @@ LadyBrownStates:
 void LadyBrown() {
 
     // Gets the Lady Brown position divided by the gear ratio and translate centidegrees to degrees
-    LadyBrownPosition = lbRotation.get_position()/400;
+    LadyBrownPosition = lbRotation.get_position()/100;
     // Sets the stages of the Lady Brown based on controls
     if ((master.get_digital_new_press(button_DOWN) && user == 0)||(master.get_digital_new_press(button_L1) && user == 1)) {
         if (LadyBrownState == 0) {
@@ -237,8 +226,10 @@ void MotorInit() {
 void SensorInit() {
     // Calibrate and reset sensors.
     lbRotation.set_position(0);
+
     colour.set_led_pwm(100);
-    // lbRotation.set_reversed(true);
+    lbRotation.set_reversed(true);
+    lbMech.set_reversed(true);
 }
 
 // Main Multitasked Loop to run everything.

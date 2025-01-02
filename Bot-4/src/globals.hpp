@@ -39,18 +39,18 @@
 /*---Motors---*/
 
 //DriveTrain
-#define PORT_right_dr_1 8
-#define PORT_right_dr_2 9
-#define PORT_right_dr_3 10
+#define PORT_right_dr_1 1
+#define PORT_right_dr_2 2
+#define PORT_right_dr_3 3
 
-#define PORT_left_dr_1 1
-#define PORT_left_dr_2 2
-#define PORT_left_dr_3 3
+#define PORT_left_dr_1 -8
+#define PORT_left_dr_2 -9
+#define PORT_left_dr_3 -10
 
 //Mechanisms
 #define PORT_intake 7
-#define PORT_hook 8
-#define PORT_lbMech -15
+#define PORT_hook 15
+#define PORT_lbMech 4
 
 //Pnuematics
 #define PORT_mogo_clamp 'A'
@@ -58,17 +58,17 @@
 #define PORT_left_wing 'C'
 
 //Sensors
-#define PORT_lbRotation 10  
+#define PORT_lbRotation 14  
 
-#define PORT_IMU 14
+#define PORT_IMU 11
 #define PORT_Vertical_TW 12
 #define PORT_Colour 13
 
 //Lady Brown
 
-double lbfirst = 33;
+double lbfirst = 15;
 #define lbsecond 130
-#define lbthird 150
+#define lbthird 200
 
 /*---PID Values---*/
 
@@ -89,7 +89,6 @@ int left_controller_position_Y, left_controller_position_X, right_controller_pos
 int p_left_controller_position_Y, p_left_controller_position_X, p_right_controller_position_Y, p_right_controller_position_X;
 
 int intakeSpeed = 0, hookSpeed = 0, hookOverwriteSpeed = 0, intakeOverwriteSpeed = 0;
-bool hookIntake = false;
 
 int intakeDefaultSpeed = 127, hookDefaultSpeed = 127;
 
