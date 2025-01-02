@@ -8,63 +8,13 @@ void BlueMogoRush() {
     
     chassis.setPose(51,-30,270);
     chassis.follow(Blue_Mogo_Rush_txt,15,1000);
-    chassis.waitUntil(28);
-    BOOL_left_wing = true;
-    chassis.moveToPoint(30,-33,1000,{.forwards = false,.maxSpeed = 80,.earlyExitRange = 2});
-    chassis.waitUntilDone();
-    BOOL_left_wing = false;
-    pros::delay(200);
-    chassis.turnToPoint(15,-44,1000,{.forwards=false});
-    chassis.moveToPoint(15,-44,1000,{.forwards = false,.maxSpeed = 70});
     chassis.waitUntilDone();
     BOOL_mogo_clamp = true;
     pros::delay(200);
-    
     hookSpeed = 127;
     intakeSpeed = 127;
+    chassis.moveToPoint(24,-60,1000);
     
-    chassis.moveToPoint(30,-40,500);
-    chassis.turnToHeading(270,700,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
-    pros::delay(500);
-    BOOL_mogo_clamp = false;
-    hookOverwriteSpeed = -50;
-
-    chassis.moveToPoint(24,-54,800);
-    
-    hookSpeed = 0;
-    chassis.turnToPoint(24,-24,800,{.forwards = false});
-    
-    chassis.moveToPoint(24,-24,1000,{.forwards = false,.maxSpeed = 70});
-    
-    chassis.waitUntilDone();
-    BOOL_mogo_clamp = true;
-    pros::delay(100);
-    hookSpeed = 127;
-    
-    
-    // pros::delay(5000);
-    
-
-
-    BOOL_colourSorter = false;
-    chassis.moveToPose(44,-10,0,2000,{.lead = 0.5,.minSpeed = 90,.earlyExitRange = 2});
-    chassis.moveToPoint(44,25,1800,{.maxSpeed = 55});
-    BOOL_mogo_clamp = false;
-    hookOverwriteSpeed = -50;
-    chassis.waitUntilDone();
-    hookSpeed = 0;
-    chassis.moveToPoint(53,6,700,{.forwards = false,.earlyExitRange = 2});
-    chassis.turnToHeading(270,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
-    chassis.moveToPoint(70,3,700,{false});
-    pros::delay(200);
-    hookSpeed = 127;
-    chassis.waitUntilDone();
-    pros::delay(800);
-    
-    
-    chassis.moveToPoint(10,0,1000,{.maxSpeed = 60});
-    // BOOL_right_wing = true;
-    BOOL_colourSorter = true;
 }
 
 void FinalsBlueMogoRush() {
