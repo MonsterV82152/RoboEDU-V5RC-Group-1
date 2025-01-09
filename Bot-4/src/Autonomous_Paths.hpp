@@ -6,8 +6,8 @@
 
 void BlueMogoRush() {
     
-    chassis.setPose(51,-30,270);
-    chassis.follow(Blue_Mogo_Rush_txt,15,1000);
+    chassis.setPose(51,-30,90);
+    chassis.follow(Blue_Mogo_Rush_txt,15,1000,false);
     chassis.waitUntilDone();
     BOOL_mogo_clamp = true;
     pros::delay(200);

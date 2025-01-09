@@ -180,7 +180,7 @@ void LadyBrown() {
             lbMech.set_brake_mode(COAST);
         }
     }
-
+    
     // Checks if the Lady Brown is at the requested angle and moves it if it isn't
     if (LadyBrownState == 0 && (LadyBrownPosition > 6 || LadyBrownPosition < -2)) {
         lbMech.move_velocity(-(LadyBrownPosition)*4);

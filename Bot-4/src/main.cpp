@@ -31,7 +31,8 @@ void initialize() {
 	
 	}
 
-void disabled() {}
+void disabled() {
+}
 
 void competition_initialize() {}
 
@@ -40,7 +41,8 @@ void autonomous() {
 	// Chassis Calibration
 
 	// master.clear();
-	// chassis.setPose(0,0,0);
+	chassis.setPose(0,0,0);
+	chassis.moveToPoint(0,10,10000);
 	// chassis.turnToHeading(90,3000);
 	// chassis.waitUntilDone();
 	// double ndiff = chassis.getPose().theta-90;
@@ -89,19 +91,19 @@ void autonomous() {
 	// pros::delay(10000);
 	
 
-	if (SelectedTeam) {
-		if (SelectedAuton == 1) {
-			RedRingRush();
-		} else if (SelectedAuton == 2) {
-			FinalsRedMogoRush();
-		}
-	} else {
-		if (SelectedAuton == 1) {
-			BlueRingRush();
-		} else if (SelectedAuton == 2) {
-			FinalsBlueMogoRush();
-		}
-	}
+	// if (SelectedTeam) {
+	// 	if (SelectedAuton == 1) {
+	// 		RedRingRush();
+	// 	} else if (SelectedAuton == 2) {
+	// 		FinalsRedMogoRush();
+	// 	}
+	// } else {
+	// 	if (SelectedAuton == 1) {
+	// 		BlueRingRush();
+	// 	} else if (SelectedAuton == 2) {
+	// 		FinalsBlueMogoRush();
+	// 	}
+	// }
 }
 
 void opcontrol() {

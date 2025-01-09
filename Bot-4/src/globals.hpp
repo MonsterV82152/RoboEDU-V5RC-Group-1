@@ -61,7 +61,7 @@
 #define PORT_lbRotation 14  
 
 #define PORT_IMU 11
-#define PORT_Vertical_TW 12
+#define PORT_Vertical_TW 5
 #define PORT_Colour 13
 
 //Lady Brown
@@ -146,7 +146,7 @@ inline pros::Optical colour(PORT_Colour);
 /*----------------------LEMLIB INIT----------------------*/
 
 inline lemlib::Drivetrain LEMLIB_drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_275, 450, 2);
-inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, lemlib::Omniwheel::NEW_2, 0.75);
+inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, lemlib::Omniwheel::NEW_2, -1.75);
 
 inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, nullptr, nullptr, &IMU);
 
