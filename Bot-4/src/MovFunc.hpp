@@ -13,11 +13,84 @@ we are loading the rings
 */
 
 void ColourSorter(void* param) {
+    pros::delay(1000);
     while (true) {
-            pros::delay(10);
+        if (BOOL_colourSorter) {
+            int a = colour.get_hue();
+        int dis = HookDistance.get_distance();
+        if (colourSorterCooldown != 30) {
+            if (colourSorterCooldown == 0) {
+                if (hookOverwriteSpeed == -127 || hookOverwriteSpeed == -10) {
+                    hookOverwriteSpeed = 0;
+                    colourSorterCooldown = 30;
+                }
+            } else {
+                colourSorterCooldown--;
+            }
+            
+            
+        } else if (ring[0] != 0) {
+            if (dis < 50) {
+                if (SelectedTeam && ring[0] == 2) {
+                    colourSorterCooldown--;
+                    if (LadyBrownState == 1) {
+                    hookOverwriteSpeed = -127;
+                    
+                } else {
+                    hookOverwriteSpeed = -10;
+                }
+                } else if (!SelectedTeam && ring[0] == 1) {
+                    colourSorterCooldown--;
+                    if (LadyBrownState == 1) {
+                    hookOverwriteSpeed = -127;
+                    
+                } else {
+                    hookOverwriteSpeed = -10;
+                }
+                }
+                if (LadyBrownState == 1) {
+                    loadedRing = true;
+                }
+                ring[0] = ring[1];
+                ring[1] = 0;
+            }
+        }
         
+        // std::cout << ring[0] << " " << ring[1] << " " << a << " " << HookDistance.get_distance() << std::endl;
+        pros::delay(10);
+        if (a < 20 || a > 340) {
+            if (!detectingColour) {
+                if (ring[0] == 0) {
+                    ring[0] = 1;
+                } else {
+                    ring[1] = 1;
+                }
+            }
+            detectingColour = true;
+        } else if (a > 100 && a < 240) {
+            if (!detectingColour) {
+                if (ring[0] == 0) {
+                    ring[0] = 2;    
+                } else {
+                    ring[1] = 2;
+                }
+            }
+            detectingColour = true;
+        } else {
+            detectingColour = false;
+            if (actualHookSpeed < 0 || actualIntakeSpeed < 0) {
+                ring[0] = 0;
+                ring[1] = 0;
+            }
+        }
+        } else {
+            ring[0] = 0;
+            ring[1] = 0;
+            colourSorterCooldown = 30;
+        }
+        
+        pros::delay(10);
     }
-    
 }
 
 /*
@@ -48,8 +121,8 @@ void HookUnjam() {
         unjamCooldown = 20;
 
         unjamCountdown = 10;
-    }
-    else if (hook.get_actual_velocity() < 10 && hookSpeed > 0 && !loadedRing && LadyBrownState != 1) {
+    } 
+    else if (hook.get_actual_velocity() < 10 && hookSpeed > 0 && !loadedRing && LadyBrownState == 0) {
         unjamCountdown--;
     } else {
         unjamCountdown = 10;
@@ -69,12 +142,19 @@ void mainMovement() {
         chassis.arcade(left_controller_position_Y,right_controller_position_X,false,0.5);
 
     }
+
+    if (master.get_digital_new_press(button_RIGHT)) {
+        BOOL_colourSorter = !BOOL_colourSorter;
+    }
     
     if (master.get_digital_new_press(button_R2)) {
         if (hookSpeed == 0) { // Runs the hook if hook is stationary
             hookSpeed = hookDefaultSpeed;
         } else {
             hookSpeed = 0; // Stops the hook
+        }
+        if (intakeSpeed == 0) { // Runs the hook if hook is stationary
+            intakeSpeed = intakeDefaultSpeed;
         }
     }
     if (master.get_digital_new_press(button_R1)) {
@@ -86,18 +166,24 @@ void mainMovement() {
     }
     HookUnjam();
     if ((master.get_digital(button_L1) && user == 0)||(master.get_digital(button_B) && user == 1)) {
+        actualIntakeSpeed = -127;
+        actualHookSpeed = -127;
         hook.move(-127);
         intake.move(-127);
     } else {
         if (intakeOverwriteSpeed == 0) {
             intake.move(intakeSpeed);
+            actualIntakeSpeed = intakeSpeed;
         } else {
             intake.move(intakeOverwriteSpeed);
+            actualIntakeSpeed = intakeOverwriteSpeed;
         }
         if (hookOverwriteSpeed == 0) {
             hook.move(hookSpeed);
+            actualHookSpeed = hookSpeed;
         } else {
             hook.move(hookOverwriteSpeed);
+            actualHookSpeed = hookOverwriteSpeed;
         }
     }
     
@@ -111,9 +197,6 @@ void pnumatics() {
     if (master.get_digital_new_press(button_X)) {BOOL_mogo_clamp = !BOOL_mogo_clamp; 
     if (!BOOL_mogo_clamp) {
         hookOverwriteSpeed = -50;
-        master.print(1,1,"Clamp: Off");
-    } else {
-        master.print(1,1,"Clamp: On ");
     }
     }
     if (master.get_digital_new_press(button_Y)) {if (master.get_digital(button_L2)) {BOOL_left_wing = !BOOL_left_wing;} else {BOOL_right_wing = !BOOL_right_wing;}}
@@ -163,12 +246,12 @@ void LadyBrown() {
         }
     }
 
-    if (master.get_digital(button_RIGHT)) {
-        lbfirst = lbfirst-0.2;
-    }
-    if (master.get_digital(button_UP)) {
-        lbfirst = lbfirst+0.2;
-    }
+    // if (master.get_digital(button_RIGHT)) {
+    //     lbfirst = lbfirst-0.2;
+    // }
+    // if (master.get_digital(button_UP)) {
+    //     lbfirst = lbfirst+0.2;
+    // }
 
     // Sets position to scoring position
     if ((master.get_digital_new_press(button_B) && user == 0)||(master.get_digital_new_press(button_L2) && user == 1)) {
@@ -220,6 +303,7 @@ void MotorInit() {
     lbMech.set_gearing(MOTOR_GEAR_GREEN);
     right_dr.set_gearing(MOTOR_GEAR_BLUE);
     left_dr.set_gearing(MOTOR_GEAR_BLUE);
+    hook.get_temperature();
 }
 
 // Initializes all the sensors
@@ -230,6 +314,42 @@ void SensorInit() {
     colour.set_led_pwm(100);
     lbRotation.set_reversed(true);
     lbMech.set_reversed(true);
+    master.clear();
+}
+
+void ControllerDisplay() {
+    if (cycleCounter % 50 == 0) {
+        master.print(0,0,"%d %d",ring[0], ring[1]);
+    }
+    else if (cycleCounter % 50 == 10) {
+        if (BOOL_colourSorter) {
+            master.print(1,0,"Sorter: On ");
+        } else {
+            master.print(1,0,"Sorter: Off");
+        }    
+    }
+    else if (cycleCounter % 50 == 30) {
+        
+        if (!BOOL_mogo_clamp) {
+            master.print(2,0,"Clamp: Off");
+        } else {
+            master.print(2,0,"Clamp: On ");
+        }
+    }
+    
+}
+
+void BrainDisplay() {
+    if ((driverControl || autonomousPeriod) && cycleCounter % 50 == 43 && AutonSelected) {
+        pros::screen::set_pen(pros::Color::white);
+        pros::screen::erase_rect(46+(144*1.5),68,452,212);
+        hookTemp = hook.get_temperature();
+        driveTemp = (left_dr.get_temperature(0)+right_dr.get_temperature(0))/2;
+        pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 80, "Hook Temperature:");
+        pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 100, "%d", hookTemp);
+        pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 130, "DriveTrain Temperature:");
+        pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 150, "%d", driveTemp);
+    }
 }
 
 // Main Multitasked Loop to run everything.
@@ -238,6 +358,9 @@ void mainWhileLoop(void* param) {
         mainMovement();
         pnumatics();
         LadyBrown();
+        ControllerDisplay();
+        // BrainDisplay();
+        cycleCounter++;
         pros::delay(20);
     }
 }

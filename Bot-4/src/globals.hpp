@@ -62,33 +62,39 @@
 
 #define PORT_IMU 11
 #define PORT_Vertical_TW 5
-#define PORT_Colour 13
+#define PORT_Colour 21
+#define PORT_HookDistance 16
 
 //Lady Brown
 
-double lbfirst = 15;
+double lbfirst = 17;
 #define lbsecond 130
-#define lbthird 200
+#define lbthird 140      
 
 /*---PID Values---*/
 
-#define lateralKp 10
+#define lateralKp 3
 #define lateralKi 0
 #define lateralKd 0
 
-#define angularKp 5.95
-#define angularKi 0
-#define angularKd 70
+#define angularKp 3.5
+#define angularKi 0.01
+#define angularKd 50
 
 /*----------------------GLOBAL VARIABLES----------------------*/
 
 bool SelectedTeam = true, BOOL_colourSorter = true;
-int SelectedAuton = 2, user = 0;
+int SelectedAuton = 5, user = 0;
+bool AutonSelected = false;
+
+
+int cycleCounter = 0;
 
 int left_controller_position_Y, left_controller_position_X, right_controller_position_Y, right_controller_position_X;
 int p_left_controller_position_Y, p_left_controller_position_X, p_right_controller_position_Y, p_right_controller_position_X;
 
 int intakeSpeed = 0, hookSpeed = 0, hookOverwriteSpeed = 0, intakeOverwriteSpeed = 0;
+int actualIntakeSpeed = 0, actualHookSpeed = 0;
 
 int intakeDefaultSpeed = 127, hookDefaultSpeed = 127;
 
@@ -98,18 +104,22 @@ double LadyBrownPosition;
 
 bool BOOL_mogo_clamp = false, BOOL_right_wing = false, BOOL_left_wing = false;
 
-bool driverControl = false;
+bool driverControl = false, autonomousPeriod = false;
 
 int mogoOverwriteCountdown = 20;
 
 int unjamCountdown = 10, unjamCooldown = 20;
 
-int colourSorterCountdown = 4, colourSorterCooldown = 20;
-
-int currentColour = 0;
+int colourSorterCountdown = 2, colourSorterCooldown = 30;
 
 bool loadedRing = false;
-// int ladyBrownCountdown = 50;
+
+int ring[2] = {0,0};
+
+bool detectingColour = false;
+
+double hookTemp, driveTemp;
+
 
 /*----------------------PROS INIT----------------------*/
 
@@ -142,6 +152,7 @@ inline pros::Rotation lbRotation(PORT_lbRotation);
 inline pros::Imu IMU(PORT_IMU);
 inline pros::Rotation vertical_TW(PORT_Vertical_TW);
 inline pros::Optical colour(PORT_Colour);
+inline pros::Distance HookDistance(PORT_HookDistance);
 
 /*----------------------LEMLIB INIT----------------------*/
 

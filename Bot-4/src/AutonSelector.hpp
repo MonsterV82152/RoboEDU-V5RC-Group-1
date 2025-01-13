@@ -246,7 +246,9 @@ void AutonomousSelector(void* param) {
 
         }
         pros::delay(20);
+
     }
+    AutonSelected = true;
 
 }
 

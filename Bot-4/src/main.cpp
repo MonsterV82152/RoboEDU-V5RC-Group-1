@@ -20,10 +20,11 @@ void initialize() {
     //         pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
     //         pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
     //         pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-    //         // delay to save resources
+    //         // delay to sadve resources
     //         pros::delay(20);
     //     }
     // });
+	pros::Task(ColourSorter, nullptr, "ColourSorter");
 	pros::Task(mainWhileLoop, nullptr, "mainWhileLoop");
 	pros::Task(AutonomousSelector, nullptr, "AutonSelector");
 	
@@ -37,12 +38,14 @@ void disabled() {
 void competition_initialize() {}
 
 void autonomous() {
+	autonomousPeriod = true;
+	driverControl = false;
 
 	// Chassis Calibration
 
 	// master.clear();
-	chassis.setPose(0,0,0);
-	chassis.moveToPoint(0,10,10000);
+	// chassis.setPose(0,0,0);
+	// chassis.turnToHeading(90,100000);
 	// chassis.turnToHeading(90,3000);
 	// chassis.waitUntilDone();
 	// double ndiff = chassis.getPose().theta-90;
@@ -90,23 +93,26 @@ void autonomous() {
 	
 	// pros::delay(10000);
 	
-
-	// if (SelectedTeam) {
-	// 	if (SelectedAuton == 1) {
-	// 		RedRingRush();
-	// 	} else if (SelectedAuton == 2) {
-	// 		FinalsRedMogoRush();
-	// 	}
-	// } else {
-	// 	if (SelectedAuton == 1) {
-	// 		BlueRingRush();
-	// 	} else if (SelectedAuton == 2) {
-	// 		FinalsBlueMogoRush();
-	// 	}
-	// }
+	if (SelectedAuton) {
+		if (SelectedTeam) {
+			if (SelectedAuton == 1) {
+				RedRingRush();
+			} else if (SelectedAuton == 2) {
+				FinalsRedMogoRush();
+			}
+		} else {
+			if (SelectedAuton == 1) {
+				BlueRingRush();
+			} else if (SelectedAuton == 2) {
+				FinalsBlueMogoRush();
+			}
+		}
+	}
+	
 }
 
 void opcontrol() {
+	autonomousPeriod = false;
 	driverControl = true;
 	while (true) {
 		// Main While Loop
