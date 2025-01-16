@@ -42,13 +42,16 @@
 
 #define LadyBrownLoading button_DOWN
 #define LadyBrownScoring button_B
+#define LadyBrownUp button_A
+#define LadyBrownDown button_LEFT
 
 #define MogoClampToggle button_X
 #define WingToggle button_Y
 
-#define ReverseRingSystem L1
+#define ReverseRingSystem button_L1
 
 #define ColourSorterToggle button_RIGHT
+
 
 /*---Motors---*/
 
@@ -82,10 +85,10 @@
 
 //Lady Brown
 
-double LBLoadingAngle = 18;
-#define LBNoContactZone 37
-#define LBWSScoringAngle 130
-#define LBASScoringAngle 140      
+double LBLoadingAngle = 19;
+#define LBNoContactZone 60
+#define LBWSScoringAngle 140
+#define LBASScoringAngle 200      
 
 /*---PID Values---*/
 
@@ -125,7 +128,7 @@ bool driverControl = false, autonomousPeriod = false;
 
 int mogoOverwriteCountdown = 20;
 
-int unjamCountdown = 10, unjamCooldown = 20;
+int unjamCountdown = 30, unjamCooldown = 20;
 
 int colourSorterCountdown = 2, colourSorterCooldown = 30;
 
