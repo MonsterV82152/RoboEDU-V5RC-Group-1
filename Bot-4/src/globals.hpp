@@ -36,6 +36,20 @@
 #define BRAKE pros::E_MOTOR_BRAKE_BRAKE
 #define HOLD pros::E_MOTOR_BRAKE_HOLD
 
+
+#define HookToggle button_R2
+#define IntakeToggle button_R1
+
+#define LadyBrownLoading button_DOWN
+#define LadyBrownScoring button_B
+
+#define MogoClampToggle button_X
+#define WingToggle button_Y
+
+#define ReverseRingSystem L1
+
+#define ColourSorterToggle button_RIGHT
+
 /*---Motors---*/
 
 //DriveTrain
@@ -64,12 +78,14 @@
 #define PORT_Vertical_TW 5
 #define PORT_Colour 21
 #define PORT_HookDistance 16
+#define PORT_BackDistance 12
 
 //Lady Brown
 
-double lbfirst = 17;
-#define lbsecond 130
-#define lbthird 140      
+double LBLoadingAngle = 18;
+#define LBNoContactZone 37
+#define LBWSScoringAngle 130
+#define LBASScoringAngle 140      
 
 /*---PID Values---*/
 
@@ -86,6 +102,7 @@ double lbfirst = 17;
 bool SelectedTeam = true, BOOL_colourSorter = true;
 int SelectedAuton = 5, user = 0;
 bool AutonSelected = false;
+bool LadyBrownSetPointState = true;
 
 
 int cycleCounter = 0;
@@ -153,11 +170,12 @@ inline pros::Imu IMU(PORT_IMU);
 inline pros::Rotation vertical_TW(PORT_Vertical_TW);
 inline pros::Optical colour(PORT_Colour);
 inline pros::Distance HookDistance(PORT_HookDistance);
+inline pros::Distance BackDistance(PORT_BackDistance);
 
 /*----------------------LEMLIB INIT----------------------*/
 
 inline lemlib::Drivetrain LEMLIB_drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_275, 450, 2);
-inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, lemlib::Omniwheel::NEW_2, -1.75);
+inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, lemlib::Omniwheel::NEW_2, -1.25);
 
 inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, nullptr, nullptr, &IMU);
 

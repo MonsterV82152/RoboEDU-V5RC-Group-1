@@ -101,12 +101,12 @@ the driver as they do not need to manually reverse the hook anymore
 void HookUnjam() {
     if (unjamCountdown == 0 && unjamCooldown != 0) {
         hookOverwriteSpeed = -127;
-        intakeOverwriteSpeed = -127;
+        // intakeOverwriteSpeed = -127;
         unjamCooldown--;
     } else if (unjamCooldown == 10) {
-        if (intakeOverwriteSpeed == -127) {
-            intakeOverwriteSpeed = 127;
-        }
+        // if (intakeOverwriteSpeed == -127) {
+        //     intakeOverwriteSpeed = 127;
+        // }
         if (hookOverwriteSpeed == -127) {
             hookOverwriteSpeed = 0;
         }
@@ -115,9 +115,9 @@ void HookUnjam() {
         if (hookOverwriteSpeed == -127) {
             hookOverwriteSpeed = 0;
         }
-        if (intakeOverwriteSpeed == 127 || intakeOverwriteSpeed == -127) {
-            intakeOverwriteSpeed = 0;
-        }
+        // if (intakeOverwriteSpeed == 127 || intakeOverwriteSpeed == -127) {
+        //     intakeOverwriteSpeed = 0;
+        // }
         unjamCooldown = 20;
 
         unjamCountdown = 10;
@@ -236,62 +236,78 @@ void LadyBrown() {
     // Gets the Lady Brown position divided by the gear ratio and translate centidegrees to degrees
     LadyBrownPosition = lbRotation.get_position()/100;
     // Sets the stages of the Lady Brown based on controls
+    if (master2.get_digital(button_DOWN)) {
+        LBLoadingAngle = LBLoadingAngle-0.5;
+    } else if (master2.get_digital(button_UP)) {
+        LBLoadingAngle = LBLoadingAngle+0.5;
+    }
     if ((master.get_digital_new_press(button_DOWN) && user == 0)||(master.get_digital_new_press(button_L1) && user == 1)) {
         if (LadyBrownState == 0) {
             LadyBrownState = 1;
+            LadyBrownSetPointState = true;
             lbMech.set_brake_mode(HOLD);
+
         } else {
             LadyBrownState = 0;
+            LadyBrownSetPointState = true;
             lbMech.set_brake_mode(COAST);
         }
     }
 
-    // if (master.get_digital(button_RIGHT)) {
-    //     lbfirst = lbfirst-0.2;
-    // }
-    // if (master.get_digital(button_UP)) {
-    //     lbfirst = lbfirst+0.2;
-    // }
-
+    
     // Sets position to scoring position
     if ((master.get_digital_new_press(button_B) && user == 0)||(master.get_digital_new_press(button_L2) && user == 1)) {
         if (LadyBrownState != 3) {
             LadyBrownState = 3;
+            LadyBrownSetPointState = true;
             lbMech.set_brake_mode(HOLD);
         } else {
+            LadyBrownSetPointState = true;
             LadyBrownState = 0;
             lbMech.set_brake_mode(COAST);
         }
     }
     
     // Checks if the Lady Brown is at the requested angle and moves it if it isn't
-    if (LadyBrownState == 0 && (LadyBrownPosition > 6 || LadyBrownPosition < -2)) {
-        lbMech.move_velocity(-(LadyBrownPosition)*4);
-        loadedRing = false;
-        // ladyBrownCountdown--;
-        // if (ladyBrownCountdown == 0) {
-        //     lbRotation.set_position(-5);
-        //     ladyBrownCountdown = 50;
-        // }
-    } else if (LadyBrownState == 1 && (LadyBrownPosition > lbfirst+2 || LadyBrownPosition < lbfirst-2)) {
-        lbMech.move_velocity((lbfirst-(LadyBrownPosition))*4);
-        
-    } else if (LadyBrownState == 2 && (LadyBrownPosition > lbsecond+2 || LadyBrownPosition < lbsecond-2)) {
-        lbMech.move_velocity((lbsecond-(LadyBrownPosition))*2);
-        // Overwrites the speed to insure no jamming occurs
-        hookOverwriteSpeed = -20;
-    } else if (LadyBrownState == 3 && (LadyBrownPosition > lbthird+2 || LadyBrownPosition < lbthird-2)) {
-        lbMech.move_velocity((lbthird-(LadyBrownPosition))*4);
-        // Overwrites the speed to insure no jamming occurs
-        hookOverwriteSpeed = -20;
+    if (LadyBrownSetPointState) {
+        if (LadyBrownState == 0 && (LadyBrownPosition > 6 || LadyBrownPosition < -2)) {
+            lbMech.move_velocity(-(LadyBrownPosition)*4);
+            loadedRing = false;
+        } else if (LadyBrownState == 1 && (LadyBrownPosition > LBLoadingAngle+2 || LadyBrownPosition < LBLoadingAngle-2)) {
+            lbMech.move_velocity((LBLoadingAngle-(LadyBrownPosition))*4);
+            
+        } else if (LadyBrownState == 2 && (LadyBrownPosition > LBWSScoringAngle+2 || LadyBrownPosition < LBWSScoringAngle-2)) {
+            lbMech.move_velocity((LBWSScoringAngle-(LadyBrownPosition))*2);
+
+            // Overwrites the speed to insure no jamming occurs
+            if (LadyBrownPosition > 0 && LadyBrownState < LBNoContactZone) {
+                hookOverwriteSpeed = -20;
+            } else if (hookOverwriteSpeed == -20) {
+                hookOverwriteSpeed = 0;
+            }
+        } else if (LadyBrownState == 3 && (LadyBrownPosition > LBASScoringAngle+2 || LadyBrownPosition < LBASScoringAngle-2)) {
+            lbMech.move_velocity((LBASScoringAngle-(LadyBrownPosition))*4);
+            // Overwrites the speed to insure no jamming occurs
+            if (LadyBrownPosition > 0 && LadyBrownState < LBNoContactZone) {
+                hookOverwriteSpeed = -20;
+            } else if (hookOverwriteSpeed == -20) {
+                hookOverwriteSpeed = 0;
+            }
+        } else {
+            lbMech.brake();
+            // Removes the overwrite
+            if (hookOverwriteSpeed == -20) {
+                hookOverwriteSpeed = 0;
+            }
+        }
     } else {
-        // ladyBrownCountdown = 50;
-        lbMech.brake();
-        // Removes the overwrite
-        if (hookOverwriteSpeed == -20) {
+        if (LadyBrownPosition > 0 && LadyBrownState < LBNoContactZone) {
+            hookOverwriteSpeed = -20;
+        } else if (hookOverwriteSpeed == -20) {
             hookOverwriteSpeed = 0;
         }
     }
+    
 }
 
 

@@ -88,27 +88,35 @@ void RedRingRush() {
     
 }
 void BlueRingRush() {
+    BOOL_colourSorter = false;
     chassis.setPose(58,36,270);
     intakeSpeed = 127;
-    chassis.follow(Blue_Ring_Rush_txt,15,3000);
+    chassis.follow(Blue_Ring_Rush_txt,15,2300);
+    chassis.waitUntilDone();
+    // pros::delay(200);
     chassis.moveToPoint(28,20,1000,{false});
     chassis.waitUntilDone();
     BOOL_mogo_clamp = true;
     pros::delay(200);
     hookSpeed = 127;
     chassis.moveToPoint(24,48,1000);
-    chassis.turnToPoint(4,51,700);
-    chassis.moveToPoint(4,51,1000);
+    chassis.turnToPoint(3,51,700);
+    BOOL_colourSorter = true;
+    chassis.moveToPoint(3,51,1000);
     chassis.waitUntilDone();
     pros::delay(200);
-    chassis.moveToPoint(48,48,1000,{.forwards = false,.earlyExitRange = 5});
-    chassis.turnToPoint(70,70,700);
+    chassis.moveToPoint(46,50,1000,{.forwards = false,.earlyExitRange = 5});
+    chassis.turnToPoint(66,74,700);
     
     for (int i = 0; i < 2; i++) {
-        chassis.moveToPoint(70,70,1000,{.maxSpeed = 80}); 
+        chassis.moveToPoint(66,74,1000,{.maxSpeed = 80}); 
         chassis.waitUntilDone();
+        for (int j = 0; j < 3; j++) {
+            chassis.moveToPoint(0,0,200,{.forwards = false,.maxSpeed = 127});
+            chassis.moveToPoint(70,70,200,{.maxSpeed = 127});
+        }
         pros::delay(1000);
-        chassis.moveToPoint(50,50,700,{.forwards = false,.maxSpeed = 80});
+        chassis.moveToPoint(50,50,700,{.forwards = false,.maxSpeed = 100});
     }
 }
 
