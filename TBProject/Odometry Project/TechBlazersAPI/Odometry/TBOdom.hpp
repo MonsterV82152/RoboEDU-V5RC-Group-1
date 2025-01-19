@@ -1,10 +1,8 @@
 #include "TBGlobals.hpp"
 
-
-
-
-class TankDR {
-    private:
+class TankDR
+{
+private:
     double xPos;
     double yPos;
     double HeadingDeg;
@@ -21,14 +19,14 @@ class TankDR {
     pros::MotorGroup *TBleftDr;
     pros::Task movement;
     pros::Task timeoutTask;
-    
-    public:
-    TankDR(pros::MotorGroup *rightDrI, 
-           pros::MotorGroup *leftDrI, 
-           TBPid *angularControllerI, 
-           TBPid *lateralControllerI, 
-           pros::IMU *imuI, 
-           TBTrackingWheel *verticalTWI, 
+
+public:
+    TankDR(pros::MotorGroup *rightDrI,
+           pros::MotorGroup *leftDrI,
+           TBPid *angularControllerI,
+           TBPid *lateralControllerI,
+           pros::IMU *imuI,
+           TBTrackingWheel *verticalTWI,
            float vertTWOffsetI,
            TBTrackingWheel *horizontalTWI,
            float horiTWOffsetI);
@@ -37,8 +35,4 @@ class TankDR {
     void moveToPoint(float x, float y, float timeout, bool forwards = true, float maxSpeed = 127, float minSpeed = 0);
     void turnToHeading(float theta, float timeout);
     void calibrate();
-
-    
-    
-
 };
