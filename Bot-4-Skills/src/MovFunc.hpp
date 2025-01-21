@@ -339,7 +339,7 @@ void LadyBrown()
 {
 
     // Gets the Lady Brown position divided by the gear ratio and translate centidegrees to degrees
-    LadyBrownPosition = lbRotation.get_position() / 100;
+    LadyBrownPosition = lbRotation.get_position() / 600;
     // Sets the stages of the Lady Brown based on controls
     if (master2.get_digital(button_DOWN))
     {
@@ -349,16 +349,19 @@ void LadyBrown()
     {
         LBLoadingAngle = LBLoadingAngle + 0.5;
     }
-    if (master.get_digital_new_press(LadyBrownLoading) && user == 0)
+    if (master.get_digital_new_press(LadyBrownLoading))
     {
-        if (LadyBrownState != 1)
+        if (LadyBrownState == 0)
         {
             LadyBrownState = 1;
             LadyBrownSetPointState = true;
             lbMech.set_brake_mode(HOLD);
         }
-        else
-        {
+        else if (LadyBrownState == 1) {
+            LadyBrownState = 1;
+            LadyBrownSetPointState = true;
+            lbMech.set_brake_mode(HOLD);
+        } else {
             LadyBrownState = 0;
             LadyBrownSetPointState = true;
             lbMech.set_brake_mode(COAST);
@@ -388,9 +391,9 @@ void LadyBrown()
         if (LadyBrownPosition < 300)
         {
             if (LadyBrownPosition < LBNoContactZone) {
-                hookOverwriteSpeed = -20;
+                hookOverwriteSpeed = -30;
             } else {
-                if (hookOverwriteSpeed == -20) {
+                if (hookOverwriteSpeed == -30) {
                     hookOverwriteSpeed = 0;
                 }
             }
@@ -436,9 +439,9 @@ void LadyBrown()
             // Overwrites the speed to insure no jamming occurs
             if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
             {
-                hookOverwriteSpeed = -20;
+                hookOverwriteSpeed = -30;
             }
-            else if (hookOverwriteSpeed == -20)
+            else if (hookOverwriteSpeed == -30)
             {
                 hookOverwriteSpeed = 0;
             }
@@ -449,9 +452,9 @@ void LadyBrown()
             // Overwrites the speed to insure no jamming occurs
             if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
             {
-                hookOverwriteSpeed = -20;
+                hookOverwriteSpeed = -30;
             }
-            else if (hookOverwriteSpeed == -20)
+            else if (hookOverwriteSpeed == -30)
             {
                 hookOverwriteSpeed = 0;
             }
@@ -460,7 +463,7 @@ void LadyBrown()
         {
             lbMech.brake();
             // Removes the overwrite
-            if (hookOverwriteSpeed == -20)
+            if (hookOverwriteSpeed == -30)
             {
                 hookOverwriteSpeed = 0;
             }
@@ -498,7 +501,7 @@ void SensorInit()
 
     colour.set_led_pwm(100);
     lbRotation.set_reversed(true);
-    lbMech.set_reversed(true);
+    // lbMech.set_reversed(true);
     master.clear();
 }
 

@@ -42,7 +42,7 @@ void ColourSorter(void *param)
                 {
                     if (SelectedTeam && ring[0] == 2)
                     {
-                        pros::delay(20);
+                        pros::delay(50);
                         colourSorterCooldown--;
                         if (LadyBrownState == 1)
                         {
@@ -127,6 +127,26 @@ void ColourSorter(void *param)
     }
 }
 
+void AllianceStakeAllign()
+{
+    if (master.get_digital_new_press(button_UP))
+    {
+        Aallignment = !Aallignment;
+    }
+    if (Aallignment) {
+            if ((heading < 80 && heading > 0) || (heading > 100 && heading < 180)) {
+                chassis.turnToHeading(90, 1000);
+            } else if (heading < 260 || heading > 280) {
+                chassis.turnToHeading(270, 1000);
+            } else {
+                chassis.cancelAllMotions();
+            }
+            distance = BackDistance.get_distance();
+            chassis.arcade((distance/100*127)*0.5,0,false,0.5);
+    }
+}
+
+
 /*
 The HookUnjam is a function that gets called in the mainMovement to detect whether the hook has been
 jammed and will reverse if does. This will prevent jamming that might lose us points. This also helps
@@ -181,7 +201,8 @@ period here and the intake/hook system.
 void mainMovement()
 {
     // Tank Drive
-    if (driverControl)
+    heading = abs((int)(chassis.getPose().theta) % 360);
+    if (driverControl && !Aallignment)
     {
         left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
         right_controller_position_X = master.get_analog(ANALOG_RIGHT_X);
@@ -199,6 +220,7 @@ void mainMovement()
         if (hookSpeed == 0)
         { // Runs the hook if hook is stationary
             hookSpeed = hookDefaultSpeed;
+            Aallignment = false;
         }
         else
         {
@@ -221,6 +243,7 @@ void mainMovement()
         }
     }
     HookUnjam();
+    AllianceStakeAllign();    
     if (master.get_digital(ReverseRingSystem) && user == 0)
     {
         actualIntakeSpeed = -127;
@@ -245,7 +268,7 @@ void mainMovement()
             hook.move(hookOverwriteSpeed);
             actualHookSpeed = hookOverwriteSpeed;
         }
-        else if (LadyBrownState == 2) {
+        else if (LadyBrownState == 3 || LBMoving) {
             hook.brake();
             actualHookSpeed = 0;
         } else {
@@ -339,7 +362,7 @@ void LadyBrown()
 {
 
     // Gets the Lady Brown position divided by the gear ratio and translate centidegrees to degrees
-    LadyBrownPosition = lbRotation.get_position() / 100;
+    LadyBrownPosition = lbRotation.get_position() / 600;
     // Sets the stages of the Lady Brown based on controls
     if (master2.get_digital(button_DOWN))
     {
@@ -349,16 +372,19 @@ void LadyBrown()
     {
         LBLoadingAngle = LBLoadingAngle + 0.5;
     }
-    if (master.get_digital_new_press(LadyBrownLoading) && user == 0)
+    if (master.get_digital_new_press(LadyBrownLoading))
     {
-        if (LadyBrownState != 1)
+        if (LadyBrownState == 0)
         {
             LadyBrownState = 1;
             LadyBrownSetPointState = true;
             lbMech.set_brake_mode(HOLD);
         }
-        else
-        {
+        else if (LadyBrownState == 1) {
+            LadyBrownState = 2;
+            LadyBrownSetPointState = true;
+            lbMech.set_brake_mode(HOLD);
+        } else {
             LadyBrownState = 0;
             LadyBrownSetPointState = true;
             lbMech.set_brake_mode(COAST);
@@ -366,11 +392,11 @@ void LadyBrown()
     }
 
     // Sets position to scoring position
-    if (master.get_digital_new_press(LadyBrownScoring) && user == 0)
+    if (master.get_digital_new_press(LadyBrownScoring))
     {
-        if (LadyBrownState != 2)
+        if (LadyBrownState != 3)
         {
-            LadyBrownState = 2;
+            LadyBrownState = 3;
             LadyBrownSetPointState = true;
             lbMech.set_brake_mode(HOLD);
         }
@@ -424,14 +450,15 @@ void LadyBrown()
         {
             lbMech.move_velocity(-(LadyBrownPosition) * 4);
             loadedRing = false;
+            LBMoving = true;
         }
         else if (LadyBrownState == 1 && (LadyBrownPosition > LBLoadingAngle + 2 || LadyBrownPosition < LBLoadingAngle - 2))
         {
             lbMech.move_velocity((LBLoadingAngle - (LadyBrownPosition)) * 4);
         }
-        else if (LadyBrownState == 2 && (LadyBrownPosition > LBWSScoringAngle + 2 || LadyBrownPosition < LBWSScoringAngle - 2))
+        else if (LadyBrownState == 2 && (LadyBrownPosition > LBLoadingAngle2 + 2 || LadyBrownPosition < LBLoadingAngle2 - 2))
         {
-            lbMech.move_velocity((LBWSScoringAngle - (LadyBrownPosition)) * 2);
+            lbMech.move_velocity((LBLoadingAngle2 - (LadyBrownPosition)) * 2);
 
             // Overwrites the speed to insure no jamming occurs
             if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
@@ -442,10 +469,11 @@ void LadyBrown()
             {
                 hookOverwriteSpeed = 0;
             }
+            LBMoving = true;
         }
-        else if (LadyBrownState == 3 && (LadyBrownPosition > LBASScoringAngle + 2 || LadyBrownPosition < LBASScoringAngle - 2))
+        else if (LadyBrownState == 3 && (LadyBrownPosition > LBScoringAngle + 2 || LadyBrownPosition < LBScoringAngle - 2))
         {
-            lbMech.move_velocity((LBASScoringAngle - (LadyBrownPosition)) * 4);
+            lbMech.move_velocity((LBScoringAngle - (LadyBrownPosition)) * 4);
             // Overwrites the speed to insure no jamming occurs
             if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
             {
@@ -455,6 +483,7 @@ void LadyBrown()
             {
                 hookOverwriteSpeed = 0;
             }
+            LBMoving = true;
         }
         else
         {
@@ -464,6 +493,7 @@ void LadyBrown()
             {
                 hookOverwriteSpeed = 0;
             }
+            LBMoving = false;
         }
     }
     else
@@ -497,7 +527,7 @@ void SensorInit()
     lbRotation.set_position(0);
 
     colour.set_led_pwm(100);
-    lbRotation.set_reversed(true);
+    // lbRotation.set_reversed(true);
     lbMech.set_reversed(true);
     master.clear();
 }
@@ -506,7 +536,7 @@ void ControllerDisplay()
 {
     if (cycleCounter % 50 == 0)
     {
-        master.print(0, 0, "%d %d", ring[0], ring[1]);
+        master.print(0, 0, "%d",LBLoadingAngle);
     }
     else if (cycleCounter % 50 == 10)
     {

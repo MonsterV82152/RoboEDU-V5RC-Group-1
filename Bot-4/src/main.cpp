@@ -29,7 +29,8 @@ void initialize() {
 	pros::Task(AutonomousSelector, nullptr, "AutonSelector");
 	
 	chassis.calibrate();
-	
+	chassis.setPose(0,0,90);
+
 	}
 
 void disabled() {
@@ -114,6 +115,8 @@ void autonomous() {
 void opcontrol() {
 	autonomousPeriod = false;
 	driverControl = true;
+	chassis.setBrakeMode(COAST);
+	
 	while (true) {
 		// Main While Loop
 		

@@ -1,6 +1,5 @@
 #include "globals.hpp"
 #include "MovFunc.hpp"
-#include "AutonSelector.hpp"
 #include "Autonomous_Paths.hpp"
 
 void on_center_button() {
@@ -26,7 +25,6 @@ void initialize() {
     // });
 	pros::Task(ColourSorter, nullptr, "ColourSorter");
 	pros::Task(mainWhileLoop, nullptr, "mainWhileLoop");
-	pros::Task(AutonomousSelector, nullptr, "AutonSelector");
 	
 	chassis.calibrate();
 	
@@ -40,7 +38,7 @@ void competition_initialize() {}
 void autonomous() {
 	autonomousPeriod = true;
 	driverControl = false;
-
+	Skills();
 	// Chassis Calibration
 
 	// master.clear();
@@ -93,21 +91,6 @@ void autonomous() {
 	
 	// pros::delay(10000);
 	
-	if (SelectedAuton) {
-		if (SelectedTeam) {
-			if (SelectedAuton == 1) {
-				RedRingRush();
-			} else if (SelectedAuton == 2) {
-				FinalsRedMogoRush();
-			}
-		} else {
-			if (SelectedAuton == 1) {
-				BlueRingRush();
-			} else if (SelectedAuton == 2) {
-				FinalsBlueMogoRush();
-			}
-		}
-	}
 	
 }
 

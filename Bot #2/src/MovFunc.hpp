@@ -135,9 +135,9 @@ void mainMovement() {
             intake.move(intakeOverwriteSpeed);
         }
         if (hookOverwriteSpeed == 0) {
-            hook.move(hookSpeed);
+            intake.move(hookSpeed);
         } else {
-            hook.move(hookOverwriteSpeed);
+            intake.move(hookOverwriteSpeed);
         }
     }
     
@@ -197,6 +197,9 @@ void LadyBrown() {
         if (LadyBrownState == 0) {
             LadyBrownState = 1;
             lbMech.set_brake_mode(HOLD);
+        } else if (LadyBrownState == 1) {
+            LadyBrownState = 2;
+            lbMech.set_brake_mode(HOLD);
         } else {
             LadyBrownState = 0;
             lbMech.set_brake_mode(COAST);
@@ -236,16 +239,16 @@ void LadyBrown() {
     } else if (LadyBrownState == 2 && (LadyBrownPosition > lbsecond+2 || LadyBrownPosition < lbsecond-2)) {
         lbMech.move_velocity((lbsecond-(LadyBrownPosition))*2);
         // Overwrites the speed to insure no jamming occurs
-        hookOverwriteSpeed = -20;
+        hookOverwriteSpeed = -10;
     } else if (LadyBrownState == 3 && (LadyBrownPosition > lbthird+2 || LadyBrownPosition < lbthird-2)) {
         lbMech.move_velocity((lbthird-(LadyBrownPosition))*4);
         // Overwrites the speed to insure no jamming occurs
-        hookOverwriteSpeed = -20;
+        hookOverwriteSpeed = -10;
     } else {
         // ladyBrownCountdown = 50;
         lbMech.brake();
         // Removes the overwrite
-        if (hookOverwriteSpeed == -20) {
+        if (hookOverwriteSpeed == -10) {
             hookOverwriteSpeed = 0;
         }
     }

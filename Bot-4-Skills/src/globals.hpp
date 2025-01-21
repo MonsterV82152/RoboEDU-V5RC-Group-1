@@ -103,7 +103,7 @@ double LBLoadingAngle = 19;
 
 /*----------------------GLOBAL VARIABLES----------------------*/
 
-bool SelectedTeam = false, BOOL_colourSorter = true;
+bool SelectedTeam = true, BOOL_colourSorter = true;
 int SelectedAuton = 1, user = 0;
 bool AutonSelected = false;
 bool LadyBrownSetPointState = true;
@@ -144,10 +144,7 @@ double hookTemp, driveTemp;
 
 /*----------------------PROS INIT----------------------*/
 
-ASSET(Blue_Mogo_Rush_txt)
-ASSET(Red_Mogo_Rush_txt)
-ASSET(Blue_Ring_Rush_txt)
-ASSET(Red_Ring_Rush_txt)
+ASSET(skills_txt)
 
 //DriveTrain
 inline pros::MotorGroup left_dr({PORT_left_dr_1,PORT_left_dr_2,PORT_left_dr_3});
@@ -180,7 +177,7 @@ inline pros::Distance BackDistance(PORT_BackDistance);
 /*----------------------LEMLIB INIT----------------------*/
 
 inline lemlib::Drivetrain LEMLIB_drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_275, 450, 2);
-inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, lemlib::Omniwheel::NEW_2, -1.25);
+inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, lemlib::Omniwheel::NEW_2, -1);
 inline lemlib::TrackingWheel LEMLIB_horizontal_TW(&horizontal_TW, lemlib::Omniwheel::NEW_2, -2.6);
 
 inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, &LEMLIB_horizontal_TW, nullptr, &IMU);
@@ -194,7 +191,7 @@ inline lemlib::ControllerSettings LEMLIB_lateral_controller(
 											100, // small error range timeout, in milliseconds
 											3, // large error range, in inches
 											500, // large error range timeout, in milliseconds
-											20 // maximum acceleration (slew)
+											7 // maximum acceleration (slew)
 );
 
 inline lemlib::ControllerSettings LEMLIB_angular_controller(

@@ -66,8 +66,8 @@
 
 //Lady Brown
 
-double lbfirst = 33;
-#define lbsecond 130
+double lbfirst = 22;
+#define lbsecond 37
 #define lbthird 150
 
 /*---PID Values---*/

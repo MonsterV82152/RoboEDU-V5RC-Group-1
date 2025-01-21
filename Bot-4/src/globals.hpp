@@ -66,7 +66,7 @@
 
 //Mechanisms
 #define PORT_intake 7
-#define PORT_hook 15
+#define PORT_hook 20
 #define PORT_lbMech 4
 
 //Pnuematics
@@ -86,16 +86,16 @@
 
 //Lady Brown
 
-double LBLoadingAngle = 19;
+double LBLoadingAngle = 22;
 #define LBNoContactZone 60
-#define LBWSScoringAngle 140
-#define LBASScoringAngle 200      
+#define LBLoadingAngle2 36
+#define LBScoringAngle 130   
 
 /*---PID Values---*/
 
 #define lateralKp 3
 #define lateralKi 0
-#define lateralKd 0
+#define lateralKd 0 
 
 #define angularKp 3.5
 #define angularKi 0.01
@@ -108,6 +108,11 @@ int SelectedAuton = 1, user = 0;
 bool AutonSelected = false;
 bool LadyBrownSetPointState = true;
 
+double heading;
+
+bool Aallignment = false;
+
+double distance;
 
 int cycleCounter = 0;
 
@@ -140,6 +145,8 @@ int ring[2] = {0,0};
 bool detectingColour = false;
 
 double hookTemp, driveTemp;
+
+bool LBMoving = false;
 
 
 /*----------------------PROS INIT----------------------*/
@@ -180,7 +187,7 @@ inline pros::Distance BackDistance(PORT_BackDistance);
 /*----------------------LEMLIB INIT----------------------*/
 
 inline lemlib::Drivetrain LEMLIB_drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_275, 450, 2);
-inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, lemlib::Omniwheel::NEW_2, -1.25);
+inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, lemlib::Omniwheel::NEW_2, -1);
 inline lemlib::TrackingWheel LEMLIB_horizontal_TW(&horizontal_TW, lemlib::Omniwheel::NEW_2, -2.6);
 
 inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, &LEMLIB_horizontal_TW, nullptr, &IMU);
