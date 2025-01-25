@@ -248,6 +248,7 @@ void AutonomousSelector(void* param) {
         pros::delay(20);
 
     }
+    BOOL_colourSorter = true;
     AutonSelected = true;
 
 }

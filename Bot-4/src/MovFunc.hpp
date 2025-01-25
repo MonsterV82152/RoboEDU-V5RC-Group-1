@@ -65,11 +65,13 @@ void ColourSorter(void *param)
                         {
                             hookOverwriteSpeed = -10;
                         }
+                    } else {
+                        if (LadyBrownState == 1)
+                        {
+                            loadedRing = true;
+                        }
                     }
-                    if (LadyBrownState == 1)
-                    {
-                        loadedRing = true;
-                    }
+                    
                     ring[0] = ring[1];
                     ring[1] = 0;
                 }
@@ -134,15 +136,10 @@ void AllianceStakeAllign()
         Aallignment = !Aallignment;
     }
     if (Aallignment) {
-            if ((heading < 80 && heading > 0) || (heading > 100 && heading < 180)) {
-                chassis.turnToHeading(90, 1000);
-            } else if (heading < 260 || heading > 280) {
-                chassis.turnToHeading(270, 1000);
-            } else {
-                chassis.cancelAllMotions();
+            chassis.arcade((93-distance)*0.5,0,false,0.5);
+            if (abs(93-distance) < 3) {
+                Aallignment = false;
             }
-            distance = BackDistance.get_distance();
-            chassis.arcade((distance/100*127)*0.5,0,false,0.5);
     }
 }
 
@@ -154,12 +151,22 @@ the driver as they do not need to manually reverse the hook anymore
 */
 void HookUnjam()
 {
+    if (LadyBrownState == 1 && HookDistance.get_distance() < 100) {
+        loadedRing = true;
+    }
     if (unjamCountdown == 0 && unjamCooldown != 0)
     {
-        hookOverwriteSpeed = -127;
-        master.rumble("-");
-        // intakeOverwriteSpeed = -127;
-        unjamCooldown--;
+        if (loadedRing || LadyBrownState == 1) {
+            unjamCountdown = 30;
+        } else if (LadyBrownState == 0) {
+            hookOverwriteSpeed = -127;
+            master.rumble("-");
+            // intakeOverwriteSpeed = -127;
+            unjamCooldown--;
+        } else {
+            unjamCountdown = 30;
+        }
+        
     }
     else if (unjamCooldown == 30)
     {
@@ -182,15 +189,16 @@ void HookUnjam()
         // }
         unjamCooldown = 20;
 
-        unjamCountdown = 10;
+        unjamCountdown = 30;
     }
-    else if (hook.get_actual_velocity() < 10 && hookSpeed > 0 && !loadedRing && LadyBrownState == 0)
+    else if (hook.get_actual_velocity() < 10 && hookSpeed > 0)
     {
         unjamCountdown--;
     }
     else
     {
         unjamCountdown = 30;
+        
     }
 }
 
@@ -201,6 +209,7 @@ period here and the intake/hook system.
 void mainMovement()
 {
     // Tank Drive
+    distance = BackDistance.get_distance();
     heading = abs((int)(chassis.getPose().theta) % 360);
     if (driverControl && !Aallignment)
     {
@@ -217,6 +226,7 @@ void mainMovement()
 
     if (master.get_digital_new_press(HookToggle))
     {
+        Aallignment = false;
         if (hookSpeed == 0)
         { // Runs the hook if hook is stationary
             hookSpeed = hookDefaultSpeed;
@@ -473,6 +483,7 @@ void LadyBrown()
         }
         else if (LadyBrownState == 3 && (LadyBrownPosition > LBScoringAngle + 2 || LadyBrownPosition < LBScoringAngle - 2))
         {
+            loadedRing = false;
             lbMech.move_velocity((LBScoringAngle - (LadyBrownPosition)) * 4);
             // Overwrites the speed to insure no jamming occurs
             if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
@@ -536,7 +547,7 @@ void ControllerDisplay()
 {
     if (cycleCounter % 50 == 0)
     {
-        master.print(0, 0, "%d",LBLoadingAngle);
+        master.print(0, 0, "%d",(int)(loadedRing));
     }
     else if (cycleCounter % 50 == 10)
     {

@@ -57,7 +57,7 @@
 
 //DriveTrain
 #define PORT_right_dr_1 1
-#define PORT_right_dr_2 2
+#define PORT_right_dr_2 15
 #define PORT_right_dr_3 3
 
 #define PORT_left_dr_1 -8
@@ -86,10 +86,10 @@
 
 //Lady Brown
 
-double LBLoadingAngle = 22;
+double LBLoadingAngle = 11;
 #define LBNoContactZone 60
-#define LBLoadingAngle2 36
-#define LBScoringAngle 130   
+#define LBLoadingAngle2 23
+#define LBScoringAngle 110
 
 /*---PID Values---*/
 
@@ -103,8 +103,8 @@ double LBLoadingAngle = 22;
 
 /*----------------------GLOBAL VARIABLES----------------------*/
 
-bool SelectedTeam = false, BOOL_colourSorter = true;
-int SelectedAuton = 1, user = 0;
+bool SelectedTeam = true, BOOL_colourSorter = true;
+int SelectedAuton = 2, user = 0;
 bool AutonSelected = false;
 bool LadyBrownSetPointState = true;
 
@@ -187,8 +187,8 @@ inline pros::Distance BackDistance(PORT_BackDistance);
 /*----------------------LEMLIB INIT----------------------*/
 
 inline lemlib::Drivetrain LEMLIB_drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_275, 450, 2);
-inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, lemlib::Omniwheel::NEW_2, -1);
-inline lemlib::TrackingWheel LEMLIB_horizontal_TW(&horizontal_TW, lemlib::Omniwheel::NEW_2, -2.6);
+inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, 2, -1.25);
+inline lemlib::TrackingWheel LEMLIB_horizontal_TW(&horizontal_TW, 2, -2.6);
 
 inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, &LEMLIB_horizontal_TW, nullptr, &IMU);
 inline lemlib::ControllerSettings LEMLIB_lateral_controller(
