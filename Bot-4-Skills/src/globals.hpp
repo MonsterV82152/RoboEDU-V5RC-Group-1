@@ -86,14 +86,14 @@
 
 //Lady Brown
 
-double LBLoadingAngle = 22;
+double LBLoadingAngle = 9;
 #define LBNoContactZone 60
 #define LBLoadingAngle2 36
 #define LBScoringAngle 130  
 
 /*---PID Values---*/
 
-#define lateralKp 3
+#define lateralKp 4
 #define lateralKi 0
 #define lateralKd 0
 

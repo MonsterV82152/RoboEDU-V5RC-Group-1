@@ -127,7 +127,7 @@ void ColourSorter(void *param)
             colourSorterCooldown = 30;
         }
 
-        pros::delay(10);
+        pros::delay(5);
     }
 }
 
@@ -138,7 +138,7 @@ void AllianceStakeAllign()
         Aallignment = !Aallignment;
     }
     if (Aallignment) {
-            chassis.arcade((93-distance)*0.5,0,false,0.5);
+            chassis.arcade((93-(distance+distance2)/2)*0.5,(distance2-distance)*0.5,false,0.5);
             if (abs(93-distance) < 3) {
                 Aallignment = false;
             }
@@ -211,6 +211,7 @@ period here and the intake/hook system.
 void mainMovement()
 {
     // Tank Drive
+    distance2 = BackDistance2.get_distance();
     distance = BackDistance.get_distance();
     heading = abs((int)(chassis.getPose().theta) % 360);
     if (driverControl && !Aallignment)

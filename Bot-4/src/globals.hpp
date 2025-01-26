@@ -83,14 +83,14 @@
 #define PORT_Colour 21
 #define PORT_HookDistance 16
 #define PORT_BackDistance 12
+#define PORT_BackDistance2 19
 
 //Lady Brown
 
-double LBLoadingAngle = 10;
+double LBLoadingAngle = 8;
 #define LBNoContactZone 60
 #define LBLoadingAngle2 23
 #define LBScoringAngle 110
-
 /*---PID Values---*/
 
 #define lateralKp 3
@@ -103,7 +103,7 @@ double LBLoadingAngle = 10;
 
 /*----------------------GLOBAL VARIABLES----------------------*/
 
-bool SelectedTeam = true, BOOL_colourSorter = true;
+bool SelectedTeam = false, BOOL_colourSorter = true;
 int SelectedAuton = 2, user = 0;
 bool AutonSelected = false;
 bool LadyBrownSetPointState = true;
@@ -112,7 +112,7 @@ double heading;
 
 bool Aallignment = false;
 
-double distance;
+double distance, distance2;
 
 int cycleCounter = 0;
 
@@ -183,6 +183,8 @@ inline pros::Rotation horizontal_TW(PORT_Horizontal_TW);
 inline pros::Optical colour(PORT_Colour);
 inline pros::Distance HookDistance(PORT_HookDistance);
 inline pros::Distance BackDistance(PORT_BackDistance);
+inline pros::Distance BackDistance2(PORT_BackDistance2);
+
 
 /*----------------------LEMLIB INIT----------------------*/
 

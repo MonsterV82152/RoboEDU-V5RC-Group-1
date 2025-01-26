@@ -35,7 +35,6 @@ void Skills() {
     chassis.turnToPoint(-1,-50,700);
     pros::delay(500);
     LoadRing();
-    
     chassis.moveToPoint(-3,-50,1000);
     // for (int i = 0; i < 2; i++) {
     //     pros::delay(200);
@@ -43,20 +42,22 @@ void Skills() {
     //     pros::delay(200);
     //     hookSpeed = 127;
     // }
-    chassis.turnToPoint(-1,-70,700);
+    chassis.turnToPoint(4,-70,700);
+    hookSpeed = 0;
     
-    chassis.moveToPoint(-1,-70,1000);
+    chassis.moveToPoint(4,-70,700);
     pros::delay(700);
     LadyBrownState = 3;
+    hookSpeed = 127;
     pros::delay(1000);
     chassis.moveToPoint(0,-50,1000,{false});
-    LowerLB();
     chassis.turnToPoint(-48,-65,700);
+    LowerLB();
     chassis.moveToPoint(-48,-65,1200);
     chassis.swingToPoint(0,0,lemlib::DriveSide::RIGHT,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
     chassis.moveToPoint(-66,-66,700,{false});
     chassis.waitUntilDone();
-    pros::delay(500);
+    pros::delay(700);
     BOOL_mogo_clamp = false;
     hookOverwriteSpeed = -50;
     chassis.moveToPoint(10,10,2000);
@@ -67,24 +68,28 @@ void Skills() {
     chassis.turnToPoint(-48,24,700,{false});
     chassis.moveToPoint(-48,24,1500,{false});
     Clamp();
-    chassis.moveToPoint(-24,24,1000);
+    chassis.moveToPoint(-24,24,700);
     chassis.turnToPoint(-24,48,700);
-    chassis.moveToPoint(-24,48,1000);
+    chassis.moveToPoint(-24,48,700);
     chassis.turnToPoint(-48,48,700);
     chassis.moveToPoint(-53,48,1000);
     chassis.swingToHeading(90,lemlib::DriveSide::RIGHT,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
     chassis.moveToPoint(-66,66,700,{false});
+    chassis.waitUntilDone();
     pros::delay(500);
     BOOL_mogo_clamp = false;
     hookOverwriteSpeed = -50;
-    chassis.moveToPoint(0,58,1000);
+    chassis.moveToPoint(4,53,1500);
     LoadRing();
-    chassis.turnToPoint(0,70,700);
-    chassis.moveToPoint(0,80,1000);
+    chassis.turnToPoint(4,70,700);
+    chassis.moveToPoint(4,80,1000);
+    hookSpeed = 0;
     pros::delay(700);
     LadyBrownState = 3;
-    chassis.moveToPoint(0,55,1000,{false});
-    LowerLB();
+    pros::delay(500);
+
+    chassis.moveToPoint(4,53,1000,{false});
+    // LowerLB();
 
 }
 

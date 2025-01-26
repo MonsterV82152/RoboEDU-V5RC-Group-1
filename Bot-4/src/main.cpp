@@ -99,13 +99,13 @@ void autonomous() {
 			if (SelectedAuton == 1) {
 				RedRingRush();
 			} else if (SelectedAuton == 2) {
-				RedMogoRush();
+				FinalsRedMogoRush();
 			}
 		} else {
 			if (SelectedAuton == 1) {
 				BlueRingRush();
 			} else if (SelectedAuton == 2) {
-				BlueMogoRush();
+				FinalsBlueMogoRush();
 			}
 		}
 	}

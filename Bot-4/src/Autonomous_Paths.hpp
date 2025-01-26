@@ -51,8 +51,8 @@ void BlueMogoRush() {
 
 void FinalsBlueMogoRush() {
     BOOL_colourSorter = true;
-    chassis.setPose(50,-30,270);
-    chassis.follow(Blue_Mogo_Rush_txt,15,1700,false);
+    chassis.setPose(50,-30,90);
+    chassis.follow(Blue_Mogo_Rush_txt,15,2000,false);
     chassis.waitUntilDone();
     BOOL_mogo_clamp = true;
     pros::delay(200);
@@ -76,6 +76,7 @@ void FinalsBlueMogoRush() {
     }
     chassis.turnToPoint(48,24,700);
     chassis.moveToPoint(48,24,2000,{.maxSpeed = 70});
+    chassis.moveToPoint(60,-60,1000,{false});
 }
 
 void RedMogoRush() {
