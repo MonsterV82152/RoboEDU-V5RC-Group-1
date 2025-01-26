@@ -42,7 +42,7 @@ void ColourSorter(void *param)
                 {
                     if (SelectedTeam && ring[0] == 2)
                     {
-                        pros::delay(50);
+                        pros::delay(20);
                         colourSorterCooldown--;
                         if (LadyBrownState == 1)
                         {
@@ -70,6 +70,8 @@ void ColourSorter(void *param)
                         {
                             loadedRing = true;
                         }
+                        pros::delay(300);
+
                     }
                     
                     ring[0] = ring[1];
@@ -93,7 +95,7 @@ void ColourSorter(void *param)
                 }
                 detectingColour = true;
             }
-            else if (a > 190 && a < 230)
+            else if (a > 140 && a < 230)
             {
                 if (!detectingColour)
                 {
@@ -547,7 +549,7 @@ void ControllerDisplay()
 {
     if (cycleCounter % 50 == 0)
     {
-        master.print(0, 0, "%d",(int)(loadedRing));
+        master.print(0, 0, "%d %d",ring[0], ring[1]);
     }
     else if (cycleCounter % 50 == 10)
     {
