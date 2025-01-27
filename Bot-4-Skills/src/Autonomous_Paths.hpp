@@ -49,24 +49,26 @@ void Skills() {
     pros::delay(700);
     LadyBrownState = 3;
     hookSpeed = 127;
-    pros::delay(1000);
-    chassis.moveToPoint(0,-50,1000,{false});
+    pros::delay(300);
+    chassis.moveToPoint(0,-45,1000,{false});
     chassis.turnToPoint(-48,-65,700);
     LowerLB();
     chassis.moveToPoint(-48,-65,1200);
     chassis.swingToPoint(0,0,lemlib::DriveSide::RIGHT,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
     chassis.moveToPoint(-66,-66,700,{false});
+    // chassis.turnToPoint(-24,-48,700);
     chassis.waitUntilDone();
     pros::delay(700);
     BOOL_mogo_clamp = false;
     hookOverwriteSpeed = -50;
+    
     chassis.moveToPoint(10,10,2000);
     pros::delay(500);
     hookSpeed = 0;
-    // chassis.turnToPoint(-31,24,700,{.forwards = false});
-    // chassis.moveToPoint(-31,24,1000,{.forwards = false, .earlyExitRange = 5});
-    chassis.turnToPoint(-48,24,700,{false});
-    chassis.moveToPoint(-48,24,1500,{false});
+    chassis.turnToPoint(-48,18,700,{.forwards = false});
+    chassis.moveToPoint(-48,18,1000,{.forwards = false, .earlyExitRange = 5});
+    // chassis.turnToPoint(-48,24,700,{false});
+    chassis.moveToPoint(-48,24,700,{false});
     Clamp();
     chassis.moveToPoint(-24,24,700);
     chassis.turnToPoint(-24,48,700);
@@ -79,17 +81,83 @@ void Skills() {
     pros::delay(500);
     BOOL_mogo_clamp = false;
     hookOverwriteSpeed = -50;
-    chassis.moveToPoint(4,53,1500);
+    chassis.moveToPoint(0,53,1500);
     LoadRing();
-    chassis.turnToPoint(4,70,700);
-    chassis.moveToPoint(4,80,1000);
-    hookSpeed = 0;
+    chassis.turnToPoint(0,70,700);
+    LadyBrownState = 2;
+    chassis.moveToPoint(0,80,1000);
     pros::delay(700);
     LadyBrownState = 3;
+    chassis.moveToPoint(3,50,1000,{false});
+    
     pros::delay(500);
+    hookSpeed = 0;
+    lbMech.set_brake_mode(COAST);
+    LadyBrownState = 0;
 
-    chassis.moveToPoint(4,53,1000,{false});
-    // LowerLB();
+    chassis.turnToPoint(28,28,1000);
+    chassis.moveToPoint(28,28,1000,{.minSpeed = 60,.earlyExitRange = 3});
+
+    
+    chassis.moveToPoint(55,10,700,{.minSpeed = 60, .earlyExitRange = 3});
+    chassis.moveToPoint(48,-10,700);
+    chassis.moveToPoint(55,-2,1000,{false});
+    chassis.turnToPoint(75,-2,1000,{.forwards = false});
+    chassis.waitUntilDone();
+    while (true) {
+        double distance2 = BackDistance2.get_distance();
+        double distance = BackDistance.get_distance();
+        chassis.arcade((93-(distance+distance2)/2)*0.5,(distance2-distance)*0.5,false,0.5);
+        if (abs(93-distance) < 5) {
+            break;
+        }
+        pros::delay(5);
+    }
+    chassis.waitUntilDone();
+    hookSpeed = 127;
+    pros::delay(1500);
+    chassis.moveToPoint(55,0,500);
+    chassis.turnToHeading(220,1000);
+    chassis.moveToPoint(70,50,1500,{false});
+    chassis.turnToPoint(-24,55,700);
+    chassis.moveToPoint(-24,55,1000);
+    pros::delay(800);
+    hookSpeed = 0;
+    chassis.turnToPoint(28,27,1000);
+    chassis.moveToPoint(28,28,1000,{.minSpeed = 70,.earlyExitRange = 3});
+    chassis.moveToPoint(50,0,1000);
+
+    // Mogo #3
+    chassis.turnToPoint(50,-24,1000,{false});
+    chassis.moveToPoint(50,-24,1500,{.forwards = false,.maxSpeed = 70});
+    chassis.waitUntilDone();
+    BOOL_mogo_clamp = true;
+    pros::delay(200);
+    hookSpeed = 127;
+    chassis.moveToPoint(24,-42,1000,{.minSpeed = 70,.earlyExitRange = 3});
+    chassis.swingToHeading(90,lemlib::DriveSide::LEFT,1000);
+    chassis.moveToPoint(80,-50,1500);
+    chassis.moveToPoint(48,-48,700,{false});
+    chassis.turnToPoint(20,0,700);
+    chassis.moveToPoint(80,-80,1000,{false});
+    BOOL_mogo_clamp = false;
+    hookSpeed = -50;
+    LadyBrownState = 3;
+    chassis.moveToPoint(36,-36,700);
+    chassis.turnToPoint(70,-70,700);
+    chassis.moveToPoint(-70,130,1500,{.forwards = false,.maxSpeed = 70});
+    hookSpeed = 0;
+    lbMech.set_brake_mode(BRAKE);
+    chassis.waitUntilDone();
+    left_dr.move(100);
+    right_dr.move(100);
+    pros::delay(700);
+    left_dr.move(-70);
+    right_dr.move(-70);
+    
+    pros::delay(200);
+    left_dr.brake();
+    right_dr.brake();
 
 }
 

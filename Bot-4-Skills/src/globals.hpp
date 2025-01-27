@@ -83,13 +83,15 @@
 #define PORT_Colour 21
 #define PORT_HookDistance 16
 #define PORT_BackDistance 12
+#define PORT_BackDistance2 19
+
 
 //Lady Brown
 
 double LBLoadingAngle = 9;
 #define LBNoContactZone 60
 #define LBLoadingAngle2 36
-#define LBScoringAngle 130  
+#define LBScoringAngle 135
 
 /*---PID Values---*/
 
@@ -174,6 +176,8 @@ inline pros::Rotation horizontal_TW(PORT_Horizontal_TW);
 inline pros::Optical colour(PORT_Colour);
 inline pros::Distance HookDistance(PORT_HookDistance);
 inline pros::Distance BackDistance(PORT_BackDistance);
+inline pros::Distance BackDistance2(PORT_BackDistance2);
+
 
 /*----------------------LEMLIB INIT----------------------*/
 

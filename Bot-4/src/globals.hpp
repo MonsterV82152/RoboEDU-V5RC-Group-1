@@ -103,7 +103,7 @@ double LBLoadingAngle = 8;
 
 /*----------------------GLOBAL VARIABLES----------------------*/
 
-bool SelectedTeam = false, BOOL_colourSorter = true;
+bool SelectedTeam = false, BOOL_colourSorter = false;
 int SelectedAuton = 2, user = 0;
 bool AutonSelected = false;
 bool LadyBrownSetPointState = true;
