@@ -298,7 +298,7 @@
       }
     },
     "upload_options": {
-      "icon": "X",
+      "icon": "ufo",
       "slot": 3
     },
     "use_early_access": false

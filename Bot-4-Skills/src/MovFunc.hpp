@@ -182,7 +182,7 @@ period here and the intake/hook system.
 */
 void mainMovement() {
 
-    HookUnjam();
+    // HookUnjam(); TEMPORARILY REMOVING 
     if (master.get_digital(ReverseRingSystem) && user == 0)
     {
         actualIntakeSpeed = -127;
