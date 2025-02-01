@@ -75,7 +75,7 @@
 #define PORT_left_wing 'C'
 
 //Sensors
-#define PORT_lbRotation 14  
+#define PORT_lbRotation 18
 
 #define PORT_IMU 11
 #define PORT_Vertical_TW 5
@@ -148,6 +148,7 @@ double hookTemp, driveTemp;
 /*----------------------PROS INIT----------------------*/
 
 ASSET(skills_txt)
+ASSET(skills2_txt)
 
 //DriveTrain
 inline pros::MotorGroup left_dr({PORT_left_dr_1,PORT_left_dr_2,PORT_left_dr_3});
@@ -181,7 +182,7 @@ inline pros::Distance BackDistance2(PORT_BackDistance2);
 
 /*----------------------LEMLIB INIT----------------------*/
 
-inline lemlib::Drivetrain LEMLIB_drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_275, 450, 2);
+inline lemlib::Drivetrain LEMLIB_drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_325, 450, 2);
 inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, 2, -1.5);
 inline lemlib::TrackingWheel LEMLIB_horizontal_TW(&horizontal_TW, 2, -2.6);
 

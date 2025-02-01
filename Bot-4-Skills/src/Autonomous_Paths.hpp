@@ -4,6 +4,10 @@
 #ifndef AUTON_HPP
 #define AUTON_HPP
 
+
+/**
+ * Turns on the clamp
+ */
 void Clamp() {
     chassis.waitUntilDone();
     BOOL_mogo_clamp = true;
@@ -11,25 +15,30 @@ void Clamp() {
     hookSpeed = 127;
 }
 
+/**
+ * Loads the ring into the LB
+ */
 void LoadRing() {
     LadyBrownState = 1;
     lbMech.set_brake_mode(HOLD);
 }
 
+/**
+ * Lowers the LB
+ */
 void LowerLB() {
     LadyBrownState = 0;
     lbMech.set_brake_mode(COAST);
 }
 
-void Skills() {
-    /*     
+void Skills() {     
     // Set starting position (we should totally use an aligning tool because nathan's eyes suck)
     chassis.setPose(-58,0,90);
 
     // Turn hook and intake on to score on alliance stake
     hookSpeed = 127;
     intakeSpeed = 127;
-    pros::delay(200);
+    pros::delay(400);
 
     // Drives to get first mogo
     chassis.moveToPoint(-22,-26,1300,{.minSpeed = 50});
@@ -48,29 +57,24 @@ void Skills() {
     // Loads ring into LB
     LoadRing();
 
-    / Moves to first wall stake
+    // Moves to first wall stake
     chassis.moveToPoint(-3,-50,1000);
-    // for (int i = 0; i < 2; i++) {
-    //     pros::delay(200);
-    //     hookSpeed = 0;
-    //     pros::delay(200);
-    //     hookSpeed = 127;
-    // }
     chassis.turnToPoint(4,-70,700);
-    hookSpeed = 0;
-    
     chassis.moveToPoint(4,-70,700);
+    hookSpeed = -5;
+
     pros::delay(700);
     
     // Score first wall stake
     LadyBrownState = 3;
     hookSpeed = 127;
-    pros::delay(300);
+    chassis.waitUntilDone();
+    pros::delay(1000);
 
     // Our pullout game is strong
     chassis.moveToPoint(0,-45,1000,{false});
 
-    // Lowers LB before moving (eddy I told u to do this ages ago)
+    // Lowers LB before moving
     LowerLB();
 
     // Turn to first positive corner
@@ -80,16 +84,16 @@ void Skills() {
     chassis.moveToPoint(-48,-65,1200);
     chassis.swingToPoint(0,0,lemlib::DriveSide::RIGHT,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
     chassis.moveToPoint(-66,-66,700,{false});
-    // chassis.turnToPoint(-24,-48,700);
     chassis.waitUntilDone();
     pros::delay(700);
 
     // Drops first mogo into the first positive corner
     BOOL_mogo_clamp = false;
     hookOverwriteSpeed = -50;
-    
+    hookSpeed = 60;
+    chassis.moveToPoint(-40,-48,1000,{.minSpeed = 80, .earlyExitRange = 5});
     chassis.moveToPoint(10,10,2000);
-    pros::delay(500);
+    pros::delay(600);
     hookSpeed = 0;
     chassis.turnToPoint(-48,18,700,{.forwards = false});
     chassis.moveToPoint(-48,18,1000,{.forwards = false, .earlyExitRange = 5});
@@ -98,11 +102,13 @@ void Skills() {
 
     // Grabs second mogo
     Clamp();
-    chassis.moveToPoint(-24,24,700);
-    chassis.turnToPoint(-24,48,700);
-    chassis.moveToPoint(-24,48,700);
-    chassis.turnToPoint(-48,48,700);
-    chassis.moveToPoint(-53,48,1000);
+    // chassis.moveToPoint(-24,24,700);
+    // chassis.turnToPoint(-24,48,700);
+    // chassis.moveToPoint(-24,48,700);
+    // chassis.turnToPoint(-48,48,700);
+    // chassis.moveToPoint(-53,48,1000);
+    chassis.follow(skills2_txt, 15, 4000);
+    chassis.waitUntilDone();
     chassis.swingToHeading(90,lemlib::DriveSide::RIGHT,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
     chassis.moveToPoint(-66,66,700,{false});
     chassis.waitUntilDone();
@@ -113,27 +119,31 @@ void Skills() {
     hookOverwriteSpeed = -50;
 
     // Drive to second wall stake
-    chassis.moveToPoint(0,53,1500);
+    chassis.moveToPoint(2,53,1500);
     LoadRing();
-    chassis.turnToPoint(0,70,700);
+    chassis.turnToPoint(2,70,700);
+    
     LadyBrownState = 2;
-    chassis.moveToPoint(0,80,1000);
+    chassis.moveToPoint(2,80,1000);
     pros::delay(700);
     LadyBrownState = 3;
-    */
+    pros::delay(1000);
+    
+    
 
     // REMOVE THIS if you want to add the first half back
     // Scored 2 on SECOND wall stake 
-    chassis.setPose(0,58,360);
-    LoadRing();
-    hookSpeed = 127;
-    pros::delay(300);
+    lemlib::Pose pose = chassis.getPose();
+    chassis.setPose(pose.x-2,pose.y,pose.theta);
+    // LoadRing();
+    // hookSpeed = 127;
+    // pros::delay(300);
     hookSpeed = 0;
-    //chassis.turnToPoint(0,70,700);
-    //LadyBrownState = 2;
-    chassis.moveToPoint(0,80,1000);
-    pros::delay(300);
-    LadyBrownState = 3;
+    // //chassis.turnToPoint(0,70,700);
+    // //LadyBrownState = 2;
+    // chassis.moveToPoint(0,80,1000);
+    // pros::delay(300);
+    // LadyBrownState = 3;
     // REMOVE THIS if you want to add the first half back
 
     // Backs up
@@ -168,11 +178,11 @@ void Skills() {
     while (true) {
         double distance2 = BackDistance2.get_distance();
         double distance = BackDistance.get_distance();
-        chassis.arcade((96-((distance+distance2)/2))*0.5,(distance2-distance)*0.5,false,0.5); //97 works the best but we send it for 96
-        if (abs(96-distance) < 5) {
+        chassis.arcade((93-((distance+distance2)/2))*0.9,(distance2-distance)*0.5,false,0.5); //97 works the best but we send it for 96
+        if (abs(93-distance) < 4) {
             break;
         }
-        pros::delay(5);
+        pros::delay(10);
     }
     // Wait until the bot is done moving
     chassis.waitUntilDone();
@@ -255,18 +265,18 @@ hookSpeed = 0;
     hookSpeed = 127; // Adding again bc it keeps running auto unjam
     //pros::delay(100);
 
-    chassis.turnToPoint(43,-47, 1000);
-    chassis.moveToPoint(43,-47, 2000,{.maxSpeed = 50});
+    chassis.turnToPoint(43,-47, 700);
+    chassis.moveToPoint(43,-67, 1500);
 
-    // Drive to get the second red ring
-    chassis.turnToPoint(43,-67, 400);
-    chassis.moveToPoint(43,-67, 2000,{.maxSpeed = 50});
+    // // Drive to get the second red ring
+    // chassis.turnToPoint(43,-67, 400);
+    // chassis.moveToPoint(43,-67, 1000,{.maxSpeed = 50});
 
     // Back up the robot
     hookSpeed = 127;
-    chassis.moveToPoint(35,-47, 2000,{.forwards = false});
+    chassis.moveToPoint(35,-47, 1000,{.forwards = false});
     // Point to the next red ring
-    chassis.turnToPoint(61, -47.5, 1000);
+    chassis.turnToPoint(61, -47.5, 700);
     chassis.moveToPoint(61, -47.5, 1000,{.maxSpeed = 50});
 
     // Turn so the back of the robot is facing the Blue Positive Corner
@@ -275,24 +285,33 @@ hookSpeed = 0;
     chassis.waitUntilDone();
     
     // Back into that corner and release the goal
-    chassis.moveToPoint(60, -60, 2000, {.forwards = false});
+    chassis.moveToPoint(60, -60, 1000, {.forwards = false});
     BOOL_mogo_clamp = false;
     hookSpeed = 127;
     pros::delay(2000);
 
     // Raise LB (note for eddy the hardstop was adjusted but not the target value so the motor screams)
+    chassis.moveToPoint(22,-22,1000,{.minSpeed = 127, .earlyExitRange = 5});
     LadyBrownState = 3;
-
-    chassis.moveToPoint(22,-22, 3000);
-
-    pros::delay(2000);
-    chassis.turnToPoint(0,0,1000, {.forwards = false});
-    chassis.moveToPoint(-18,18,2000, {.forwards = false,.maxSpeed = 40});
-    hookSpeed = -50;
-    chassis.moveToPoint(70,-70,500, {.forwards = false,.maxSpeed = 70});
+    chassis.turnToPoint(0,0,700,{.forwards = false});
+    chassis.moveToPoint(0,0,700,{ .forwards = false, .maxSpeed = 45});
+    chassis.waitUntilDone();
+    left_dr.move(50);
+    right_dr.move(50);
+    pros::delay(100);
     LadyBrownState = 0;
     left_dr.brake();
     right_dr.brake();
+
+    // pros::delay(2000);
+    // chassis.turnToPoint(0,0,1000, {.forwards = false});
+    // chassis.moveToPoint(-18,18,2000, {.forwards = false,.maxSpeed = 40});
+    // hookSpeed = -50;
+    
+    // chassis.moveToPoint(70,-70,500, {.forwards = false,.maxSpeed = 70});
+    // LadyBrownState = 0;
+    // left_dr.brake();
+    // right_dr.brake();
 
     /*   
     chassis.moveToPoint(24,-42,1000,{.minSpeed = 70,.earlyExitRange = 3});

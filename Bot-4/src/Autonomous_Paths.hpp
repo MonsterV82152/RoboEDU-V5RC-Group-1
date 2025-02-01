@@ -7,7 +7,7 @@
 void BlueMogoRush() {
     
     BOOL_colourSorter = true;
-    chassis.setPose(50,-30,270);
+    chassis.setPose(50,-30,90);
     chassis.follow(Blue_Mogo_Rush_txt,15,1700,false);
     chassis.waitUntilDone();
     BOOL_mogo_clamp = true;
@@ -22,13 +22,13 @@ void BlueMogoRush() {
     pros::delay(700);
     BOOL_mogo_clamp = false;
     chassis.turnToHeading(180,700);
-    chassis.moveToPoint(18,-24,1000,{false});
+    chassis.moveToPoint(12,-24,1000,{false});
     chassis.waitUntilDone();
     BOOL_mogo_clamp = true;
     pros::delay(200);
     hookSpeed = 127;
     chassis.turnToHeading(90,1000);
-    chassis.moveToPose(45,16,0,3000,{.lead = 0.7,.minSpeed = 70});
+    chassis.moveToPose(48,16,0,3000,{.lead = 0.7,.minSpeed = 70});
     pros::delay(500);
     BOOL_mogo_clamp = false;
     while (!(ring[0] == 2)) {
@@ -76,7 +76,7 @@ void FinalsBlueMogoRush() {
     }
     chassis.turnToPoint(48,24,700);
     chassis.moveToPoint(48,24,2000,{.maxSpeed = 70});
-    chassis.moveToPoint(60,-60,1000,{false});
+    chassis.moveToPoint(20,-60,1000,{false});
 }
 
 void RedMogoRush() {

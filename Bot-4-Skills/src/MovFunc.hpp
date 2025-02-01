@@ -166,7 +166,7 @@ void HookUnjam()
 
         unjamCountdown = 10;
     }
-    else if (hook.get_actual_velocity() < 10 && hookSpeed > 0 && !loadedRing && LadyBrownState == 0)
+    else if (hook.get_actual_velocity() < 5 && hookSpeed > 0 && !loadedRing && LadyBrownState == 0)
     {
         unjamCountdown--;
     }
@@ -182,7 +182,7 @@ period here and the intake/hook system.
 */
 void mainMovement() {
 
-    // HookUnjam(); TEMPORARILY REMOVING 
+    HookUnjam(); //TEMPORARILY REMOVING 
     if (master.get_digital(ReverseRingSystem) && user == 0)
     {
         actualIntakeSpeed = -127;

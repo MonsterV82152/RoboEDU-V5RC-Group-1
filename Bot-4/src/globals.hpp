@@ -75,7 +75,7 @@
 #define PORT_left_wing 'C'
 
 //Sensors
-#define PORT_lbRotation 14  
+#define PORT_lbRotation 18  
 
 #define PORT_IMU 11
 #define PORT_Vertical_TW 5
@@ -84,12 +84,13 @@
 #define PORT_HookDistance 16
 #define PORT_BackDistance 12
 #define PORT_BackDistance2 19
+#define PORT_Vision 13
 
 //Lady Brown
 
-double LBLoadingAngle = 8;
+double LBLoadingAngle = 10;
 #define LBNoContactZone 60
-#define LBLoadingAngle2 23
+#define LBLoadingAngle2 24
 #define LBScoringAngle 110
 /*---PID Values---*/
 
@@ -184,6 +185,8 @@ inline pros::Optical colour(PORT_Colour);
 inline pros::Distance HookDistance(PORT_HookDistance);
 inline pros::Distance BackDistance(PORT_BackDistance);
 inline pros::Distance BackDistance2(PORT_BackDistance2);
+
+inline pros::Vision vision(PORT_Vision);
 
 
 /*----------------------LEMLIB INIT----------------------*/
