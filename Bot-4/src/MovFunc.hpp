@@ -143,8 +143,8 @@ void AllianceStakeAllign()
     }
     if (Aallignment)
     {
-        chassis.arcade((93 - (distance + distance2) / 2) * 0.65, (distance2 - distance) * 0.5, false, 0.5);
-        if (abs(93 - distance) < 3)
+        chassis.arcade((93 - (distance + distance2) / 2) * 0.85, (distance2 - distance) * 0.5, false, 0.5);
+        if (abs(93 - distance) < 1)
         {
             Aallignment = false;
         }
@@ -162,33 +162,15 @@ void HookUnjam()
     {
         loadedRing = true;
     }
+    if (!loadedRing) {
+
+    }
     if (unjamCountdown == 0 && unjamCooldown != 0)
     {
-        if (loadedRing || LadyBrownState == 1)
-        {
-            unjamCountdown = 30;
-        }
-        else if (LadyBrownState == 0)
-        {
-            hookOverwriteSpeed = -127;
-            master.rumble("-");
-            // intakeOverwriteSpeed = -127;
-            unjamCooldown--;
-        }
-        else
-        {
-            unjamCountdown = 30;
-        }
-    }
-    else if (unjamCooldown == 30)
-    {
-        // if (intakeOverwriteSpeed == -127) {
-        //     intakeOverwriteSpeed = 127;
-        // }
-        if (hookOverwriteSpeed == -127)
-        {
-            hookOverwriteSpeed = 0;
-        }
+        hookOverwriteSpeed = -127;
+        master.rumble("-");
+        // intakeOverwriteSpeed = -127;
+        unjamCooldown--;
     }
     else if (unjamCooldown == 0)
     {
@@ -209,6 +191,10 @@ void HookUnjam()
     }
     else
     {
+        if (hookOverwriteSpeed == -127)
+        {
+            hookOverwriteSpeed = 0;
+        }
         unjamCountdown = 30;
     }
 }
@@ -560,8 +546,6 @@ void SensorInit()
 {
     // Calibrate and reset sensors.
     lbRotation.set_position(0);
-    pros::vision_signature_s_t sig = vision.get_signature();
-
     colour.set_led_pwm(100);
     // lbRotation.set_reversed(true);
     lbMech.set_reversed(true);
