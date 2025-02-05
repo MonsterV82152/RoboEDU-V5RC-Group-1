@@ -65,6 +65,8 @@ void ColourSorter(void *param)
                         {
                             hookOverwriteSpeed = -10;
                         }
+                    } else {
+                        pros::delay(200);
                     }
                     if (LadyBrownState == 1)
                     {
@@ -416,9 +418,9 @@ void LadyBrown()
             // Overwrites the speed to insure no jamming occurs
             if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
             {
-                hookOverwriteSpeed = -20;
+                hookOverwriteSpeed = -30;
             }
-            else if (hookOverwriteSpeed == -20)
+            else if (hookOverwriteSpeed == -30)
             {
                 hookOverwriteSpeed = 0;
             }
@@ -428,7 +430,7 @@ void LadyBrown()
         {
             lbMech.brake();
             // Removes the overwrite
-            if (hookOverwriteSpeed == -20)
+            if (hookOverwriteSpeed == -20 && hookOverwriteSpeed == -30)
             {
                 hookOverwriteSpeed = 0;
             }
@@ -441,7 +443,7 @@ void LadyBrown()
         {
             hookOverwriteSpeed = -20;
         }
-        else if (hookOverwriteSpeed == -20)
+        else if (hookOverwriteSpeed == -20 && hookOverwriteSpeed == -30)
         {
             hookOverwriteSpeed = 0;
         }

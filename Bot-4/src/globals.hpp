@@ -71,7 +71,7 @@
 
 //Pnuematics
 #define PORT_mogo_clamp 'A'
-#define PORT_right_wing 'B'
+#define PORT_alliance_piston 'B'
 #define PORT_left_wing 'C'
 
 //Sensors
@@ -92,6 +92,7 @@ double LBLoadingAngle = 10;
 #define LBNoContactZone 60
 #define LBLoadingAngle2 25
 #define LBScoringAngle 114
+#define LBMacroAngle 70
 /*---PID Values---*/
 
 #define lateralKp 3
@@ -108,6 +109,8 @@ bool SelectedTeam = false, BOOL_colourSorter = false;
 int SelectedAuton = 2, user = 0;
 bool AutonSelected = false;
 bool LadyBrownSetPointState = true;
+bool BOOL_AutoRaise = false;
+bool autoUnjam = true;
 
 double heading;
 
@@ -129,13 +132,13 @@ int LadyBrownState = 0;
 
 double LadyBrownPosition;
 
-bool BOOL_mogo_clamp = false, BOOL_right_wing = false, BOOL_left_wing = false;
+bool BOOL_mogo_clamp = false, BOOL_alliance_piston = false, BOOL_left_wing = false;
 
 bool driverControl = false, autonomousPeriod = false;
 
 int mogoOverwriteCountdown = 20;
 
-int unjamCountdown = 30, unjamCooldown = 20;
+int unjamCountdown = 10, unjamCooldown = 20;
 
 int colourSorterCountdown = 2, colourSorterCooldown = 30;
 
@@ -168,7 +171,7 @@ inline pros::Motor lbMech(PORT_lbMech);
 
 //Pnuematics
 inline pros::ADIDigitalOut mogo_clamp(PORT_mogo_clamp);
-inline pros::ADIDigitalOut right_wing(PORT_right_wing);
+inline pros::ADIDigitalOut alliance_piston(PORT_alliance_piston);
 inline pros::ADIDigitalOut left_wing(PORT_left_wing);
 
 //Controller

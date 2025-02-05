@@ -12,6 +12,34 @@ detect if we have loaded a ring into the LadyBrown and will prevent the autoUnja
 we are loading the rings
 */
 
+
+void AutoRaise() {
+    if ((LadyBrownState == 1 || LadyBrownState == 2) && HookDistance.get_distance() < 100)
+    {
+        loadedRing = true;
+        autoUnjam = false;
+    }
+    if (loadedRing) {
+        loadedRing = false;
+        pros::delay(200);
+        if (!BOOL_AutoRaise) {
+            if (LadyBrownState == 1) {
+                BOOL_AutoRaise = true;
+                autoUnjam = true;
+                LadyBrownState = 2;
+            } else if (LadyBrownState == 2 && user == 2) {
+                BOOL_AutoRaise = true;
+                autoUnjam = true;
+                LadyBrownState = 4;
+            }
+        }
+
+    } else {
+        BOOL_AutoRaise = false;
+    }
+    
+}
+
 /**
  * ColourSorter
  *
@@ -49,7 +77,7 @@ void ColourSorter(void *param)
                     {
                         pros::delay(20);
                         colourSorterCooldown--;
-                        if (LadyBrownState == 1)    // Redirects the ring if LB is up in loading position.
+                        if (LadyBrownState == 1 || ring[1] != 0)    // Redirects the ring if LB is up in loading position.
                         {
                             hookOverwriteSpeed = -127;
                         }
@@ -62,7 +90,7 @@ void ColourSorter(void *param)
                     {
                         pros::delay(20);
                         colourSorterCooldown--;
-                        if (LadyBrownState == 1)
+                        if (LadyBrownState == 1 || ring[1] != 0)
                         {
                             hookOverwriteSpeed = -127;
                         }
@@ -130,7 +158,7 @@ void ColourSorter(void *param)
             ring[1] = 0;
             colourSorterCooldown = 30;
         }
-
+        AutoRaise();
         pros::delay(5);
     }
 }
@@ -151,6 +179,8 @@ void AllianceStakeAllign()
     }
 }
 
+
+
 /*
 The HookUnjam is a function that gets called in the mainMovement to detect whether the hook has been
 jammed and will reverse if does. This will prevent jamming that might lose us points. This also helps
@@ -158,45 +188,45 @@ the driver as they do not need to manually reverse the hook anymore
 */
 void HookUnjam()
 {
-    if (LadyBrownState == 1 && HookDistance.get_distance() < 100)
-    {
-        loadedRing = true;
-    }
-    if (!loadedRing) {
-
-    }
-    if (unjamCountdown == 0 && unjamCooldown != 0)
-    {
-        hookOverwriteSpeed = -127;
-        master.rumble("-");
-        // intakeOverwriteSpeed = -127;
-        unjamCooldown--;
-    }
-    else if (unjamCooldown == 0)
-    {
-        if (hookOverwriteSpeed == -127)
+    
+    if (autoUnjam && !LBMoving) {
+        if (unjamCountdown == 0 && unjamCooldown != 0)
         {
-            hookOverwriteSpeed = 0;
+            hookOverwriteSpeed = -127;
+            master.rumble("-");
+            // intakeOverwriteSpeed = -127;
+            unjamCooldown--;
         }
-        // if (intakeOverwriteSpeed == 127 || intakeOverwriteSpeed == -127) {
-        //     intakeOverwriteSpeed = 0;
-        // }
+        else if (unjamCooldown == 0)
+        {
+            if (hookOverwriteSpeed == -127)
+            {
+                hookOverwriteSpeed = 0;
+            }
+            // if (intakeOverwriteSpeed == 127 || intakeOverwriteSpeed == -127) {
+            //     intakeOverwriteSpeed = 0;
+            // }
+            unjamCooldown = 20;
+
+            unjamCountdown = 10;
+        }
+        else if (hook.get_actual_velocity() < 10 && actualHookSpeed > 0)
+        {
+            unjamCountdown--;
+        }
+        else
+        {
+            if (hookOverwriteSpeed == -127)
+            {
+                hookOverwriteSpeed = 0;
+            }
+            unjamCountdown = 10;
+        }
+    } else {
         unjamCooldown = 20;
-
-        unjamCountdown = 30;
+        unjamCountdown = 10;
     }
-    else if (hook.get_actual_velocity() < 10 && hookSpeed > 0)
-    {
-        unjamCountdown--;
-    }
-    else
-    {
-        if (hookOverwriteSpeed == -127)
-        {
-            hookOverwriteSpeed = 0;
-        }
-        unjamCountdown = 30;
-    }
+    
 }
 
 /*
@@ -209,12 +239,28 @@ void mainMovement()
     distance2 = BackDistance2.get_distance();
     distance = BackDistance.get_distance();
     heading = abs((int)(chassis.getPose().theta) % 360);
+    if (user == 1) {
+        left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
+        right_controller_position_Y = master.get_analog(ANALOG_RIGHT_Y);
+        chassis.tank(left_controller_position_Y, right_controller_position_Y);
+
+    } else {
+
+    }
     if (driverControl && !Aallignment)
     {
-        left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
-        right_controller_position_X = master.get_analog(ANALOG_RIGHT_X);
+        // if (user == 1) {
+        //     left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
+        //     right_controller_position_Y = master.get_analog(ANALOG_RIGHT_Y);
+        //     chassis.tank(left_controller_position_Y, right_controller_position_Y);
 
-        chassis.arcade(left_controller_position_Y, right_controller_position_X, false, 0.5);
+        // } else {
+            left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
+            right_controller_position_X = master.get_analog(ANALOG_RIGHT_X);
+
+            chassis.arcade(left_controller_position_Y, right_controller_position_X, false, 0.5); 
+        // }
+        
     }
 
     if (master.get_digital_new_press(ColourSorterToggle))
@@ -303,7 +349,7 @@ void pnumatics()
             hookOverwriteSpeed = -50;
         }
     }
-    if (master.get_digital_new_press(WingToggle))
+    if (master.get_digital_new_press(WingToggle) && LadyBrownState != 3 && !LBMoving)
     {
         if (master.get_digital(button_L2))
         {
@@ -311,7 +357,7 @@ void pnumatics()
         }
         else
         {
-            BOOL_right_wing = !BOOL_right_wing;
+            BOOL_alliance_piston = !BOOL_alliance_piston;
         }
     }
 
@@ -340,13 +386,13 @@ void pnumatics()
             }
         }
     }
-    if (BOOL_right_wing)
+    if (BOOL_alliance_piston)
     {
-        right_wing.set_value(true);
+        alliance_piston.set_value(true);
     }
     else
     {
-        right_wing.set_value(false);
+        alliance_piston.set_value(false);
     }
     if (BOOL_left_wing)
     {
@@ -408,6 +454,7 @@ void LadyBrown()
     // Sets position to scoring position
     if (master.get_digital_new_press(LadyBrownScoring))
     {
+        BOOL_alliance_piston = false;
         if (LadyBrownState != 3)
         {
             LadyBrownState = 3;
@@ -478,7 +525,7 @@ void LadyBrown()
         }
         else if (LadyBrownState == 2 && (LadyBrownPosition > LBLoadingAngle2 + 2 || LadyBrownPosition < LBLoadingAngle2 - 2))
         {
-            lbMech.move_velocity((LBLoadingAngle2 - (LadyBrownPosition)) * 2);
+            lbMech.move_velocity((LBLoadingAngle2 - (LadyBrownPosition)) * 8);
 
             // Overwrites the speed to insure no jamming occurs
             if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
@@ -495,6 +542,21 @@ void LadyBrown()
         {
             loadedRing = false;
             lbMech.move_velocity((LBScoringAngle - (LadyBrownPosition)) * 4);
+            // Overwrites the speed to insure no jamming occurs
+            if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
+            {
+                hookOverwriteSpeed = -20;
+            }
+            else if (hookOverwriteSpeed == -20)
+            {
+                hookOverwriteSpeed = 0;
+            }
+            LBMoving = true;
+        }
+        else if (LadyBrownState == 4 && (LadyBrownPosition > LBMacroAngle + 2 || LadyBrownPosition < LBMacroAngle - 2))
+        {
+            loadedRing = false;
+            lbMech.move_velocity((LBMacroAngle - (LadyBrownPosition)) * 4);
             // Overwrites the speed to insure no jamming occurs
             if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
             {

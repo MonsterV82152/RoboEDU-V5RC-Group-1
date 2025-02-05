@@ -38,6 +38,21 @@ void competition_initialize() {}
 void autonomous() {
 	autonomousPeriod = true;
 	driverControl = false;
+	// lemlib::PID PIDdistance = lemlib::PID(0.5,0.01,3);
+    // // Use distance sensors to back up
+	// BOOL_mogo_clamp = true;
+    // while (true) {
+    //     double distance2 = BackDistance2.get_distance();
+    //     double distance = BackDistance.get_distance();
+    //     double pidvalue = PIDdistance.update((100-((distance+distance2)/2)));
+    //     chassis.arcade(pidvalue,(distance2-distance)*0.5,false,0.5); //97 works the best but we send it for 96
+    //     if (abs(100-distance) < 2) {
+	// 		chassis.arcade(0,0);
+    //         break;
+    //     }
+    //     pros::delay(10);
+    // }
+	// hookSpeed = 127;
 	Skills();
 	// Chassis Calibration
 

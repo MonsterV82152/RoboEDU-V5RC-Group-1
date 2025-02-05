@@ -43,7 +43,7 @@ void Skills() {
     // Drives to get first mogo
     chassis.moveToPoint(-22,-26,1300,{.minSpeed = 50});
     hookSpeed = 0;
-    chassis.moveToPoint(-48,-24,1000,{false});
+    chassis.moveToPoint(-48,-24,1000,{.forwards = false, .maxSpeed = 80});
     
     // Gets the first mogo
     Clamp();
@@ -58,7 +58,7 @@ void Skills() {
     LoadRing();
 
     // Moves to first wall stake
-    chassis.moveToPoint(-3,-50,1000);
+    chassis.moveToPoint(4,-50,1000);
     chassis.turnToPoint(4,-70,700);
     chassis.moveToPoint(4,-70,700);
     hookSpeed = -5;
@@ -72,7 +72,7 @@ void Skills() {
     pros::delay(1000);
 
     // Our pullout game is strong
-    chassis.moveToPoint(0,-45,1000,{false});
+    chassis.moveToPoint(4,-45,1000,{false});
 
     // Lowers LB before moving
     LowerLB();
@@ -81,7 +81,7 @@ void Skills() {
     chassis.turnToPoint(-48,-65,700);
     
     // Drive to first positive corner
-    chassis.moveToPoint(-48,-65,1200);
+    chassis.moveToPoint(-52,-65,1200);
     chassis.swingToPoint(0,0,lemlib::DriveSide::RIGHT,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
     chassis.moveToPoint(-66,-66,700,{false});
     chassis.waitUntilDone();
@@ -98,7 +98,7 @@ void Skills() {
     chassis.turnToPoint(-48,18,700,{.forwards = false});
     chassis.moveToPoint(-48,18,1000,{.forwards = false, .earlyExitRange = 5});
     // chassis.turnToPoint(-48,24,700,{false});
-    chassis.moveToPoint(-48,24,700,{false});
+    chassis.moveToPoint(-53,28,700,{false});
 
     // Grabs second mogo
     Clamp();
@@ -112,20 +112,24 @@ void Skills() {
     chassis.swingToHeading(90,lemlib::DriveSide::RIGHT,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
     chassis.moveToPoint(-66,66,700,{false});
     chassis.waitUntilDone();
-    pros::delay(500);
+    LoadRing();
+
+    pros::delay(200);
 
     // Releases second mogo
     BOOL_mogo_clamp = false;
     hookOverwriteSpeed = -50;
 
+
     // Drive to second wall stake
-    chassis.moveToPoint(2,53,1500);
-    LoadRing();
-    chassis.turnToPoint(2,70,700);
-    
+    chassis.moveToPoint(-2,62,1500);
+    chassis.waitUntilDone();
+    pros::delay(400);
+    chassis.turnToPoint(-4,70,700);
     LadyBrownState = 2;
-    chassis.moveToPoint(2,80,1000);
-    pros::delay(700);
+
+    chassis.moveToPoint(-4,80,1000);
+    pros::delay(1200);
     LadyBrownState = 3;
     pros::delay(1000);
     
@@ -134,7 +138,7 @@ void Skills() {
     // REMOVE THIS if you want to add the first half back
     // Scored 2 on SECOND wall stake 
     lemlib::Pose pose = chassis.getPose();
-    chassis.setPose(pose.x-2,pose.y,pose.theta);
+    chassis.setPose(pose.x+2,pose.y-10,pose.theta);
     // LoadRing();
     // hookSpeed = 127;
     // pros::delay(300);
@@ -174,21 +178,26 @@ void Skills() {
     //lbMech.move_velocity(55); // stay down wtf bro -Big Al
     //pros::delay(200);
 
+    lemlib::PID PIDdistance = lemlib::PID(0.9,0,40);
+    BOOL_right_wing = true;
     // Use distance sensors to back up
-    while (true) {
-        double distance2 = BackDistance2.get_distance();
-        double distance = BackDistance.get_distance();
-        chassis.arcade((93-((distance+distance2)/2))*0.9,(distance2-distance)*0.5,false,0.5); //97 works the best but we send it for 96
-        if (abs(93-distance) < 4) {
-            break;
-        }
-        pros::delay(10);
-    }
+    // while (true) {
+    //     double distance2 = BackDistance2.get_distance();
+    //     double distance = BackDistance.get_distance();
+    //     double pidvalue = PIDdistance.update((100-((distance+distance2)/2)));
+    //     chassis.arcade(pidvalue,(distance2-distance)*0.5,false,0.5); //97 works the best but we send it for 96
+    //     if (abs(100-distance) < 2) {
+    //         break;
+    //     }
+    //     pros::delay(10);
+    // }
+    chassis.moveToPoint(70,-2,1000,{.forwards = false, .maxSpeed = 60});
     // Wait until the bot is done moving
     chassis.waitUntilDone();
 
     // Score that alliance stake
     hookSpeed = 127;
+    BOOL_right_wing = false;
     pros::delay(1500);
 
     // Drive forwards a bit
@@ -286,7 +295,7 @@ hookSpeed = 0;
     
     // Back into that corner and release the goal
     chassis.moveToPoint(60, -60, 1000, {.forwards = false});
-    BOOL_mogo_clamp = false;
+    BOOL_mogo_clamp = false plsWork
     hookSpeed = 127;
     pros::delay(2000);
 
@@ -294,7 +303,7 @@ hookSpeed = 0;
     chassis.moveToPoint(22,-22,1000,{.minSpeed = 127, .earlyExitRange = 5});
     LadyBrownState = 3;
     chassis.turnToPoint(0,0,700,{.forwards = false});
-    chassis.moveToPoint(0,0,700,{ .forwards = false, .maxSpeed = 45});
+    chassis.moveToPoint(0,0,700,{ .forwards = false, .maxSpeed = 52});
     chassis.waitUntilDone();
     left_dr.move(50);
     right_dr.move(50);

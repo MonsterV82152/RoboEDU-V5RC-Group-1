@@ -53,21 +53,23 @@
 #define ColourSorterToggle button_RIGHT
 
 
+#define plsWork ;
+
 /*---Motors---*/
 
 //DriveTrain
-#define PORT_right_dr_1 1
-#define PORT_right_dr_2 15
-#define PORT_right_dr_3 3
+#define PORT_right_dr_1 5
+#define PORT_right_dr_2 6
+#define PORT_right_dr_3 7
 
-#define PORT_left_dr_1 -8
-#define PORT_left_dr_2 -9
-#define PORT_left_dr_3 -10
+#define PORT_left_dr_1 -2
+#define PORT_left_dr_2 -3
+#define PORT_left_dr_3 -4
 
 //Mechanisms
-#define PORT_intake 7
-#define PORT_hook 20
-#define PORT_lbMech 4
+#define PORT_intake 16
+#define PORT_hook 12
+#define PORT_lbMech 15
 
 //Pnuematics
 #define PORT_mogo_clamp 'A'
@@ -75,23 +77,24 @@
 #define PORT_left_wing 'C'
 
 //Sensors
-#define PORT_lbRotation 18
+#define PORT_lbRotation 13
 
 #define PORT_IMU 11
-#define PORT_Vertical_TW 5
+#define PORT_Vertical_TW 1
 #define PORT_Horizontal_TW 6
-#define PORT_Colour 21
-#define PORT_HookDistance 16
-#define PORT_BackDistance 12
+#define PORT_Colour 14
+#define PORT_HookDistance 10
+#define PORT_BackDistance 17
 #define PORT_BackDistance2 19
-
+// #define PORT_Vision 13
 
 //Lady Brown
 
-double LBLoadingAngle = 9;
+double LBLoadingAngle = 10;
 #define LBNoContactZone 60
-#define LBLoadingAngle2 36
-#define LBScoringAngle 135
+#define LBLoadingAngle2 25
+#define LBScoringAngle 114
+#define LBMacroAngle 70
 
 /*---PID Values---*/
 

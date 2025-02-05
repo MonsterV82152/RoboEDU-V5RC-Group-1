@@ -4,11 +4,26 @@
 #ifndef AUTON_HPP
 #define AUTON_HPP
 
+void TechMechBlue() {
+    BOOL_colourSorter = true;
+    chassis.setPose(52,60,270);
+    chassis.moveToPoint(15,60,1000);
+    chassis.turnToHeading(280,700);
+    LadyBrownState = 3;
+    chassis.waitUntilDone();
+    pros::delay(700);
+
+    chassis.swingToHeading(180,lemlib::DriveSide::LEFT, 700);
+    chassis.moveToPoint(10,40,1000);
+    chassis.swingToHeading(315,lemlib::DriveSide::LEFT, 1000, {.direction = lemlib::AngularDirection::CW_CLOCKWISE});
+
+}
+
 void BlueMogoRush() {
     
     BOOL_colourSorter = true;
     chassis.setPose(50,-30,90);
-    chassis.follow(Blue_Mogo_Rush_txt,15,1700,false);
+    chassis.follow(Blue_Mogo_Rush_txt,15,1900,false);
     chassis.waitUntilDone();
     BOOL_mogo_clamp = true;
     pros::delay(200);
@@ -125,10 +140,12 @@ void RedMogoRush() {
 }
 
 
+
+
 void FinalsRedMogoRush() {
     BOOL_colourSorter = true;
-    chassis.setPose(-50,-30,270);
-    chassis.follow(Red_Mogo_Rush_txt,15,1700,false);
+    chassis.setPose(-50,-30,90);
+    chassis.follow(Red_Mogo_Rush_txt,15,2000,false);
     chassis.waitUntilDone();
     BOOL_mogo_clamp = true;
     pros::delay(200);
@@ -152,7 +169,7 @@ void FinalsRedMogoRush() {
     }
     chassis.turnToPoint(-48,24,700);
     chassis.moveToPoint(-48,24,2000,{.maxSpeed = 70});
-    chassis.moveToPoint(-60,-60,1000,{false});
+    chassis.moveToPoint(-20,-60,1000,{false});
 }
 
 void RedRingRush() {
