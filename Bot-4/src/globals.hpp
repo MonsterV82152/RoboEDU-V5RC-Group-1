@@ -92,7 +92,7 @@
 
 double LBLoadingAngle = 7.5;
 #define LBNoContactZone 60
-#define LBLoadingAngle2 21.5
+#define LBLoadingAngle2 16.5
 #define LBScoringAngle 114
 #define LBMacroAngle 70
 /*---PID Values---*/
