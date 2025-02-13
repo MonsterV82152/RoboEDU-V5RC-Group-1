@@ -88,9 +88,11 @@
 
 //Lady Brown
 
-double LBLoadingAngle = 10;
+#define allianceDistance 92
+
+double LBLoadingAngle = 7.5;
 #define LBNoContactZone 60
-#define LBLoadingAngle2 25
+#define LBLoadingAngle2 21.5
 #define LBScoringAngle 114
 #define LBMacroAngle 70
 /*---PID Values---*/
@@ -105,8 +107,8 @@ double LBLoadingAngle = 10;
 
 /*----------------------GLOBAL VARIABLES----------------------*/
 
-bool SelectedTeam = false, BOOL_colourSorter = false;
-int SelectedAuton = 2, user = 0;
+bool SelectedTeam = true, BOOL_colourSorter = false;
+int SelectedAuton = 1, user = 0;
 bool AutonSelected = false;
 bool LadyBrownSetPointState = true;
 bool BOOL_AutoRaise = false;
@@ -159,6 +161,8 @@ ASSET(Blue_Mogo_Rush_txt)
 ASSET(Red_Mogo_Rush_txt)
 ASSET(Blue_Ring_Rush_txt)
 ASSET(Red_Ring_Rush_txt)
+
+inline lemlib::PID alliancePID(0.8, 0.01, 0.5);
 
 //DriveTrain
 inline pros::MotorGroup left_dr({PORT_left_dr_1,PORT_left_dr_2,PORT_left_dr_3});

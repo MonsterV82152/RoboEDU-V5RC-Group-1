@@ -387,7 +387,7 @@ void LadyBrown()
     // Checks if the Lady Brown is at the requested angle and moves it if it isn't
     if (LadyBrownSetPointState)
     {
-        if (LadyBrownState == 0 && (LadyBrownPosition > 6 || LadyBrownPosition < -2))
+        if (LadyBrownState == 0 && (LadyBrownPosition > 0 || LadyBrownPosition < -2))
         {
             lbMech.move_velocity(-(LadyBrownPosition) * 4);
             loadedRing = false;
@@ -430,7 +430,7 @@ void LadyBrown()
         {
             lbMech.brake();
             // Removes the overwrite
-            if (hookOverwriteSpeed == -20 && hookOverwriteSpeed == -30)
+            if (hookOverwriteSpeed == -20 || hookOverwriteSpeed == -30)
             {
                 hookOverwriteSpeed = 0;
             }
@@ -443,7 +443,7 @@ void LadyBrown()
         {
             hookOverwriteSpeed = -20;
         }
-        else if (hookOverwriteSpeed == -20 && hookOverwriteSpeed == -30)
+        else if (hookOverwriteSpeed == -20 || hookOverwriteSpeed == -30)
         {
             hookOverwriteSpeed = 0;
         }

@@ -4,6 +4,79 @@
 #ifndef AUTON_HPP
 #define AUTON_HPP
 
+
+void Feb9Auton() {
+    BOOL_colourSorter = true;
+    chassis.setPose(-54.5, 14, 0);
+    chassis.moveToPoint(-54.5, 0, 700, {.forwards = false, .maxSpeed = 90});
+    chassis.turnToHeading(270,700);
+    chassis.moveToPoint(-70,0,1000);
+    pros::delay(300);
+    LadyBrownState = 3;
+    chassis.waitUntilDone();
+    pros::delay(200);
+    chassis.moveToPoint(-48,0,1000,{.forwards = false, .minSpeed = 50, .earlyExitRange = 5});
+    chassis.turnToPoint(-28,28,700,{.forwards = false, .earlyExitRange = 5});
+    chassis.moveToPoint(-24,24,1000,{false});
+    LadyBrownState = 0;
+    chassis.waitUntilDone();
+    intakeSpeed = 127;
+    hookSpeed = 127;
+    BOOL_mogo_clamp = true;
+    pros::delay(200);
+    chassis.turnToPoint(-24,48,700);
+    chassis.moveToPoint(-24,48,700);
+    chassis.turnToPoint(-5,43,700);
+    chassis.moveToPoint(-5,43,1000);
+    chassis.moveToPoint(-24,48,1000,{false});
+    chassis.turnToPoint(-3,56,700);
+    chassis.moveToPoint(-3,56,1000);
+    chassis.moveToPoint(-24,48,1000,{false});
+    chassis.waitUntilDone();
+    pros::delay(500);
+    chassis.moveToPoint(-10,10,1000);
+    pros::delay(200);
+    LadyBrownState = 3;
+
+}
+
+void RedSoloAWP() {
+    BOOL_colourSorter = true;
+    chassis.setPose(-57.264, -11.354, 180);
+    chassis.moveToPoint(-57.264, 0, 700, {.forwards = false, .maxSpeed = 90});
+    chassis.turnToHeading(270,700);
+    chassis.moveToPoint(-62,0,500);
+    LadyBrownState = 3;
+    chassis.waitUntilDone();
+    pros::delay(200);
+    chassis.moveToPoint(-48,0,1000,{.forwards = false, .minSpeed = 50, .earlyExitRange = 5});
+
+    chassis.turnToPoint(-24,24,700,{.forwards = false, .earlyExitRange = 5});
+    chassis.moveToPoint(-24,24,1000,{.forwards = false, .maxSpeed = 80});
+    chassis.waitUntilDone();
+    BOOL_mogo_clamp = true;
+    intakeSpeed = 127;
+    hookSpeed = 127;
+    pros::delay(200);
+    chassis.turnToPoint(-24,48,700);
+    chassis.moveToPoint(-24,48,1000);
+    chassis.turnToPoint(-5,50,700);
+    chassis.moveToPoint(-5,50,1000);
+    chassis.moveToPoint(-24,48,1000,{.forwards = false});
+
+    chassis.moveToPoint(-48,0,1000,{.minSpeed = 50, .earlyExitRange = 5});
+    pros::delay(700);
+    BOOL_mogo_clamp = false;
+
+    chassis.turnToPoint(-24,-24,700,{.forwards = false, .earlyExitRange = 5});
+    chassis.moveToPoint(-24,-24,1000,{.forwards = false, .maxSpeed = 80});
+    chassis.waitUntilDone();
+    BOOL_mogo_clamp = true;
+    pros::delay(200);
+    chassis.turnToPoint(-24,-48,700);
+    chassis.moveToPoint(-24,-48,1000);
+}
+
 void TechMechBlue() {
     BOOL_colourSorter = true;
     chassis.setPose(52,60,270);
@@ -85,7 +158,7 @@ void FinalsBlueMogoRush() {
         pros::delay(1000);
         if (i == 0) {
             chassis.moveToPoint(50,-50,700,{.forwards = false,.maxSpeed = 100});
-        } else  {
+        } else {
             chassis.moveToPoint(48,-36,1000,{false});
         }
     }
@@ -144,7 +217,7 @@ void RedMogoRush() {
 
 void FinalsRedMogoRush() {
     BOOL_colourSorter = true;
-    chassis.setPose(-50,-30,90);
+    chassis.setPose(-50,-30,270);
     chassis.follow(Red_Mogo_Rush_txt,15,2000,false);
     chassis.waitUntilDone();
     BOOL_mogo_clamp = true;
@@ -183,6 +256,8 @@ void RedRingRush() {
     
     // pros::delay(300);
     chassis.moveToPoint(-28,20,1000,{false});
+    BOOL_colourSorter = true;
+
     chassis.waitUntilDone();
     chassis.setBrakeMode(COAST);
     BOOL_mogo_clamp = true;
@@ -190,7 +265,6 @@ void RedRingRush() {
     hookSpeed = 127;
     chassis.moveToPoint(-24,48,1000);
     chassis.turnToPoint(-7,55,700);
-    BOOL_colourSorter = true;
     chassis.moveToPoint(-7,55,1000);
     chassis.waitUntilDone();
     pros::delay(200);
@@ -221,6 +295,8 @@ void BlueRingRush() {
     
     // pros::delay(300);
     chassis.moveToPoint(28,20,1000,{false});
+    BOOL_colourSorter = true;
+
     chassis.waitUntilDone();
     chassis.setBrakeMode(COAST);
     BOOL_mogo_clamp = true;
@@ -228,7 +304,6 @@ void BlueRingRush() {
     hookSpeed = 127;
     chassis.moveToPoint(24,48,1000);
     chassis.turnToPoint(5,55,700);
-    BOOL_colourSorter = true;
     chassis.moveToPoint(5,51,1000);
     chassis.waitUntilDone();
     pros::delay(200);
