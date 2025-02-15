@@ -90,9 +90,9 @@
 
 #define allianceDistance 92
 
-double LBLoadingAngle = 7.5;
+double LBLoadingAngle = 8.5;
 #define LBNoContactZone 60
-#define LBLoadingAngle2 19
+#define LBLoadingAngle2 20
 #define LBScoringAngle 114
 #define LBMacroAngle 70
 /*---PID Values---*/
@@ -161,6 +161,7 @@ ASSET(Blue_Mogo_Rush_txt)
 ASSET(Red_Mogo_Rush_txt)
 ASSET(Blue_Ring_Rush_txt)
 ASSET(Red_Ring_Rush_txt)
+ASSET(Red_Solo_AWP_txt)
 
 inline lemlib::PID alliancePID(0.8, 0.01, 0.5);
 

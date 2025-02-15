@@ -33,22 +33,22 @@ void LowerLB() {
 
 void Skills() {     
     // Set starting position (we should totally use an aligning tool because nathan's eyes suck)
-    chassis.setPose(-58,0,270);
+    chassis.setPose(-58,0,90);
 
     // Turn hook and intake on to score on alliance stake
-    LadyBrownState = 3;
-    // hookSpeed = 127;
+    // LadyBrownState = 3;
+    hookSpeed = 127;
     intakeSpeed = 127;
-    pros::delay(1000);
+    pros::delay(300);
 
     // Drives to get first mogo
-    // chassis.moveToPoint(-22,-26,1300,{.minSpeed = 50});
-    // hookSpeed = 0;
+    chassis.moveToPoint(-22,-26,1300,{.minSpeed = 50});
+    hookSpeed = 0;
     chassis.moveToPoint(-48,-24,1000,{.forwards = false, .maxSpeed = 80});
     
     // Gets the first mogo
     Clamp();
-    chassis.turnToHeading(90,700);
+    // chassis.turnToHeading(90,700);
 
     LadyBrownState = 0;
 
@@ -167,7 +167,7 @@ void Skills() {
 
     // Drive to get red ring ahead of alliance stake
     chassis.moveToPoint(24,24,1000,{.minSpeed = 60,.earlyExitRange = 3});
-    /*
+    
     // Adjusts drive position to dodge the mid mogo
     chassis.moveToPoint(55,10,700,{.minSpeed = 60, .earlyExitRange = 3});
     chassis.moveToPoint(48,-7,700);
@@ -182,17 +182,14 @@ void Skills() {
     //lbMech.move_velocity(55); // stay down wtf bro -Big Al
     //pros::delay(200);
 
-    lemlib::PID PIDdistance = lemlib::PID(0.3, 0.01, 0);
+    lemlib::PID PIDdistance = lemlib::PID(0.8, 0.01, 0.5);
     // BOOL_right_wing = true;
     // Use distance sensors to back up
-    while (true) {
+    for(int i = 0; i < 200; i++) {
         double distance2 = BackDistance2.get_distance();
         double distance = BackDistance.get_distance();
         double pidvalue = PIDdistance.update((100-((distance+distance2)/2)));
         chassis.arcade(pidvalue,(distance2-distance)*0.5,false,0.5); //97 works the best but we send it for 96
-        if (abs(100-distance) < 2) {
-            break;
-        }
         pros::delay(10);
     }
     // chassis.moveToPoint(70,-4,1000,{.forwards = false, .maxSpeed = 60});
@@ -206,17 +203,17 @@ void Skills() {
 
     // Drive forwards a bit
     chassis.moveToPoint(55,5,500);
-    */
-   chassis.moveToPoint(60,24,1500,{false});
-   chassis.waitUntilDone();
-   BOOL_mogo_clamp = true;
+    
+//    chassis.moveToPoint(60,24,1500,{false});
+//    chassis.waitUntilDone();
+//    BOOL_mogo_clamp = true;
 
     // Turns to face Blue Negative Corner
     chassis.turnToHeading(200,1000);
 
     // Drives to Blue Negative Corner backwards
     chassis.moveToPoint(60,55,1500,{false});
-    BOOL_mogo_clamp = false;
+    // BOOL_mogo_clamp = false;
 
     hookSpeed = 127;
     
@@ -312,15 +309,15 @@ hookSpeed = 0;
     chassis.moveToPoint(26,-26,800,{.minSpeed = 70, .earlyExitRange = 5});
     LadyBrownState = 3;
     chassis.turnToPoint(0,0,700,{.forwards = false});
-    chassis.moveToPoint(0,0,1000,{ .forwards = false, .maxSpeed = 52});
-    chassis.waitUntilDone();
-    left_dr.move(30);
-    right_dr.move(30);
-    LadyBrownState = 2;
-    pros::delay(200);
-    // LadyBrownState = 0;
-    left_dr.brake();
-    right_dr.brake();
+    chassis.moveToPoint(0,0,1000,{ .forwards = false, .maxSpeed = 80});
+    // chassis.waitUntilDone();
+    // left_dr.move(30);
+    // right_dr.move(30);
+    // LadyBrownState = 2;
+    // pros::delay(200);
+    // // LadyBrownState = 0;
+    // left_dr.brake();
+    // right_dr.brake();
 
     // pros::delay(2000);
     // chassis.turnToPoint(0,0,1000, {.forwards = false});

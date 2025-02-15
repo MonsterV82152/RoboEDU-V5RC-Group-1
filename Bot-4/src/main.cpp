@@ -94,21 +94,22 @@ void autonomous() {
 	
 	// pros::delay(10000);
 	// Feb9Auton();
-	if (SelectedAuton) {
-		if (SelectedTeam) {
-			if (SelectedAuton == 1) {
-				RedRingRush();
-			} else if (SelectedAuton == 2) {
-				FinalsRedMogoRush();
-			}
-		} else {
-			if (SelectedAuton == 1) {
-				BlueRingRush();
-			} else if (SelectedAuton == 2) {
-				FinalsBlueMogoRush();
-			}
-		}
-	}
+	RedSoloAWP();
+	// if (SelectedAuton) {
+	// 	if (SelectedTeam) {
+	// 		if (SelectedAuton == 1) {
+	// 			RedRingRush();
+	// 		} else if (SelectedAuton == 2) {
+	// 			FinalsRedMogoRush();
+	// 		}
+	// 	} else {
+	// 		if (SelectedAuton == 1) {
+	// 			BlueRingRush();
+	// 		} else if (SelectedAuton == 2) {
+	// 			FinalsBlueMogoRush();
+	// 		}
+	// 	}
+	// }
 	
 }
 
