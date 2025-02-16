@@ -90,9 +90,9 @@
 
 #define allianceDistance 92
 
-double LBLoadingAngle = 8.5;
+double LBLoadingAngle = 9.5;
 #define LBNoContactZone 60
-#define LBLoadingAngle2 20
+#define LBLoadingAngle2 21
 #define LBScoringAngle 114
 #define LBMacroAngle 70
 /*---PID Values---*/

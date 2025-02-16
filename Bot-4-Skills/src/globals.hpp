@@ -90,9 +90,9 @@
 
 //Lady Brown
 
-double LBLoadingAngle = 8.5;
+double LBLoadingAngle = 9.5;
 #define LBNoContactZone 60
-#define LBLoadingAngle2 20
+#define LBLoadingAngle2 21
 #define LBScoringAngle 114
 #define LBMacroAngle 70
 
@@ -152,6 +152,7 @@ double hookTemp, driveTemp;
 
 ASSET(skills_txt)
 ASSET(skills2_txt)
+ASSET(skills3_txt)
 
 //DriveTrain
 inline pros::MotorGroup left_dr({PORT_left_dr_1,PORT_left_dr_2,PORT_left_dr_3});
