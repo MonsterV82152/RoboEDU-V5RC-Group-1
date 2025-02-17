@@ -38,6 +38,6 @@ inline void wallstake(void *param)
 			left_dr.brake();
 			right_dr.brake();
 		}
-		pros::delay(100);
+		pros::delay(100); // End
 	}
 }
