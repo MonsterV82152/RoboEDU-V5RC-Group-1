@@ -12,7 +12,7 @@ detect if we have loaded a ring into the LadyBrown and will prevent the autoUnja
 we are loading the rings
 */
 
-
+// This function raises the wall stake mech to the appropriate height based on if a ring is already loaded. 
 void AutoRaise() {
     
     if (loadedRing) {
@@ -163,7 +163,7 @@ void ColourSorter(void *param)
         pros::delay(5);
     }
 }
-
+// Helps align on the wall stake using two distance sensors
 void AllianceStakeAllign()
 {
     if (master.get_digital_new_press(button_UP))
@@ -645,7 +645,7 @@ void ControllerDisplay()
         }
     }
 }
-
+// Function for displaying critical information to the brain during operation, such as temperatures of motors. 
 void BrainDisplay()
 {
     if ((driverControl || autonomousPeriod) && cycleCounter % 50 == 43 && AutonSelected)

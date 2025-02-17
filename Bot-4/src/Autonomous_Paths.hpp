@@ -5,6 +5,9 @@
 #define AUTON_HPP
 
 
+//Various Autonomous codes for use based on chosen strategy. 
+//Some games will prioritize AWP, while others aim for field control and a strong start. 
+
 void Feb9Auton() {
     BOOL_colourSorter = true;
     chassis.setPose(-54.5, 14, 0);
@@ -40,6 +43,7 @@ void Feb9Auton() {
 
 }
 
+//Code for getting AWP alone
 void RedSoloAWP() {
     BOOL_colourSorter = true;
     chassis.setPose(-53.385, -15, 180);
@@ -87,6 +91,7 @@ void RedSoloAWP() {
     
 }
 
+//Auton that scores wall stake externally
 void TechMechBlue() {
     BOOL_colourSorter = true;
     chassis.setPose(52,60,270);
@@ -102,6 +107,7 @@ void TechMechBlue() {
 
 }
 
+//Blue side rush for posession of neutral mogo
 void BlueMogoRush() {
     
     BOOL_colourSorter = true;
@@ -147,6 +153,7 @@ void BlueMogoRush() {
     hookSpeed = 127;
 }
 
+// Different auton for blue mogo that focuses on field position over touching ladder 
 void FinalsBlueMogoRush() {
     BOOL_colourSorter = true;
     chassis.setPose(50,-30,90);
@@ -176,6 +183,8 @@ void FinalsBlueMogoRush() {
     chassis.moveToPoint(48,24,2000,{.maxSpeed = 70});
     chassis.moveToPoint(20,-60,1000,{false});
 }
+
+//Red side rush for posession of neutral mogo
 
 void RedMogoRush() {
     BOOL_colourSorter = true;
@@ -223,7 +232,7 @@ void RedMogoRush() {
 }
 
 
-
+//Red eliminations 
 
 void FinalsRedMogoRush() {
     BOOL_colourSorter = true;

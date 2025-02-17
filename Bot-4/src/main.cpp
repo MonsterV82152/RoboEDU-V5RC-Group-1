@@ -24,6 +24,8 @@ void initialize() {
     //         pros::delay(20);
     //     }
     // });
+	
+	//Tasks are used for multithreading multiple operations at once
 	pros::Task(ColourSorter, nullptr, "ColourSorter");
 	pros::Task(mainWhileLoop, nullptr, "mainWhileLoop");
 	pros::Task(AutonomousSelector, nullptr, "AutonSelector");
@@ -33,85 +35,97 @@ void initialize() {
 
 	}
 
+//Blank code for when robot is disabled by field control
 void disabled() {
 }
 
 void competition_initialize() {}
 
+
+//Runs the autonomous from field control, setting the appropriate variables
 void autonomous() {
 	autonomousPeriod = true;
 	driverControl = false;
 
-	// Chassis Calibration
+	//Chassis Calibration
 
-	// master.clear();
-	// chassis.setPose(0,0,0);
-	// chassis.turnToHeading(90,100000);
-	// chassis.turnToHeading(90,3000);
-	// chassis.waitUntilDone();
-	// double ndiff = chassis.getPose().theta-90;
-	// chassis.setPose(0,0,0);
-	// chassis.turnToHeading(179.9,3000);
-	// chassis.waitUntilDone();
-	// double odiff = chassis.getPose().theta-179.9;
-	// double p;
-	// double d = angularKd;
-	// if (ndiff > 0) {
-	// 	if (odiff > 0) {
-	// 		p = angularKp-(fabs(ndiff)*0.1);
-	// 	} else {
-	// 		p = angularKp-(fabs(ndiff)*0.1);
-	// 		d = angularKd-fabs(odiff);
-	// 	}
-	// } else {
-	// 	if (odiff > 0) {
-	// 		p = angularKp+(fabs(ndiff)*0.1);
-	// 		d = angularKd+fabs(odiff);
-	// 	} else {
-	// 		p = angularKp+(fabs(ndiff)*0.1);
-	// 	}
+	master.clear();
+	chassis.setPose(0,0,0);
+	chassis.turnToHeading(90,100000);
+	chassis.turnToHeading(90,3000);
+	chassis.waitUntilDone();
+	double ndiff = chassis.getPose().theta-90;
+	chassis.setPose(0,0,0);
+	chassis.turnToHeading(179.9,3000);
+	chassis.waitUntilDone();
+	double odiff = chassis.getPose().theta-179.9;
+	double p;
+	double d = angularKd;
+	if (ndiff > 0) {
+		if (odiff > 0) {
+			p = angularKp-(fabs(ndiff)*0.1);
+		} else {
+			p = angularKp-(fabs(ndiff)*0.1);
+			d = angularKd-fabs(odiff);
+		}
+	} else {
+		if (odiff > 0) {
+			p = angularKp+(fabs(ndiff)*0.1);
+			d = angularKd+fabs(odiff);
+		} else {
+			p = angularKp+(fabs(ndiff)*0.1);
+		}
 			
-	// }
+	}
 		
-	// master.print(0,1,"%.5f",p);
-	// pros::delay(1000);
-	// master.print(1,1,"%.5f",d);
-	// double tot = 0;
-	// for (double i = 9.99; i<180; i += 10) {
-	// 	double target = chassis.getPose().theta+i;
-	// 	master.print(0,0,"%d",i);
-	// 	chassis.turnToHeading(target,1500);
-	// 	pros::delay(3000);
-	// 	tot += target - chassis.getPose().theta;
-	// }
-	// master.print(0,0,"%.5f", tot);
-	// pros::delay(10000);
+	master.print(0,1,"%.5f",p);
+	pros::delay(1000);
+	master.print(1,1,"%.5f",d);
+	double tot = 0;
+	for (double i = 9.99; i<180; i += 10) {
+		double target = chassis.getPose().theta+i;
+		master.print(0,0,"%d",i);
+		chassis.turnToHeading(target,1500);
+		pros::delay(3000);
+		tot += target - chassis.getPose().theta;
+	}
+	master.print(0,0,"%.5f", tot);
+	pros::delay(10000);
 
 
-	// chassis.turnToHeading(90,5000);
-	// chassis.waitUntilDone();
-	// master.print(0,0,"%f",chassis.getPose().theta-90);
+	chassis.turnToHeading(90,5000);
+	chassis.waitUntilDone();
+	master.print(0,0,"%f",chassis.getPose().theta-90);
 	
 	// pros::delay(10000);
 	// Feb9Auton();
-	RedSoloAWP();
-	// if (SelectedAuton) {
-	// 	if (SelectedTeam) {
-	// 		if (SelectedAuton == 1) {
-	// 			RedRingRush();
-	// 		} else if (SelectedAuton == 2) {
-	// 			FinalsRedMogoRush();
-	// 		}
-	// 	} else {
-	// 		if (SelectedAuton == 1) {
-	// 			BlueRingRush();
-	// 		} else if (SelectedAuton == 2) {
-	// 			FinalsBlueMogoRush();
-	// 		}
-	// 	}
-	// }
+	//RedSoloAWP();
+
+	//Selection for Autonomous using GUI to avoid errors
+	if (SelectedAuton) {
+		if (SelectedTeam) {
+			if (SelectedAuton == 1) {
+				RedRingRush();
+			} else if (SelectedAuton == 2) {
+				FinalsRedMogoRush();
+			} else if (SelectedAuton == 3) {
+				RedSoloAWP();
+			}
+		} else {
+			if (SelectedAuton == 1) {
+				BlueRingRush();
+			} else if (SelectedAuton == 2) {
+				FinalsBlueMogoRush();
+			} else if (SelectedAuton == 3) {
+				BlueSoloAWP();
+			}
+		}
+	}
 	
 }
+
+
+//Runs the driver control from field control, setting the appropriate variables
 
 void opcontrol() {
 	autonomousPeriod = false;
