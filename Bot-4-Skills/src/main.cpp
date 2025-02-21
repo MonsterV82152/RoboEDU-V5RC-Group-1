@@ -7,22 +7,22 @@ void on_center_button() {
 }	
 
 void initialize() {
-	// pros::lcd::initialize();
+	pros::lcd::initialize();
 	pros::screen::erase();
 	// Initializes
 	MotorInit();
 	SensorInit();
 
-	// pros::Task screen_task([&]() {
-    //     while (true) {
-    //         // print robot location to the brain screen
-    //         pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-    //         pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-    //         pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-    //         // delay to sadve resources
-    //         pros::delay(20);
-    //     }
-    // });
+	pros::Task screen_task([&]() {
+        while (true) {
+            // print robot location to the brain screen
+            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+            // delay to sadve resources
+            pros::delay(20);
+        }
+    });
 	pros::Task(ColourSorter, nullptr, "ColourSorter");
 	pros::Task(mainWhileLoop, nullptr, "mainWhileLoop");
 	

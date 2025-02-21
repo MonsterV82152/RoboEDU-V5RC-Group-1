@@ -90,7 +90,7 @@
 
 //Lady Brown
 
-double LBLoadingAngle = 9.5;
+double LBLoadingAngle = 10.5;
 #define LBNoContactZone 60
 #define LBLoadingAngle2 21
 #define LBScoringAngle 114
@@ -187,8 +187,8 @@ inline pros::Distance BackDistance2(PORT_BackDistance2);
 /*----------------------LEMLIB INIT----------------------*/
 
 inline lemlib::Drivetrain LEMLIB_drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_325, 450, 2);
-inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, 2, -1.5);
-inline lemlib::TrackingWheel LEMLIB_horizontal_TW(&horizontal_TW, 2, -2.6);
+inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, 2, -2);
+// inline lemlib::TrackingWheel LEMLIB_horizontal_TW(&horizontal_TW, 2, -2.6);
 
 inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, nullptr, nullptr, &IMU);
 inline lemlib::ControllerSettings LEMLIB_lateral_controller(

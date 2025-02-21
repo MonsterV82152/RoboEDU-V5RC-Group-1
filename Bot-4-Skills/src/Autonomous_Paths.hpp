@@ -55,16 +55,16 @@ void Skills() {
     // Follow predetermined skills route
     chassis.follow(skills_txt,15,6000);
     chassis.waitUntilDone();
-    chassis.turnToPoint(-3,-50,700);
-    pros::delay(300);
+    chassis.turnToPoint(-5,-50,700);
+    // pros::delay(100);
 
     // Loads ring into LB
     LoadRing();
 
     // Moves to first wall stake
-    chassis.moveToPoint(-3,-50,1000);
-    chassis.turnToPoint(-3,-70,700);
-    chassis.moveToPoint(-3,-70,700);
+    chassis.moveToPoint(-5,-50,1000);
+    chassis.turnToPoint(-5,-70,700);
+    chassis.moveToPoint(-5,-70,700);
     hookSpeed = -5;
 
     pros::delay(700);
@@ -97,11 +97,11 @@ void Skills() {
     hookOverwriteSpeed = -50;
     hookSpeed = 60;
     chassis.moveToPoint(-40,-48,1000,{.minSpeed = 80, .earlyExitRange = 5});
-    chassis.moveToPoint(0,5,2000);
+    chassis.moveToPoint(5,7,2500);
     pros::delay(600);
     hookSpeed = 0;
-    chassis.turnToPoint(-48,18,700,{.forwards = false});
-    chassis.moveToPoint(-48,18,1000,{.forwards = false, .earlyExitRange = 5});
+    chassis.turnToPoint(-48,22,700,{.forwards = false});
+    chassis.moveToPoint(-48,22,1000,{.forwards = false, .earlyExitRange = 5});
     // chassis.turnToPoint(-48,24,700,{false});
     chassis.moveToPoint(-53,28,700,{false});
 
