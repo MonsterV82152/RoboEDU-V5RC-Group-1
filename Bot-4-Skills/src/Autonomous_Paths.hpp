@@ -55,20 +55,17 @@ void Skills() {
     // Follow predetermined skills route
     chassis.follow(skills_txt,15,6000);
     chassis.waitUntilDone();
-    chassis.turnToPoint(-5,-50,700);
+    chassis.turnToPoint(-5,-50,400);
     // pros::delay(100);
 
     // Loads ring into LB
     LoadRing();
 
     // Moves to first wall stake
-    chassis.moveToPoint(-5,-50,1000);
-    chassis.turnToPoint(-5,-70,700);
+    chassis.moveToPoint(-5,-50,1000,{.minSpeed = 70,.earlyExitRange = 5});
+    chassis.turnToPoint(-5,-70,400);
     chassis.moveToPoint(-5,-70,700);
-    hookSpeed = -5;
-
-    pros::delay(700);
-    
+    hookSpeed = -5;    
     // Score first wall stake
     LadyBrownState = 3;
     hookSpeed = 127;
@@ -88,7 +85,7 @@ void Skills() {
     // chassis.moveToPoint(-54,-65,1200);
     // chassis.swingToPoint(0,0,lemlib::DriveSide::RIGHT,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE,.minSpeed = 70,.earlyExitRange = 5});
     chassis.follow(skills3_txt,15,3000);
-    chassis.moveToPoint(-62,-62,700,{.forwards = false, .maxSpeed = 80});
+    chassis.moveToPoint(-70,-70,700,{.forwards = false, .maxSpeed = 80});
     chassis.waitUntilDone();
     pros::delay(700);
 
@@ -96,14 +93,14 @@ void Skills() {
     BOOL_mogo_clamp = false;
     hookOverwriteSpeed = -50;
     hookSpeed = 60;
-    chassis.moveToPoint(-40,-48,1000,{.minSpeed = 80, .earlyExitRange = 5});
-    chassis.moveToPoint(5,7,2500);
+    chassis.moveToPoint(-48,-48,1000,{.minSpeed = 80, .earlyExitRange = 5});
+    chassis.moveToPoint(0,19,3400);
     pros::delay(600);
     hookSpeed = 0;
-    chassis.turnToPoint(-48,22,700,{.forwards = false});
-    chassis.moveToPoint(-48,22,1000,{.forwards = false, .earlyExitRange = 5});
+    chassis.turnToPoint(-48,24,700,{.forwards = false});
+    chassis.moveToPoint(-48,24,1000,{.forwards = false, .earlyExitRange = 5});
     // chassis.turnToPoint(-48,24,700,{false});
-    chassis.moveToPoint(-53,28,700,{false});
+    chassis.moveToPoint(-54,38,1000,{false});
 
     // Grabs second mogo
     Clamp();
@@ -127,13 +124,13 @@ void Skills() {
 
 
     // Drive to second wall stake
-    chassis.moveToPoint(-6,61,1500);
+    chassis.moveToPoint(0,61,1500);
     chassis.waitUntilDone();
     pros::delay(400);
-    chassis.turnToPoint(-6,80,700);
+    chassis.turnToPoint(0,80,700);
     LadyBrownState = 2;
 
-    chassis.moveToPoint(-6,80,1000);
+    chassis.moveToPoint(0,80,1000);
     pros::delay(1200);
     LadyBrownState = 3;
     pros::delay(1000);
@@ -142,8 +139,8 @@ void Skills() {
 
     // REMOVE THIS if you want to add the first half back
     // Scored 2 on SECOND wall stake 
-    lemlib::Pose pose = chassis.getPose();
-    chassis.setPose(pose.x+5,pose.y-5,pose.theta);
+    // lemlib::Pose pose = chassis.getPose();
+    // chassis.setPose(pose.x+5,pose.y-5,pose.theta);
     // LoadRing();
     // hookSpeed = 127;
     // pros::delay(300);

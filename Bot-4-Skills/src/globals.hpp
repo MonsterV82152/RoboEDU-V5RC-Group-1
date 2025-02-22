@@ -90,10 +90,10 @@
 
 //Lady Brown
 
-double LBLoadingAngle = 10.5;
+double LBLoadingAngle = 14;
 #define LBNoContactZone 60
-#define LBLoadingAngle2 21
-#define LBScoringAngle 114
+#define LBLoadingAngle2 23
+#define LBScoringAngle 115
 #define LBMacroAngle 70
 
 /*---PID Values---*/

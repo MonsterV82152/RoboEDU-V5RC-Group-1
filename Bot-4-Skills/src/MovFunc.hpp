@@ -185,7 +185,7 @@ period here and the intake/hook system.
 void mainMovement() {
 
     HookUnjam(); //TEMPORARILY REMOVING 
-    chassis.arcade(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_X), true, 0.5);
+    // chassis.arcade(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_X), true, 0.5);
     if (master.get_digital(ReverseRingSystem) && user == 0)
     {
         actualIntakeSpeed = -127;
