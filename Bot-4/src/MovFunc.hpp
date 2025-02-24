@@ -239,27 +239,17 @@ void mainMovement()
     distance2 = BackDistance2.get_distance();
     distance = BackDistance.get_distance();
     heading = abs((int)(chassis.getPose().theta) % 360);
-    if (user == 1) {
-        left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
-        right_controller_position_Y = master.get_analog(ANALOG_RIGHT_Y);
-        chassis.tank(left_controller_position_Y, right_controller_position_Y);
-
-    } else {
-
-    }
     if (driverControl)
     {
-        // if (user == 1) {
-        //     left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
-        //     right_controller_position_Y = master.get_analog(ANALOG_RIGHT_Y);
-        //     chassis.tank(left_controller_position_Y, right_controller_position_Y);
-
-        // } else {
+        if (master.get_digital(button_RIGHT)) {
+            chassis.arcade(-70,0,false,0.5);
+        } else {
             left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
             right_controller_position_X = master.get_analog(ANALOG_RIGHT_X);
 
             chassis.arcade(left_controller_position_Y, right_controller_position_X, false, 0.54); 
-        // }
+        }
+            
         
     }
 
@@ -347,6 +337,8 @@ void pnumatics()
         if (!BOOL_mogo_clamp)
         {
             hookOverwriteSpeed = -50;
+        } else {
+            master.rumble("-");
         }
     }
     if (master.get_digital_new_press(WingToggle) && LadyBrownState != 3 && !LBMoving)
@@ -419,7 +411,7 @@ void LadyBrown()
 {
 
     // Gets the Lady Brown position divided by the gear ratio and translate centidegrees to degrees
-    LadyBrownPosition = lbRotation.get_position() / 600;
+    LadyBrownPosition = lbRotation.get_position() / 300;
     // Sets the stages of the Lady Brown based on controls
     if (master2.get_digital(button_DOWN))
     {
@@ -472,6 +464,7 @@ void LadyBrown()
     if (master.get_digital(LadyBrownUp))
     {
         LadyBrownSetPointState = false;
+        LBMoving = false;
         if (LadyBrownPosition < 300)
         {
             if (LadyBrownPosition < LBNoContactZone)
@@ -494,6 +487,7 @@ void LadyBrown()
     }
     else if (master.get_digital(LadyBrownDown))
     {
+        LBMoving = false;
         LadyBrownSetPointState = false;
         if (LadyBrownPosition > -2)
         {
@@ -524,7 +518,7 @@ void LadyBrown()
             lbMech.move_velocity((LBLoadingAngle - (LadyBrownPosition)) * 4);
         }
         // else if (LadyBrownState == 2 && (LadyBrownPosition > LBLoadingAngle2 + 1 || LadyBrownPosition < LBLoadingAngle2 - 1))
-        else if (LadyBrownState == 2 && (LadyBrownPosition < LBLoadingAngle2 - 1))
+        else if (LadyBrownState == 2 && (LadyBrownPosition < LBLoadingAngle2 - 0.5 || LadyBrownPosition > LBLoadingAngle2 + 0.5))
         {
             lbMech.move_velocity((LBLoadingAngle2 - (LadyBrownPosition)) * 8);
 

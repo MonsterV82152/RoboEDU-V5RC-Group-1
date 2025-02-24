@@ -9,6 +9,8 @@
 #include <sstream>
 #include "lemlib/api.hpp"
 #include "hook.cpp"
+#include "ladyBrown.cpp"
+#include "intake.cpp"
 
 /*----------------------Defines----------------------*/
 
@@ -72,7 +74,7 @@
 
 //Pnuematics
 #define PORT_mogo_clamp 'A'
-#define PORT_alliance_piston 'B'
+#define PORT_wing 'B'
 #define PORT_left_wing 'C'
 
 //Sensors
@@ -106,6 +108,10 @@ double LBLoadingAngle = 9.5;
 #define angularKi 0.01
 #define angularKd 50
 
+#define LBKp 0.1
+#define LBKi 0.1
+#define LBKd 0.1
+
 /*----------------------GLOBAL VARIABLES----------------------*/
 
 int cycleSpeeds = 10;
@@ -128,19 +134,9 @@ int cycleCounter = 0;
 int left_controller_position_Y, left_controller_position_X, right_controller_position_Y, right_controller_position_X;
 int p_left_controller_position_Y, p_left_controller_position_X, p_right_controller_position_Y, p_right_controller_position_X;
 
-int intakeSpeed = 0, intakeOverwriteSpeed = 0;
-int actualIntakeSpeed = 0;
-
-int intakeDefaultSpeed = 127, hookDefaultSpeed = 127;
-
-int LadyBrownState = 0;
-
-double LadyBrownPosition;
-
 bool BOOL_mogo_clamp = false, BOOL_alliance_piston = false, BOOL_left_wing = false;
 
 bool driverControl = false, autonomousPeriod = false;
-
 
 int colourSorterCountdown = 2, colourSorterCooldown = 30;
 
@@ -163,27 +159,21 @@ ASSET(Blue_Ring_Rush_txt)
 ASSET(Red_Ring_Rush_txt)
 ASSET(Red_Solo_AWP_txt)
 
+inline Hook heading();
+inline LadyBrown LB();
+inline Intake intake();
+
+
 inline lemlib::PID alliancePID(0.8, 0.01, 0.5);
 
 //DriveTrain
 inline pros::MotorGroup left_dr({PORT_left_dr_1,PORT_left_dr_2,PORT_left_dr_3});
 inline pros::MotorGroup right_dr({PORT_right_dr_1,PORT_right_dr_2,PORT_right_dr_3});
 
-//Mechanisms
-inline pros::Motor intake(PORT_intake);
-inline pros::Motor lbMech(PORT_lbMech);
-
-//Pnuematics
-inline pros::ADIDigitalOut mogo_clamp(PORT_mogo_clamp);
-inline pros::ADIDigitalOut alliance_piston(PORT_alliance_piston);
-inline pros::ADIDigitalOut left_wing(PORT_left_wing);
-
 //Controller
 inline pros::Controller master(driver);
 inline pros::Controller master2(driver_2);
 
-//Sensors
-inline pros::Rotation lbRotation(PORT_lbRotation);
 
 inline pros::Imu IMU(PORT_IMU);
 inline pros::Rotation vertical_TW(PORT_Vertical_TW);

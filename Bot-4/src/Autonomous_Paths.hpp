@@ -7,14 +7,14 @@
 
 void Feb9Auton() {
     BOOL_colourSorter = true;
-    chassis.setPose(-54.5, 14, 0);
-    chassis.moveToPoint(-54.5, 0, 700, {.forwards = false, .maxSpeed = 90});
+    chassis.setPose(-53.385, 15, 0);
+    chassis.moveToPoint(-53.385, 0, 700, {.forwards = false, .maxSpeed = 90});
     chassis.turnToHeading(270,700);
     chassis.moveToPoint(-70,0,1000);
     pros::delay(300);
-    LadyBrownState = 3;
     chassis.waitUntilDone();
-    pros::delay(200);
+    LadyBrownState = 3;
+    pros::delay(500);
     chassis.moveToPoint(-48,0,1000,{.forwards = false, .minSpeed = 50, .earlyExitRange = 5});
     chassis.turnToPoint(-28,28,700,{.forwards = false, .earlyExitRange = 5});
     chassis.moveToPoint(-24,24,1000,{false});
@@ -24,8 +24,8 @@ void Feb9Auton() {
     hookSpeed = 127;
     BOOL_mogo_clamp = true;
     pros::delay(200);
-    chassis.turnToPoint(-24,48,700);
-    chassis.moveToPoint(-24,48,700);
+    chassis.turnToPoint(-24,50,700);
+    chassis.moveToPoint(-24,50,1000);
     chassis.turnToPoint(-5,43,700);
     chassis.moveToPoint(-5,43,1000);
     chassis.moveToPoint(-24,48,1000,{false});
@@ -36,7 +36,7 @@ void Feb9Auton() {
     pros::delay(500);
     chassis.moveToPoint(-10,10,1000);
     pros::delay(200);
-    LadyBrownState = 3;
+    // LadyBrownState = 3;
 
 }
 
@@ -83,6 +83,53 @@ void RedSoloAWP() {
     chassis.moveToPoint(-24,48,1000,{.forwards = false});
 
     chassis.moveToPoint(-12,12,1000);
+
+    
+}
+
+void BlueSoloAWP() {
+    BOOL_colourSorter = true;
+    chassis.setPose(53.385, -15, 180);
+    chassis.moveToPoint(53.385, 0, 500, {.forwards = false});
+    chassis.turnToHeading(90,500);
+    chassis.moveToPoint(70,0,500);
+    pros::delay(200);
+    LadyBrownState = 3;
+    chassis.waitUntilDone();
+    pros::delay(200);
+    chassis.moveToPoint(48,0,1000,{.forwards = false, .minSpeed = 50, .earlyExitRange = 5});
+
+
+    chassis.turnToPoint(24,-24,700,{.forwards = false, .earlyExitRange = 5});
+    LadyBrownState = 0;
+    intakeSpeed = 127;
+    hookSpeed = 127;
+    chassis.moveToPoint(24,-24,1000,{.forwards = false, .maxSpeed = 80});
+    chassis.waitUntilDone();
+    BOOL_mogo_clamp = true;
+    pros::delay(200);
+    chassis.turnToPoint(24,-52,700);
+    chassis.moveToPoint(24,-54,1000);
+    chassis.turnToHeading(45,700);
+    intakeSpeed = -127;
+    chassis.follow(Blue_Solo_AWP_txt,15,1600);
+    chassis.waitUntil(20);
+    BOOL_mogo_clamp = false;
+    chassis.waitUntilDone();
+    chassis.turnToPoint(20,20,700,{.forwards = false, .earlyExitRange = 5});
+    chassis.moveToPoint(20,20,1000,{.forwards = false, .maxSpeed = 80});
+    chassis.waitUntilDone();
+    BOOL_mogo_clamp = true;
+    intakeSpeed = 127;
+    hookSpeed = 127;
+    pros::delay(200);
+    chassis.turnToPoint(24,48,700);
+    chassis.moveToPoint(24,48,1000);
+    chassis.turnToPoint(5,48,700);
+    chassis.moveToPoint(5,48,1000);
+    chassis.moveToPoint(24,48,1000,{.forwards = false});
+
+    chassis.moveToPoint(12,12,1000);
 
     
 }
@@ -330,7 +377,7 @@ void BlueRingRush() {
         pros::delay(1000);
         chassis.moveToPoint(50,50,700,{.forwards = false,.maxSpeed = 100});
     }
-    chassis.moveToPoint(48,0,1000,{false});
+    chassis.moveToPoint(20,20,1000,{.forwards = false, .minSpeed = 127,.earlyExitRange = 5});
     
 }
 

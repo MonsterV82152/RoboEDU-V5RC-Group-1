@@ -70,16 +70,16 @@ void Skills() {
     LadyBrownState = 3;
     hookSpeed = 127;
     chassis.waitUntilDone();
-    pros::delay(1000);
+    // pros::delay(100);
 
     // Our pullout game is strong
-    chassis.moveToPoint(-3,-45,1000,{false});
+    chassis.moveToPoint(-5,-45,700,{false});
 
     // Lowers LB before moving
     LowerLB();
 
     // Turn to first positive corner
-    chassis.turnToPoint(-48,-65,700);
+    chassis.turnToPoint(-48,-65,400);
     
     // Drive to first positive corner
     // chassis.moveToPoint(-54,-65,1200);
@@ -111,20 +111,26 @@ void Skills() {
     // chassis.moveToPoint(-53,48,1000);
     chassis.follow(skills2_txt, 15, 4000);
     chassis.waitUntilDone();
+    lemlib::Pose pose = chassis.getPose();
+    chassis.setPose(pose.x+5,pose.y-10,pose.theta);
+    chassis.moveToPoint(-48,48,700,{.forwards = false});
     chassis.swingToHeading(90,lemlib::DriveSide::RIGHT,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE});
-    chassis.moveToPoint(-66,66,700,{false});
+    chassis.moveToPoint(-76,76,700,{false});
     chassis.waitUntilDone();
     LoadRing();
 
-    pros::delay(800);
+    pros::delay(300);
 
     // Releases second mogo
     BOOL_mogo_clamp = false;
     hookOverwriteSpeed = -50;
+    
 
 
+
+    chassis.moveToPoint(-48,60,1000,{.minSpeed = 80, .earlyExitRange = 5});
     // Drive to second wall stake
-    chassis.moveToPoint(0,61,1500);
+    chassis.moveToPoint(0,58,1500);
     chassis.waitUntilDone();
     pros::delay(400);
     chassis.turnToPoint(0,80,700);
@@ -139,8 +145,8 @@ void Skills() {
 
     // REMOVE THIS if you want to add the first half back
     // Scored 2 on SECOND wall stake 
-    // lemlib::Pose pose = chassis.getPose();
-    // chassis.setPose(pose.x+5,pose.y-5,pose.theta);
+    pose = chassis.getPose();
+    chassis.setPose(pose.x,pose.y-3,pose.theta);
     // LoadRing();
     // hookSpeed = 127;
     // pros::delay(300);
@@ -187,7 +193,7 @@ void Skills() {
     for(int i = 0; i < 200; i++) {
         double distance2 = BackDistance2.get_distance();
         double distance = BackDistance.get_distance();
-        double pidvalue = PIDdistance.update((100-((distance+distance2)/2)));
+        double pidvalue = PIDdistance.update((95-((distance+distance2)/2)));
         chassis.arcade(pidvalue,0,false,0.5); //97 works the best but we send it for 96
         // (distance2-distance)*0.5
         pros::delay(10);
@@ -234,8 +240,8 @@ void Skills() {
     chassis.turnToPoint(48,62,700);
 
 //Bring up first ring
-hookSpeed = 50;
-pros::delay(100);
+hookSpeed = 127;
+pros::delay(300);
 // Stop hook
 hookSpeed = 0;
 
@@ -258,10 +264,11 @@ hookSpeed = 0;
     // Note: You should tune the position to be roughly where it ends up, good deal of margin of error
 
     // Point at last Mogo
-    chassis.turnToPoint(37,-3,700,{.forwards = false}); //50 -24
+    chassis.turnToPoint(42,-24,700,{.forwards = false}); //50 -24
+    BOOL_colourSorter = true;
 
     // Drive at last Mogo
-    chassis.moveToPoint(50,-24,1500,{.forwards = false,.maxSpeed = 80});
+    chassis.moveToPoint(42,-24,1500,{.forwards = false,.maxSpeed = 80});
     chassis.waitUntilDone();
 
     hookSpeed = 0;

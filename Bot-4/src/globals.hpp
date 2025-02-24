@@ -90,9 +90,9 @@
 
 #define allianceDistance 92
 
-double LBLoadingAngle = 8.5;
+double LBLoadingAngle = 11.5; 
 #define LBNoContactZone 60
-#define LBLoadingAngle2 21
+#define LBLoadingAngle2 24
 #define LBScoringAngle 115
 #define LBMacroAngle 70
 /*---PID Values---*/
@@ -108,7 +108,7 @@ double LBLoadingAngle = 8.5;
 /*----------------------GLOBAL VARIABLES----------------------*/
 
 bool SelectedTeam = true, BOOL_colourSorter = false;
-int SelectedAuton = 1, user = 0;
+int SelectedAuton = 3, user = 0;
 bool AutonSelected = false;
 bool LadyBrownSetPointState = true;
 bool BOOL_AutoRaise = false;
@@ -162,6 +162,7 @@ ASSET(Red_Mogo_Rush_txt)
 ASSET(Blue_Ring_Rush_txt)
 ASSET(Red_Ring_Rush_txt)
 ASSET(Red_Solo_AWP_txt)
+ASSET(Blue_Solo_AWP_txt)
 
 inline lemlib::PID alliancePID(0.8, 0.01, 0.5);
 
