@@ -90,7 +90,7 @@
 
 //Lady Brown
 
-double LBLoadingAngle = 12;
+double LBLoadingAngle = 16;
 #define LBNoContactZone 60
 #define LBLoadingAngle2 22
 #define LBScoringAngle 115
@@ -108,7 +108,7 @@ double LBLoadingAngle = 12;
 
 /*----------------------GLOBAL VARIABLES----------------------*/
 
-bool SelectedTeam = true, BOOL_colourSorter = false;
+bool SelectedTeam = true, BOOL_colourSorter = false, autoUnjam = true;
 int SelectedAuton = 1, user = 0;
 bool AutonSelected = false;
 bool LadyBrownSetPointState = true;

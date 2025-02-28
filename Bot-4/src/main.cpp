@@ -110,6 +110,8 @@ void autonomous() {
 				BlueRingRush();
 			} else if (SelectedAuton == 2) {
 				FinalsBlueMogoRush();
+			} else if (SelectedAuton == 3) {
+				BlueSoloAWP();
 			}
 		}
 	}

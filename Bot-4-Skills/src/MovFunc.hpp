@@ -14,71 +14,72 @@ we are loading the rings
 
 void ColourSorter(void *param)
 {
-    pros::delay(1000);
+    pros::delay(1000); // Delay to prevent any initialization issues
     while (true)
     {
-        if (BOOL_colourSorter)
+        if (BOOL_colourSorter) // Checks if colourSorter should be activated
         {
-            int a = colour.get_hue();
-            int dis = HookDistance.get_distance();
-            if (colourSorterCooldown != 30)
+            int a = colour.get_hue();               // Gets the colour of the colour sensor in the intake
+            int dis = HookDistance.get_distance();  // Gets the distance of the distance sensor on the book
+            if (colourSorterCooldown != 30)         // Checks if the cooldown is changed
             {
-                if (colourSorterCooldown == 0)
+                if (colourSorterCooldown == 0)      // Stops the hook if the cooldown reaches 0
                 {
-                    if (hookOverwriteSpeed == -127 || hookOverwriteSpeed == -10)
+                    if (hookOverwriteSpeed == -127 || hookOverwriteSpeed == -30)
                     {
                         hookOverwriteSpeed = 0;
                         colourSorterCooldown = 30;
                     }
                 }
-                else
+                else                                // Continues counting down if it is changed.
                 {
                     colourSorterCooldown--;
                 }
             }
-            else if (ring[0] != 0)
+            else if (ring[0] != 0)                  // Checks if there is a ring in the system
             {
-                if (dis < 50)
+                if (dis < 50)                       // Checks if the distance sensor detects anything
                 {
-                    if (SelectedTeam && ring[0] == 2)
+                    if (SelectedTeam && ring[0] == 2) // Checks if the ring is a ring of the opponents' colour
                     {
-                        pros::delay(50);
+                        pros::delay(45);
                         colourSorterCooldown--;
-                        if (LadyBrownState == 1)
+                        if (LadyBrownState == 1 || ring[1] != 0)    // Redirects the ring if LB is up in loading position.
                         {
                             hookOverwriteSpeed = -127;
                         }
                         else
                         {
-                            hookOverwriteSpeed = -10;
+                            hookOverwriteSpeed = -30;
                         }
                     }
                     else if (!SelectedTeam && ring[0] == 1)
                     {
-                        pros::delay(20);
+                        pros::delay(45);
                         colourSorterCooldown--;
-                        if (LadyBrownState == 1)
+                        if (LadyBrownState == 1 || ring[1] != 0)
                         {
                             hookOverwriteSpeed = -127;
                         }
                         else
                         {
-                            hookOverwriteSpeed = -10;
+                            hookOverwriteSpeed = -30;
                         }
-                    } else {
-                        pros::delay(200);
                     }
-                    if (LadyBrownState == 1)
+                    else
                     {
-                        loadedRing = true;
+                        if (LadyBrownState == 1)    // Changes loadedRing state if LB is up
+                        {
+                            loadedRing = true;
+                        }
+                        pros::delay(300);
                     }
-                    ring[0] = ring[1];
+
+                    ring[0] = ring[1];              // Moves the order of the rings in the array
                     ring[1] = 0;
                 }
             }
-
-            // std::cout << ring[0] << " " << ring[1] << " " << a << " " << HookDistance.get_distance() << std::endl;
-            if (a < 20 || a > 340)
+            if (a < 20 || a > 340)                  // Checks the colour sensor to see if any rings are intaken
             {
                 if (!detectingColour)
                 {
@@ -93,7 +94,7 @@ void ColourSorter(void *param)
                 }
                 detectingColour = true;
             }
-            else if (a > 190 && a < 230)
+            else if (a > 140 && a < 230)
             {
                 if (!detectingColour)
                 {
@@ -124,8 +125,13 @@ void ColourSorter(void *param)
             ring[1] = 0;
             colourSorterCooldown = 30;
         }
-
-        pros::delay(10);
+        // AutoRaise();
+        if ((LadyBrownState == 1 || LadyBrownState == 2) && HookDistance.get_distance() < 50)
+        {
+        loadedRing = true;
+        autoUnjam = false;
+        }  
+        pros::delay(5);
     }
 }
 
@@ -138,44 +144,45 @@ the driver as they do not need to manually reverse the hook anymore
 */
 void HookUnjam()
 {
-    if (unjamCountdown == 0 && unjamCooldown != 0)
-    {
-        hookOverwriteSpeed = -127;
-        master.rumble("-");
-        // intakeOverwriteSpeed = -127;
-        unjamCooldown--;
-    }
-    else if (unjamCooldown == 30)
-    {
-        // if (intakeOverwriteSpeed == -127) {
-        //     intakeOverwriteSpeed = 127;
-        // }
-        if (hookOverwriteSpeed == -127)
+    
+    if (autoUnjam && !LBMoving) {
+        if (unjamCountdown == 0 && unjamCooldown != 0)
         {
-            hookOverwriteSpeed = 0;
+            hookOverwriteSpeed = -127;
+            master.rumble("-");
+            // intakeOverwriteSpeed = -127;
+            unjamCooldown--;
         }
-    }
-    else if (unjamCooldown == 0)
-    {
-        if (hookOverwriteSpeed == -127)
+        else if (unjamCooldown == 0)
         {
-            hookOverwriteSpeed = 0;
-        }
-        // if (intakeOverwriteSpeed == 127 || intakeOverwriteSpeed == -127) {
-        //     intakeOverwriteSpeed = 0;
-        // }
-        unjamCooldown = 20;
+            if (hookOverwriteSpeed == -127)
+            {
+                hookOverwriteSpeed = 0;
+            }
+            // if (intakeOverwriteSpeed == 127 || intakeOverwriteSpeed == -127) {
+            //     intakeOverwriteSpeed = 0;
+            // }
+            unjamCooldown = 20;
 
+            unjamCountdown = 10;
+        }
+        else if (hook.get_actual_velocity() < 10 && actualHookSpeed > 0)
+        {
+            unjamCountdown--;
+        }
+        else
+        {
+            if (hookOverwriteSpeed == -127)
+            {
+                hookOverwriteSpeed = 0;
+            }
+            unjamCountdown = 10;
+        }
+    } else {
+        unjamCooldown = 20;
         unjamCountdown = 10;
     }
-    else if (hook.get_actual_velocity() < 5 && hookSpeed > 0 && !loadedRing && LadyBrownState == 0)
-    {
-        unjamCountdown--;
-    }
-    else
-    {
-        unjamCountdown = 30;
-    }
+    
 }
 
 /*
@@ -304,7 +311,7 @@ void LadyBrown()
 {
 
     // Gets the Lady Brown position divided by the gear ratio and translate centidegrees to degrees
-    LadyBrownPosition = lbRotation.get_position() / 600;
+    LadyBrownPosition = lbRotation.get_position() / 300;
     // Sets the stages of the Lady Brown based on controls
     if (master2.get_digital(button_DOWN))
     {
@@ -388,19 +395,20 @@ void LadyBrown()
     // Checks if the Lady Brown is at the requested angle and moves it if it isn't
     if (LadyBrownSetPointState)
     {
-        if (LadyBrownState == 0 && (LadyBrownPosition > 0 || LadyBrownPosition < -2))
+        if (LadyBrownState == 0 && (LadyBrownPosition > 1 || LadyBrownPosition < -1))
         {
             lbMech.move_velocity(-(LadyBrownPosition) * 4);
             loadedRing = false;
             LBMoving = true;
         }
-        else if (LadyBrownState == 1 && (LadyBrownPosition > LBLoadingAngle + 2 || LadyBrownPosition < LBLoadingAngle - 2))
+        else if (LadyBrownState == 1 && (LadyBrownPosition > LBLoadingAngle + 1 || LadyBrownPosition < LBLoadingAngle - 1))
         {
-            lbMech.move_velocity((LBLoadingAngle - (LadyBrownPosition)) * 4);
+            lbMech.move_velocity((LBLoadingAngle - (LadyBrownPosition)) * 2);
         }
-        else if (LadyBrownState == 2 && (LadyBrownPosition > LBLoadingAngle2 + 2 || LadyBrownPosition < LBLoadingAngle2 - 2))
+        // else if (LadyBrownState == 2 && (LadyBrownPosition > LBLoadingAngle2 + 1 || LadyBrownPosition < LBLoadingAngle2 - 1))
+        else if (LadyBrownState == 2 && (LadyBrownPosition < LBLoadingAngle2 - 0.5 || LadyBrownPosition > LBLoadingAngle2 + 0.5))
         {
-            lbMech.move_velocity((LBLoadingAngle2 - (LadyBrownPosition)) * 2);
+            lbMech.move_velocity((LBLoadingAngle2 - (LadyBrownPosition)) * 8);
 
             // Overwrites the speed to insure no jamming occurs
             if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
@@ -415,13 +423,29 @@ void LadyBrown()
         }
         else if (LadyBrownState == 3 && (LadyBrownPosition > LBScoringAngle + 2 || LadyBrownPosition < LBScoringAngle - 2))
         {
-            lbMech.move_velocity((LBScoringAngle - (LadyBrownPosition)) * 4);
+            loadedRing = false;
+            lbMech.move_velocity((LBScoringAngle - (LadyBrownPosition)) * 3);
             // Overwrites the speed to insure no jamming occurs
             if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
             {
-                hookOverwriteSpeed = -30;
+                hookOverwriteSpeed = -20;
             }
-            else if (hookOverwriteSpeed == -30)
+            else if (hookOverwriteSpeed == -20)
+            {
+                hookOverwriteSpeed = 0;
+            }
+            LBMoving = true;
+        }
+        else if (LadyBrownState == 4 && (LadyBrownPosition > LBMacroAngle + 2 || LadyBrownPosition < LBMacroAngle - 2))
+        {
+            loadedRing = false;
+            lbMech.move_velocity((LBMacroAngle - (LadyBrownPosition)) * 4);
+            // Overwrites the speed to insure no jamming occurs
+            if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
+            {
+                hookOverwriteSpeed = -20;
+            }
+            else if (hookOverwriteSpeed == -20)
             {
                 hookOverwriteSpeed = 0;
             }
@@ -431,7 +455,7 @@ void LadyBrown()
         {
             lbMech.brake();
             // Removes the overwrite
-            if (hookOverwriteSpeed == -20 || hookOverwriteSpeed == -30)
+            if (hookOverwriteSpeed == -20)
             {
                 hookOverwriteSpeed = 0;
             }
@@ -444,7 +468,7 @@ void LadyBrown()
         {
             hookOverwriteSpeed = -20;
         }
-        else if (hookOverwriteSpeed == -20 || hookOverwriteSpeed == -30)
+        else if (hookOverwriteSpeed == -20)
         {
             hookOverwriteSpeed = 0;
         }
@@ -469,7 +493,7 @@ void SensorInit()
     lbRotation.set_position(0);
 
     colour.set_led_pwm(100);
-    // lbRotation.set_reversed(true);
+    lbRotation.set_reversed(true);
     lbMech.set_reversed(true);
     master.clear();
 }

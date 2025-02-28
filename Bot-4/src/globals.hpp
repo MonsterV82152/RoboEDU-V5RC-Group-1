@@ -90,10 +90,10 @@
 
 #define allianceDistance 92
 
-double LBLoadingAngle = 11.5; 
+double LBLoadingAngle = 16; 
 #define LBNoContactZone 60
 #define LBLoadingAngle2 24
-#define LBScoringAngle 115
+#define LBScoringAngle 125
 #define LBMacroAngle 70
 /*---PID Values---*/
 
@@ -107,8 +107,8 @@ double LBLoadingAngle = 11.5;
 
 /*----------------------GLOBAL VARIABLES----------------------*/
 
-bool SelectedTeam = true, BOOL_colourSorter = false;
-int SelectedAuton = 3, user = 0;
+bool SelectedTeam = false, BOOL_colourSorter = false;
+int SelectedAuton = 2, user = 0;
 bool AutonSelected = false;
 bool LadyBrownSetPointState = true;
 bool BOOL_AutoRaise = false;

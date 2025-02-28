@@ -247,7 +247,7 @@ void mainMovement()
             left_controller_position_Y = master.get_analog(ANALOG_LEFT_Y);
             right_controller_position_X = master.get_analog(ANALOG_RIGHT_X);
 
-            chassis.arcade(left_controller_position_Y, right_controller_position_X, false, 0.54); 
+            chassis.arcade(left_controller_position_Y, right_controller_position_X, false, 0.65); 
         }
             
         
@@ -423,18 +423,18 @@ void LadyBrown()
     }
     if (master.get_digital_new_press(LadyBrownLoading))
     {
-        if (LadyBrownState == 0)
+        if (LadyBrownState != 1)
         {
             LadyBrownState = 1;
             LadyBrownSetPointState = true;
             lbMech.set_brake_mode(HOLD);
         }
-        else if (LadyBrownState == 1)
-        {
-            LadyBrownState = 2;
-            LadyBrownSetPointState = true;
-            lbMech.set_brake_mode(HOLD);
-        }
+        // else if (LadyBrownState == 1)
+        // {
+        //     LadyBrownState = 2;
+        //     LadyBrownSetPointState = true;
+        //     lbMech.set_brake_mode(HOLD);
+        // }
         else
         {
             LadyBrownState = 0;
@@ -515,7 +515,8 @@ void LadyBrown()
         }
         else if (LadyBrownState == 1 && (LadyBrownPosition > LBLoadingAngle + 1 || LadyBrownPosition < LBLoadingAngle - 1))
         {
-            lbMech.move_velocity((LBLoadingAngle - (LadyBrownPosition)) * 4);
+            lbMech.move_velocity((LBLoadingAngle - (LadyBrownPosition))*1.5);
+            LBMoving = false;
         }
         // else if (LadyBrownState == 2 && (LadyBrownPosition > LBLoadingAngle2 + 1 || LadyBrownPosition < LBLoadingAngle2 - 1))
         else if (LadyBrownState == 2 && (LadyBrownPosition < LBLoadingAngle2 - 0.5 || LadyBrownPosition > LBLoadingAngle2 + 0.5))
@@ -536,15 +537,17 @@ void LadyBrown()
         else if (LadyBrownState == 3 && (LadyBrownPosition > LBScoringAngle + 2 || LadyBrownPosition < LBScoringAngle - 2))
         {
             loadedRing = false;
-            lbMech.move_velocity((LBScoringAngle - (LadyBrownPosition)) * 4);
+            lbMech.move_velocity((LBScoringAngle - (LadyBrownPosition)) * 2);
             // Overwrites the speed to insure no jamming occurs
             if (LadyBrownPosition > 0 && LadyBrownPosition < LBNoContactZone)
             {
+                intakeOverwriteSpeed = -120;
                 hookOverwriteSpeed = -20;
             }
-            else if (hookOverwriteSpeed == -20)
+            else if (hookOverwriteSpeed == -20 || intakeOverwriteSpeed == -120)
             {
                 hookOverwriteSpeed = 0;
+                intakeOverwriteSpeed = 0;
             }
             LBMoving = true;
         }
@@ -567,9 +570,10 @@ void LadyBrown()
         {
             lbMech.brake();
             // Removes the overwrite
-            if (hookOverwriteSpeed == -20)
+            if (hookOverwriteSpeed == -20 || intakeOverwriteSpeed == -120)
             {
                 hookOverwriteSpeed = 0;
+                intakeOverwriteSpeed = 0;
             }
             LBMoving = false;
         }
@@ -604,7 +608,7 @@ void SensorInit()
     // Calibrate and reset sensors.
     lbRotation.set_position(0);
     colour.set_led_pwm(100);
-    // lbRotation.set_reversed(true);
+    lbRotation.set_reversed(true);
     lbMech.set_reversed(true);
     master.clear();
 }
