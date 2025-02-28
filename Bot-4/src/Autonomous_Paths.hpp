@@ -82,7 +82,7 @@ void RedSoloAWP() {
     chassis.moveToPoint(-5,48,1000);
     chassis.moveToPoint(-24,48,1000,{.forwards = false});
 
-    chassis.moveToPoint(-12,12,1000);
+    chassis.moveToPoint(-12,12,1000,{.minSpeed = 100});
 
     
 }
@@ -100,15 +100,15 @@ void BlueSoloAWP() {
     chassis.moveToPoint(48,0,1000,{.forwards = false, .minSpeed = 50, .earlyExitRange = 5});
 
 
-    chassis.turnToPoint(24,-24,700,{.forwards = false, .earlyExitRange = 5});
+    chassis.turnToPoint(24,-24,400,{.forwards = false, .earlyExitRange = 5});
     LadyBrownState = 0;
     intakeSpeed = 127;
     hookSpeed = 127;
-    chassis.moveToPoint(24,-24,1000,{.forwards = false, .maxSpeed = 80});
+    chassis.moveToPoint(24,-24,1000,{.forwards = false, .maxSpeed = 100});
     chassis.waitUntilDone();
     BOOL_mogo_clamp = true;
     pros::delay(200);
-    chassis.turnToPoint(24,-52,700);
+    chassis.turnToPoint(24,-52,500);
     chassis.moveToPoint(24,-54,1000);
     chassis.turnToHeading(45,700);
     intakeSpeed = -127;
@@ -125,11 +125,11 @@ void BlueSoloAWP() {
     pros::delay(200);
     chassis.turnToPoint(24,48,700);
     chassis.moveToPoint(24,48,1000);
-    chassis.turnToPoint(5,48,700);
-    chassis.moveToPoint(5,48,1000);
+    chassis.turnToPoint(5,50,700);
+    chassis.moveToPoint(5,50,1800);
     chassis.moveToPoint(24,48,1000,{.forwards = false});
 
-    chassis.moveToPoint(12,12,1000);
+    chassis.moveToPoint(12,12,1000,{.minSpeed = 100});
 
     
 }
@@ -299,7 +299,7 @@ void FinalsRedMogoRush() {
     }
     chassis.turnToPoint(-48,24,700);
     chassis.moveToPoint(-48,24,2000,{.maxSpeed = 70});
-    chassis.moveToPoint(-20,-60,1000,{false});
+    chassis.moveToPoint(-20,20,1000,{.forwards = false, .minSpeed = 60,.earlyExitRange = 5});
 }
 
 void RedRingRush() {
@@ -377,7 +377,7 @@ void BlueRingRush() {
         pros::delay(1000);
         chassis.moveToPoint(50,50,700,{.forwards = false,.maxSpeed = 100});
     }
-    chassis.moveToPoint(20,20,1000,{.forwards = false, .minSpeed = 127,.earlyExitRange = 5});
+    chassis.moveToPoint(20,20,1000,{.forwards = false, .minSpeed = 60,.earlyExitRange = 5});
     
 }
 

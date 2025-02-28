@@ -64,7 +64,7 @@ void Skills() {
     // Moves to first wall stake
     chassis.moveToPoint(-4,-50,1000,{.minSpeed = 70,.earlyExitRange = 5});
     // chassis.turnToPoint(-4.5,-70,400);
-    chassis.moveToPoint(-4.5,-70,500);
+    chassis.moveToPoint(-4.5,-70,700);
     LadyBrownState = 3;
 
     hookSpeed = -5;    
@@ -126,22 +126,21 @@ void Skills() {
 
     // Releases second mogo
     BOOL_mogo_clamp = false;
-    hookOverwriteSpeed = -50;
     
 
 
 
     chassis.moveToPoint(-48,60,1000,{.minSpeed = 80, .earlyExitRange = 5});
     // Drive to second wall stake  
-    chassis.moveToPoint(0,60,1500);
+    chassis.moveToPoint(0,60,1200);
     chassis.waitUntilDone();
 
     pros::delay(400);
     chassis.turnToPoint(0,80,700);
-    hookSpeed = -10;
+    hookSpeed = -11;
     // LadyBrownState = 2;
 
-    chassis.moveToPoint(0,80,700);
+    chassis.moveToPoint(0,80,1000);
     hookSpeed = 0;
     intakeSpeed = -127;
     LadyBrownState = 3;
@@ -164,7 +163,7 @@ void Skills() {
     // REMOVE THIS if you want to add the first half back
 
     // Backs up
-    chassis.moveToPoint(3,52,1000,{false}); 
+    chassis.moveToPoint(0,48,1000,{false}); 
     intakeSpeed = 127;
 
     //chassis.moveToPoint(0,55,1000);
@@ -173,7 +172,7 @@ void Skills() {
 
     // Turn to face red ring ahead of alliance stake
     chassis.turnToPoint(24,24,1000);
-    hookSpeed = 70;
+    hookSpeed = 127;
     pros::delay(600);
     hookSpeed = 0;
 
@@ -245,11 +244,11 @@ void Skills() {
     hookSpeed = 127;
     
     // Turn to face first red ring
-    chassis.turnToPoint(41,47,700);//-24,55 before, then changed to 24,43
+    chassis.turnToPoint(46,47,700);//-24,55 before, then changed to 24,43
 
     // Drive to get first red ring
-    chassis.moveToPoint(41,47,1000);
-    pros::delay(200);
+    chassis.moveToPoint(46,47,700);
+    pros::delay(600);
 
     // Back up
     //chassis.moveToPoint(55,46,500);
@@ -260,11 +259,11 @@ void Skills() {
     // Face second red ring
     chassis.turnToPoint(48,62,700);
 
-//Bring up first ring
-hookSpeed = 127;
-pros::delay(300);
-// Stop hook
-hookSpeed = 0;
+    //Bring up first ring
+    hookSpeed = 127;
+    pros::delay(300);
+    // Stop hook
+    hookSpeed = 0;
 
     // Intake second red ring
     chassis.moveToPoint(46,61,850);
@@ -285,11 +284,11 @@ hookSpeed = 0;
     // Note: You should tune the position to be roughly where it ends up, good deal of margin of error
 
     // Point at last Mogo
-    chassis.turnToPoint(52,-24,700,{.forwards = false}); //50 -24
+    chassis.turnToPoint(48,-24,700,{.forwards = false}); //50 -24
     BOOL_colourSorter = true;
 
     // Drive at last Mogo
-    chassis.moveToPoint(52,-24,1500,{.forwards = false,.maxSpeed = 80});
+    chassis.moveToPoint(48,-24,1500,{.forwards = false,.maxSpeed = 80});
     chassis.waitUntilDone();
 
     hookSpeed = 0;
@@ -308,8 +307,8 @@ hookSpeed = 0;
     hookSpeed = 127; // Adding again bc it keeps running auto unjam
     //pros::delay(100);
 
-    chassis.turnToPoint(48,-47, 700);
-    chassis.moveToPoint(48,-67, 2500);
+    chassis.turnToPoint(45,-47, 700);
+    chassis.moveToPoint(45,-67, 5000, {.maxSpeed = 50});
 
     // // Drive to get the second red ring
     // chassis.turnToPoint(43,-67, 400);
@@ -336,8 +335,11 @@ hookSpeed = 0;
     // Raise LB (note for eddy the hardstop was adjusted but not the target value so the motor screams)
     chassis.moveToPoint(26,-26,800,{.minSpeed = 70, .earlyExitRange = 5});
     LadyBrownState = 3;
+    intakeSpeed = -127;
     chassis.turnToPoint(0,0,700,{.forwards = false});
-    chassis.moveToPoint(0,0,1000,{ .forwards = false, .maxSpeed = 70});
+    chassis.moveToPoint(0,0,1300,{ .forwards = false, .maxSpeed = 75});
+    chassis.waitUntilDone();
+    LadyBrownState = 2;
     // chassis.waitUntilDone();
     // left_dr.move(30);
     // right_dr.move(30);

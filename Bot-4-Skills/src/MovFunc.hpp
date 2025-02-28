@@ -399,7 +399,7 @@ void LadyBrown()
         {
             lbMech.move_velocity(-(LadyBrownPosition) * 4);
             loadedRing = false;
-            LBMoving = true;
+            LBMoving = false;
         }
         else if (LadyBrownState == 1 && (LadyBrownPosition > LBLoadingAngle + 1 || LadyBrownPosition < LBLoadingAngle - 1))
         {
