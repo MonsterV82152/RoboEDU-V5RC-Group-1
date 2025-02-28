@@ -92,7 +92,7 @@
 
 double LBLoadingAngle = 16;
 #define LBNoContactZone 60
-#define LBLoadingAngle2 22
+#define LBLoadingAngle2 40
 #define LBScoringAngle 115
 #define LBMacroAngle 70
 

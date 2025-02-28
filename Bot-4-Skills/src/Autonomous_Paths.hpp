@@ -64,7 +64,7 @@ void Skills() {
     // Moves to first wall stake
     chassis.moveToPoint(-4,-50,1000,{.minSpeed = 70,.earlyExitRange = 5});
     // chassis.turnToPoint(-4.5,-70,400);
-    chassis.moveToPoint(-4.5,-70,500);
+    chassis.moveToPoint(-4.5,-72,550);
     LadyBrownState = 3;
 
     hookSpeed = -5;    
@@ -76,6 +76,7 @@ void Skills() {
 
     // Our pullout game is strong
     chassis.moveToPoint(-4.5,-45,500,{false});
+    pros::delay(200);
 
     // Lowers LB before moving
     LowerLB();
@@ -126,7 +127,7 @@ void Skills() {
 
     // Releases second mogo
     BOOL_mogo_clamp = false;
-    hookOverwriteSpeed = -50;
+    // hookOverwriteSpeed = -50;
     
 
 
@@ -309,7 +310,7 @@ hookSpeed = 0;
     //pros::delay(100);
 
     chassis.turnToPoint(48,-47, 700);
-    chassis.moveToPoint(48,-67, 2500);
+    chassis.moveToPoint(48,-67, 4000, {.maxSpeed = 50});
 
     // // Drive to get the second red ring
     // chassis.turnToPoint(43,-67, 400);
@@ -338,6 +339,8 @@ hookSpeed = 0;
     LadyBrownState = 3;
     chassis.turnToPoint(0,0,700,{.forwards = false});
     chassis.moveToPoint(0,0,1000,{ .forwards = false, .maxSpeed = 70});
+    chassis.waitUntilDone();
+    LadyBrownState = 2;
     // chassis.waitUntilDone();
     // left_dr.move(30);
     // right_dr.move(30);
