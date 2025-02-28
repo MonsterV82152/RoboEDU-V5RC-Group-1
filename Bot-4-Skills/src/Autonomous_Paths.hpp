@@ -55,16 +55,16 @@ void Skills() {
     // Follow predetermined skills route
     chassis.follow(skills_txt,15,6000);
     chassis.waitUntilDone();
-    chassis.turnToPoint(-4.5,-50,400);
+    chassis.turnToPoint(0.5,-50,400);
     // pros::delay(100);
 
     // Loads ring into LB
     LoadRing();
 
     // Moves to first wall stake
-    chassis.moveToPoint(-4,-50,1000,{.minSpeed = 70,.earlyExitRange = 5});
+    chassis.moveToPoint(0.5,-50,1000,{.minSpeed = 70,.earlyExitRange = 5});
     // chassis.turnToPoint(-4.5,-70,400);
-    chassis.moveToPoint(-4.5,-72,550);
+    chassis.moveToPoint(0,-72,550);
     LadyBrownState = 3;
 
     hookSpeed = -5;    
@@ -75,7 +75,7 @@ void Skills() {
     // pros::delay(100);
 
     // Our pullout game is strong
-    chassis.moveToPoint(-4.5,-45,500,{false});
+    chassis.moveToPoint(0,-45,500,{false});
     pros::delay(200);
 
     // Lowers LB before moving
@@ -310,7 +310,7 @@ hookSpeed = 0;
     //pros::delay(100);
 
     chassis.turnToPoint(48,-47, 700);
-    chassis.moveToPoint(48,-67, 4000, {.maxSpeed = 50});
+    chassis.moveToPoint(48,-67, 4000, {.maxSpeed = 20});
 
     // // Drive to get the second red ring
     // chassis.turnToPoint(43,-67, 400);
