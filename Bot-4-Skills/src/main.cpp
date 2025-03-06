@@ -110,13 +110,16 @@ void autonomous() {
 }
 
 void opcontrol() {
-	autonomousPeriod = false;
-	driverControl = true;
-	while (true) {
-		// Main While Loop
+	autonomousPeriod = true;
+	driverControl = false;
+	// autonomousPeriod = false;
+	// driverControl = true;
+	Skills();
+	// while (true) {
+	// 	// Main While Loop
 		
-		// Run for 20 ms then update
-		pros::delay(100);
+	// 	// Run for 20 ms then update
+	// 	pros::delay(100);
 		
-	}
+	// }
 }

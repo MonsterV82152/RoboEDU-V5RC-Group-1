@@ -55,16 +55,17 @@ void Skills() {
     // Follow predetermined skills route
     chassis.follow(skills_txt,15,6000);
     chassis.waitUntilDone();
-    chassis.turnToPoint(-1.5,-50,400);
+    chassis.turnToPoint(-3.5,-50,400);
     // pros::delay(100);
 
     // Loads ring into LB
     LoadRing();
 
     // Moves to first wall stake
-    chassis.moveToPoint(0,-50,1000,{.minSpeed = 70,.earlyExitRange = 5});
-    chassis.turnToPoint(0,-70,400);
-    chassis.moveToPoint(0,-72,700);
+    chassis.moveToPoint(-3.5,-50,1000,{.minSpeed = 70,.earlyExitRange = 5});
+    chassis.turnToPoint(-3.5,-70,400);
+    chassis.moveToPoint(-3.5,-72,1000);
+    pros::delay(200);
     LadyBrownState = 3;
 
     hookSpeed = -5;    
@@ -75,7 +76,7 @@ void Skills() {
     // pros::delay(100);
 
     // Our pullout game is strong
-    chassis.moveToPoint(0,-45,500,{false});
+    chassis.moveToPoint(-3.5,-45,500,{false});
     pros::delay(200);
 
     // Lowers LB before moving
@@ -134,15 +135,15 @@ void Skills() {
 
     chassis.moveToPoint(-48,60,1000,{.minSpeed = 80, .earlyExitRange = 5});
     // Drive to second wall stake  
-    chassis.moveToPoint(0,60,1500);
+    chassis.moveToPoint(1,55,1500);
     chassis.waitUntilDone();
 
     pros::delay(400);
-    chassis.turnToPoint(0,80,700);
+    chassis.turnToPoint(1,80,700);
     hookSpeed = -10;
     // LadyBrownState = 2;
 
-    chassis.moveToPoint(0,80,700);
+    chassis.moveToPoint(1,80,700);
     hookSpeed = 0;
     intakeSpeed = -127;
     LadyBrownState = 3;
@@ -238,18 +239,25 @@ void Skills() {
 
     // Turns to face Blue Negative Corner
     chassis.turnToHeading(200,1000);
-
+    LadyBrownState = 1;
+    hookSpeed = -127;
+    
+    
     // Drives to Blue Negative Corner backwards
-    chassis.moveToPoint(58,62,1500,{false});
+    chassis.moveToPoint(62,62,1500,{false});
+    hookSpeed = 0;
+    LadyBrownState = 0;
     // BOOL_mogo_clamp = false;
 
-    hookSpeed = 127;
     
     // Turn to face first red ring
-    chassis.turnToPoint(41,47,700);//-24,55 before, then changed to 24,43
+    chassis.turnToPoint(49,47,700);//-24,55 before, then changed to 24,43
+
 
     // Drive to get first red ring
-    chassis.moveToPoint(41,47,1000);
+    chassis.moveToPoint(49,47,1000);
+    pros::delay(300);
+    hookSpeed = 127;
     pros::delay(200);
 
     // Back up
@@ -286,11 +294,11 @@ hookSpeed = 0;
     // Note: You should tune the position to be roughly where it ends up, good deal of margin of error
 
     // Point at last Mogo
-    chassis.turnToPoint(52,-24,700,{.forwards = false}); //50 -24
+    chassis.turnToPoint(50,-24,700,{.forwards = false}); //50 -24
     BOOL_colourSorter = true;
 
     // Drive at last Mogo
-    chassis.moveToPoint(52,-24,1500,{.forwards = false,.maxSpeed = 80});
+    chassis.moveToPoint(50,-24,1500,{.forwards = false,.maxSpeed = 80});
     chassis.waitUntilDone();
 
     hookSpeed = 0;
@@ -298,7 +306,7 @@ hookSpeed = 0;
     pros::delay(300);
     // Clamp last Mogo
     BOOL_mogo_clamp = true;
-    pros::delay(300);
+    pros::delay(600);
 
     // Score 2 red rings
     hookSpeed = 127;
@@ -310,7 +318,12 @@ hookSpeed = 0;
     //pros::delay(100);
 
     chassis.turnToPoint(48,-47, 700);
-    chassis.moveToPoint(48,-67, 4000, {.maxSpeed = 40});
+    for (int i = 0; i < 2; i++) {
+        chassis.moveToPoint(48,-67, 1200,{.maxSpeed = 60});
+        chassis.moveToPoint(48,-47, 500,{.forwards = false, .maxSpeed = 60});
+
+    }
+    chassis.moveToPoint(48,-67, 1000, {.maxSpeed = 40});
 
     // // Drive to get the second red ring
     // chassis.turnToPoint(43,-67, 400);

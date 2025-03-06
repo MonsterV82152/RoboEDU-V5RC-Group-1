@@ -1,11 +1,11 @@
-#include "globals.hpp"
+#include "src/globals.hpp"
 
-#ifndef HOOK_CPP
-#define HOOK_CPP
+#ifndef INTAKE_CPP
+#define INTAKE_CPP
 
-class Hook {
+class Intake {
     private:
-        pros::Motor hook;
+        pros::Motor *intake;
         double defaultSpeed;
         double currentSpeed;
         double overwriteSpeed;
@@ -13,8 +13,8 @@ class Hook {
         bool isOverwrite;
         bool isMoving;
     public:
-        Hook() 
-        :   hook(PORT_hook),
+        Intake(pros::Motor *intakeMotor) 
+        :   intake(intakeMotor),
             defaultSpeed(0),
             currentSpeed(0),
             overwriteSpeed(0),
@@ -24,9 +24,9 @@ class Hook {
 
         {}
         void init() {
-            hook.set_brake_mode(COAST);
-            hook.set_gearing(MOTOR_GEAR_GREEN);
-            hook.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+            intake->set_brake_mode(MotorConfigs::COAST);
+            intake->set_gearing(MOTOR_GEAR_GREEN);
+            intake->set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
         }
         void setSpeed(double speed) {
             defaultSpeed = speed;
@@ -39,15 +39,15 @@ class Hook {
         void update() {
             if (isOverwrite) {
                 if (overwriteCountdown > 0) {
-                    overwriteCountdown = overwriteCountdown - cycleSpeeds;
-                    hook.move(overwriteSpeed);
+                    overwriteCountdown--;
+                    intake->move(overwriteSpeed);
                 } else {
                     isOverwrite = false;
                 }
             } else {
-                hook.move(defaultSpeed);
+                intake->move(defaultSpeed);
             }
-            currentSpeed = hook.get_actual_velocity();
+            currentSpeed = intake->get_actual_velocity();
             if (abs(currentSpeed) > 5) {
                 isMoving = true;
             } else {

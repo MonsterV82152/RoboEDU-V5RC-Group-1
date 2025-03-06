@@ -1,229 +1,155 @@
-#include "main.h"
-
 #ifndef GLOBALS_HPP
 #define GLOBALS_HPP
 
+#include "main.h"
 #include <string>
 #include <stdlib.h>
 #include <iostream>
 #include <sstream>
 #include "lemlib/api.hpp"
-#include "hook.cpp"
-#include "ladyBrown.cpp"
-#include "intake.cpp"
+#include "subsystems/ladyBrown.cpp"
+#include "subsystems/intake.cpp"
+#include "subsystems/hook.cpp"
+#include "subsystems/piston.cpp"
 
 /*----------------------Defines----------------------*/
 
 // Constants
-#define PI 3.141592
-#define TWradius 1.375
+constexpr double PI = 3.141592;
+constexpr double TWradius = 1.375;
 
 /*---Controller---*/
-#define driver pros::E_CONTROLLER_MASTER
-#define driver_2 pros::E_CONTROLLER_PARTNER
+inline pros::Controller master(pros::E_CONTROLLER_MASTER);
+inline pros::Controller master2(pros::E_CONTROLLER_PARTNER);
 
-//Buttons
-#define button_R1 pros::E_CONTROLLER_DIGITAL_R1
-#define button_R2 pros::E_CONTROLLER_DIGITAL_R2
-#define button_L1 pros::E_CONTROLLER_DIGITAL_L1
-#define button_L2 pros::E_CONTROLLER_DIGITAL_L2
-#define button_A pros::E_CONTROLLER_DIGITAL_A
-#define button_B pros::E_CONTROLLER_DIGITAL_B
-#define button_Y pros::E_CONTROLLER_DIGITAL_Y
-#define button_X pros::E_CONTROLLER_DIGITAL_X
-#define button_UP pros::E_CONTROLLER_DIGITAL_UP
-#define button_DOWN pros::E_CONTROLLER_DIGITAL_DOWN
-#define button_LEFT pros::E_CONTROLLER_DIGITAL_LEFT
-#define button_RIGHT pros::E_CONTROLLER_DIGITAL_RIGHT
-#define COAST pros::E_MOTOR_BRAKE_COAST
-#define BRAKE pros::E_MOTOR_BRAKE_BRAKE
-#define HOLD pros::E_MOTOR_BRAKE_HOLD
+namespace Controller
+{
+    // Buttons
+    constexpr auto button_R1 = pros::E_CONTROLLER_DIGITAL_R1;
+    constexpr auto button_R2 = pros::E_CONTROLLER_DIGITAL_R2;
+    constexpr auto button_L1 = pros::E_CONTROLLER_DIGITAL_L1;
+    constexpr auto button_L2 = pros::E_CONTROLLER_DIGITAL_L2;
+    constexpr auto button_A = pros::E_CONTROLLER_DIGITAL_A;
+    constexpr auto button_B = pros::E_CONTROLLER_DIGITAL_B;
+    constexpr auto button_Y = pros::E_CONTROLLER_DIGITAL_Y;
+    constexpr auto button_X = pros::E_CONTROLLER_DIGITAL_X;
+    constexpr auto button_UP = pros::E_CONTROLLER_DIGITAL_UP;
+    constexpr auto button_DOWN = pros::E_CONTROLLER_DIGITAL_DOWN;
+    constexpr auto button_LEFT = pros::E_CONTROLLER_DIGITAL_LEFT;
+    constexpr auto button_RIGHT = pros::E_CONTROLLER_DIGITAL_RIGHT;
+}
 
+namespace MotorConfigs
+{
+    // Configurations
+    constexpr auto BRAKE = pros::E_MOTOR_BRAKE_BRAKE;
+    constexpr auto COAST = pros::E_MOTOR_BRAKE_COAST;
+    constexpr auto HOLD = pros::E_MOTOR_BRAKE_HOLD;
+}
 
-#define HookToggle button_R2
-#define IntakeToggle button_R1
+namespace Pneumatics
+{
+    inline pros::ADIDigitalOut mogoClampPiston('A');
+    inline pros::ADIDigitalOut leftWingPiston('B');
+    inline pros::ADIDigitalOut rightWingPiston('C');
+}
+inline Piston mogoClamp(&Pneumatics::mogoClampPiston);
+inline Piston leftWing(&Pneumatics::leftWingPiston);
 
-#define LadyBrownLoading button_DOWN
-#define LadyBrownScoring button_B
-#define LadyBrownUp button_A
-#define LadyBrownDown button_LEFT
+namespace DriveTrain
+{
+    inline pros::MotorGroup left({5, 6, 7});
+    inline pros::MotorGroup right({-2, -3, -4});
 
-#define MogoClampToggle button_X
-#define WingToggle button_Y
+    inline pros::Distance backDistanceR(17);
+    inline pros::Distance backDistanceL(19);
+}
 
-#define ReverseRingSystem button_L1
+namespace Manipulator
+{
+    inline pros::Motor intakeMotor(16);
+    inline pros::Motor hookMotor(12);
 
-#define ColourSorterToggle button_RIGHT
+    inline pros::Optical colourSensor(14);
+    inline pros::Distance hookDistanceSensor(10);
+}
+inline Intake intake(&Manipulator::intakeMotor);
+inline Hook hook(&Manipulator::hookMotor);
 
+namespace LadyBrownConfigs
+{
+    struct PID
+    {
+        static constexpr double kP = 0;
+        static constexpr double kI = 0;
+        static constexpr double kD = 0;
+    };
 
-/*---Motors---*/
+    enum Setpoints
+    {
+        LOADING = 0,
+        LOADING2 = 0,
+        SCORING = 0,
+        SCORING2 = 0
+    };
 
-//DriveTrain
-#define PORT_right_dr_1 5
-#define PORT_right_dr_2 6
-#define PORT_right_dr_3 7
+    inline pros::Rotation rotationSensor(13);
+    inline pros::Motor motor(15);
+    inline lemlib::PID PID(kP, kI, kD);
+}
+inline LadyBrown ladyBrown(&LadyBrownConfigs::motor, &LadyBrownConfigs::rotationSensor, &LadyBrownConfigs::PID);
 
-#define PORT_left_dr_1 -2
-#define PORT_left_dr_2 -3
-#define PORT_left_dr_3 -4
+namespace OdometryConfigs
+{
+    struct PID
+    {
+        static constexpr double lateralKp = 3.0;
+        static constexpr double lateralKi = 0.0;
+        static constexpr double lateralKd = 0.0;
+        static constexpr double angularKp = 3.5;
+        static constexpr double angularKi = 0.01;
+        static constexpr double angularKd = 50.0;
+    };
+    inline pros::Rotation vertical_TW(9);
+    inline pros::Rotation horizontal_TW(6);
+    inline pros::Imu IMU(11);
 
-//Mechanisms
-#define PORT_intake 16
-#define PORT_hook 12
-#define PORT_lbMech 15
+    inline lemlib::Drivetrain LEMLIB_drivetrain(&DriveTrain::left, &DriveTrain::right, 13, lemlib::Omniwheel::NEW_275, 450, 2);
+    inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, 2, -1.25);
+    inline lemlib::TrackingWheel LEMLIB_horizontal_TW(&horizontal_TW, 2, -2.6);
 
-//Pnuematics
-#define PORT_mogo_clamp 'A'
-#define PORT_wing 'B'
-#define PORT_left_wing 'C'
+    inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, &LEMLIB_horizontal_TW, nullptr, &IMU);
+    inline lemlib::ControllerSettings LEMLIB_lateral_controller(
+        lateralKp, // proportional gain (kP)
+        lateralKi, // integral gain (kI)
+        lateralKd, // derivative gain (kD)
+        3,         // anti windup
 
-//Sensors
-#define PORT_lbRotation 13
+        1,   // small error range, in inches
+        100, // small error range timeout, in milliseconds
+        3,   // large error range, in inches
+        500, // large error range timeout, in milliseconds
+        20   // maximum acceleration (slew)
+    );
 
-#define PORT_IMU 11
-#define PORT_Vertical_TW 1
-#define PORT_Horizontal_TW 6
-#define PORT_Colour 14
-#define PORT_HookDistance 10
-#define PORT_BackDistance 17
-#define PORT_BackDistance2 19
-// #define PORT_Vision 13
-
-//Lady Brown
-
-#define allianceDistance 92
-
-double LBLoadingAngle = 9.5;
-#define LBNoContactZone 60
-#define LBLoadingAngle2 21
-#define LBScoringAngle 114
-#define LBMacroAngle 70
-/*---PID Values---*/
-
-#define lateralKp 3
-#define lateralKi 0
-#define lateralKd 0 
-
-#define angularKp 3.5
-#define angularKi 0.01
-#define angularKd 50
-
-#define LBKp 0.1
-#define LBKi 0.1
-#define LBKd 0.1
-
-/*----------------------GLOBAL VARIABLES----------------------*/
-
-int cycleSpeeds = 10;
-
-bool SelectedTeam = true, BOOL_colourSorter = false;
-int SelectedAuton = 1, user = 0;
-bool AutonSelected = false;
-bool LadyBrownSetPointState = true;
-bool BOOL_AutoRaise = false;
-bool autoUnjam = true;
-
-double heading;
-
-bool Aallignment = false;
-
-double distance, distance2;
-
-int cycleCounter = 0;
-
-int left_controller_position_Y, left_controller_position_X, right_controller_position_Y, right_controller_position_X;
-int p_left_controller_position_Y, p_left_controller_position_X, p_right_controller_position_Y, p_right_controller_position_X;
-
-bool BOOL_mogo_clamp = false, BOOL_alliance_piston = false, BOOL_left_wing = false;
-
-bool driverControl = false, autonomousPeriod = false;
-
-int colourSorterCountdown = 2, colourSorterCooldown = 30;
-
-bool loadedRing = false;
-
-int ring[2] = {0,0};
-
-bool detectingColour = false;
-
-double hookTemp, driveTemp;
-
-bool LBMoving = false;
-
-
-/*----------------------PROS INIT----------------------*/
-
-ASSET(Blue_Mogo_Rush_txt)
-ASSET(Red_Mogo_Rush_txt)
-ASSET(Blue_Ring_Rush_txt)
-ASSET(Red_Ring_Rush_txt)
-ASSET(Red_Solo_AWP_txt)
-
-inline Hook heading();
-inline LadyBrown LB();
-inline Intake intake();
-
-
-inline lemlib::PID alliancePID(0.8, 0.01, 0.5);
-
-//DriveTrain
-inline pros::MotorGroup left_dr({PORT_left_dr_1,PORT_left_dr_2,PORT_left_dr_3});
-inline pros::MotorGroup right_dr({PORT_right_dr_1,PORT_right_dr_2,PORT_right_dr_3});
-
-//Controller
-inline pros::Controller master(driver);
-inline pros::Controller master2(driver_2);
-
-
-inline pros::Imu IMU(PORT_IMU);
-inline pros::Rotation vertical_TW(PORT_Vertical_TW);
-inline pros::Rotation horizontal_TW(PORT_Horizontal_TW);
-inline pros::Optical colour(PORT_Colour);
-inline pros::Distance HookDistance(PORT_HookDistance);
-inline pros::Distance BackDistance(PORT_BackDistance);
-inline pros::Distance BackDistance2(PORT_BackDistance2);
-
-// inline pros::Vision vision(PORT_Vision);
-
+    inline lemlib::ControllerSettings LEMLIB_angular_controller(
+        angularKp, // proportional gain (kP)
+        angularKi, // integral gain (kI)
+        angularKd, // derivative gain (kD)
+        0,         // anti windup
+        0,         // small error range, in inches
+        0,         // small error range timeout, in milliseconds
+        0,         // large error range, in inches
+        0,         // large error range timeout, in milliseconds
+        0          // maximum acceleration (slew)
+    );
+}
+inline lemlib::Chassis chassis(OdometryConfigs::LEMLIB_drivetrain,         // drivetrain settins
+                               OdometryConfigs::LEMLIB_lateral_controller, // lateral PID settings
+                               OdometryConfigs::LEMLIB_angular_controller, // angular PID settings
+                               OdometryConfigs::LEMLIB_sensors             // odometry sensors
+);
 
 /*----------------------LEMLIB INIT----------------------*/
-
-inline lemlib::Drivetrain LEMLIB_drivetrain(&left_dr, &right_dr, 13, lemlib::Omniwheel::NEW_275, 450, 2);
-inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, 2, -1.25);
-inline lemlib::TrackingWheel LEMLIB_horizontal_TW(&horizontal_TW, 2, -2.6);
-
-inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, &LEMLIB_horizontal_TW, nullptr, &IMU);
-inline lemlib::ControllerSettings LEMLIB_lateral_controller(
-											lateralKp, // proportional gain (kP)
-											lateralKi, // integral gain (kI)
-											lateralKd, // derivative gain (kD)
-											3, // anti windup
-
-											1, // small error range, in inches
-											100, // small error range timeout, in milliseconds
-											3, // large error range, in inches
-											500, // large error range timeout, in milliseconds
-											20 // maximum acceleration (slew)
-);
-
-inline lemlib::ControllerSettings LEMLIB_angular_controller(
-                                            angularKp, // proportional gain (kP)
-                                            angularKi, // integral gain (kI)
-                                            angularKd, // derivative gain (kD)
-                                            0, // anti windup
-                                            0, // small error range, in inches
-                                            0, // small error range timeout, in milliseconds
-                                            0, // large error range, in inches
-                                            0, // large error range timeout, in milliseconds
-                                            0 // maximum acceleration (slew)
-);
-
-inline lemlib::Chassis chassis(LEMLIB_drivetrain, // drivetrain settins
-                        LEMLIB_lateral_controller, // lateral PID settings
-                        LEMLIB_angular_controller, // angular PID settings
-                        LEMLIB_sensors // odometry sensors
-);
-
-
 
 #endif

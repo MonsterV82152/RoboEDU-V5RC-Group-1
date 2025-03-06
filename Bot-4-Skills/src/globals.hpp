@@ -80,7 +80,7 @@
 #define PORT_lbRotation 13
 
 #define PORT_IMU 11
-#define PORT_Vertical_TW 1
+#define PORT_Vertical_TW 9
 #define PORT_Horizontal_TW 6
 #define PORT_Colour 14
 #define PORT_HookDistance 10
@@ -93,7 +93,7 @@
 double LBLoadingAngle = 16;
 #define LBNoContactZone 60
 #define LBLoadingAngle2 40
-#define LBScoringAngle 115
+#define LBScoringAngle 140
 #define LBMacroAngle 70
 
 /*---PID Values---*/
@@ -109,7 +109,7 @@ double LBLoadingAngle = 16;
 /*----------------------GLOBAL VARIABLES----------------------*/
 
 bool SelectedTeam = true, BOOL_colourSorter = false, autoUnjam = true;
-int SelectedAuton = 1, user = 0;
+int SelectedAuton = 3, user = 0;
 bool AutonSelected = false;
 bool LadyBrownSetPointState = true;
 bool LBMoving = false;
