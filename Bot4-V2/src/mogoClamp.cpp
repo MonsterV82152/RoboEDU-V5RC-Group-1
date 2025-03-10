@@ -1,4 +1,6 @@
 #include "globals.hpp"
+#include "hook.cpp"
+#include "piston.cpp"
 
 #ifndef MOGOCLAMP_CPP
 #define MOGOCLAMP_CPP
@@ -6,6 +8,7 @@
 class MogoClamp {
     private:
         Piston *mogoClamp;
+        Hook *hook;
         pros::Distance *backDistanceR;
         pros::Distance *backDistanceL;
         pros::Task *mogoClampTask;
@@ -28,8 +31,8 @@ class MogoClamp {
         }
 
     public:
-        MogoClamp(Piston *mogoClamp, pros::Distance *backDistanceR, pros::Distance *backDistanceL)
-            : mogoClamp(mogoClamp), backDistanceR(backDistanceR), backDistanceL(backDistanceL), mogoClampTask(nullptr), driverOverride(false) {}
+        MogoClamp(Piston *mogoClamp, pros::Distance *backDistanceR, pros::Distance *backDistanceL, Hook *hook)
+            : mogoClamp(mogoClamp), backDistanceR(backDistanceR), backDistanceL(backDistanceL), hook(hook), mogoClampTask(nullptr), driverOverride(false) {}
         void toggle() {
             mogoClamp->toggle();
             driverOverride = true;
@@ -37,7 +40,7 @@ class MogoClamp {
                 hasMogo = true;
             } else if (!mogoClamp->getState()) {
                 if (hasMogo) {
-                    hook.setOverwriteSpeed(-127,2);
+                    hook->setOverwriteSpeed(-127,2);
                 }
                 hasMogo = false;
             }

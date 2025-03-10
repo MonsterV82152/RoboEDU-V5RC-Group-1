@@ -1,4 +1,5 @@
 #include "globals.hpp"
+#include "hook.cpp"
 
 #ifndef LB_CPP
 #define LB_CPP
@@ -7,6 +8,7 @@ class LadyBrown {
     private:
         pros::Motor *LB;
         pros::Rotation *LBEncoder;
+        Hook *hook;
         double currentMotorPosition;
         double currentLBPosition;
         double setPoint;
@@ -16,10 +18,11 @@ class LadyBrown {
 
     public:
         // Constructor to initialize all member variables
-        LadyBrown(pros::Motor *LB, pros::Rotation *LBEncoder, lemlib::PID *LB_PID) 
+        LadyBrown(pros::Motor *LB, pros::Rotation *LBEncoder, lemlib::PID *LB_PID, Hook *hook) 
             : LB(LB), 
               LBEncoder(LBEncoder),
               LB_PID(LB_PID),  // Initializing PID with specific gains
+              hook(hook), // Initializing hook
               currentMotorPosition(0), // Initialize to 0
               currentLBPosition(0),    // Initialize to 0
               setPoint(0),           // Initialize to 0
@@ -34,7 +37,7 @@ class LadyBrown {
             LB->set_gearing(MOTOR_GEAR_GREEN);
         }
         void setSetPoint(double setPoint) {
-            if (setSetPoint == 0) {
+            if (setPoint == 0) {
                 LB->set_brake_mode(MotorConfigs::COAST);
             } else {
                 LB->set_brake_mode(MotorConfigs::HOLD);
@@ -54,6 +57,11 @@ class LadyBrown {
                 double error = setPoint - currentLBPosition;
                 double output = LB_PID->update(error);
                 LB->move(output);
+                if (currentLBPosition < LadyBrownConfigs::NOCONTACTZONE && abs(error) > 1) {
+                    hook->setOverwriteSpeed(-20);
+                } else if (hook->getOverwriteSpeed() == -20) {
+                    hook->clearOverwrite();
+                }
             } else {
                 LB->move(velocity);
             }

@@ -1,12 +1,13 @@
 #include "globals.hpp"
 #include "AutonSelector.hpp"
 #include "Autonomous_Paths.hpp"
+#include "classes.hpp"
 
-void on_center_button() {
-	
-}	
+
+void on_center_button() {}	
 
 void initialize() {
+	
 	ladyBrown.setSetPoint(LadyBrownConfigs::LOADING);
 	// pros::lcd::initialize();
 	pros::screen::erase();
@@ -22,11 +23,6 @@ void initialize() {
     //         pros::delay(20);
     //     }
     // });
-
-	
-
-
-	
 
 	pros::Task(AutonomousSelector, nullptr, "AutonSelector");
 	
@@ -49,21 +45,15 @@ void initialize() {
 	controls.start();
 	}
 
-void disabled() {
-}
+void disabled() {}
 
 void competition_initialize() {}
 
 void autonomous() {
 	colourSorter.start();
 
-
-
 	autonomousPeriod = true;
-	driverControl = false;
-
-	// Chassis Calibration
-	
+	driverControl = false;	
 }
 
 void opcontrol() {
@@ -72,9 +62,6 @@ void opcontrol() {
 	
 	while (true) {
 		controls.driverControls();
-		// Main While Loop
-		
-		// Run for 20 ms then update
 		pros::delay(20);
 		
 	}

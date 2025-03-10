@@ -1,4 +1,6 @@
 #include "globals.hpp"
+#include "hook.cpp"
+#include "intake.cpp"
 
 #ifndef COLOURSORTER_CPP
 #define COLOURSORTER_CPP
