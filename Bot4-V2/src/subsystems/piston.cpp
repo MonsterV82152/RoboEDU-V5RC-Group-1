@@ -13,7 +13,7 @@ class Piston {
             state(false)
         {}
         void init() {
-            piston->set_value(false);
+            piston->set_value(state);
         }
         void toggle() {
             state = !state;

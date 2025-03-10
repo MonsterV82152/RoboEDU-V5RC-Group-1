@@ -6,23 +6,22 @@
 
 
 void Feb9Auton() {
-    BOOL_colourSorter = true;
     chassis.setPose(-54.5, 14, 0);
     chassis.moveToPoint(-54.5, 0, 700, {.forwards = false, .maxSpeed = 90});
     chassis.turnToHeading(270,700);
     chassis.moveToPoint(-70,0,1000);
     pros::delay(300);
-    LadyBrownState = 3;
+    ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
     chassis.waitUntilDone();
     pros::delay(200);
     chassis.moveToPoint(-48,0,1000,{.forwards = false, .minSpeed = 50, .earlyExitRange = 5});
     chassis.turnToPoint(-28,28,700,{.forwards = false, .earlyExitRange = 5});
     chassis.moveToPoint(-24,24,1000,{false});
-    LadyBrownState = 0;
+    ladyBrown.setSetPoint(0);
     chassis.waitUntilDone();
-    intakeSpeed = 127;
-    hookSpeed = 127;
-    BOOL_mogo_clamp = true;
+    intake.setSpeed(127);
+    hook.setSpeed(127);
+    mogoClampP.setState(true);
     pros::delay(200);
     chassis.turnToPoint(-24,48,700);
     chassis.moveToPoint(-24,48,700);
@@ -36,45 +35,44 @@ void Feb9Auton() {
     pros::delay(500);
     chassis.moveToPoint(-10,10,1000);
     pros::delay(200);
-    LadyBrownState = 3;
+    ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
 
 }
 
 void RedSoloAWP() {
-    BOOL_colourSorter = true;
     chassis.setPose(-53.385, -15, 180);
     chassis.moveToPoint(-53.385, 0, 500, {.forwards = false});
     chassis.turnToHeading(270,500);
     chassis.moveToPoint(-70,0,500);
     pros::delay(200);
-    LadyBrownState = 3;
+    ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
     chassis.waitUntilDone();
     pros::delay(200);
     chassis.moveToPoint(-48,0,1000,{.forwards = false, .minSpeed = 50, .earlyExitRange = 5});
 
 
     chassis.turnToPoint(-24,-24,700,{.forwards = false, .earlyExitRange = 5});
-    LadyBrownState = 0;
-    intakeSpeed = 127;
-    hookSpeed = 127;
+    ladyBrown.setSetPoint(0);
+    intake.setSpeed(127);
+    hook.setSpeed(127);
     chassis.moveToPoint(-24,-24,1000,{.forwards = false, .maxSpeed = 80});
     chassis.waitUntilDone();
-    BOOL_mogo_clamp = true;
+    mogoClampP.setState(true);
     pros::delay(200);
     chassis.turnToPoint(-24,-52,700);
     chassis.moveToPoint(-24,-54,1000);
     chassis.turnToHeading(315,700);
-    intakeSpeed = -127;
+    intake.setSpeed(-127);
     chassis.follow(Red_Solo_AWP_txt,15,1600);
     chassis.waitUntil(20);
-    BOOL_mogo_clamp = false;
+    mogoClampP.setState(false);
     chassis.waitUntilDone();
     chassis.turnToPoint(-20,20,700,{.forwards = false, .earlyExitRange = 5});
     chassis.moveToPoint(-20,20,1000,{.forwards = false, .maxSpeed = 80});
     chassis.waitUntilDone();
-    BOOL_mogo_clamp = true;
-    intakeSpeed = 127;
-    hookSpeed = 127;
+    mogoClampP.setState(true);
+    intake.setSpeed(127);
+    hook.setSpeed(127);
     pros::delay(200);
     chassis.turnToPoint(-24,48,700);
     chassis.moveToPoint(-24,48,1000);
@@ -88,11 +86,10 @@ void RedSoloAWP() {
 }
 
 void TechMechBlue() {
-    BOOL_colourSorter = true;
     chassis.setPose(52,60,270);
     chassis.moveToPoint(15,60,1000);
     chassis.turnToHeading(280,700);
-    LadyBrownState = 3;
+    ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
     chassis.waitUntilDone();
     pros::delay(700);
 
@@ -103,59 +100,50 @@ void TechMechBlue() {
 }
 
 void BlueMogoRush() {
-    
-    BOOL_colourSorter = true;
     chassis.setPose(50,-30,90);
     chassis.follow(Blue_Mogo_Rush_txt,15,1900,false);
     chassis.waitUntilDone();
-    BOOL_mogo_clamp = true;
+    mogoClampP.setState(true);
     pros::delay(200);
-    hookSpeed = 127;
-    intakeSpeed = 127;
+    hook.setSpeed(127);
+    intake.setSpeed(127);
     chassis.moveToPoint(30,-55,800);
     chassis.waitUntilDone();
-    hookSpeed = 0;
+    hook.setSpeed(0);
     chassis.moveToPoint(24,-48,1000,{.forwards = false,.minSpeed = 70,.earlyExitRange = 5});
     chassis.turnToHeading(270,700);
     pros::delay(700);
-    BOOL_mogo_clamp = false;
+    mogoClampP.setState(false);
     chassis.turnToHeading(180,700);
     chassis.moveToPoint(12,-24,1000,{false});
     chassis.waitUntilDone();
-    BOOL_mogo_clamp = true;
+    mogoClampP.setState(true);
     pros::delay(200);
-    hookSpeed = 127;
+    hook.setSpeed(127);
     chassis.turnToHeading(90,1000);
     chassis.moveToPose(48,16,0,3000,{.lead = 0.7,.minSpeed = 70});
     pros::delay(500);
-    BOOL_mogo_clamp = false;
-    while (!(ring[0] == 2)) {
+    mogoClampP.setState(false);
+    while (!(colourSorter.getRing(0) == 2)) {
         pros::delay(10);
     }
-    hookSpeed = 0;
+    hook.setSpeed(0);
     chassis.moveToPoint(54,4,1000,{false});
     chassis.turnToHeading(270,1000,{.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
     chassis.waitUntilDone();
-    while (true) {
-        chassis.arcade((93-distance)*0.5,0,false,0.5);
-        if (abs(93-distance) < 3) {
-            break;
-        }
-    }
 
     // pros::delay(500);
-    hookSpeed = 127;
+    hook.setSpeed(127);
 }
 
 void FinalsBlueMogoRush() {
-    BOOL_colourSorter = true;
     chassis.setPose(50,-30,90);
     chassis.follow(Blue_Mogo_Rush_txt,15,2000,false);
     chassis.waitUntilDone();
-    BOOL_mogo_clamp = true;
+    mogoClampP.setState(true);
     pros::delay(200);
-    hookSpeed = 127;
-    intakeSpeed = 127;
+    hook.setSpeed(127);
+    intake.setSpeed(127);
     chassis.moveToPoint(48,-48,2000);
     chassis.turnToPoint(66,-66,700);
     for (int i = 0; i < 2; i++) {
@@ -178,47 +166,40 @@ void FinalsBlueMogoRush() {
 }
 
 void RedMogoRush() {
-    BOOL_colourSorter = true;
     chassis.setPose(-50,-30,270);
     chassis.follow(Red_Mogo_Rush_txt,15,1700,false);
     chassis.waitUntilDone();
-    BOOL_mogo_clamp = true;
+    mogoClampP.setState(true);
     pros::delay(200);
-    hookSpeed = 127;
-    intakeSpeed = 127;
+    hook.setSpeed(127);
+    intake.setSpeed(127);
     chassis.moveToPoint(-30,-55,800);
     chassis.waitUntilDone();
-    hookSpeed = 0;
+    hook.setSpeed(0);
     chassis.moveToPoint(-24,-48,1000,{.forwards = false,.minSpeed = 70,.earlyExitRange = 5});
     chassis.turnToHeading(90,700);
     pros::delay(700);
-    BOOL_mogo_clamp = false;
+    mogoClampP.setState(false);
     chassis.turnToHeading(180,700);
     chassis.moveToPoint(-18,-24,1000,{false});
     chassis.waitUntilDone();
-    BOOL_mogo_clamp = true;
+    mogoClampP.setState(true);
     pros::delay(200);
-    hookSpeed = 127;
+    hook.setSpeed(127);
     chassis.turnToHeading(270,1000);
     chassis.moveToPose(-45,16,0,3000,{.lead = 0.7,.minSpeed = 70});
     pros::delay(500);
-    BOOL_mogo_clamp = false;
-    while (!(ring[0] == 1)) {
+    mogoClampP.setState(false);
+    while (!(colourSorter.getRing(0) == 1)) {
         pros::delay(10);
     }
-    hookSpeed = 0;
+    hook.setSpeed(0);
     chassis.moveToPoint(-54,4,1000,{false});
     chassis.turnToHeading(90,1000,{.direction = lemlib::AngularDirection::CCW_COUNTERCLOCKWISE});
     chassis.waitUntilDone();
-    while (true) {
-        chassis.arcade((93-distance)*0.5,0,false,0.5);
-        if (abs(93-distance) < 3) {
-            break;
-        }
-    }
 
     // pros::delay(500);
-    hookSpeed = 127;
+    hook.setSpeed(127);
     
 }
 
@@ -226,14 +207,13 @@ void RedMogoRush() {
 
 
 void FinalsRedMogoRush() {
-    BOOL_colourSorter = true;
     chassis.setPose(-50,-30,270);
     chassis.follow(Red_Mogo_Rush_txt,15,2000,false);
     chassis.waitUntilDone();
-    BOOL_mogo_clamp = true;
+    mogoClampP.setState(true);
     pros::delay(200);
-    hookSpeed = 127;
-    intakeSpeed = 127;
+    hook.setSpeed(127);
+    intake.setSpeed(127);
     chassis.moveToPoint(-48,-48,2000);
     chassis.turnToPoint(-66,-66,700);
     for (int i = 0; i < 2; i++) {
@@ -256,23 +236,24 @@ void FinalsRedMogoRush() {
 }
 
 void RedRingRush() {
-    chassis.setBrakeMode(BRAKE);
-    BOOL_colourSorter = false;
+    chassis.setBrakeMode(MotorConfigs::BRAKE);
+
+    colourSorter.stop();    
     chassis.setPose(-58,36,90);
-    intakeSpeed = 127;
+    intake.setSpeed(127);
     chassis.follow(Red_Ring_Rush_txt,15,1100);
     pros::delay(1150);
     chassis.cancelAllMotions();
     
     // pros::delay(300);
     chassis.moveToPoint(-28,20,1000,{false});
-    BOOL_colourSorter = true;
+    colourSorter.start();
 
     chassis.waitUntilDone();
-    chassis.setBrakeMode(COAST);
-    BOOL_mogo_clamp = true;
+    chassis.setBrakeMode(MotorConfigs::COAST);
+    mogoClampP.setState(true);
     pros::delay(200);
-    hookSpeed = 127;
+    hook.setSpeed(127);
     chassis.moveToPoint(-24,48,1000);
     chassis.turnToPoint(-7,55,700);
     chassis.moveToPoint(-7,55,1000);
@@ -295,23 +276,23 @@ void RedRingRush() {
     
 }
 void BlueRingRush() {
-    chassis.setBrakeMode(BRAKE);
-    BOOL_colourSorter = false;
+    chassis.setBrakeMode(MotorConfigs::BRAKE);
+    colourSorter.stop();    
     chassis.setPose(58,36,270);
-    intakeSpeed = 127;
+    intake.setSpeed(127);
     chassis.follow(Blue_Ring_Rush_txt,15,1100);
     pros::delay(1150);
     chassis.cancelAllMotions();
     
     // pros::delay(300);
     chassis.moveToPoint(28,20,1000,{false});
-    BOOL_colourSorter = true;
+    colourSorter.start();
 
     chassis.waitUntilDone();
-    chassis.setBrakeMode(COAST);
-    BOOL_mogo_clamp = true;
+    chassis.setBrakeMode(MotorConfigs::COAST);
+    mogoClampP.setState(true);
     pros::delay(200);
-    hookSpeed = 127;
+    hook.setSpeed(127);
     chassis.moveToPoint(24,48,1000);
     chassis.turnToPoint(5,55,700);
     chassis.moveToPoint(5,51,1000);

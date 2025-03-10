@@ -11,8 +11,12 @@
 #include "subsystems/intake.cpp"
 #include "subsystems/hook.cpp"
 #include "subsystems/piston.cpp"
+#include "macros/colourSorter.cpp"
+#include "macros/mogoClamp.cpp"
+#include "macros/controls.cpp"
 
 /*----------------------Defines----------------------*/
+
 
 // Constants
 constexpr double PI = 3.141592;
@@ -22,9 +26,20 @@ constexpr double TWradius = 1.375;
 inline pros::Controller master(pros::E_CONTROLLER_MASTER);
 inline pros::Controller master2(pros::E_CONTROLLER_PARTNER);
 
+bool team = true;
+bool driverControl = false, autonomousPeriod = false;
+int user = 0;
+int auton = 0;
+
+ASSET(Blue_Mogo_Rush_txt);
+ASSET(Red_Mogo_Rush_txt);
+ASSET(Blue_Ring_Rush_txt);
+ASSET(Red_Ring_Rush_txt);
+ASSET(Red_Solo_AWP_txt);
+ASSET(Blue_Solo_AWP_txt);
+
 namespace Controller
 {
-    // Buttons
     constexpr auto button_R1 = pros::E_CONTROLLER_DIGITAL_R1;
     constexpr auto button_R2 = pros::E_CONTROLLER_DIGITAL_R2;
     constexpr auto button_L1 = pros::E_CONTROLLER_DIGITAL_L1;
@@ -38,10 +53,11 @@ namespace Controller
     constexpr auto button_LEFT = pros::E_CONTROLLER_DIGITAL_LEFT;
     constexpr auto button_RIGHT = pros::E_CONTROLLER_DIGITAL_RIGHT;
 }
+inline Controls controls;
+
 
 namespace MotorConfigs
 {
-    // Configurations
     constexpr auto BRAKE = pros::E_MOTOR_BRAKE_BRAKE;
     constexpr auto COAST = pros::E_MOTOR_BRAKE_COAST;
     constexpr auto HOLD = pros::E_MOTOR_BRAKE_HOLD;
@@ -53,7 +69,7 @@ namespace Pneumatics
     inline pros::ADIDigitalOut leftWingPiston('B');
     inline pros::ADIDigitalOut rightWingPiston('C');
 }
-inline Piston mogoClamp(&Pneumatics::mogoClampPiston);
+inline Piston mogoClampP(&Pneumatics::mogoClampPiston);
 inline Piston leftWing(&Pneumatics::leftWingPiston);
 
 namespace DriveTrain
@@ -64,6 +80,7 @@ namespace DriveTrain
     inline pros::Distance backDistanceR(17);
     inline pros::Distance backDistanceL(19);
 }
+inline MogoClamp mogoClamp(&mogoClampP, &DriveTrain::backDistanceR, &DriveTrain::backDistanceL);
 
 namespace Manipulator
 {
@@ -75,6 +92,7 @@ namespace Manipulator
 }
 inline Intake intake(&Manipulator::intakeMotor);
 inline Hook hook(&Manipulator::hookMotor);
+inline ColourSorter colourSorter(&hook, &intake, &Manipulator::colourSensor, &Manipulator::hookDistanceSensor, 5);
 
 namespace LadyBrownConfigs
 {

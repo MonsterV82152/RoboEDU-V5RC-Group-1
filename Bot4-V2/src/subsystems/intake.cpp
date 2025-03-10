@@ -1,4 +1,4 @@
-#include "src/globals.hpp"
+#include "globals.hpp"
 
 #ifndef INTAKE_CPP
 #define INTAKE_CPP
@@ -9,7 +9,9 @@ class Intake {
         double defaultSpeed;
         double currentSpeed;
         double overwriteSpeed;
+        double timeOverwriteSpeed;
         double overwriteCountdown;
+        bool isTimeOverwrite;
         bool isOverwrite;
         bool isMoving;
     public:
@@ -18,7 +20,9 @@ class Intake {
             defaultSpeed(0),
             currentSpeed(0),
             overwriteSpeed(0),
+            timeOverwriteSpeed(0),
             overwriteCountdown(0),
+            isTimeOverwrite(false),
             isOverwrite(false),
             isMoving(false)
 
@@ -31,19 +35,36 @@ class Intake {
         void setSpeed(double speed) {
             defaultSpeed = speed;
         }
-        void setOverwriteSpeed(double speed, int countdown) {
-            overwriteSpeed = speed;
-            overwriteCountdown = countdown;
-            isOverwrite = true;
+        void setOverwriteSpeed(double speed, int countdown = 0) {
+            if (countdown == 0) {
+                overwriteSpeed = speed;
+                isOverwrite = true;
+            } else {
+                timeOverwriteSpeed = speed;
+                overwriteCountdown = countdown;
+                isTimeOverwrite = true;
+            }
+        }
+        void clearOverwrite() {
+            overwriteSpeed = 0;
+            isOverwrite = false;
+        }
+        void clearAllOverwrites() {
+            overwriteSpeed = 0;
+            timeOverwriteSpeed = 0;
+            isOverwrite = false;
+            isTimeOverwrite = false;
         }
         void update() {
-            if (isOverwrite) {
+            if (isTimeOverwrite) {
                 if (overwriteCountdown > 0) {
                     overwriteCountdown--;
-                    intake->move(overwriteSpeed);
+                    intake->move(timeOverwriteSpeed);
                 } else {
-                    isOverwrite = false;
+                    isTimeOverwrite = false;
                 }
+            } else if (isOverwrite) {
+                intake->move(overwriteSpeed);
             } else {
                 intake->move(defaultSpeed);
             }
@@ -61,7 +82,9 @@ class Intake {
             return currentSpeed;
         }
         double getOverwriteSpeed() {
-            if (isOverwrite) {
+            if (isTimeOverwrite) {
+                return timeOverwriteSpeed;
+            } else if (isOverwrite) {
                 return overwriteSpeed;
             } else {
                 return 0;

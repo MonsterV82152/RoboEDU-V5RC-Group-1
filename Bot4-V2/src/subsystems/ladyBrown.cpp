@@ -34,10 +34,16 @@ class LadyBrown {
             LB->set_gearing(MOTOR_GEAR_GREEN);
         }
         void setSetPoint(double setPoint) {
+            if (setSetPoint == 0) {
+                LB->set_brake_mode(MotorConfigs::COAST);
+            } else {
+                LB->set_brake_mode(MotorConfigs::HOLD);
+            }
             setPointMovement = true;
             this->setPoint = setPoint;
         }
         void setVelocity(double velocity) {
+            LB->set_brake_mode(MotorConfigs::HOLD);
             setPointMovement = false;
             this->velocity = velocity;
         }
