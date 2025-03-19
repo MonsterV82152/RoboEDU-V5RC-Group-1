@@ -299,7 +299,7 @@
     },
     "upload_options": {
       "icon": "X",
-      "slot": 5
+      "slot": 1
     },
     "use_early_access": false
   }

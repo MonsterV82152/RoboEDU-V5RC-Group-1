@@ -31,7 +31,8 @@ class LadyBrown {
         {}
         void init() {
             LBEncoder->set_position(0);
-            LBEncoder->set_reversed(false);
+            LBEncoder->set_reversed(true);
+            LB->set_reversed(true);
             LB->set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
             LB->set_brake_mode(MotorConfigs::HOLD);
             LB->set_gearing(MOTOR_GEAR_GREEN);
@@ -51,14 +52,14 @@ class LadyBrown {
             this->velocity = velocity;
         }
         void update() {
-            currentMotorPosition = LB->get_position();
-            currentLBPosition = currentMotorPosition / 600; // Convert to degrees
+            currentMotorPosition = LBEncoder->get_position();
+            currentLBPosition = currentMotorPosition / 300; // Convert to degrees
             if (setPointMovement) {
                 double error = setPoint - currentLBPosition;
                 double output = LB_PID->update(error);
                 LB->move(output);
-                if (currentLBPosition < LadyBrownConfigs::NOCONTACTZONE && abs(error) > 1) {
-                    hook->setOverwriteSpeed(-20);
+                if (currentLBPosition < LadyBrownConfigs::NOCONTACTZONE && currentLBPosition > LadyBrownConfigs::LOADING-2 && error > 10) {
+                    hook->setOverwriteSpeed(-40);
                 } else if (hook->getOverwriteSpeed() == -20) {
                     hook->clearOverwrite();
                 }

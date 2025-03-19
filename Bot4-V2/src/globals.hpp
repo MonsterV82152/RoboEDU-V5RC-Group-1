@@ -23,12 +23,12 @@ inline bool driverControl = false, autonomousPeriod = false;
 inline int user = 0;
 inline int auton = 0;
 
-ASSET(Blue_Mogo_Rush_txt);
-ASSET(Red_Mogo_Rush_txt);
-ASSET(Blue_Ring_Rush_txt);
-ASSET(Red_Ring_Rush_txt);
-ASSET(Red_Solo_AWP_txt);
-ASSET(Blue_Solo_AWP_txt);
+ASSET(Blue_Mogo_Rush_txt)
+ASSET(Red_Mogo_Rush_txt)
+ASSET(Blue_Ring_Rush_txt)
+ASSET(Red_Ring_Rush_txt)
+ASSET(Red_Solo_AWP_txt)
+ASSET(Blue_Solo_AWP_txt)
 
 namespace Controller {
     constexpr auto button_R1 = pros::E_CONTROLLER_DIGITAL_R1;
@@ -76,15 +76,15 @@ namespace Manipulator {
 
 namespace LadyBrownConfigs {
     struct PID {
-        static constexpr double kP = 0;
+        static constexpr double kP = 2;
         static constexpr double kI = 0;
-        static constexpr double kD = 0;
+        static constexpr double kD = 5;
     };
 
     enum Setpoints {
-        LOADING = 0,
+        LOADING = 16,
         LOADING2 = 0,
-        SCORING = 0,
+        SCORING = 125,
         SCORING2 = 0,
         NOCONTACTZONE = 60
     };

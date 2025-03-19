@@ -7,8 +7,6 @@
 void on_center_button() {}	
 
 void initialize() {
-	
-	ladyBrown.setSetPoint(LadyBrownConfigs::LOADING);
 	// pros::lcd::initialize();
 	pros::screen::erase();
 
@@ -43,7 +41,8 @@ void initialize() {
 	master.rumble(".");
 	mogoClamp.start();
 	controls.start();
-	}
+	colourSorter.setDelay(50);
+}
 
 void disabled() {}
 
@@ -54,6 +53,10 @@ void autonomous() {
 
 	autonomousPeriod = true;
 	driverControl = false;	
+
+	if (!mogoClamp.hasMogo()) {
+		mogoClamp.setState(false);
+	}
 }
 
 void opcontrol() {

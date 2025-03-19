@@ -18,7 +18,7 @@ class MogoClamp {
         void loop(void *param) {
             while (true) {
                 if (driverOverride) {
-                    if (backDistanceR->get() > 80 && backDistanceL->get() > 80) {driverOverride = false; hasMogo = false;}
+                    if (backDistanceR->get() > 50 && backDistanceL->get() > 50) {driverOverride = false; hasMogo = false;}
                     pros::delay(20);
                     continue;
                 }
@@ -45,6 +45,18 @@ class MogoClamp {
                 hasMogo = false;
             }
         }
+        void setState(bool state) {
+            mogoClamp->setState(state);
+            driverOverride = true;
+            if (mogoClamp->getState() && (backDistanceR->get() < 10 && backDistanceL->get() < 10)) {
+                hasMogo = true;
+            } else if (!mogoClamp->getState()) {
+                if (hasMogo) {
+                    hook->setOverwriteSpeed(-127,2);
+                }
+                hasMogo = false;
+            }
+        }
         void init() {
             mogoClampTask = new pros::Task([this] { loop(nullptr); });
             mogoClampTask->suspend();
@@ -61,6 +73,9 @@ class MogoClamp {
             if (mogoClampTask != nullptr) {
                 mogoClampTask->suspend();
             }
+        }
+        bool hasMogo() {
+            return hasMogo;
         }
 
         ~MogoClamp() {

@@ -35,16 +35,20 @@ class Hook {
         void setSpeed(double speed) {
             defaultSpeed = speed;
         }
-        void setOverwriteSpeed(double speed, int countdown = 0) {
-            if (countdown == 0) {
-                overwriteSpeed = speed;
-                isOverwrite = true;
-            } else {
+        void setOverwriteSpeed(double speed, int countdown) {
+            if (!countdown == 0) {
                 timeOverwriteSpeed = speed;
                 overwriteCountdown = countdown;
                 isTimeOverwrite = true;
             }
         }
+        
+        void setOverwriteSpeed(double speed) {
+            overwriteSpeed = speed;
+            isOverwrite = true;
+        }
+    
+
         void clearOverwrite() {
             overwriteSpeed = 0;
             isOverwrite = false;

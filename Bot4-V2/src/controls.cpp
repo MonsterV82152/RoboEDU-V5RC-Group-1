@@ -29,19 +29,19 @@ class Controls {
         }
 
     public:
-    /**
-     * @brief Construct a new Controls object
-     * @param intake Intake object
-     * @param hook Hook object
-     * @param ladyBrown LadyBrown object
-     * @param colourSorter ColourSorter object
-     * @param mogoClamp MogoClamp object
-     * @param master Controller object
-     */
+        /**
+         * @brief Construct a new Controls object
+         * @param intake Intake object
+         * @param hook Hook object
+         * @param ladyBrown LadyBrown object
+         * @param colourSorter ColourSorter object
+         * @param mogoClamp MogoClamp object
+         * @param master Controller object
+         */
         Controls(Intake *intake, Hook *hook, LadyBrown *ladyBrown, ColourSorter *colourSorter, MogoClamp *mogoClamp, pros::Controller *master) : intake(intake), hook(hook), ladyBrown(ladyBrown), colourSorter(colourSorter), mogoClamp(mogoClamp), master(master) {
         }
         void driverControls() {
-            chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
+            chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), -master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
             if (master->get_digital(Controller::button_L2)) {
                 hook->setOverwriteSpeed(-127);
                 intake->setOverwriteSpeed(-127);
@@ -57,11 +57,12 @@ class Controls {
             }
             if (master->get_digital_new_press(Controller::button_R2)) {
                 if (hook->getDefaultSpeed() > 0) hook->setSpeed(0);
-                else hook->setSpeed(127); intake->setSpeed(127);
+                else {hook->setSpeed(127); intake->setSpeed(127);}
             }
 
             if (master->get_digital_new_press(Controller::button_DOWN)) {
                 if (ladyBrown->getSetPoint() != LadyBrownConfigs::LOADING) {
+                    hook->setSpeed(127);
                     ladyBrown->setSetPoint(LadyBrownConfigs::LOADING);
                 } else {
                     ladyBrown->setSetPoint(0);
@@ -69,6 +70,8 @@ class Controls {
             } 
             if (master->get_digital_new_press(Controller::button_B)) {
                 if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING) {
+                    hook->stop();
+                    
                     ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
                 } else {
                     ladyBrown->setSetPoint(0);

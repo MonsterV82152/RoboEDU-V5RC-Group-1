@@ -19,11 +19,11 @@ class ColourSorter {
         bool firstDetection;
         int lastColor;
 
-        static constexpr int BLUE_HUE_MIN = 160;
-        static constexpr int BLUE_HUE_MAX = 200;
-        static constexpr int RED_HUE_MIN = 340;
-        static constexpr int RED_HUE_MAX = 20;
-        static constexpr int DISTANCE_THRESHOLD = 20;
+        static constexpr int BLUE_HUE_MIN = 130;
+        static constexpr int BLUE_HUE_MAX = 230;
+        static constexpr int RED_HUE_MIN = 310;
+        static constexpr int RED_HUE_MAX = 50;
+        static constexpr int DISTANCE_THRESHOLD = 50;
 
         void multiThread(void *param) {
             while (true) {
@@ -33,6 +33,8 @@ class ColourSorter {
                     color = 1; // Blue
                 } else if ((hue > RED_HUE_MIN || hue < RED_HUE_MAX)) {
                     color = 2; // Red
+                } else {
+                    lastColor = 0; // No ring
                 }
 
                 if (color != 0 && color != lastColor) {
@@ -40,6 +42,7 @@ class ColourSorter {
                         clearRing();
                     } else {
                         addRing(color);
+                        master.rumble(".");
                     }
                     lastColor = color;
                 }
@@ -47,12 +50,13 @@ class ColourSorter {
                 if (distanceSensor->get() < DISTANCE_THRESHOLD) {
                     if (firstDetection) {
                         pros::delay(delayTime);
-                        hook->setOverwriteSpeed(-10, reverseCountdown); // Assuming setOverwriteSpeed is a method in Hook class
+                        if ((rings[0]-1) == !team) hook->setOverwriteSpeed(-10, reverseCountdown);
                         removeFirstRing();
+                        master.rumble(".");
                         firstDetection = false;
+                        pros::delay(100);
                     }
                 } else {
-                    pros::delay(194);
                     firstDetection = true;
                 }
 
@@ -89,11 +93,9 @@ class ColourSorter {
         }
 
         void removeFirstRing() {
-            if (rings[0] != 0) {
-                rings[0] = rings[1];
-                rings[1] = rings[2];
-                rings[2] = 0;
-            }
+            rings[0] = rings[1];
+            rings[1] = rings[2];
+            rings[2] = 0;
         }
 
         int getRing(int index) {
@@ -101,6 +103,7 @@ class ColourSorter {
         }
 
         void init() {
+            colourSensor->set_led_pwm(100);
             sorterTask = new pros::Task([this] { multiThread(nullptr); });
             sorterTask->suspend();
         }
