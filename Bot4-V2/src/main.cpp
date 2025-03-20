@@ -34,14 +34,13 @@ void initialize() {
 	mogoClampP.init();
 	pros::delay(500);
 	master.rumble(".");
-	mogoClamp.init();
 	colourSorter.init();
 	controls.init();
 	pros::delay(500);
 	master.rumble(".");
-	mogoClamp.start();
 	controls.start();
 	colourSorter.setDelay(50);
+	colourSorter.start();
 }
 
 void disabled() {}
@@ -49,7 +48,6 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-	colourSorter.start();
 
 	autonomousPeriod = true;
 	driverControl = false;	
