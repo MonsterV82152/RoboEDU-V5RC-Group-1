@@ -92,7 +92,7 @@ void Skills() {
     mogoClamp.setState(false);
     hook.setSpeed(60);
     chassis.moveToPoint(-48,-48,1000,{.minSpeed = 80, .earlyExitRange = 5});
-    chassis.moveToPoint(0,19,3400);
+    chassis.moveToPoint(0,19,2000);
     pros::delay(600);
     hook.setSpeed(0);
     chassis.turnToPoint(-48,24,700,{.forwards = false});
@@ -111,7 +111,7 @@ void Skills() {
     chassis.waitUntilDone();
     lemlib::Pose pose = chassis.getPose();
     chassis.setPose(pose.x+5,pose.y-10,pose.theta);
-    chassis.moveToPoint(-48,48,700,{.forwards = false});
+    chassis.moveToPoint(-45,48,700,{.forwards = false});
     chassis.swingToHeading(90,lemlib::DriveSide::RIGHT,1000,{.direction = lemlib::AngularDirection::CW_CLOCKWISE, .minSpeed = 70, .earlyExitRange = 5});
     // chassis.moveToPoint(-36,62,700);
     chassis.moveToPoint(-76,76,700,{false});
@@ -129,15 +129,15 @@ void Skills() {
 
     chassis.moveToPoint(-48,60,1000,{.minSpeed = 80, .earlyExitRange = 5});
     // Drive to second wall stake  
-    chassis.moveToPoint(1,55,1500);
+    chassis.moveToPoint(3,55,1500);
     chassis.waitUntilDone();
 
     pros::delay(400);
-    chassis.turnToPoint(1,80,700);
+    chassis.turnToPoint(3,80,700);
     hook.setSpeed(-10);
     // LadyBrownState = 2;
 
-    chassis.moveToPoint(1,80,700);
+    chassis.moveToPoint(3,80,700);
     hook.setSpeed(0);
     intake.setSpeed(-127);
     ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
@@ -160,7 +160,7 @@ void Skills() {
     // REMOVE THIS if you want to add the first half back
 
     // Backs up
-    chassis.moveToPoint(3,52,1000,{false}); 
+    chassis.moveToPoint(3,50,1000,{false}); 
     intake.setSpeed(127);
 
     //chassis.moveToPoint(0,55,1000);
@@ -286,11 +286,11 @@ hook.setSpeed(0);
     // Note: You should tune the position to be roughly where it ends up, good deal of margin of error
 
     // Point at last Mogo
-    chassis.turnToPoint(50,-24,700,{.forwards = false}); //50 -24
+    chassis.turnToPoint(45,-24,700,{.forwards = false}); //50 -24
     colourSorter.setSorting(true);
 
     // Drive at last Mogo
-    chassis.moveToPoint(50,-24,1500,{.forwards = false,.maxSpeed = 80});
+    chassis.moveToPoint(45,-24,1500,{.forwards = false,.maxSpeed = 80});
     chassis.waitUntilDone();
 
     hook.setSpeed(0);
@@ -341,7 +341,7 @@ hook.setSpeed(0);
     chassis.turnToPoint(0,0,700,{.forwards = false});
     chassis.moveToPoint(0,0,1000,{ .forwards = false, .maxSpeed = 70});
     chassis.waitUntilDone();
-    ladyBrown.setSetPoint(60);
+    ladyBrown.setSetPoint(20);
     // chassis.waitUntilDone();
     // left_dr.move(30);
     // right_dr.move(30);

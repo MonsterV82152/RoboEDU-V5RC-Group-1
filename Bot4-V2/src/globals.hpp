@@ -21,7 +21,7 @@ inline pros::Controller master2(pros::E_CONTROLLER_PARTNER);
 inline bool team = true;
 inline bool driverControl = false, autonomousPeriod = false;
 inline int user = 0;
-inline int auton = 0;
+inline int auton = 1;
 
 ASSET(Blue_Mogo_Rush_txt)
 ASSET(Red_Mogo_Rush_txt)
@@ -29,6 +29,9 @@ ASSET(Blue_Ring_Rush_txt)
 ASSET(Red_Ring_Rush_txt)
 ASSET(Red_Solo_AWP_txt)
 ASSET(Blue_Solo_AWP_txt)
+ASSET(Red_DriveBy_AWP_txt)
+ASSET(Red_DriveBy_Finals_txt)
+
 
 namespace Controller {
     constexpr auto button_R1 = pros::E_CONTROLLER_DIGITAL_R1;
@@ -59,8 +62,8 @@ namespace Pneumatics {
 
 
 namespace DriveTrain {
-    inline pros::MotorGroup left({5, 6, 7});
-    inline pros::MotorGroup right({-2, -3, -4});
+    inline pros::MotorGroup left({-2, -3, -4});
+    inline pros::MotorGroup right({5, 6, 7});
 
     inline pros::Distance backDistanceR(17);
     inline pros::Distance backDistanceL(19);

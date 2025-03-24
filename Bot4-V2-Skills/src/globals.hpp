@@ -56,8 +56,8 @@ namespace Pneumatics {
 
 
 namespace DriveTrain {
-    inline pros::MotorGroup left({5, 6, 7});
-    inline pros::MotorGroup right({-2, -3, -4});
+    inline pros::MotorGroup left({-2, -3, -4});
+    inline pros::MotorGroup right({5, 6, 7});
 
     inline pros::Distance backDistanceR(17);
     inline pros::Distance backDistanceL(19);
@@ -103,12 +103,11 @@ namespace OdometryConfigs {
     inline pros::Rotation vertical_TW(9);
     inline pros::Rotation horizontal_TW(6);
     inline pros::Imu IMU(11);
-
     inline lemlib::Drivetrain LEMLIB_drivetrain(&DriveTrain::left, &DriveTrain::right, 13, lemlib::Omniwheel::NEW_275, 450, 2);
     inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, 2, -1.25);
     inline lemlib::TrackingWheel LEMLIB_horizontal_TW(&horizontal_TW, 2, -2.6);
 
-    inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, &LEMLIB_horizontal_TW, nullptr, &IMU);
+    inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, nullptr, nullptr, &IMU);
     inline lemlib::ControllerSettings LEMLIB_lateral_controller(
         PID::lateralKp, // proportional gain (kP)
         PID::lateralKi, // integral gain (kI)

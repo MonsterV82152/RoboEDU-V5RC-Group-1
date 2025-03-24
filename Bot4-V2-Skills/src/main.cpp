@@ -24,20 +24,14 @@ void initialize() {
 
 	pros::Task(AutonomousSelector, nullptr, "AutonSelector");
 	
-	chassis.calibrate();
+	pros::Task([&]() {chassis.calibrate();});
 	chassis.setPose(0,0,90);
-	pros::delay(500);
-	master.rumble(".");
 	hook.init();
 	intake.init();
 	ladyBrown.init();
 	mogoClampP.init();
-	pros::delay(500);
-	master.rumble(".");
 	colourSorter.init();
 	controls.init();
-	pros::delay(500);
-	master.rumble(".");
 	controls.start();
 	colourSorter.setDelay(50);
 	colourSorter.start();

@@ -20,14 +20,15 @@ class ColourSorter {
         bool firstDetection;
         int lastColor;
 
-        static constexpr int BLUE_HUE_MIN = 130;
+        static constexpr int BLUE_HUE_MIN = 180;
         static constexpr int BLUE_HUE_MAX = 230;
-        static constexpr int RED_HUE_MIN = 310;
-        static constexpr int RED_HUE_MAX = 50;
+        static constexpr int RED_HUE_MIN = 350;
+        static constexpr int RED_HUE_MAX = 20;
         static constexpr int DISTANCE_THRESHOLD = 50;
 
         void multiThread(void *param) {
             while (true) {
+
                 int hue = colourSensor->get_hue();
                 int color = 0;
                 if ((hue > BLUE_HUE_MIN && hue < BLUE_HUE_MAX)) {
@@ -61,7 +62,7 @@ class ColourSorter {
                     firstDetection = true;
                 }
 
-                pros::delay(20); // Add a delay to prevent the loop from running too fast
+                pros::delay(10); // Add a delay to prevent the loop from running too fast
             }
         }
 

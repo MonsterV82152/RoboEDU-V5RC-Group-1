@@ -6,6 +6,77 @@
 #define AUTON_HPP
 
 
+
+void RedDriveByFinals() {
+    colourSorter.setSorting(true);
+    pros::delay(1000);
+    chassis.setPose(-60,11.5,180);
+    chassis.moveToPoint(-60,-11.5,700);
+    chassis.moveToPoint(-24,24,1300,{false});
+    chassis.waitUntilDone();
+    mogoClamp.setState(true);
+    pros::delay(200);
+    hook.setSpeed(127);
+    intake.setSpeed(127);
+    chassis.turnToHeading(70,700);
+    chassis.follow(Red_DriveBy_Finals_txt,15,7000);
+    chassis.waitUntil(50);
+    leftWing.setState(true);
+    pros::delay(700);
+    leftWing.setState(false);
+    chassis.waitUntilDone();
+    for (int i = 0; i < 2; i++) {
+        chassis.waitUntilDone();
+        for (int j = 0; j < 3; j++) {
+            chassis.moveToPoint(-0,0,100,{.forwards = false,.maxSpeed = 60});
+            chassis.moveToPoint(-90,90,200,{.maxSpeed = 127});
+        }
+        pros::delay(1000);
+        chassis.moveToPoint(-50,50,700,{.forwards = false,.maxSpeed = 100});
+        if (i == 0) {
+            chassis.moveToPoint(-80,80,1000,{.maxSpeed = 70}); 
+        }
+    }
+    hook.stop();
+    intake.stop();
+    chassis.moveToPoint(-48,-48,2000);
+    
+    
+    
+}
+
+void RedDriveBySoloAwp() {
+    colourSorter.setSorting(true);
+    chassis.setPose(-60,11.5,180);
+    chassis.moveToPoint(-60,-11.5,700);
+    chassis.moveToPoint(-24,24,1300,{false});
+    chassis.waitUntilDone();
+    mogoClamp.setState(true);
+    pros::delay(200);
+    hook.setSpeed(127);
+    intake.setSpeed(127);
+    chassis.turnToHeading(70,700);
+    chassis.follow(Red_DriveBy_AWP_txt,15,7000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-90,-80,1000); 
+    chassis.waitUntilDone();
+    pros::delay(1000);
+    chassis.moveToPoint(-50,-50,700,{.forwards = false,.maxSpeed = 100});
+    chassis.turnToPoint(0,0,1000);
+    chassis.waitUntilDone();
+    mogoClamp.setState(false);
+    chassis.moveToPoint(-40,-35,700);
+    chassis.turnToPoint(-30,-24,400,{false});
+    chassis.moveToPoint(-24,-24,1000,{false});
+    chassis.waitUntilDone();
+    mogoClamp.setState(true);
+    chassis.moveToPoint(-32,-60,1000);
+    chassis.moveToPoint(-12,-12,1000);
+    ladyBrown.setSetPoint(40);
+
+
+} 
+
 void Feb9Auton() {
     chassis.setPose(-54.5, 14, 0);
     chassis.moveToPoint(-54.5, 0, 700, {.forwards = false, .maxSpeed = 90});
@@ -82,6 +153,53 @@ void RedSoloAWP() {
     chassis.moveToPoint(-24,48,1000,{.forwards = false});
 
     chassis.moveToPoint(-12,12,1000);
+
+    
+}
+
+void BlueSoloAWP() {
+    colourSorter.setSorting(true);
+    chassis.setPose(53.385, -15, 180);
+    chassis.moveToPoint(53.385, 0, 500, {.forwards = false});
+    chassis.turnToHeading(90,500);
+    chassis.moveToPoint(70,0,500);
+    pros::delay(200);
+    ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
+    chassis.waitUntilDone();
+    pros::delay(200);
+    chassis.moveToPoint(48,0,1000,{.forwards = false, .minSpeed = 50, .earlyExitRange = 5});
+
+
+    chassis.turnToPoint(24,-24,700,{.forwards = false, .earlyExitRange = 5});
+    ladyBrown.setSetPoint(0);
+    intake.setSpeed(127);
+    chassis.moveToPoint(24,-24,1000,{.forwards = false, .maxSpeed = 80});
+    chassis.waitUntilDone();
+    mogoClamp.setState(true);
+    pros::delay(200);
+    hook.setSpeed(127);
+    chassis.turnToPoint(24,-52,700);
+    chassis.moveToPoint(24,-54,1000);
+    chassis.turnToHeading(45,700);
+    intake.setSpeed(-127);
+    chassis.follow(Blue_Solo_AWP_txt,15,1600);
+    chassis.waitUntil(20);
+    mogoClamp.setState(false);
+    chassis.waitUntilDone();
+    chassis.turnToPoint(20,20,700,{.forwards = false, .earlyExitRange = 5});
+    chassis.moveToPoint(20,20,1000,{.forwards = false, .maxSpeed = 80});
+    chassis.waitUntilDone();
+    mogoClamp.setState(false);
+    intake.setSpeed(127);
+    hook.setSpeed(127);
+    pros::delay(200);
+    chassis.turnToPoint(24,48,700);
+    chassis.moveToPoint(24,48,1000);
+    chassis.turnToPoint(5,48,700);
+    chassis.moveToPoint(5,48,1000);
+    chassis.moveToPoint(24,48,1000,{.forwards = false});
+
+    chassis.moveToPoint(12,12,1000,{.minSpeed = 90});
 
     
 }
@@ -255,7 +373,7 @@ void RedRingRush() {
     mogoClampP.setState(true);
     pros::delay(200);
     hook.setSpeed(127);
-    chassis.moveToPoint(-24,48,1000);
+    chassis.moveToPoint(-24,52,1000);
     chassis.turnToPoint(-7,55,700);
     chassis.moveToPoint(-7,55,1000);
     chassis.waitUntilDone();
@@ -294,7 +412,7 @@ void BlueRingRush() {
     mogoClampP.setState(true);
     pros::delay(200);
     hook.setSpeed(127);
-    chassis.moveToPoint(24,48,1000);
+    chassis.moveToPoint(24,52,1000);
     chassis.turnToPoint(5,55,700);
     chassis.moveToPoint(5,51,1000);
     chassis.waitUntilDone();

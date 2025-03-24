@@ -43,7 +43,7 @@ class Controls {
         Controls(Intake *intake, Hook *hook, LadyBrown *ladyBrown, ColourSorter *colourSorter, MogoClamp *mogoClamp, Piston *leftWing, pros::Controller *master) : intake(intake), hook(hook), ladyBrown(ladyBrown), colourSorter(colourSorter), mogoClamp(mogoClamp), leftWing(leftWing), master(master) {
         }
         void driverControls() {
-            chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), -master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
+            chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
             if (master->get_digital(Controller::button_L1)) {
                 hook->setOverwriteSpeed(-127);
                 intake->setOverwriteSpeed(-127);
@@ -92,6 +92,7 @@ class Controls {
                     colourSorter->setSorting(true);
                 }
             }
+            master->print(1,1,"%d %d %d",colourSorter->getRing(0),colourSorter->getRing(1),colourSorter->getRing(2));
 
         }
         void init() {

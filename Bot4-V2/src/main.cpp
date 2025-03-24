@@ -26,21 +26,18 @@ void initialize() {
 	
 	chassis.calibrate();
 	chassis.setPose(0,0,90);
-	pros::delay(500);
-	master.rumble(".");
 	hook.init();
 	intake.init();
 	ladyBrown.init();
 	mogoClampP.init();
-	pros::delay(500);
-	master.rumble(".");
 	colourSorter.init();
 	controls.init();
 	pros::delay(500);
 	master.rumble(".");
-	controls.start();
 	colourSorter.setDelay(50);
 	colourSorter.start();
+	controls.start();
+
 }
 
 void disabled() {}
@@ -50,9 +47,29 @@ void competition_initialize() {}
 void autonomous() {
 
 	autonomousPeriod = true;
-	driverControl = false;	
+	driverControl = false;
+	colourSorter.setSorting(true);
 
-	if (!mogoClamp.hasMogo()) {
+	// if (team) {
+	// 	if (auton == 1) {
+	// 		RedRingRush();
+	// 	} else if (auton == 2) {
+	// 		FinalsRedMogoRush();
+	// 	} else if (auton == 3) {
+	// 		RedSoloAWP();
+	// 	}
+	// } else {
+	// 	if (auton == 1) {
+	// 		BlueRingRush();
+	// 	} else if (auton == 2) {
+	// 		FinalsBlueMogoRush();
+	// 	} else if (auton == 3) {
+	// 		BlueSoloAWP();
+	// 	}
+	// }
+	RedDriveByFinals();
+
+	if (DriveTrain::backDistanceL.get_distance() > 30 || DriveTrain::backDistanceR.get_distance() > 30) {
 		mogoClamp.setState(false);
 	}
 }
