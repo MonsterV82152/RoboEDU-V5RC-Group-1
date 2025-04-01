@@ -175,14 +175,14 @@ void Skills() {
 
     // Drive to get red ring ahead of alliance stake
     chassis.moveToPoint(24,24,1000,{.minSpeed = 60,.earlyExitRange = 3});
-    chassis.turnToPoint(48,0,700,{.forwards = false});
-    chassis.moveToPoint(48,0,1000,{.forwards = false});
+    chassis.turnToPoint(51,-3,700,{.forwards = false});
+    chassis.moveToPoint(51,-3,1000,{.forwards = false});
     chassis.waitUntilDone();
     Clamp();
     pros::delay(1400);
     
     chassis.moveToPoint(24,24,1000);
-    pros::delay(300);
+    pros::delay(400);
     mogoClamp.setState(false);
     pros::delay(200);
     
@@ -339,9 +339,9 @@ hook.setSpeed(0);
     chassis.moveToPoint(26,-26,800,{.minSpeed = 70, .earlyExitRange = 5});
     ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
     chassis.turnToPoint(0,0,700,{.forwards = false});
-    chassis.moveToPoint(0,0,1000,{ .forwards = false, .maxSpeed = 70});
+    chassis.moveToPoint(0,0,1000,{.forwards = false, .maxSpeed = 70});
     chassis.waitUntilDone();
-    ladyBrown.setSetPoint(20);
+    ladyBrown.setSetPoint(60);
     // chassis.waitUntilDone();
     // left_dr.move(30);
     // right_dr.move(30);

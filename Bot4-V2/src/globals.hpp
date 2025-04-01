@@ -31,6 +31,9 @@ ASSET(Red_Solo_AWP_txt)
 ASSET(Blue_Solo_AWP_txt)
 ASSET(Red_DriveBy_AWP_txt)
 ASSET(Red_DriveBy_Finals_txt)
+ASSET(Blue_DriveBy_AWP_txt)
+ASSET(Blue_DriveBy_Finals_txt)
+
 
 
 namespace Controller {
