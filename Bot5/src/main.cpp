@@ -26,7 +26,6 @@ void initialize() {
 	
 	chassis.calibrate();
 	chassis.setPose(0,0,90);
-	hook.init();
 	intake.init();
 	ladyBrown.init();
 	mogoClampP.init();
@@ -51,28 +50,16 @@ void autonomous() {
 	colourSorter.setSorting(true);
 	if (team) {
 		if (auton == 1) {
-			RedRingRush();
+			
 		} else if (auton == 2) {
-			FinalsRedMogoRush();
-		// } else if (auton == 3) {
-		// 	RedSoloAWP();
+
 		}
 	} else {
 		if (auton == 1) {
-			BlueRingRush();
-		} else if (auton == 2) {
-			FinalsBlueMogoRush();
-		// } else if (auton == 3) {
-		// 	BlueSoloAWP();
-		}
-	}
-	// RedDriveBySoloAwp();
-	// RedDriveByFinals();
-	// team = false; BlueDriveBySoloAwp();
-	// team = false; BlueDriveByFinals();
 
-	if (DriveTrain::backDistanceL.get_distance() > 30 || DriveTrain::backDistanceR.get_distance() > 30) {
-		mogoClamp.setState(false);
+		} else if (auton == 2) {
+
+		}
 	}
 }
 

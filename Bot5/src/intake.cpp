@@ -1,11 +1,11 @@
 #include "globals.hpp"
 
-#ifndef INTAKE_CPP
-#define INTAKE_CPP
+#ifndef HOOK_CPP
+#define HOOK_CPP
 
 class Intake {
     private:
-        pros::Motor *intake;
+        pros::Motor *hook;
         double defaultSpeed;
         double currentSpeed;
         double overwriteSpeed;
@@ -15,8 +15,8 @@ class Intake {
         bool isOverwrite;
         bool isMoving;
     public:
-        Intake(pros::Motor *intakeMotor) 
-        :   intake(intakeMotor),
+        Intake(pros::Motor *hookMotor) 
+        :   hook(hookMotor),
             defaultSpeed(0),
             currentSpeed(0),
             overwriteSpeed(0),
@@ -28,23 +28,28 @@ class Intake {
 
         {}
         void init() {
-            intake->set_brake_mode(MotorConfigs::COAST);
-            intake->set_gearing(MOTOR_GEAR_GREEN);
-            intake->set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+            hook->set_brake_mode(MotorConfigs::COAST);
+            hook->set_gearing(MOTOR_GEAR_GREEN);
+            hook->set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
         }
         void setSpeed(double speed) {
             defaultSpeed = speed;
         }
-        void setOverwriteSpeed(double speed, int countdown = 0) {
-            if (countdown == 0) {
-                overwriteSpeed = speed;
-                isOverwrite = true;
-            } else {
+        void setOverwriteSpeed(double speed, int countdown, bool forced = false) {
+            if (forced) hook->move(speed);
+            if (!countdown == 0) {
                 timeOverwriteSpeed = speed;
                 overwriteCountdown = countdown;
                 isTimeOverwrite = true;
             }
         }
+        
+        void setOverwriteSpeed(double speed) {
+            overwriteSpeed = speed;
+            isOverwrite = true;
+        }
+    
+
         void clearOverwrite() {
             overwriteSpeed = 0;
             isOverwrite = false;
@@ -59,18 +64,16 @@ class Intake {
             if (isTimeOverwrite) {
                 if (overwriteCountdown > 0) {
                     overwriteCountdown--;
-                    intake->move(timeOverwriteSpeed);
-                    currentSpeed = timeOverwriteSpeed;
+                    hook->move(timeOverwriteSpeed);
                 } else {
                     isTimeOverwrite = false;
                 }
             } else if (isOverwrite) {
-                intake->move(overwriteSpeed);
-                currentSpeed = overwriteSpeed;
+                hook->move(overwriteSpeed);
             } else {
-                intake->move(defaultSpeed);
-                currentSpeed = defaultSpeed;
+                hook->move(defaultSpeed);
             }
+            currentSpeed = hook->get_actual_velocity();
             if (abs(currentSpeed) > 5) {
                 isMoving = true;
             } else {

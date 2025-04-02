@@ -1,5 +1,5 @@
 #include "globals.hpp"
-#include "hook.cpp"
+#include "intake.cpp"
 #include "colourSorter.cpp"
 
 #ifndef LB_CPP
@@ -7,11 +7,10 @@
 
 class LadyBrown {
     private:
-        pros::Motor *LB;
-        pros::Rotation *LBEncoder;
-        Hook *hook;
+        pros::MotorGroup *LB;
+        pros::ADIAnalogIn *LBEncoder;
+        Intake *intake;
         ColourSorter *colourSorter;
-        double currentMotorPosition;
         double currentLBPosition;
         double setPoint;
         double velocity;
@@ -20,21 +19,18 @@ class LadyBrown {
 
     public:
         // Constructor to initialize all member variables
-        LadyBrown(pros::Motor *LB, pros::Rotation *LBEncoder, lemlib::PID *LB_PID, Hook *hook, ColourSorter *colourSorter) 
+        LadyBrown(pros::MotorGroup *LB, pros::ADIAnalogIn *LBEncoder, lemlib::PID *LB_PID, Intake *intake, ColourSorter *colourSorter) 
             : LB(LB), 
               LBEncoder(LBEncoder),
               LB_PID(LB_PID),  // Initializing PID with specific gains
-              hook(hook), // Initializing hook
+              intake(intake), // Initializing hook
               colourSorter(colourSorter), // Initializing colourSorter
-              currentMotorPosition(0), // Initialize to 0
               currentLBPosition(0),    // Initialize to 0
               setPoint(0),           // Initialize to 0
               velocity(0),           // Initialize to 0
               setPointMovement(true)            
         {}
         void init() {
-            LBEncoder->set_position(0);
-            LBEncoder->set_reversed(true);
             LB->set_reversed(true);
             LB->set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
             LB->set_brake_mode(MotorConfigs::HOLD);
@@ -55,18 +51,17 @@ class LadyBrown {
             this->velocity = velocity;
         }
         void update() {
-            currentMotorPosition = LBEncoder->get_position();
-            currentLBPosition = currentMotorPosition / 300; // Convert to degrees
+            currentLBPosition = LBEncoder->get_value() + LadyBrownConfigs::LBOFFSET;
             if (setPointMovement) {
                 double error = setPoint - currentLBPosition;
                 double output = LB_PID->update(error);
                 LB->move(output);
                 if (currentLBPosition < LadyBrownConfigs::NOCONTACTZONE && currentLBPosition > LadyBrownConfigs::LOADING-2 && error > 10) {
-                    hook->setOverwriteSpeed(-40);
+                    intake->setOverwriteSpeed(-40);
                 } else if (currentLBPosition > LadyBrownConfigs::NOCONTACTZONE && colourSorter->getRing(0) != 0) {
-                    hook->setOverwriteSpeed(0);
-                } else if (hook->getOverwriteSpeed() == -40 || hook->getOverwriteSpeed() == 0) {
-                    hook->clearOverwrite();
+                    intake->setOverwriteSpeed(0);
+                } else if (intake->getOverwriteSpeed() == -40 || intake->getOverwriteSpeed() == 0) {
+                    intake->clearOverwrite();
                 }
             } else {
                 LB->move(velocity);

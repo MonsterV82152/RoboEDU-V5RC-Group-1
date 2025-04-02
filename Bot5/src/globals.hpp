@@ -12,7 +12,6 @@
 
 // Constants
 constexpr double PI = 3.141592;
-constexpr double TWradius = 1.375;
 
 /*---Controller---*/
 inline pros::Controller master(pros::E_CONTROLLER_MASTER);
@@ -22,17 +21,6 @@ inline bool team = true;
 inline bool driverControl = false, autonomousPeriod = false;
 inline int user = 0;
 inline int auton = 1;
-
-ASSET(Blue_Mogo_Rush_txt)
-ASSET(Red_Mogo_Rush_txt)
-ASSET(Blue_Ring_Rush_txt)
-ASSET(Red_Ring_Rush_txt)
-ASSET(Red_Solo_AWP_txt)
-ASSET(Blue_Solo_AWP_txt)
-ASSET(Red_DriveBy_AWP_txt)
-ASSET(Red_DriveBy_Finals_txt)
-ASSET(Blue_DriveBy_AWP_txt)
-ASSET(Blue_DriveBy_Finals_txt)
 
 
 
@@ -59,25 +47,21 @@ namespace MotorConfigs {
 
 namespace Pneumatics {
     inline pros::ADIDigitalOut mogoClampPiston('A');
-    inline pros::ADIDigitalOut leftWingPiston('B');
-    inline pros::ADIDigitalOut rightWingPiston('C');
+    inline pros::ADIDigitalOut ladyBrownPiston('B');
+    inline pros::ADIDigitalOut PTOPiston('C');
+    inline pros::ADIDigitalOut doinkerPiston('D');
 }
 
 
 namespace DriveTrain {
-    inline pros::MotorGroup left({-1, -5});
-    inline pros::MotorGroup right({2, 20});
-
-    inline pros::Distance backDistanceR(17);
-    inline pros::Distance backDistanceL(19);
+    inline pros::MotorGroup left({-11, -13, 17});
+    inline pros::MotorGroup right({14, 15, 16});
 }
 
 namespace Manipulator {
-    inline pros::Motor intakeMotor(16);
-    inline pros::Motor hookMotor(12);
+    inline pros::Motor intakeMotor(10);
 
-    inline pros::Optical colourSensor(14);
-    inline pros::Distance hookDistanceSensor(10);
+    inline pros::Optical colourSensor(99);
 }
 
 namespace LadyBrownConfigs {
@@ -94,9 +78,10 @@ namespace LadyBrownConfigs {
         SCORING2 = 0,
         NOCONTACTZONE = 60
     };
+    inline double LBOFFSET = 0;
 
-    inline pros::Rotation rotationSensor(13);
-    inline pros::Motor motor(15);
+    inline pros::ADIAnalogIn potentiometer('Z');
+    inline pros::MotorGroup motor({99});
     inline lemlib::PID PID(PID::kP, PID::kI, PID::kD);
 }
 
@@ -109,15 +94,15 @@ namespace OdometryConfigs {
         static constexpr double angularKi = 0.01;
         static constexpr double angularKd = 50.0;
     };
-    inline pros::Rotation vertical_TW(9);
-    inline pros::Rotation horizontal_TW(6);
+    inline pros::Rotation vertical_TWL(9);
+    inline pros::Rotation vertical_TWR(8);
     inline pros::Imu IMU(11);
 
     inline lemlib::Drivetrain LEMLIB_drivetrain(&DriveTrain::left, &DriveTrain::right, 13, lemlib::Omniwheel::NEW_275, 450, 2);
-    inline lemlib::TrackingWheel LEMLIB_vertical_TW(&vertical_TW, 2, -1.25);
-    inline lemlib::TrackingWheel LEMLIB_horizontal_TW(&horizontal_TW, 2, -2.6);
+    inline lemlib::TrackingWheel LEMLIB_vertical_TWL(&vertical_TWL, 2, -1.25);
+    inline lemlib::TrackingWheel LEMLIB_vertical_TWR(&vertical_TWR, 2, -1.25);
 
-    inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TW, nullptr, &LEMLIB_horizontal_TW, nullptr, &IMU);
+    inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TWL, &LEMLIB_vertical_TWR, nullptr, nullptr, &IMU);
     inline lemlib::ControllerSettings LEMLIB_lateral_controller(
         PID::lateralKp, // proportional gain (kP)
         PID::lateralKi, // integral gain (kI)

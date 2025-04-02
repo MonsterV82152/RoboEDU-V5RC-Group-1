@@ -1,5 +1,5 @@
 #include "globals.hpp"
-#include "hook.cpp"
+#include "intake.cpp"
 #include "piston.cpp"
 
 #ifndef MOGOCLAMP_CPP
@@ -8,39 +8,26 @@
 class MogoClamp {
     private:
         Piston *mogoClamp;
-        Hook *hook;
-        pros::Distance *backDistanceR;
-        pros::Distance *backDistanceL;
-        bool ifMogo;
+        Intake *intake;
         
     public:
-        MogoClamp(Piston *mogoClamp, pros::Distance *backDistanceR, pros::Distance *backDistanceL, Hook *hook)
-            : mogoClamp(mogoClamp), backDistanceR(backDistanceR), backDistanceL(backDistanceL), hook(hook) {}
+        MogoClamp(Piston *mogoClamp, Intake *intake)
+            : mogoClamp(mogoClamp), intake(intake) {}
         void toggle() {
             mogoClamp->toggle();
-            if (mogoClamp->getState() && (backDistanceR->get() < 10 && backDistanceL->get() < 10)) {
-                ifMogo = true;
-            } else if (!mogoClamp->getState()) {
-                if (ifMogo) {
-                    hook->setOverwriteSpeed(-127,2);
-                }
-                ifMogo = false;
+            if (!mogoClamp->getState()) {
+                intake->setOverwriteSpeed(-127,2);
             }
         }
         void setState(bool state) {
             mogoClamp->setState(state);
-            if (mogoClamp->getState() && (backDistanceR->get() < 10 && backDistanceL->get() < 10)) {
-                ifMogo = true;
-            } else if (!mogoClamp->getState()) {
-                if (ifMogo) {
-                    hook->setOverwriteSpeed(-127,2);
-                }
-                ifMogo = false;
+            if (!mogoClamp->getState()) {
+                intake->setOverwriteSpeed(-127,2);
             }
         }
 
-        bool hasMogo() {
-            return ifMogo;
+        bool getState() {
+            mogoClamp->getState();
         }
 };
 
