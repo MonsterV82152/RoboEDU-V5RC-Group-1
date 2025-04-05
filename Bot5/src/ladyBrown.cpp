@@ -58,7 +58,7 @@ class LadyBrown {
                 LB->move(output);
                 if (currentLBPosition < LadyBrownConfigs::NOCONTACTZONE && currentLBPosition > LadyBrownConfigs::LOADING-2 && error > 10) {
                     intake->setOverwriteSpeed(-40);
-                } else if (currentLBPosition > LadyBrownConfigs::NOCONTACTZONE && colourSorter->getRing(0) != 0) {
+                } else if (currentLBPosition > LadyBrownConfigs::NOCONTACTZONE) {
                     intake->setOverwriteSpeed(0);
                 } else if (intake->getOverwriteSpeed() == -40 || intake->getOverwriteSpeed() == 0) {
                     intake->clearOverwrite();

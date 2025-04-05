@@ -1,0 +1,63 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot-4C'
+mkdir -p bin/
+if test 0 -eq 1; then printf "%s\n" "arm-none-eabi-g++ -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g  -Wno-psabi -nostdlib -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables -Wl,--gc-keep-exported,--whole-archive,firmware/LemLib.a,firmware/liblvgl.a,firmware/libpros.a,-lstdc++,--no-whole-archive -Wl,-T./firmware/v5.ld,--gc-sections,--start-group,./firmware/LemLib.a,./firmware/libc.a,./firmware/liblvgl.a,./firmware/libm.a,./firmware/libpros.a,-lgcc,-lstdc++,--end-group,-T./firmware/v5-common.ld,-o,bin/cold.package.elf"; fi;
+output="$(arm-none-eabi-g++ -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g  -Wno-psabi -nostdlib -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables -Wl,--gc-keep-exported,--whole-archive,firmware/LemLib.a,firmware/liblvgl.a,firmware/libpros.a,-lstdc++,--no-whole-archive -Wl,-T./firmware/v5.ld,--gc-sections,--start-group,./firmware/LemLib.a,./firmware/libc.a,./firmware/liblvgl.a,./firmware/libm.a,./firmware/libpros.a,-lgcc,-lstdc++,--end-group,-T./firmware/v5-common.ld,-o,bin/cold.package.elf 2>&1)"; exit=$?; if test 0 -ne $exit; then printf "%s%s\n" "Creating cold package with LemLib,libc,liblvgl,libm,libpros " "[31;01m[ERRORS][0m"; printf "%s\n" "$output"; exit $exit; elif test -n "$output"; then printf "%s%s\n" "Creating cold package with LemLib,libc,liblvgl,libm,libpros " "[33;01m[WARNINGS][0m"; printf "%s\n" "$output"; else printf "%s%s\n" "Creating cold package with LemLib,libc,liblvgl,libm,libpros " "[32;01m[OK][0m"; fi;
+if test 0 -eq 1; then printf "%s\n" "arm-none-eabi-objcopy --strip-symbol=install_hot_table --strip-symbol=__libc_init_array --strip-symbol=_PROS_COMPILE_DIRECTORY --strip-symbol=_PROS_COMPILE_TIMESTAMP --strip-symbol=_PROS_COMPILE_TIMESTAMP_INT bin/cold.package.elf bin/cold.package.elf"; fi;
+output="$(arm-none-eabi-objcopy --strip-symbol=install_hot_table --strip-symbol=__libc_init_array --strip-symbol=_PROS_COMPILE_DIRECTORY --strip-symbol=_PROS_COMPILE_TIMESTAMP --strip-symbol=_PROS_COMPILE_TIMESTAMP_INT bin/cold.package.elf bin/cold.package.elf 2>&1)"; exit=$?; if test 0 -ne $exit; then printf "%s%s\n" "Stripping cold package " "[31;01m[ERRORS][0m"; printf "%s\n" "$output"; exit $exit; elif test -n "$output"; then printf "%s%s\n" "Stripping cold package " "[33;01m[WARNINGS][0m"; printf "%s\n" "$output"; else printf "%s%s\n" "Stripping cold package " " [32;01m[DONE][0m"; fi;
+echo Section sizes:
+arm-none-eabi-size -d --common bin/cold.package.elf | sed -e 's/  dec/total/' 
+mkdir -p bin/
+mkdir -p .d/./
+if test 0 -eq 1; then printf "%s\n" "arm-none-eabi-g++ -c -iquote"./include" -iquote"./include/./" -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g -D_POSIX_THREADS -D_UNIX98_THREAD_MUTEX_ATTRIBUTES -D_POSIX_TIMERS -D_POSIX_MONOTONIC_CLOCK -D_PROS_INCLUDE_LIBLVGL_LLEMU_H -D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP  -Wno-psabi -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables --std=gnu++20  -MT bin/main.cpp.o -MMD -MP -MF .d/main.Td -o bin/main.cpp.o src/main.cpp"; fi;
+output="$(arm-none-eabi-g++ -c -iquote"./include" -iquote"./include/./" -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g -D_POSIX_THREADS -D_UNIX98_THREAD_MUTEX_ATTRIBUTES -D_POSIX_TIMERS -D_POSIX_MONOTONIC_CLOCK -D_PROS_INCLUDE_LIBLVGL_LLEMU_H -D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP  -Wno-psabi -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables --std=gnu++20  -MT bin/main.cpp.o -MMD -MP -MF .d/main.Td -o bin/main.cpp.o src/main.cpp 2>&1)"; exit=$?; if test 0 -ne $exit; then printf "%s%s\n" "Compiled src/main.cpp " "[31;01m[ERRORS][0m"; printf "%s\n" "$output"; exit $exit; elif test -n "$output"; then printf "%s%s\n" "Compiled src/main.cpp " "[33;01m[WARNINGS][0m"; printf "%s\n" "$output"; else printf "%s%s\n" "Compiled src/main.cpp " "[32;01m[OK][0m"; fi;
+mv -f .d/main.Td  .d/main.cpp.d && touch bin/main.cpp.o
+mkdir -p ./bin/static
+mkdir -p ./bin/static.lib
+echo "ASSET bin/static/Blue_Mogo_Rush.txt.o"
+arm-none-eabi-objcopy -I binary -O elf32-littlearm -B arm static/Blue_Mogo_Rush.txt bin/static/Blue_Mogo_Rush.txt.o
+mkdir -p ./bin/static
+mkdir -p ./bin/static.lib
+echo "ASSET bin/static/Blue_Ring_Rush.txt.o"
+arm-none-eabi-objcopy -I binary -O elf32-littlearm -B arm static/Blue_Ring_Rush.txt bin/static/Blue_Ring_Rush.txt.o
+mkdir -p ./bin/static
+mkdir -p ./bin/static.lib
+echo "ASSET bin/static/Blue_Solo_AWP.txt.o"
+arm-none-eabi-objcopy -I binary -O elf32-littlearm -B arm static/Blue_Solo_AWP.txt bin/static/Blue_Solo_AWP.txt.o
+mkdir -p ./bin/static
+mkdir -p ./bin/static.lib
+echo "ASSET bin/static/Red_Mogo_Rush.txt.o"
+arm-none-eabi-objcopy -I binary -O elf32-littlearm -B arm static/Red_Mogo_Rush.txt bin/static/Red_Mogo_Rush.txt.o
+mkdir -p ./bin/static
+mkdir -p ./bin/static.lib
+echo "ASSET bin/static/Red_Ring_Rush.txt.o"
+arm-none-eabi-objcopy -I binary -O elf32-littlearm -B arm static/Red_Ring_Rush.txt bin/static/Red_Ring_Rush.txt.o
+mkdir -p ./bin/static
+mkdir -p ./bin/static.lib
+echo "ASSET bin/static/Red_Solo_AWP.txt.o"
+arm-none-eabi-objcopy -I binary -O elf32-littlearm -B arm static/Red_Solo_AWP.txt bin/static/Red_Solo_AWP.txt.o
+ 
+mkdir -p ./bin/
+# Pipe a line of code defining _PROS_COMPILE_TOOLSTAMP and _PROS_COMPILE_DIRECTORY into GCC,
+# which allows compilation from stdin. We define _PROS_COMPILE_DIRECTORY using a command line-defined macro
+# which is the pwd | tail bit, which will truncate the path to the last 23 characters
+# 
+# const int _PROS_COMPILE_TIMESTAMP_INT = 
+# char const * const _PROS_COMPILE_TIEMSTAMP = __DATE__ " " __TIME__
+# char const * const _PROS_COMPILE_DIRECTORY = "DU-V5RC-Group-1/Bot-4C";
+#
+# The shell command $(($(date +%s)+($(date +%-z)/100*3600))) fetches the current
+# unix timestamp, and then adds the UTC timezone offset to account for time zones.
+if test 0 -eq 1; then printf "%s\n" "echo 'const int _PROS_COMPILE_TIMESTAMP_INT = 1743874275; char const * const _PROS_COMPILE_TIMESTAMP = __DATE__ " " __TIME__; char const * const _PROS_COMPILE_DIRECTORY = "";' | arm-none-eabi-gcc -c -x c -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g -D_POSIX_THREADS -D_UNIX98_THREAD_MUTEX_ATTRIBUTES -D_POSIX_TIMERS -D_POSIX_MONOTONIC_CLOCK -D_PROS_INCLUDE_LIBLVGL_LLEMU_H -D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP  -Wno-psabi -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables --std=gnu11  -o ./bin/_pros_ld_timestamp.o -"; fi;
+output="$(echo 'const int _PROS_COMPILE_TIMESTAMP_INT = 1743874275; char const * const _PROS_COMPILE_TIMESTAMP = __DATE__ " " __TIME__; char const * const _PROS_COMPILE_DIRECTORY = "";' | arm-none-eabi-gcc -c -x c -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g -D_POSIX_THREADS -D_UNIX98_THREAD_MUTEX_ATTRIBUTES -D_POSIX_TIMERS -D_POSIX_MONOTONIC_CLOCK -D_PROS_INCLUDE_LIBLVGL_LLEMU_H -D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP  -Wno-psabi -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables --std=gnu11  -o ./bin/_pros_ld_timestamp.o - 2>&1)"; exit=$?; if test 0 -ne $exit; then printf "%s%s\n" "Adding timestamp " "[31;01m[ERRORS][0m"; printf "%s\n" "$output"; exit $exit; elif test -n "$output"; then printf "%s%s\n" "Adding timestamp " "[33;01m[WARNINGS][0m"; printf "%s\n" "$output"; else printf "%s%s\n" "Adding timestamp " "[32;01m[OK][0m"; fi;
+if test 0 -eq 1; then printf "%s\n" "arm-none-eabi-g++ -nostartfiles -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g  -Wno-psabi -nostdlib -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables -Wl,-R,bin/cold.package.elf bin/main.cpp.o bin/static/Blue_Mogo_Rush.txt.o bin/static/Blue_Ring_Rush.txt.o bin/static/Blue_Solo_AWP.txt.o bin/static/Red_Mogo_Rush.txt.o bin/static/Red_Ring_Rush.txt.o bin/static/Red_Solo_AWP.txt.o ./bin/_pros_ld_timestamp.o ./firmware/LemLib.a ./firmware/libc.a ./firmware/liblvgl.a ./firmware/libm.a ./firmware/libpros.a -Wl,-T./firmware/v5-hot.ld,--gc-sections,--start-group,./firmware/LemLib.a,./firmware/libc.a,./firmware/liblvgl.a,./firmware/libm.a,./firmware/libpros.a,-lgcc,-lstdc++,--end-group,-T./firmware/v5-common.ld,-o,bin/hot.package.elf"; fi;
+output="$(arm-none-eabi-g++ -nostartfiles -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g  -Wno-psabi -nostdlib -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables -Wl,-R,bin/cold.package.elf bin/main.cpp.o bin/static/Blue_Mogo_Rush.txt.o bin/static/Blue_Ring_Rush.txt.o bin/static/Blue_Solo_AWP.txt.o bin/static/Red_Mogo_Rush.txt.o bin/static/Red_Ring_Rush.txt.o bin/static/Red_Solo_AWP.txt.o ./bin/_pros_ld_timestamp.o ./firmware/LemLib.a ./firmware/libc.a ./firmware/liblvgl.a ./firmware/libm.a ./firmware/libpros.a -Wl,-T./firmware/v5-hot.ld,--gc-sections,--start-group,./firmware/LemLib.a,./firmware/libc.a,./firmware/liblvgl.a,./firmware/libm.a,./firmware/libpros.a,-lgcc,-lstdc++,--end-group,-T./firmware/v5-common.ld,-o,bin/hot.package.elf 2>&1)"; exit=$?; if test 0 -ne $exit; then printf "%s%s\n" "Linking hot project with ./bin/cold.package.elf and LemLib,libc,liblvgl,libm,libpros " "[31;01m[ERRORS][0m"; printf "%s\n" "$output"; exit $exit; elif test -n "$output"; then printf "%s%s\n" "Linking hot project with ./bin/cold.package.elf and LemLib,libc,liblvgl,libm,libpros " "[33;01m[WARNINGS][0m"; printf "%s\n" "$output"; else printf "%s%s\n" "Linking hot project with ./bin/cold.package.elf and LemLib,libc,liblvgl,libm,libpros " "[32;01m[OK][0m"; fi;
+printf "%s\n" "Section sizes:"
+arm-none-eabi-size -d --common bin/hot.package.elf | sed -e 's/  dec/total/' 
+if test 0 -eq 1; then printf "%s\n" "arm-none-eabi-objcopy bin/cold.package.elf -O binary -R .hot_init bin/cold.package.bin"; fi;
+output="$(arm-none-eabi-objcopy bin/cold.package.elf -O binary -R .hot_init bin/cold.package.bin 2>&1)"; exit=$?; if test 0 -ne $exit; then printf "%s%s\n" "Creating cold package binary for VEX EDR V5 " "[31;01m[ERRORS][0m"; printf "%s\n" "$output"; exit $exit; elif test -n "$output"; then printf "%s%s\n" "Creating cold package binary for VEX EDR V5 " "[33;01m[WARNINGS][0m"; printf "%s\n" "$output"; else printf "%s%s\n" "Creating cold package binary for VEX EDR V5 " "[32;01m[DONE][0m"; fi;
+ 
+if test 0 -eq 1; then printf "%s\n" "arm-none-eabi-objcopy bin/hot.package.elf -O binary bin/hot.package.bin"; fi;
+output="$(arm-none-eabi-objcopy bin/hot.package.elf -O binary bin/hot.package.bin 2>&1)"; exit=$?; if test 0 -ne $exit; then printf "%s%s\n" "Creating bin/hot.package.bin for VEX EDR V5 " "[31;01m[ERRORS][0m"; printf "%s\n" "$output"; exit $exit; elif test -n "$output"; then printf "%s%s\n" "Creating bin/hot.package.bin for VEX EDR V5 " "[33;01m[WARNINGS][0m"; printf "%s\n" "$output"; else printf "%s%s\n" "Creating bin/hot.package.bin for VEX EDR V5 " "[32;01m[DONE][0m"; fi;
+make: Leaving directory `/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot-4C'
+ 

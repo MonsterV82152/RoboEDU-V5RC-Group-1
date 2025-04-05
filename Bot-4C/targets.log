@@ -1,0 +1,1888 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 3.81
+# Copyright (C) 2006  Free Software Foundation, Inc.
+# This is free software; see the source for copying conditions.
+# There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+# PARTICULAR PURPOSE.
+
+# This program built for i386-apple-darwin11.3.0
+ 
+
+# Make data base, printed on Sat Apr  5 17:31:17 2025
+
+# Variables
+
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# automatic
+?F = $(notdir $?)
+# makefile (from `Makefile', line 17)
+EXTRA_CXXFLAGS = 
+# makefile (from `Makefile', line 13)
+INCDIR = $(ROOT)/include
+# environment
+VSCODE_CRASH_REPORTER_PROCESS_TYPE = extensionHost
+# makefile (from `Makefile', line 35)
+EXCLUDE_SRC_FROM_LIB = $(foreach file, $(SRCDIR)/main,$(foreach cext,$(CEXTS),$(file).$(cext)) $(foreach cxxext,$(CXXEXTS),$(file).$(cxxext)))
+# makefile (from `common.mk', line 163)
+LDTIMEOBJ := ./bin/_pros_ld_timestamp.o
+# makefile (from `common.mk', line 35)
+COLD_LIBRARIES = $(filter-out $(EXCLUDE_COLD_LIBRARIES), $(LIBRARIES))
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# makefile (from `common.mk', line 15)
+CPPFLAGS = -D_POSIX_THREADS -D_UNIX98_THREAD_MUTEX_ATTRIBUTES -D_POSIX_TIMERS -D_POSIX_MONOTONIC_CLOCK -D_PROS_INCLUDE_LIBLVGL_LLEMU_H -D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP
+# makefile (from `common.mk', line 105)
+test_output = @output=$$($1 2>&1); exit=$$?; if test 0 -ne $$exit; then printf "%s\n" "$(ERROR_STRING)" $$?; printf "%s\n" $$output; exit $$exit; elif test -n "$$output"; then printf "%s\n" "$(WARN_STRING)"; printf "%s" $$output; else printf "%s\n" "$2"; fi;
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# automatic
+@F = $(notdir $@)
+# makefile
+CURDIR := /Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot-4C
+# makefile
+SHELL = /bin/sh
+# makefile (from `common.mk', line 135)
+R = @echo
+# makefile (from `Makefile', line 10)
+FWDIR := ./firmware
+# environment
+VSCODE_NLS_CONFIG = {"userLocale":"en-us","osLocale":"en-ca","resolvedLanguage":"en","defaultMessagesFile":"/Applications/Visual Studio Code.app/Contents/Resources/app/out/nls.messages.json","locale":"en-us","availableLanguages":{}}
+# environment
+_ = /usr/bin/make
+# makefile (from `common.mk', line 40)
+CFLAGS = $(MFLAGS) $(CPPFLAGS) $(WARNFLAGS) $(GCCFLAGS) --std=$(C_STANDARD)
+# makefile (from `common.mk', line 28)
+DEPFLAGS = -MT $$@ -MMD -MP -MF $(DEPDIR)/$$*.Td
+# makefile (from `common.mk', line 154)
+CSRC = $(foreach cext,$(CEXTS),$(call rwildcard, $(SRCDIR),*.$(cext), $1))
+# makefile (from `common.mk', line 81)
+STEP_COLOR = $(shell printf "%b" "\033[37;01m")
+# makefile (from `.d/main.cpp.d', line 1)
+MAKEFILE_LIST :=  Makefile common.mk firmware/hot-cold-asset.mk .d/main.cpp.d
+# makefile (from `common.mk', line 225)
+ELF_DEPS = $(call GETALLOBJ,$(EXCLUDE_SRCDIRS))
+# makefile (from `common.mk', line 136)
+D = @
+# makefile (from `common.mk', line 152)
+ASMSRC = $(foreach asmext,$(ASMEXTS),$(call rwildcard, $(SRCDIR),*.$(asmext), $1))
+# makefile (from `common.mk', line 23)
+C_STANDARD = gnu11
+# makefile (from `common.mk', line 273)
+define cxx_rule
+$(BINDIR)/%.$1.o: $(SRCDIR)/%.$1
+$(BINDIR)/%.$1.o: $(SRCDIR)/%.$1 $(DEPDIR)/$(basename %).d
+	$(VV)mkdir -p $$(dir $$@)
+	$(MAKEDEPFOLDER)
+	$$(call test_output_2,Compiled $$< ,$(CXX) -c $(INCLUDE) -iquote"$(INCDIR)/$$(dir $$*)" $(CXXFLAGS) $(EXTRA_CXXFLAGS) $(DEPFLAGS) -o $$@ $$<,$(OK_STRING))
+	$(RENAMEDEPENDENCYFILE)
+endef
+# makefile (from `common.mk', line 41)
+CXXFLAGS = $(MFLAGS) $(CPPFLAGS) $(WARNFLAGS) $(GCCFLAGS) --std=$(CXX_STANDARD)
+# makefile (from `common.mk', line 256)
+define asm_rule
+$(BINDIR)/%.$1.o: $(SRCDIR)/%.$1
+	$(VV)mkdir -p $$(dir $$@)
+	$$(call test_output_2,Compiled $$< ,$(AS) -c $(ASMFLAGS) -o $$@ $$<,$(OK_STRING))
+endef
+# makefile (from `common.mk', line 2)
+DEVICE = VEX EDR V5
+# makefile (from `Makefile', line 32)
+VERSION := 1.0.0
+# makefile (from `common.mk', line 6)
+GCCFLAGS = -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables
+# makefile (from `common.mk', line 50)
+CC := arm-none-eabi-gcc
+# makefile (from `common.mk', line 82)
+OK_STRING = $(OK_COLOR)[OK]$(NO_COLOR)
+# environment
+__CFBundleIdentifier = com.microsoft.VSCode
+# makefile (from `common.mk', line 18)
+WARNFLAGS =  -Wno-psabi
+# makefile (from `firmware/hot-cold-asset.mk', line 10)
+ASSET_OBJ = $(addprefix $(BINDIR)/, $(addsuffix .o, $(ASSET_FILES)) )
+# makefile (from `common.mk', line 21)
+COMMA := ,
+# environment
+VSCODE_CWD = /
+# makefile (from `common.mk', line 39)
+ASMFLAGS = $(MFLAGS) $(WARNFLAGS)
+# makefile (from `common.mk', line 180)
+DEFAULT_BIN = $(HOT_BIN)
+# environment
+PATH = /Users/eddyliang/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-cli-macos:/Users/eddyliang/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin:/Users/eddyliang/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/vex-vexcom-macos:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin
+# makefile (from `common.mk', line 128)
+BUILD_VERBOSE = 0
+# makefile (from `common.mk', line 52)
+LD := arm-none-eabi-g++
+# makefile (from `Makefile', line 5)
+ASMEXTS := s S
+# makefile (from `common.mk', line 283)
+define _pros_ld_timestamp
+$(VV)mkdir -p $(dir $(LDTIMEOBJ))
+@# Pipe a line of code defining _PROS_COMPILE_TOOLSTAMP and _PROS_COMPILE_DIRECTORY into GCC,
+@# which allows compilation from stdin. We define _PROS_COMPILE_DIRECTORY using a command line-defined macro
+@# which is the pwd | tail bit, which will truncate the path to the last 23 characters
+@# 
+@# const int _PROS_COMPILE_TIMESTAMP_INT = $(( $(date +%s) - $(date +%z) * 3600 ))
+@# char const * const _PROS_COMPILE_TIEMSTAMP = __DATE__ " " __TIME__
+@# char const * const _PROS_COMPILE_DIRECTORY = "$(shell pwd | tail -c 23)";
+@#
+@# The shell command $$(($$(date +%s)+($$(date +%-z)/100*3600))) fetches the current
+@# unix timestamp, and then adds the UTC timezone offset to account for time zones.
+
+$(call test_output_2,Adding timestamp ,echo 'const int _PROS_COMPILE_TIMESTAMP_INT = $(shell echo $$(($$(date +%s)+($$(date +%-z)/100*3600)))); char const * const _PROS_COMPILE_TIMESTAMP = __DATE__ " " __TIME__; char const * const _PROS_COMPILE_DIRECTORY = "$(wildcard $(shell pwd | tail -c 23))";' | $(CC) -c -x c $(CFLAGS) $(EXTRA_CFLAGS) -o $(LDTIMEOBJ) -,$(OK_STRING))
+endef
+# makefile (from `Makefile', line 9)
+ROOT = .
+# makefile (from `common.mk', line 69)
+SIZES_SED := | sed -e 's/  dec/total/'
+# makefile (from `common.mk', line 46)
+AR := arm-none-eabi-ar
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# makefile (from `common.mk', line 42)
+LDFLAGS = $(MFLAGS) $(WARNFLAGS) -nostdlib $(GCCFLAGS)
+# makefile (from `common.mk', line 30)
+RENAMEDEPENDENCYFILE = -$(VV)mv -f $(DEPDIR)/$$*.Td $$(patsubst $(SRCDIR)/%, $(DEPDIR)/%.d, $(ROOT)/$$<) && touch $$@
+# default
+.FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
+# makefile (from `common.mk', line 78)
+OK_COLOR = $(shell printf "%b" "\033[32;01m")
+# makefile (from `common.mk', line 86)
+ECHO = /bin/printf "%s\n"
+# makefile (from `common.mk', line 90)
+define test_output_2
+@if test $(BUILD_VERBOSE) -eq $(or $4,1); then printf "%s\n" "$2"; fi;
+@output="$$($2 2>&1)"; exit=$$?; if test 0 -ne $$exit; then printf "%s%s\n" "$1" "$(ERROR_STRING)"; printf "%s\n" "$$output"; exit $$exit; elif test -n "$$output"; then printf "%s%s\n" "$1" "$(WARN_STRING)"; printf "%s\n" "$$output"; else printf "%s%s\n" "$1" "$3"; fi;
+endef
+# environment
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.dlUuH10lsc/Listeners
+# makefile (from `Makefile', line 12)
+SRCDIR = $(ROOT)/src
+# automatic
+%F = $(notdir $%)
+# makefile (from `common.mk', line 64)
+SIZES_NUMFMT := 
+# makefile (from `common.mk', line 84)
+ERROR_STRING = $(ERROR_COLOR)[ERRORS]$(NO_COLOR)
+# environment
+PROS_VSCODE_FLAGS = --no-sentry --no-analytics
+# makefile (from `common.mk', line 155)
+COBJ = $(addprefix $(BINDIR)/,$(patsubst $(SRCDIR)/%,%.o,$(call CSRC, $1)))
+# makefile (from `common.mk', line 263)
+define c_rule
+$(BINDIR)/%.$1.o: $(SRCDIR)/%.$1
+$(BINDIR)/%.$1.o: $(SRCDIR)/%.$1 $(DEPDIR)/$(basename $1).d
+	$(VV)mkdir -p $$(dir $$@)
+	$(MAKEDEPFOLDER)
+ 
+	$$(call test_output_2,Compiled $$< ,$(CC) -c $(INCLUDE) -iquote"$(INCDIR)/$$(dir $$*)" $(CFLAGS) $(EXTRA_CFLAGS) $(DEPFLAGS) -o $$@ $$<,$(OK_STRING))
+	$(RENAMEDEPENDENCYFILE)
+endef
+# makefile (from `firmware/hot-cold-asset.mk', line 8)
+TEMPLATE_FILES = $(INCDIR)/$(LIBNAME)/*.h $(INCDIR)/$(LIBNAME)/*.hpp $(wildcard static/*) $(wildcard firmware/hot-cold-asset.mk)
+# environment
+PWD = /Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot-4C
+# makefile (from `common.mk', line 29)
+MAKEDEPFOLDER = -$(VV)mkdir -p $(DEPDIR)/$$(dir $$(patsubst $(BINDIR)/%, %, $(ROOT)/$$@))
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# makefile (from `common.mk', line 137)
+VV = @
+# makefile (from `common.mk', line 54)
+SIZETOOL := arm-none-eabi-size
+# makefile (from `common.mk', line 156)
+CXXSRC = $(foreach cxxext,$(CXXEXTS),$(call rwildcard, $(SRCDIR),*.$(cxxext), $1))
+# environment
+MANPATH = /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/share/man:/Library/Developer/CommandLineTools/usr/share/man:/Library/Developer/CommandLineTools/Toolchains/XcodeDefault.xctoolchain/usr/share/man:
+# environment
+HOME = /Users/eddyliang
+# environment
+PROS_TOOLCHAIN = /Users/eddyliang/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos
+# default
+MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
+# environment
+VSCODE_CODE_CACHE_PATH = /Users/eddyliang/Library/Application Support/Code/CachedData/ddc367ed5c8936efe395cffeec279b04ffd7db78
+# environment
+LOGNAME = eddyliang
+# makefile (from `common.mk', line 150)
+INCLUDE = $(foreach dir,$(INCDIR) $(EXTRA_INCDIR),-iquote"$(dir)")
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# makefile (from `common.mk', line 43)
+SIZEFLAGS = -d --common
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# makefile (from `common.mk', line 34)
+EXCLUDE_COLD_LIBRARIES :=  ./firmware/libc.a ./firmware/libm.a
+# makefile (from `common.mk', line 80)
+WARN_COLOR = $(shell printf "%b" "\033[33;01m")
+# environment
+XPC_FLAGS = 0x0
+# default
+MAKE = $(MAKE_COMMAND)
+# default
+MAKECMDGOALS := all
+# makefile (from `Makefile', line 20)
+USE_PACKAGE := 1
+# environment
+SHLVL = 1
+# makefile (from `common.mk', line 88)
+echon = @/bin/printf "%s" "$2$1$(NO_COLOR)"
+# makefile (from `common.mk', line 161)
+ARCHIVE_TEXT_LIST = $(subst $(SPACE),$(COMMA),$(notdir $(basename $(LIBRARIES))))
+# makefile (from `Makefile', line 11)
+BINDIR = $(ROOT)/bin
+# makefile (from `common.mk', line 165)
+MONOLITH_BIN := ./bin/monolith.bin
+# makefile (from `common.mk', line 49)
+AS := arm-none-eabi-gcc
+# environment
+VSCODE_ESM_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# default
+MAKE_VERSION := 3.81
+# environment
+USER = eddyliang
+# makefile (from `common.mk', line 85)
+WARN_STRING = $(WARN_COLOR)[WARNINGS]$(NO_COLOR)
+# makefile (from `common.mk', line 44)
+NUMFMTFLAGS = --to=iec --format %.2f --suffix=B
+# makefile (from `Makefile', line 27)
+IS_LIBRARY := 0
+# makefile (from `Makefile', line 42)
+.DEFAULT_GOAL = quick
+# makefile (from `common.mk', line 169)
+HOT_ELF := ./bin/hot.package.elf
+# makefile (from `common.mk', line 83)
+DONE_STRING = $(OK_COLOR)[DONE]$(NO_COLOR)
+# makefile (from `common.mk', line 170)
+COLD_BIN := ./bin/cold.package.bin
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# makefile (from `common.mk', line 24)
+CXX_STANDARD = gnu++20
+# makefile (from `common.mk', line 87)
+echo = @$(ECHO) "$2$1$(NO_COLOR)"
+# makefile (from `common.mk', line 55)
+READELF := arm-none-eabi-readelf
+# makefile (from `common.mk', line 79)
+ERROR_COLOR = $(shell printf "%b" "\033[31;01m")
+# makefile (from `common.mk', line 74)
+rwildcard = $(foreach d,$(filter-out $3,$(wildcard $1*)),$(call rwildcard,$d/,$2,$3)$(filter $(subst *,%,$2),$d))
+# default
+MAKE_COMMAND := /Library/Developer/CommandLineTools/usr/bin/make
+# makefile (from `common.mk', line 168)
+HOT_BIN := ./bin/hot.package.bin
+# default
+.VARIABLES := 
+# environment
+TMPDIR = /var/folders/x4/6wc35q9x53v9f91y32hd__qc0000gp/T/
+# automatic
+*F = $(notdir $*)
+# environment
+VSCODE_IPC_HOOK = /Users/eddyliang/Library/Application Support/Code/1.98-main.sock
+# environment
+MallocNanoZone = 0
+# makefile
+MAKEFLAGS = Rrqp
+# makefile (from `common.mk', line 4)
+MFLAGS = -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# makefile (from `Makefile', line 4)
+CEXTS := c
+# environment
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.57918462.57918475
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+VSCODE_L10N_BUNDLE_LOCATION = 
+# automatic
++F = $(notdir $+)
+# makefile (from `firmware/hot-cold-asset.mk', line 5)
+ASSET_FILES = $(wildcard static/*) $(wildcard static.lib/*)
+# makefile (from `common.mk', line 56)
+STRIP := arm-none-eabi-strip
+# makefile (from `common.mk', line 36)
+wlprefix = -Wl,$(subst $(SPACE),$(COMMA),$1)
+# environment
+__CF_USER_TEXT_ENCODING = 0x1F6:0x0:0x52
+# environment
+COMMAND_MODE = unix2003
+# default
+MAKEFILES := 
+# makefile (from `common.mk', line 26)
+DEPDIR := .d
+# automatic
+<F = $(notdir $<)
+# makefile (from `common.mk', line 51)
+CXX := arm-none-eabi-g++
+# makefile (from `firmware/hot-cold-asset.mk', line 12)
+GETALLOBJ = $(sort $(call ASMOBJ,$1) $(call COBJ,$1) $(call CXXOBJ,$1)) $(ASSET_OBJ)
+# makefile (from `common.mk', line 37)
+LNK_FLAGS = --gc-sections --start-group $(strip $(LIBRARIES)) -lgcc -lstdc++ --end-group -T$(FWDIR)/v5-common.ld
+# environment
+LC_ALL = C
+# makefile (from `common.mk', line 32)
+LIBRARIES = $(wildcard $(FWDIR)/*.a)
+# makefile (from `Makefile', line 6)
+CXXEXTS := cpp c++ cc
+# automatic
+^F = $(notdir $^)
+# makefile (from `common.mk', line 153)
+ASMOBJ = $(addprefix $(BINDIR)/,$(patsubst $(SRCDIR)/%,%.o,$(call ASMSRC,$1)))
+# makefile (from `common.mk', line 53)
+OBJCOPY := arm-none-eabi-objcopy
+# default
+SUFFIXES := 
+# makefile (from `common.mk', line 20)
+SPACE := $(subst ,, )
+# makefile (from `Makefile', line 31)
+LIBNAME := libbest
+# makefile (from `common.mk', line 1)
+ARCHTUPLE = arm-none-eabi-
+# makefile (from `common.mk', line 157)
+CXXOBJ = $(addprefix $(BINDIR)/,$(patsubst $(SRCDIR)/%,%.o,$(call CXXSRC,$1)))
+# makefile (from `common.mk', line 166)
+MONOLITH_ELF := ./bin/monolith.elf
+# default
+.INCLUDE_DIRS = /usr/local/include
+# environment
+MAKELEVEL := 0
+# makefile (from `Makefile', line 16)
+EXTRA_CFLAGS = 
+# environment
+LANG = C
+# makefile (from `common.mk', line 171)
+COLD_ELF := ./bin/cold.package.elf
+# environment
+VSCODE_PID = 3206
+# makefile (from `common.mk', line 77)
+NO_COLOR = $(shell printf "%b" "\033[0m")
+# variable set hash-table stats:
+# Load=156/1024=15%, Rehash=0, Collisions=70/855=8%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 16777225, inode 58284740): 17 files, no impossibilities.
+# ./src (device 16777225, inode 58285075): 7 files, no impossibilities.
+# .d (device 16777225, inode 58285062): 3 files, no impossibilities so far.
+# ./src/AutonSelector.hpp (device 16777225, inode 58285077): could not be opened.
+# ./src/main.cpp (device 16777225, inode 58285080): could not be opened.
+# static.lib: could not be stat'd.
+# ./src/globals.hpp (device 16777225, inode 58285079): could not be opened.
+# ./src/MovFunc.hpp (device 16777225, inode 58285078): could not be opened.
+# ./src/Autonomous_Paths.hpp (device 16777225, inode 58285076): could not be opened.
+# ./include/liblvgl (device 16777225, inode 58284773): 15 files, no impossibilities so far.
+# static (device 16777225, inode 58285064): 9 files, no impossibilities.
+# ./firmware (device 16777225, inode 58284741): 11 files, no impossibilities.
+
+# 62 files, no impossibilities in 12 directories.
+
+# Implicit Rules
+
+bin/%.s.o: ./src/%.s
+#  commands to execute (from `common.mk', line 261):
+	@mkdir -p $(dir $@)
+	$(call test_output_2,Compiled $< ,arm-none-eabi-gcc -c -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g  -Wno-psabi -o $@ $<,[32;01m[OK][0m)
+	
+
+bin/%.S.o: ./src/%.S
+#  commands to execute (from `common.mk', line 261):
+	@mkdir -p $(dir $@)
+	$(call test_output_2,Compiled $< ,arm-none-eabi-gcc -c -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g  -Wno-psabi -o $@ $<,[32;01m[OK][0m)
+	
+
+bin/%.c.o: ./src/%.c
+
+ 
+bin/%.c.o: ./src/%.c .d/c.d
+#  commands to execute (from `common.mk', line 271):
+	@mkdir -p $(dir $@)
+	-@mkdir -p .d/$(dir $(patsubst ./bin/%, %, ./$@))
+	$(call test_output_2,Compiled $< ,arm-none-eabi-gcc -c -iquote"./include" -iquote"./include/$(dir $*)" -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g -D_POSIX_THREADS -D_UNIX98_THREAD_MUTEX_ATTRIBUTES -D_POSIX_TIMERS -D_POSIX_MONOTONIC_CLOCK -D_PROS_INCLUDE_LIBLVGL_LLEMU_H -D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP  -Wno-psabi -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables --std=gnu11  -MT $@ -MMD -MP -MF .d/$*.Td -o $@ $<,[32;01m[OK][0m)
+	-@mv -f .d/$*.Td $(patsubst ./src/%, .d/%.d, ./$<) && touch $@
+	
+
+bin/%.cpp.o: ./src/%.cpp
+
+bin/%.cpp.o: ./src/%.cpp .d/%.d
+#  commands to execute (from `common.mk', line 281):
+	@mkdir -p $(dir $@)
+	-@mkdir -p .d/$(dir $(patsubst ./bin/%, %, ./$@))
+	$(call test_output_2,Compiled $< ,arm-none-eabi-g++ -c -iquote"./include" -iquote"./include/$(dir $*)" -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g -D_POSIX_THREADS -D_UNIX98_THREAD_MUTEX_ATTRIBUTES -D_POSIX_TIMERS -D_POSIX_MONOTONIC_CLOCK -D_PROS_INCLUDE_LIBLVGL_LLEMU_H -D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP  -Wno-psabi -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables --std=gnu++20  -MT $@ -MMD -MP -MF .d/$*.Td -o $@ $<,[32;01m[OK][0m)
+ 
+	-@mv -f .d/$*.Td $(patsubst ./src/%, .d/%.d, ./$<) && touch $@
+	
+
+bin/%.c++.o: ./src/%.c++
+
+bin/%.c++.o: ./src/%.c++ .d/%.d
+#  commands to execute (from `common.mk', line 281):
+	@mkdir -p $(dir $@)
+	-@mkdir -p .d/$(dir $(patsubst ./bin/%, %, ./$@))
+	$(call test_output_2,Compiled $< ,arm-none-eabi-g++ -c -iquote"./include" -iquote"./include/$(dir $*)" -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g -D_POSIX_THREADS -D_UNIX98_THREAD_MUTEX_ATTRIBUTES -D_POSIX_TIMERS -D_POSIX_MONOTONIC_CLOCK -D_PROS_INCLUDE_LIBLVGL_LLEMU_H -D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP  -Wno-psabi -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables --std=gnu++20  -MT $@ -MMD -MP -MF .d/$*.Td -o $@ $<,[32;01m[OK][0m)
+	-@mv -f .d/$*.Td $(patsubst ./src/%, .d/%.d, ./$<) && touch $@
+	
+
+bin/%.cc.o: ./src/%.cc
+
+bin/%.cc.o: ./src/%.cc .d/%.d
+#  commands to execute (from `common.mk', line 281):
+	@mkdir -p $(dir $@)
+	-@mkdir -p .d/$(dir $(patsubst ./bin/%, %, ./$@))
+	$(call test_output_2,Compiled $< ,arm-none-eabi-g++ -c -iquote"./include" -iquote"./include/$(dir $*)" -mcpu=cortex-a9 -mfpu=neon-fp16 -mfloat-abi=softfp -Os -g -D_POSIX_THREADS -D_UNIX98_THREAD_MUTEX_ATTRIBUTES -D_POSIX_TIMERS -D_POSIX_MONOTONIC_CLOCK -D_PROS_INCLUDE_LIBLVGL_LLEMU_H -D_PROS_INCLUDE_LIBLVGL_LLEMU_HPP  -Wno-psabi -ffunction-sections -fdata-sections -fdiagnostics-color -funwind-tables --std=gnu++20  -MT $@ -MMD -MP -MF .d/$*.Td -o $@ $<,[32;01m[OK][0m)
+	-@mv -f .d/$*.Td $(patsubst ./src/%, .d/%.d, ./$<) && touch $@
+	
+
+.d/%.d:
+#  commands to execute (from `common.mk', line 305):
+	
+
+# 11 implicit rules, 0 (0.0%) terminal.
+
+# Files
+
+# Not a target:
+static/Blue_Ring_Rush.txt:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/calendar/lv_calendar.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_btnmatrix.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.d/%.d:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/llemu.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/hal/lv_hal_indev.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/font/lv_font_loader.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/rotation.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/sw/lv_draw_sw_gradient.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_txt.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/fmt/format-inl.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/lv_draw_layer.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/lv_api_map.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/themes/mono/lv_theme_mono.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/imu.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_obj_tree.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/colors.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/imgbtn/lv_imgbtn.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/lv_conf.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/libs/lv_libs.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/Autonomous_Paths.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_mem.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/motors.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/led/lv_led.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/lemlib/util.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/lemlib/logger/telemetrySink.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+common.mk:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  Last modified 2025-01-02 13:39:32
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+all: clean bin/hot.package.bin
+#  Phony target (prerequisite of .PHONY).
+#  Command-line target.
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/7=0%
+
+# Not a target:
+bin:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+static/Red_Ring_Rush.txt:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/lv_draw_mask.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/static/Blue_Mogo_Rush.txt.o: static/Blue_Mogo_Rush.txt
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  Modification time never checked.
+#  File has not been updated.
+# automatic
+# @ := bin/static/Blue_Mogo_Rush.txt.o
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/9=11%
+#  commands to execute (from `firmware/hot-cold-asset.mk', line 16):
+	$(VV)mkdir -p $(BINDIR)/static
+	$(VV)mkdir -p $(BINDIR)/static.lib
+	@echo "ASSET $@"
+	$(VV)$(OBJCOPY) -I binary -O elf32-littlearm -B arm $^ $@
+	
+
+include/liblvgl/widgets/lv_arc.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+.PHONY: all clean quick
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_table.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/meter/lv_meter.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/link.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/lv_draw.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/themes/basic/lv_theme_basic.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/llemu.hpp:
+ 
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/lv_widgets.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/motor_group.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_obj_style.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_printf.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/list/lv_list.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+.PRECIOUS: .d/%.d
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+firmware/LemLib.a:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_anim_timeline.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/rtos.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/lemlib/pose.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/../lv_conf_internal.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/lvgl.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_switch.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+firmware/libpros.a:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_obj_pos.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/../misc/lv_color.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/gps.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/libs/sjpg/lv_sjpg.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_bidi.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/lemlib/logger/logger.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/static/Red_Mogo_Rush.txt.o: static/Red_Mogo_Rush.txt
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  Modification time never checked.
+#  File has not been updated.
+# automatic
+# @ := bin/static/Red_Mogo_Rush.txt.o
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/9=11%
+#  commands to execute (from `firmware/hot-cold-asset.mk', line 16):
+	$(VV)mkdir -p $(BINDIR)/static
+	$(VV)mkdir -p $(BINDIR)/static.lib
+	@echo "ASSET $@"
+	$(VV)$(OBJCOPY) -I binary -O elf32-littlearm -B arm $^ $@
+	
+
+include/liblvgl/core/lv_disp.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/optical.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_line.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/lemlib/chassis/chassis.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/fmt/core.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/../misc/lv_area.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_obj.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/AutonSelector.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_obj_style_gen.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/msgbox/lv_msgbox.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+ 
+include/liblvgl/extra/others/lv_others.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/imu.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_textarea.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/lv_draw_img.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_obj_scroll.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_dropdown.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/monolith.elf: bin/main.cpp.o bin/static/Blue_Mogo_Rush.txt.o bin/static/Blue_Ring_Rush.txt.o bin/static/Blue_Solo_AWP.txt.o bin/static/Red_Mogo_Rush.txt.o bin/static/Red_Ring_Rush.txt.o bin/static/Red_Solo_AWP.txt.o firmware/LemLib.a firmware/libc.a firmware/liblvgl.a firmware/libm.a firmware/libpros.a
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `common.mk', line 232):
+	$(call _pros_ld_timestamp)
+	$(call test_output_2,Linking project with $(ARCHIVE_TEXT_LIST) ,$(LD) $(LDFLAGS) $(ELF_DEPS) $(LDTIMEOBJ) $(call wlprefix,-T$(FWDIR)/v5.ld $(LNK_FLAGS)) -o $@,$(OK_STRING))
+	@echo Section sizes:
+	-$(VV)$(SIZETOOL) $(SIZEFLAGS) $@ $(SIZES_SED) $(SIZES_NUMFMT)
+	
+
+include/liblvgl/misc/lv_assert.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2025-01-02 13:39:32
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+include/lemlib/logger/infoSink.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/optical.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/font/lv_font_fmt_txt.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+firmware/liblvgl.a:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_label.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/keyboard/lv_keyboard.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_color.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/tileview/lv_tileview.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/hot.package.bin: bin/hot.package.elf bin/cold.package.bin
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `common.mk', line 248):
+	$(call test_output_2,Creating $@ for $(DEVICE) ,$(OBJCOPY) $< -O binary $@,$(DONE_STRING))
+	
+
+include/liblvgl/hal/lv_hal.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/misc.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/cold.package.elf: firmware/LemLib.a firmware/liblvgl.a firmware/libpros.a
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `common.mk', line 241):
+	$(VV)mkdir -p $(dir $@)
+	$(call test_output_2,Creating cold package with $(ARCHIVE_TEXT_LIST) ,$(LD) $(LDFLAGS) $(call wlprefix,--gc-keep-exported --whole-archive $^ -lstdc++ --no-whole-archive) $(call wlprefix,-T$(FWDIR)/v5.ld $(LNK_FLAGS) -o $@),$(OK_STRING))
+	$(call test_output_2,Stripping cold package ,$(OBJCOPY) --strip-symbol=install_hot_table --strip-symbol=__libc_init_array --strip-symbol=_PROS_COMPILE_DIRECTORY --strip-symbol=_PROS_COMPILE_TIMESTAMP --strip-symbol=_PROS_COMPILE_TIMESTAMP_INT $@ $@, $(DONE_STRING))
+	@echo Section sizes:
+	-$(VV)$(SIZETOOL) $(SIZEFLAGS) $@ $(SIZES_SED) $(SIZES_NUMFMT)
+	
+
+bin/static/Blue_Ring_Rush.txt.o: static/Blue_Ring_Rush.txt
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  Modification time never checked.
+#  File has not been updated.
+# automatic
+# @ := bin/static/Blue_Ring_Rush.txt.o
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/9=11%
+#  commands to execute (from `firmware/hot-cold-asset.mk', line 16):
+	$(VV)mkdir -p $(BINDIR)/static
+	$(VV)mkdir -p $(BINDIR)/static.lib
+	@echo "ASSET $@"
+	$(VV)$(OBJCOPY) -I binary -O elf32-littlearm -B arm $^ $@
+	
+
+include/liblvgl/widgets/lv_checkbox.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/others/gridnav/lv_gridnav.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/layouts/grid/lv_grid.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/main.cpp.o: src/main.cpp src/globals.hpp include/main.h include/api.h include/pros/adi.h include/pros/colors.h include/pros/device.h include/pros/distance.h include/pros/error.h include/pros/ext_adi.h include/pros/adi.h include/pros/adi.h include/pros/gps.h include/pros/imu.h include/pros/link.h include/pros/llemu.h include/liblvgl/llemu.h include/liblvgl/lvgl.h include/liblvgl/misc/lv_log.h include/liblvgl/lv_conf_internal.h include/liblvgl/lv_conf_kconfig.h include/liblvgl/lv_conf.h include/liblvgl/misc/lv_types.h include/liblvgl/misc/lv_timer.h include/liblvgl/hal/lv_hal_tick.h include/liblvgl/misc/lv_math.h include/liblvgl/misc/lv_mem.h include/liblvgl/misc/lv_async.h include/liblvgl/misc/lv_anim_timeline.h include/liblvgl/misc/lv_anim.h include/liblvgl/misc/lv_printf.h include/liblvgl/misc/../lv_conf_internal.h include/liblvgl/hal/lv_hal.h include/liblvgl/hal/lv_hal_disp.h include/liblvgl/hal/lv_hal.h include/liblvgl/draw/lv_draw.h include/liblvgl/misc/lv_style.h include/liblvgl/font/lv_font.h include/liblvgl/font/lv_symbol_def.h include/liblvgl/misc/lv_area.h include/liblvgl/misc/lv_color.h include/liblvgl/misc/lv_assert.h include/liblvgl/misc/lv_log.h include/liblvgl/misc/lv_mem.h include/liblvgl/misc/lv_math.h include/liblvgl/misc/lv_area.h include/liblvgl/misc/lv_txt.h include/liblvgl/misc/lv_printf.h include/liblvgl/misc/lv_bidi.h include/liblvgl/misc/lv_style_gen.h include/liblvgl/misc/lv_txt.h include/liblvgl/draw/lv_img_decoder.h include/liblvgl/draw/lv_img_buf.h include/liblvgl/misc/lv_color.h include/liblvgl/misc/lv_fs.h include/liblvgl/misc/lv_types.h include/liblvgl/draw/lv_img_cache.h include/liblvgl/draw/lv_draw_rect.h include/liblvgl/draw/sw/lv_draw_sw_gradient.h include/liblvgl/draw/sw/lv_draw_sw_dither.h include/liblvgl/core/lv_obj_pos.h include/liblvgl/draw/lv_draw_label.h include/liblvgl/misc/lv_bidi.h include/liblvgl/draw/lv_draw_img.h include/liblvgl/draw/lv_draw_line.h include/liblvgl/draw/lv_draw_triangle.h include/liblvgl/draw/lv_draw_arc.h include/liblvgl/draw/lv_draw_mask.h incl 
+ude/liblvgl/draw/lv_draw_transform.h include/liblvgl/draw/lv_draw_layer.h include/liblvgl/misc/lv_ll.h include/liblvgl/hal/lv_hal_indev.h include/liblvgl/hal/lv_hal_tick.h include/liblvgl/core/lv_obj.h include/liblvgl/core/../lv_conf_internal.h include/liblvgl/core/../misc/lv_style.h include/liblvgl/core/../misc/lv_types.h include/liblvgl/core/../misc/lv_area.h include/liblvgl/core/../misc/lv_color.h include/liblvgl/core/../misc/lv_assert.h include/liblvgl/core/../hal/lv_hal.h include/liblvgl/core/lv_obj_tree.h include/liblvgl/core/lv_obj_pos.h include/liblvgl/core/lv_obj_scroll.h include/liblvgl/misc/lv_anim.h include/liblvgl/core/lv_obj_style.h include/liblvgl/core/lv_obj_style_gen.h include/liblvgl/core/lv_obj_draw.h include/liblvgl/core/lv_obj_class.h include/liblvgl/core/lv_event.h include/liblvgl/core/lv_group.h include/liblvgl/core/lv_group.h include/liblvgl/core/lv_indev.h include/liblvgl/core/lv_obj.h include/liblvgl/hal/lv_hal_indev.h include/liblvgl/core/lv_refr.h include/liblvgl/core/lv_disp.h include/liblvgl/core/lv_theme.h include/liblvgl/core/lv_theme.h include/liblvgl/font/lv_font_loader.h include/liblvgl/font/lv_font_fmt_txt.h include/liblvgl/font/lv_font.h include/liblvgl/widgets/lv_arc.h include/liblvgl/widgets/lv_btn.h include/liblvgl/widgets/lv_img.h include/liblvgl/widgets/lv_label.h include/liblvgl/widgets/../lv_conf_internal.h include/liblvgl/font/lv_symbol_def.h include/liblvgl/widgets/lv_line.h include/liblvgl/widgets/lv_table.h include/liblvgl/widgets/lv_label.h include/liblvgl/widgets/lv_checkbox.h include/liblvgl/widgets/lv_bar.h include/liblvgl/widgets/lv_btn.h include/liblvgl/widgets/lv_slider.h include/liblvgl/widgets/lv_bar.h include/liblvgl/widgets/lv_btnmatrix.h include/liblvgl/widgets/lv_dropdown.h include/liblvgl/widgets/../widgets/lv_label.h include/liblvgl/widgets/lv_roller.h include/liblvgl/widgets/lv_textarea.h include/liblvgl/widgets/lv_canvas.h include/liblvgl/draw/lv_draw_img.h include/liblvgl/widgets/lv_switch.h include/liblvgl/lv_api_map.h include/liblvgl/extra/lv_extra.h include/liblvgl/extra/layouts/lv_layouts.h include/liblvgl/extra/layouts/flex/lv_flex.h include/liblvgl/extra/layouts/grid/lv_grid.h include/liblvgl/extra/libs/lv_libs.h include/liblvgl/extra/libs/bmp/lv_bmp.h include/liblvgl/extra/libs/fsdrv/lv_fsdrv.h include/liblvgl/extra/libs/png/lv_png.h include/liblvgl/extra/libs/gif/lv_gif.h include/liblvgl/extra/libs/qrcode/lv_qrcode.h include/liblvgl/extra/libs/sjpg/lv_sjpg.h include/liblvgl/extra/libs/freetype/lv_freetype.h include/liblvgl/extra/libs/rlottie/lv_rlottie.h include/liblvgl/extra/libs/ffmpeg/lv_ffmpeg.h include/liblvgl/extra/others/lv_others.h include/liblvgl/extra/others/snapshot/lv_snapshot.h include/liblvgl/extra/others/monkey/lv_monkey.h include/liblvgl/extra/others/gridnav/lv_gridnav.h include/liblvgl/extra/others/fragment/lv_fragment.h include/liblvgl/extra/others/imgfont/lv_imgfont.h include/liblvgl/extra/others/msg/lv_msg.h include/liblvgl/extra/others/ime/lv_ime_pinyin.h include/liblvgl/extra/themes/lv_themes.h include/liblvgl/extra/themes/default/lv_theme_default.h include/liblvgl/extra/themes/mono/lv_theme_mono.h include/liblvgl/extra/themes/basic/lv_theme_basic.h include/liblvgl/extra/widgets/lv_widgets.h include/liblvgl/extra/widgets/animimg/lv_animimg.h include/liblvgl/extra/widgets/calendar/lv_calendar.h include/liblvgl/extra/widgets/calendar/lv_calendar_header_arrow.h include/liblvgl/extra/widgets/calendar/lv_calendar_header_dropdown.h include/liblvgl/extra/widgets/chart/lv_chart.h include/liblvgl/extra/widgets/keyboard/lv_keyboard.h include/liblvgl/extra/widgets/list/lv_list.h include/liblvgl/extra/layouts/flex/lv_flex.h include/liblvgl/extra/widgets/menu/lv_menu.h include/liblvgl/extra/widgets/msgbox/lv_msgbox.h include/liblvgl/extra/widgets/meter/lv_meter.h include/liblvgl/extra/widgets/spinbox/lv_spinbox.h include/liblvgl/extra/widgets/spinner/lv_spinner.h include/liblvgl/extra/widgets/tabview/lv_tabview.h include/liblvgl/extra/widgets/tileview/lv_tileview.h include/liblvgl/extra/widgets/win/lv_win.h include/liblvgl/extra/widgets/colorwheel/lv_colorwheel.h include/liblvgl/extra/widgets/led/lv_led.h include/liblvgl/extra/widgets/imgbtn/lv_imgbtn.h include/liblvgl/extra/widgets/span/lv_span.h include/pros/misc.h include/pros/motors.h include/pros/optical.h include/pros/error.h include/pros/rotation.h include/pros/rtos.h include/pros/screen.h include/pros/colors.h include/pros/vision.h include/pros/adi.hpp include/pros/colors.hpp include/pros/device.hpp include/pros/misc.hpp include/pros/misc.h include/pros/rtos.hpp include/pros/rtos.h include/pros/distance.hpp include/pros/device.hpp include/pros/distance.h include/pros/gps.hpp include/pros/gps.h include/pros/imu.hpp include/pros/imu.h include/pros/link.hpp include/pros/link.h include/pros/llemu.hpp include/liblvgl/llemu.hpp include/pros/misc.hpp include/pros/motor_group.hpp include/pros/abstract_motor.hpp include/pros/motors.h include/pros/rtos.hpp include/pros/colors.hpp include/pros/motors.hpp include/pros/motors.hpp include/pros/optical.hpp include/pros/optical.h include/pros/rotation.hpp include/pros/rotation.h include/pros/rtos.hpp include/pros/screen.hpp include/pros/screen.h include/pros/vision.hpp include/pros/vision.h include/lemlib/api.hpp include/lemlib/pid.hpp include/lemlib/pose.hpp include/lemlib/util.hpp include/lemlib/chassis/chassis.hpp include/pros/imu.hpp include/lemlib/asset.hpp include/lemlib/chassis/trackingWheel.hpp include/pros/motor_group.hpp include/pros/adi.hpp include/pros/rotation.hpp include/lemlib/exitcondition.hpp include/lemlib/driveCurve.hpp include/lemlib/logger/logger.hpp include/fmt/core.h include/fmt/format.h include/fmt/core.h include/fmt/format-inl.h include/lemlib/logger/baseSink.hpp include/fmt/args.h include/lemlib/logger/message.hpp include/lemlib/logger/infoSink.hpp include/lemlib/logger/telemetrySink.hpp src/MovFunc.hpp src/AutonSelector.hpp src/Autonomous_Paths.hpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/others/ime/lv_ime_pinyin.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_math.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/vision.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/others/monkey/lv_monkey.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_fs.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/hot.package.elf: bin/cold.package.elf bin/main.cpp.o bin/static/Blue_Mogo_Rush.txt.o bin/static/Blue_Ring_Rush.txt.o bin/static/Blue_Solo_AWP.txt.o bin/static/Red_Mogo_Rush.txt.o bin/static/Red_Ring_Rush.txt.o bin/static/Red_Solo_AWP.txt.o
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `common.mk', line 251):
+	$(call _pros_ld_timestamp)
+	$(call test_output_2,Linking hot project with $(COLD_ELF) and $(ARCHIVE_TEXT_LIST) ,$(LD) -nostartfiles $(LDFLAGS) $(call wlprefix,-R $<) $(filter-out $<,$^) $(LDTIMEOBJ) $(LIBRARIES) $(call wlprefix,-T$(FWDIR)/v5-hot.ld $(LNK_FLAGS) -o $@),$(OK_STRING))
+	@printf "%s\n" "Section sizes:"
+	-$(VV)$(SIZETOOL) $(SIZEFLAGS) $@ $(SIZES_SED) $(SIZES_NUMFMT)
+	
+
+include/liblvgl/draw/lv_draw_triangle.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/lv_draw_rect.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/motors.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/lemlib/exitcondition.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+ 
+static/Blue_Solo_AWP.txt:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/chart/lv_chart.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/tabview/lv_tabview.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/ext_adi.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/others/snapshot/lv_snapshot.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/others/msg/lv_msg.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/device.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_img.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_refr.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/animimg/lv_animimg.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_canvas.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_obj_draw.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/static/Red_Ring_Rush.txt.o: static/Red_Ring_Rush.txt
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  Modification time never checked.
+#  File has not been updated.
+# automatic
+# @ := bin/static/Red_Ring_Rush.txt.o
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/9=11%
+#  commands to execute (from `firmware/hot-cold-asset.mk', line 16):
+	$(VV)mkdir -p $(BINDIR)/static
+	$(VV)mkdir -p $(BINDIR)/static.lib
+	@echo "ASSET $@"
+	$(VV)$(OBJCOPY) -I binary -O elf32-littlearm -B arm $^ $@
+	
+
+include/lemlib/pid.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/llemu.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/lv_extra.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_event.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/main.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/globals.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/screen.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+.SECONDEXPANSION:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/lv_conf_internal.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+static/Red_Solo_AWP.txt:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/fmt/format.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/libs/png/lv_png.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/../widgets/lv_label.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/abstract_motor.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_log.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/layouts/lv_layouts.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/others/imgfont/lv_imgfont.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+src/MovFunc.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/libs/qrcode/lv_qrcode.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_types.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/lemlib/chassis/trackingWheel.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+firmware/libc.a:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_btn.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/misc.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_style.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+ 
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/lv_draw_arc.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/others/fragment/lv_fragment.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_bar.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/calendar/lv_calendar_header_dropdown.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/vision.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/menu/lv_menu.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/spinbox/lv_spinbox.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/../misc/lv_assert.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/hal/lv_hal_tick.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/libs/bmp/lv_bmp.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_ll.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/distance.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_group.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_style_gen.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+clean:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := clean
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/15=7%
+#  commands to execute (from `common.mk', line 192):
+	@echo Cleaning project
+	-$Drm -rf $(BINDIR)
+	-$Drm -rf $(DEPDIR)
+	
+
+include/liblvgl/extra/widgets/win/lv_win.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/font/lv_symbol_def.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/lv_img_decoder.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/lemlib/driveCurve.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/span/lv_span.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/lemlib/asset.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/../hal/lv_hal.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/colorwheel/lv_colorwheel.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+src/main.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/screen.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_slider.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/../lv_conf_internal.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/lv_img_cache.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/adi.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+firmware/hot-cold-asset.mk:
+#  A default, MAKEFILES, or -include/sinclude makefile.
+#  Implicit rule search has been done.
+#  Last modified 2025-01-02 13:39:32
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+
+# Not a target:
+static/Blue_Mogo_Rush.txt:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/layouts/flex/lv_flex.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/font/lv_font.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/libs/gif/lv_gif.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+ 
+
+include/liblvgl/hal/lv_hal_disp.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/sw/lv_draw_sw_dither.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/static/Blue_Solo_AWP.txt.o: static/Blue_Solo_AWP.txt
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  Modification time never checked.
+#  File has not been updated.
+# automatic
+# @ := bin/static/Blue_Solo_AWP.txt.o
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/9=11%
+#  commands to execute (from `firmware/hot-cold-asset.mk', line 16):
+	$(VV)mkdir -p $(BINDIR)/static
+	$(VV)mkdir -p $(BINDIR)/static.lib
+	@echo "ASSET $@"
+	$(VV)$(OBJCOPY) -I binary -O elf32-littlearm -B arm $^ $@
+	
+
+include/liblvgl/draw/lv_draw_transform.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/lv_img_buf.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/lv_draw_label.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/rotation.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+firmware/libm.a:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/libs/rlottie/lv_rlottie.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/widgets/lv_roller.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+.d/main.cpp.d:
+#  Precious file (prerequisite of .PRECIOUS).
+#  Implicit rule search has been done.
+#  Implicit/static pattern stem: `main.cpp'
+#  Last modified 2025-03-20 13:46:00
+#  File has been updated.
+#  Successfully updated.
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/0=0%
+#  commands to execute (from `common.mk', line 305):
+	
+
+include/lemlib/logger/message.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/libs/freetype/lv_freetype.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/themes/lv_themes.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/colors.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/draw/lv_draw_line.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_theme.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+cxx-sysroot:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `common.mk', line 303):
+	@echo | $(CXX) -c -x c++ $(CXXFLAGS) $(EXTRA_CXXFLAGS) --verbose -o /dev/null -
+	
+
+include/liblvgl/misc/lv_anim.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_obj_class.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+static/Red_Mogo_Rush.txt:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+cc-sysroot:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `common.mk', line 301):
+	@echo | $(CC) -c -x c $(CFLAGS) $(EXTRA_CFLAGS) --verbose -o /dev/null -
+	
+
+include/pros/error.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/../lv_conf_internal.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/calendar/lv_calendar_header_arrow.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/distance.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/static/Red_Solo_AWP.txt.o: static/Red_Solo_AWP.txt
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: `'
+#  Modification time never checked.
+#  File has not been updated.
+# automatic
+# @ := bin/static/Red_Solo_AWP.txt.o
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := 
+# automatic
+ 
+# | := 
+# automatic
+# < := 
+# automatic
+# ^ := 
+# automatic
+# ? := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/9=11%
+#  commands to execute (from `firmware/hot-cold-asset.mk', line 16):
+	$(VV)mkdir -p $(BINDIR)/static
+	$(VV)mkdir -p $(BINDIR)/static.lib
+	@echo "ASSET $@"
+	$(VV)$(OBJCOPY) -I binary -O elf32-littlearm -B arm $^ $@
+	
+
+include/pros/device.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/lv_conf_kconfig.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/lv_indev.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/cold.package.bin: bin/cold.package.elf
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `common.mk', line 238):
+	$(call test_output_2,Creating cold package binary for $(DEVICE) ,$(OBJCOPY) $< -O binary -R .hot_init $@,$(DONE_STRING))
+	
+
+include/pros/llemu.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/../misc/lv_types.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+bin/monolith.bin: bin/monolith.elf bin
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  commands to execute (from `common.mk', line 229):
+	$(call test_output_2,Creating $@ for $(DEVICE) ,$(OBJCOPY) $< -O binary -R .hot_init $@,$(DONE_STRING))
+	
+
+include/lemlib/logger/baseSink.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/widgets/spinner/lv_spinner.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/core/../misc/lv_style.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_timer.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/fmt/args.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+quick: bin/hot.package.bin
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+
+include/pros/adi.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/themes/default/lv_theme_default.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_async.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/rtos.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/api.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/lemlib/api.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/extra/libs/ffmpeg/lv_ffmpeg.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+ 
+include/liblvgl/extra/libs/fsdrv/lv_fsdrv.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/gps.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/liblvgl/misc/lv_area.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+include/pros/link.hpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# files hash-table stats:
+# Load=232/1024=23%, Rehash=0, Collisions=128/589=22%
+# VPATH Search Paths
+
+# No `vpath' search paths.
+
+# No general (`VPATH' variable) search path.
+
+# # of strings in strcache: 4
+# # of strcache buffers: 1
+# strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
+# strcache free: total = 4036 / max = 4036 / min = 4036 / avg = 4036
+
+# Finished Make data base on Sat Apr  5 17:31:17 2025
+
+ 

@@ -46,15 +46,15 @@ namespace MotorConfigs {
 }
 
 namespace Pneumatics {
-    inline pros::ADIDigitalOut mogoClampPiston('A');
-    inline pros::ADIDigitalOut ladyBrownPiston('B');
-    inline pros::ADIDigitalOut PTOPiston('C');
-    inline pros::ADIDigitalOut doinkerPiston('D');
+    inline pros::ADIDigitalOut mogoClampPiston('C');
+    inline pros::ADIDigitalOut ladyBrownPiston('A');
+    inline pros::ADIDigitalOut PTOPiston('A');
+    inline pros::ADIDigitalOut doinkerPiston('A');
 }
 
 
 namespace DriveTrain {
-    inline pros::MotorGroup left({-11, -13, 17});
+    inline pros::MotorGroup left({-11, -13, -17});
     inline pros::MotorGroup right({14, 15, 16});
 }
 
