@@ -115,8 +115,8 @@ void AutonomousSelector(void* param) {
         status = pros::screen::touch_status();
         if (status.x < 14+(72*1.5) && status.y < 14+(72*1.5) && status.x != 0) {
             if (touched != 0) {
-                SelectedTeam = true;
-                SelectedAuton = 1;
+                team = true;
+                auton = 1;
                 pros::screen::erase();
                 pros::screen::set_pen(RGB2COLOR(70,0,0));
                 pros::screen::fill_rect(14,14,14+(72*1.5),14+(144*1.5));
@@ -136,8 +136,8 @@ void AutonomousSelector(void* param) {
             }
         } else if (status.x < 14+(72*1.5) && status.y > 14+(72*1.5) && status.y < 14+(144*1.5)) {
             if (touched != 1) {
-                SelectedTeam = true;
-                SelectedAuton = 2;
+                team = true;
+                auton = 2;
                 pros::screen::erase();
                 pros::screen::set_pen(RGB2COLOR(70,0,0));
                 pros::screen::fill_rect(14,14,14+(72*1.5),14+(144*1.5));
@@ -157,8 +157,8 @@ void AutonomousSelector(void* param) {
             }
         } else if (status.x < 14+(144*1.5) && status.y < 14+(72*1.5) && status.x > 14+(72*1.5)) {
             if (touched != 2) {
-                SelectedTeam = false;
-                SelectedAuton = 1;
+                team = false;
+                auton = 1;
                 pros::screen::erase();
                 pros::screen::set_pen(RGB2COLOR(70,0,0));
                 pros::screen::fill_rect(14,14,14+(72*1.5),14+(144*1.5));
@@ -178,8 +178,8 @@ void AutonomousSelector(void* param) {
             }
         } else if (status.x < 14+(144*1.5) && status.x > 14+(72*1.5) && status.y < 14+(144*1.5) && status.y > 14+(72*1.5)) {
             if (touched != 3) {
-                SelectedTeam = false;
-                SelectedAuton = 2;
+                team = false;
+                auton = 2;
                 pros::screen::erase();
                 pros::screen::set_pen(RGB2COLOR(70,0,0));
                 pros::screen::fill_rect(14,14,14+(72*1.5),14+(144*1.5));
@@ -248,8 +248,6 @@ void AutonomousSelector(void* param) {
         pros::delay(20);
 
     }
-    BOOL_colourSorter = true;
-    AutonSelected = true;
 
 }
 
