@@ -1,0 +1,34 @@
+{
+  "configurations": [
+    {
+      "name": "PROS Project",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot #2/include",
+        "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot-4/include",
+        "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot4-V2/include",
+        "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot5/include"
+      ],
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "compilerPath": "/Users/eddyliang/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
+      "cStandard": "gnu11",
+      "cppStandard": "gnu++20",
+      "intelliSenseMode": "gcc-arm",
+      "macFrameworkPath": [
+        "/System/Library/Frameworks"
+      ],
+      "browse": {
+        "path": [
+          "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot5"
+        ],
+        "limitSymbolsToIncludedHeaders": true,
+        "databaseFilename": ""
+      }
+    }
+  ],
+  "version": 4
+}

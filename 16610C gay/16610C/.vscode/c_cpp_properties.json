@@ -1,0 +1,41 @@
+{
+  "configurations": [
+    {
+      "name": "PROS Project",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "/Users/timothyqiu/Pros code/code2024/v2/include",
+        "c:\\Users\\owowo\\Desktop\\v2 2\\v2\\include",
+        "c:\\Users\\owowo\\Desktop\\fuck\\v2\\include",
+        "/Users/timothyqiu/Pros code/code2024/fuck 2/v20/include",
+        "c:\\Users\\owowo\\Desktop\\NIGGER\\NIGGER\\include",
+        "/Users/eddyliang/Downloads/16610C/include",
+        "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/16610C/include",
+        "c:\\Users\\owowo\\Desktop\\Archive\\16610C\\include",
+        "/Users/timothyqiu/Downloads/blackness/16610C/include",
+        "c:\\Users\\owowo\\Desktop\\16610C\\16610C\\include",
+        "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/16610C gay/16610C/include"
+      ],
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "compilerPath": "/Users/eddyliang/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
+      "cStandard": "gnu11",
+      "cppStandard": "gnu++20",
+      "intelliSenseMode": "gcc-arm",
+      "macFrameworkPath": [
+        "/System/Library/Frameworks"
+      ],
+      "browse": {
+        "path": [
+          "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/16610C gay/16610C"
+        ],
+        "limitSymbolsToIncludedHeaders": true,
+        "databaseFilename": ""
+      }
+    }
+  ],
+  "version": 4
+}
