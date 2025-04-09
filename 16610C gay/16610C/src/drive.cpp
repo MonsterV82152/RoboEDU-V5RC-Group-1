@@ -9,5 +9,5 @@ void drive_() {
 
     // chassis.curvature(leftY, rightX, true);
 
-    chassis.arcade(leftY, rightX, false, 0.5);
+    chassis.arcade(leftY, rightX, false, 0.8);
 }

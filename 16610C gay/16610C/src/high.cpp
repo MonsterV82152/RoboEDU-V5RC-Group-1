@@ -47,7 +47,7 @@ void highFun(void *param) {
 }
 
 void high_() {
-    if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
+    if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
 		if (highStat == 1) {
 			highStat = 0;
 		} else {
@@ -67,7 +67,7 @@ void high_() {
 	}
 	
 
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
 		if (highStat == 3) {
 			highStat = 0;
 		} else {
@@ -75,9 +75,29 @@ void high_() {
 			// 	unjamLB = true;
 			// }
 			highStat = 3;
+			
 		}
 	}
+	if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {
+		if (skill) {
+			pros::Task([&] () {
+				highStat = 3;
+				pros::delay(300);
+				highStat = 1;
+				pros::delay(400);
+				intake.move_velocity(-550);
+				while (dist.get_distance() > 30) {
+					pros::delay(10);
+				}
+				pros::delay(100);
+				intake.move_velocity(0);
+				highStat = 3;
+				pros::delay(400);
+				highStat = 0;
 
+			});
+		}
+	}
     if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)) {
 		if (highStat == 4) {
 			highStat = 0;

@@ -54,6 +54,24 @@ class Intake {
             overwriteSpeed = 0;
             isOverwrite = false;
         }
+        void waitUntilRotations(double rotations, double timeout) {
+            hook->set_zero_position(0);
+            while (hook->get_position() < rotations * 360) {
+                pros::delay(5);
+                if (timeout > 0) {
+                    timeout -= 5;
+                    if (timeout <= 0) {
+                        break;
+                    }
+                }
+            }
+        }
+        void waitUntilRotations(double rotations) {
+            hook->set_zero_position(0);
+            while (abs(hook->get_position()) < rotations * 360) {
+                pros::delay(5);
+            }
+        }
         void clearAllOverwrites() {
             overwriteSpeed = 0;
             timeOverwriteSpeed = 0;
@@ -61,6 +79,7 @@ class Intake {
             isTimeOverwrite = false;
         }
         void update() {
+
             if (isTimeOverwrite) {
                 if (overwriteCountdown > 0) {
                     overwriteCountdown--;

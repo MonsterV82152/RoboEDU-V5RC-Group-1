@@ -16,6 +16,6 @@ inline Piston doinker(&Pneumatics::doinkerPiston);
 inline Piston PTO(&Pneumatics::PTOPiston);
 inline Piston tierThree(&Pneumatics::ladyBrownPiston);
 inline LadyBrown ladyBrown(&LadyBrownConfigs::motor, &LadyBrownConfigs::potentiometer, &LadyBrownConfigs::PID, &intake, &colourSorter);
-inline Controls controls(&intake, &ladyBrown, &colourSorter, &mogoClamp, &doinker, &master);
+inline Controls controls(&intake, &ladyBrown, &colourSorter, &mogoClamp, &doinker, &tierThree, &master);
 
 #endif

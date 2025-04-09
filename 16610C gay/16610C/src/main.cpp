@@ -133,7 +133,20 @@ void opcontrol() {
 	// delay(1000);
 
 	if (skill) {
+		clampStat = false;
+		highStat = 1;
+		pros:delay(500);
+		intake.move(-127);
+		pros::delay(200);
+		intake.move(0);
 		highStat = 4;
+		pros::delay(400);
+		chassis.setPose(0, 0, 0);
+		chassis.moveToPoint(0,-14, 500,{false});
+		pros::delay(500);
+		highStat = 0;
+		clampStat = true;
+		chassis.turnToHeading(125,700);
 	}
 
 	// chassis.setPose(55, 23.5, 90);

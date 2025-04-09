@@ -47,19 +47,19 @@ namespace MotorConfigs {
 
 namespace Pneumatics {
     inline pros::ADIDigitalOut mogoClampPiston('C');
-    inline pros::ADIDigitalOut ladyBrownPiston('A');
+    inline pros::ADIDigitalOut ladyBrownPiston('G');
     inline pros::ADIDigitalOut PTOPiston('A');
     inline pros::ADIDigitalOut doinkerPiston('A');
 }
 
 
 namespace DriveTrain {
-    inline pros::MotorGroup left({-11, -13, -17});
-    inline pros::MotorGroup right({14, 15, 16});
+    inline pros::MotorGroup left({-8, -9, -10});
+    inline pros::MotorGroup right({1, 2, 3});
 }
 
 namespace Manipulator {
-    inline pros::Motor intakeMotor(10);
+    inline pros::Motor intakeMotor(21);
 
     inline pros::Optical colourSensor(99);
 }
@@ -73,15 +73,16 @@ namespace LadyBrownConfigs {
 
     enum Setpoints {
         LOADING = 16,
-        LOADING2 = 0,
-        SCORING = 125,
-        SCORING2 = 0,
+        SCORING = 60,
+        SCORING2 = 125,
+        SCORING3 = 180,
         NOCONTACTZONE = 60
     };
-    inline double LBOFFSET = 0;
+    inline double LBOFFSET = -70;
+    inline double POT_TICK_2_DEGREE = 4;
 
-    inline pros::ADIAnalogIn potentiometer('Z');
-    inline pros::MotorGroup motor({99});
+    inline pros::ADIAnalogIn potentiometer('H');
+    inline pros::MotorGroup motor({-19,11});
     inline lemlib::PID PID(PID::kP, PID::kI, PID::kD);
 }
 
