@@ -10,28 +10,6 @@ and circles. Then, it will detect touches on the brain and changes the selected 
 There is also a driver selector that will change the control scheme.
 */
 
-void DisplayUser() {
-    if (user == 0) {
-        pros::screen::set_pen(pros::Color::red);
-        pros::screen::fill_rect(248,14,357,60);
-        pros::screen::erase_rect(258,24,347,50);
-        pros::screen::print(TEXT_MEDIUM_CENTER,480-201, 29, "Kiera");
-        pros::screen::set_pen(RGB2COLOR(0,0,100));
-        pros::screen::fill_rect(357,14,466,60);
-        pros::screen::erase_rect(367,24,456,50);
-        pros::screen::print(TEXT_MEDIUM_CENTER,480-97, 29, "Nathan");
-    } else if (user == 1) {
-        pros::screen::set_pen(pros::Color::blue);
-        pros::screen::fill_rect(357,14,466,60);
-        pros::screen::erase_rect(367,24,456,50);
-        pros::screen::print(TEXT_MEDIUM_CENTER,480-97, 29, "Nathan");
-        pros::screen::set_pen(RGB2COLOR(100,0,0));
-        pros::screen::fill_rect(248,14,357,60);
-        pros::screen::erase_rect(258,24,347,50);
-        pros::screen::print(TEXT_MEDIUM_CENTER,480-201, 29, "Kiera");
-    }
-}
-
 void DrawMogo(int x, int y, double size) {
     pros::screen::set_pen(pros::Color::lime_green);
     pros::screen::fill_circle(x,y,10);
@@ -131,7 +109,6 @@ void AutonomousSelector(void* param) {
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 100, "Red Ring Rush");
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 130, "Points:");
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 150, "NA");
-                DisplayUser();
                 touched = 0;
             }
         } else if (status.x < 14+(72*1.5) && status.y > 14+(72*1.5) && status.y < 14+(144*1.5)) {
@@ -152,7 +129,6 @@ void AutonomousSelector(void* param) {
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 100, "Red Mogo Rush");
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 130, "Points:");
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 150, "NA");
-                DisplayUser();
                 touched = 1;
             }
         } else if (status.x < 14+(144*1.5) && status.y < 14+(72*1.5) && status.x > 14+(72*1.5)) {
@@ -173,7 +149,6 @@ void AutonomousSelector(void* param) {
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 100, "Blue Ring Rush");
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 130, "Points:");
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 150, "NA");
-                DisplayUser();
                 touched = 2;
             }
         } else if (status.x < 14+(144*1.5) && status.x > 14+(72*1.5) && status.y < 14+(144*1.5) && status.y > 14+(72*1.5)) {
@@ -194,21 +169,7 @@ void AutonomousSelector(void* param) {
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 100, "Blue Mogo Rush");
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 130, "Points:");
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+20, 150, "NA");
-                DisplayUser();
                 touched = 3;
-            }
-        } else if (status.x > 480-230 && status.x < 480-115 && status.y < 60) {
-            if (user == 1) {
-                pros::screen::erase_rect(240,0,480,60);
-                user = 0;
-                DisplayUser();
-            }
-            
-        } else if (status.x > 480-115 && status.y < 60) {
-            if (user == 0) {
-                pros::screen::erase_rect(240,0,480,60);
-                user = 1;
-                DisplayUser();
             }
         } else if (status.x > 28+(144*1.5)) {
             pros::screen::erase_rect(29+(144*1.5),0,480,240);
@@ -241,7 +202,6 @@ void AutonomousSelector(void* param) {
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+30, 130, "Points:");
                 pros::screen::print(TEXT_MEDIUM_CENTER,28+(144*1.5)+30, 150, "NA");
             }  
-            DisplayUser();
             break;
 
         }

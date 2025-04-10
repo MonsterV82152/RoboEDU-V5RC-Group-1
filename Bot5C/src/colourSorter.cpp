@@ -26,12 +26,12 @@ class ColourSorter {
                 if (shouldSort) {
                     if (team && hue > BLUE_HUE_MIN && hue < BLUE_HUE_MAX) {
                         pros::delay(delayTime);
-                        if ((rings[0]-1) == !team && shouldSort) intake->setOverwriteSpeed(-10, reverseCountdown,true);
+                        if ((rings[0]-1) == !team && shouldSort) {intake->waitUntilRotations(0.5); intake->setOverwriteSpeed(-10, reverseCountdown);}
                         master.rumble(".");
                         pros::delay(100);
                     } else if (!team && (hue > RED_HUE_MIN || hue < RED_HUE_MAX)) {
                         pros::delay(delayTime);
-                        if ((rings[0]-1) == !team && shouldSort) intake->setOverwriteSpeed(-10, reverseCountdown,true);
+                        if ((rings[0]-1) == !team && shouldSort) {intake->waitUntilRotations(0.5); intake->setOverwriteSpeed(-10, reverseCountdown);}
                         master.rumble(".");
                         pros::delay(100);
                     }

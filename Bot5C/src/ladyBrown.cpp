@@ -31,7 +31,6 @@ class LadyBrown {
               setPointMovement(true)            
         {}
         void init() {
-            LB->set_reversed(true);
             LB->set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
             LB->set_brake_mode(MotorConfigs::HOLD);
             LB->set_gearing(MOTOR_GEAR_GREEN);
@@ -51,7 +50,7 @@ class LadyBrown {
             this->velocity = velocity;
         }
         void update() {
-            currentLBPosition = LBEncoder->get_value() + LadyBrownConfigs::LBOFFSET;
+            currentLBPosition = (LBEncoder->get_value() + LadyBrownConfigs::LBOFFSET) / LadyBrownConfigs::POT_TICK_2_DEGREE;
             if (setPointMovement) {
                 double error = setPoint - currentLBPosition;
                 double output = LB_PID->update(error);
@@ -72,6 +71,14 @@ class LadyBrown {
         }
         double getSetPoint() {
             return setPoint;
+        }
+        bool isAtSetPoint() {
+            return abs(currentLBPosition - setPoint) < 2;
+        }
+        void waitUntilAtSetpoint() {
+            while (!isAtSetPoint()) {
+                pros::delay(5);
+            }
         }
 };
 

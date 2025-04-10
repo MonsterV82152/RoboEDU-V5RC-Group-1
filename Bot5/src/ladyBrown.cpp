@@ -31,7 +31,6 @@ class LadyBrown {
               setPointMovement(true)            
         {}
         void init() {
-            LB->set_reversed(true);
             LB->set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
             LB->set_brake_mode(MotorConfigs::HOLD);
             LB->set_gearing(MOTOR_GEAR_GREEN);

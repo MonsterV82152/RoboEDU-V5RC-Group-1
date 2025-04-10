@@ -17,12 +17,12 @@ class Controls {
         MogoClamp *mogoClamp;
         Piston *doinker;
         pros::Controller *master;
+        Piston *tierThree;
         int LadyBrownState = 0;
 
         void updateAll(void *param) {
             while (true) {
-                intake->update();
-                // ladyBrown->update();
+                ladyBrown->update();
                 pros::delay(20); // Add a delay to prevent the loop from running too fast
             }
         }
@@ -37,7 +37,7 @@ class Controls {
          * @param mogoClamp MogoClamp object
          * @param master Controller object
          */
-        Controls(Intake *intake, LadyBrown *ladyBrown, ColourSorter *colourSorter, MogoClamp *mogoClamp, Piston *doinker, pros::Controller *master) : intake(intake), ladyBrown(ladyBrown), colourSorter(colourSorter), mogoClamp(mogoClamp), doinker(doinker), master(master) {
+        Controls(Intake *intake, LadyBrown *ladyBrown, ColourSorter *colourSorter, MogoClamp *mogoClamp, Piston *doinker, Piston *tierThree, pros::Controller *master) : intake(intake), ladyBrown(ladyBrown), colourSorter(colourSorter), mogoClamp(mogoClamp), doinker(doinker), tierThree(tierThree), master(master) {
         }
         void driverControls() {
             chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
@@ -49,7 +49,7 @@ class Controls {
                 }
             }
             if (master->get_digital_new_press(Controller::button_L2)) {
-                doinker->toggle();
+                tierThree->toggle();
             }
             if (master->get_digital_new_press(Controller::button_R2)) {
                 if (intake->getDefaultSpeed() > 0) intake->setSpeed(0);
@@ -71,6 +71,13 @@ class Controls {
                     ladyBrown->setSetPoint(0);
                 }
             }
+            // if (master->get_digital(Controller::button_X)) {
+            //     ladyBrown->setVelocity(-127);
+            // } else if (master->get_digital(Controller::button_DOWN)) {
+            //     ladyBrown->setVelocity(127);
+            // } else {
+            //     ladyBrown->setVelocity(0);
+            // }
             if (master->get_digital_new_press(Controller::button_X)) {
                 mogoClamp->toggle();
             }

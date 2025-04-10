@@ -22,7 +22,6 @@ class Controls {
 
         void updateAll(void *param) {
             while (true) {
-                intake->update();
                 ladyBrown->update();
                 pros::delay(20); // Add a delay to prevent the loop from running too fast
             }
