@@ -79,7 +79,7 @@ namespace LadyBrownConfigs {
     enum Setpoints {
         LOADING = 34,
         SCORING = 60,
-        SCORING2 = 180,
+        SCORING2 = 190,
         SCORING3 = 220,
         NOCONTACTZONE = 60
     };

@@ -6,7 +6,6 @@
 class Intake {
     private:
         pros::Motor *intake;
-        pros::Task task;
         double defaultSpeed;
         double overwriteSpeed;
         double timeOverwriteSpeed;
@@ -20,7 +19,6 @@ class Intake {
             overwriteSpeed(0),
             timeOverwriteSpeed(0),
             overwriteCountdown(0),
-            task([&](){}),
             isTimeOverwrite(false),
             isOverwrite(false)
         {}
@@ -46,12 +44,11 @@ class Intake {
         /*------------------------------------------------------------*/
         /*------------------------------------------------------------*/
         
-        void setOverwriteSpeed(double speed, int countdown) {
-            double count = countdown;
-            isTimeOverwrite = true;
-            timeOverwriteSpeed = speed;
-            intake->move(speed);
+        void setOverwriteSpeed(double speed, double countdown) {
             pros::Task([&] () {
+                isTimeOverwrite = true;
+                timeOverwriteSpeed = speed;
+                intake->move(speed);
                 pros::delay(countdown);
                 // while (count > 0 && isTimeOverwrite) {
                 //     pros::delay(20);
@@ -102,7 +99,7 @@ class Intake {
 
         void clearOverwrite() {
             isOverwrite = false;
-            if (!timeOverwriteSpeed) {
+            if (!isTimeOverwrite) {
                 intake->move(defaultSpeed);
             }
             
