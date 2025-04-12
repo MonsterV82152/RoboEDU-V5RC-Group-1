@@ -1,12 +1,12 @@
+#ifndef CONTROLS_CPP
+#define CONTROLS_CPP
+
 #include "globals.hpp"
 #include "intake.cpp"
 #include "piston.cpp"
 #include "ladyBrown.cpp"
 #include "colourSorter.cpp"
 #include "mogoClamp.cpp"
-
-#ifndef CONTROLS_CPP
-#define CONTROLS_CPP
 
 class Controls {
     private:
@@ -22,7 +22,7 @@ class Controls {
 
         void updateAll(void *param) {
             while (true) {
-                ladyBrown->update();
+                // ladyBrown->update();
                 pros::delay(20); // Add a delay to prevent the loop from running too fast
             }
         }

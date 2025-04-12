@@ -1,7 +1,7 @@
-#include "globals.hpp"
-
 #ifndef INTAKE_CPP
 #define INTAKE_CPP
+
+#include "globals.hpp"
 
 class Intake {
     private:

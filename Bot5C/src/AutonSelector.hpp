@@ -1,8 +1,7 @@
-#include "globals.hpp"
-
-
 #ifndef AUTONSELECTOR_HPP
 #define AUTONSELECTOR_HPP
+
+#include "globals.hpp"
 
 /*
 Autonomous Selector - We display an image of the field onto the brain through lines, rectagles

@@ -7,7 +7,8 @@
         "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot #2/include",
         "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot-4/include",
         "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot4-V2/include",
-        "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot5/include"
+        "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot5/include",
+        "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot5C/include"
       ],
       "defines": [
         "_DEBUG",
@@ -23,7 +24,7 @@
       ],
       "browse": {
         "path": [
-          "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot5"
+          "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot5C"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""

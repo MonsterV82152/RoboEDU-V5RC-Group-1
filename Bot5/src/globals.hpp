@@ -71,16 +71,16 @@ namespace Manipulator {
 
 namespace LadyBrownConfigs {
     struct PID {
-        static constexpr double kP = 5;
+        static constexpr double kP = 1;
         static constexpr double kI = 0;
-        static constexpr double kD = 10;
+        static constexpr double kD = 1;
     };
 
     enum Setpoints {
-        LOADING = 26,
+        LOADING = 38,
         SCORING = 60,
-        SCORING2 = 125,
-        SCORING3 = 180,
+        SCORING2 = 180,
+        SCORING3 = 220,
         NOCONTACTZONE = 60
     };
     inline double LBOFFSET = -127;

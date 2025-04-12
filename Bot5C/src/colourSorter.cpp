@@ -1,8 +1,8 @@
-#include "globals.hpp"
-#include "intake.cpp"
-
 #ifndef COLOURSORTER_CPP
 #define COLOURSORTER_CPP
+
+#include "globals.hpp"
+#include "intake.cpp"
 
 class ColourSorter {
     private:

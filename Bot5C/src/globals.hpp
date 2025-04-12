@@ -46,34 +46,34 @@ namespace MotorConfigs {
 }
 
 namespace Pneumatics {
-    inline pros::ADIDigitalOut mogoClampPiston('C');
+    inline pros::ADIDigitalOut mogoClampPiston('E');
     inline pros::ADIDigitalOut ladyBrownPiston('G');
     inline pros::ADIDigitalOut PTOPiston('A');
-    inline pros::ADIDigitalOut doinkerPiston('A');
+    inline pros::ADIDigitalOut doinkerPiston('D');
 }
 
 
 namespace DriveTrain {
-    inline pros::MotorGroup left({-8, -9, -10});
-    inline pros::MotorGroup right({1, 2, 3});
+    inline pros::MotorGroup left({-1, 2, -3});
+    inline pros::MotorGroup right({-4, 5, 6});
     inline pros::Distance frontDS(99);
     inline pros::Distance backDS(99);
     inline pros::Distance rightDS(99);
-    inline pros::Distance leftDS(99);
+    inline pros::Distance leftDS(16);
     
 }
 
 namespace Manipulator {
-    inline pros::Motor intakeMotor(21);
+    inline pros::Motor intakeMotor(15);
 
-    inline pros::Optical colourSensor(99);
+    inline pros::Optical colourSensor(11);
 }
 
 namespace LadyBrownConfigs {
     struct PID {
-        static constexpr double kP = 5;
+        static constexpr double kP = 0.3;
         static constexpr double kI = 0;
-        static constexpr double kD = 10;
+        static constexpr double kD = 0.62;
     };
 
     enum Setpoints {
@@ -83,55 +83,43 @@ namespace LadyBrownConfigs {
         SCORING3 = 180,
         NOCONTACTZONE = 60
     };
-    inline double LBOFFSET = -127;
+    inline double LBOFFSET = -300;
     inline double POT_TICK_2_DEGREE = 11.11;
 
-    inline pros::ADIAnalogIn potentiometer('D');
-    inline pros::MotorGroup motor({19,-11});
+    inline pros::ADIAnalogIn potentiometer('F');
+    inline pros::MotorGroup motor({12,-13});
     inline lemlib::PID PID(PID::kP, PID::kI, PID::kD);
 }
 
 namespace OdometryConfigs {
-    struct PID {
-        static constexpr double lateralKp = 3.0;
-        static constexpr double lateralKi = 0.0;
-        static constexpr double lateralKd = 0.0;
-        static constexpr double angularKp = 3.5;
-        static constexpr double angularKi = 0.01;
-        static constexpr double angularKd = 50.0;
-    };
-    inline pros::Rotation vertical_TWL(9);
-    inline pros::Rotation vertical_TWR(8);
-    inline pros::Imu IMU(11);
+    inline pros::Rotation vertical_TWL(-7);
+    inline pros::Imu IMU(20);
 
-    inline lemlib::Drivetrain LEMLIB_drivetrain(&DriveTrain::left, &DriveTrain::right, 13, lemlib::Omniwheel::NEW_275, 450, 2);
-    inline lemlib::TrackingWheel LEMLIB_vertical_TWL(&vertical_TWL, 2, -1.25);
-    inline lemlib::TrackingWheel LEMLIB_vertical_TWR(&vertical_TWR, 2, -1.25);
+    inline lemlib::Drivetrain LEMLIB_drivetrain(&DriveTrain::left, &DriveTrain::right, 11.5, lemlib::Omniwheel::NEW_275, 450, 2);
+    inline lemlib::TrackingWheel LEMLIB_vertical_TWL(&vertical_TWL, 2, 0);
 
-    inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TWL, &LEMLIB_vertical_TWR, nullptr, nullptr, &IMU);
-    inline lemlib::ControllerSettings LEMLIB_lateral_controller(
-        PID::lateralKp, // proportional gain (kP)
-        PID::lateralKi, // integral gain (kI)
-        PID::lateralKd, // derivative gain (kD)
-        3,         // anti windup
-
-        1,   // small error range, in inches
-        100, // small error range timeout, in milliseconds
-        3,   // large error range, in inches
-        500, // large error range timeout, in milliseconds
-        20   // maximum acceleration (slew)
+    inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TWL, nullptr, nullptr, nullptr, &IMU);
+    inline lemlib::ControllerSettings LEMLIB_lateral_controller(15,      // proportional gain (kP)
+        0.76,      // integral gain (kI)
+        95,      // derivative gain (kD)
+        0.5725,      // anti windup 2,53
+        0,      // small error range, in inches
+        0,      // small error range timeout, in milliseconds
+        0,      // large error range, in inches
+        0,      // large error range timeout, in milliseconds
+        0      // maximum acceleration (slew)
     );
 
     inline lemlib::ControllerSettings LEMLIB_angular_controller(
-        PID::angularKp, // proportional gain (kP)
-        PID::angularKi, // integral gain (kI)
-        PID::angularKd, // derivative gain (kD)
-        0,         // anti windup
-        0,         // small error range, in inches
-        0,         // small error range timeout, in milliseconds
-        0,         // large error range, in inches
-        0,         // large error range timeout, in milliseconds
-        0          // maximum acceleration (slew)
+        2.5,      // proportional gain (kP)   2.5
+        0.078,      // integral gain (kI)   0.1   0.078
+        20.25,      // derivative gain (kD)    19.2
+        38.88,      // anti windup 6.95   38.88
+        0,      // small error range, in degrees
+        0,      // small error range timeout, in milliseconds
+        0,      // large error range, in degrees
+        0,      // large error range timeout, in milliseconds
+        0      // maximum acceleration (slew)
     );
 }
 inline lemlib::Chassis chassis(OdometryConfigs::LEMLIB_drivetrain,         // drivetrain settins

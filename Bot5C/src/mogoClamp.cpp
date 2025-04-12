@@ -1,9 +1,9 @@
+#ifndef MOGOCLAMP_CPP
+#define MOGOCLAMP_CPP
+
 #include "globals.hpp"
 #include "intake.cpp"
 #include "piston.cpp"
-
-#ifndef MOGOCLAMP_CPP
-#define MOGOCLAMP_CPP
 
 class MogoClamp {
     private:

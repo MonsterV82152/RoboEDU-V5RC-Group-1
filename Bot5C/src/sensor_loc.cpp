@@ -1,78 +1,71 @@
-#include "sensor_loc.hpp"
+#include "include/sensor_loc.hpp"
 
-SensorLocalizer::SensorLocalizer(std::map<std::string, Vec2> offsets, lemlib::Chassis* ch)
-    : sensor_offsets(offsets), chassis(ch) {}
 
-void SensorLocalizer::correct_position_with_sensors(
-    std::map<std::string, pros::Distance*> dist_sensors,
-    double heading_deg
-) {
-    std::vector<Vec2> corrected_positions;
-    std::vector<double> weights;
+SensorLocalizer::SensorLocalizer(std::map<pros::Distance*, Vec3> sensors, lemlib::Chassis* ch)
+    : sensor_list(sensors), chassis(ch) {}
 
-    double theta_rad = heading_deg * M_PI / 180.0;
+lemlib::Pose SensorLocalizer::correct_position_with_sensors() {
+    std::vector<Vec2> cases;
+
+    double theta_rad = chassis->getPose().theta * M_PI / 180.0;
+    double theta = chassis->getPose().theta;
     double x0 = chassis->getPose().x;
     double y0 = chassis->getPose().y;
 
-    for (auto& entry : dist_sensors) {
-        const std::string& dir = entry.first;
-        pros::Distance* sensor = entry.second;
+    for (auto& entry : sensor_list) {
+        pros::Distance* sensor = entry.first;
+        Vec3 position = entry.second;
 
-        double raw_dist = sensor->get();
-        if (raw_dist < min_valid || raw_dist > max_valid) continue;
+        double raw_dist = sensor->get_distance()*0.0393701;
+        if (raw_dist > max_valid) continue;
 
-        double wall_heading = wall_normals[dir];
-        double phi_deg = fmod(wall_heading - heading_deg + 360.0, 360.0);
-        if (phi_deg > 180) phi_deg -= 360;
-        double phi_rad = phi_deg * M_PI / 180.0;
+        double offset_x = position.x * cos(theta_rad) - position.y * sin(theta_rad);
+        double offset_y = position.x * sin(theta_rad) + position.y * cos(theta_rad);
 
-        if (std::abs(phi_deg) > 45.0) continue;
+        double x_value = raw_dist * sin(theta+position.theta) + offset_x;
+        double y_value = raw_dist * cos(theta+position.theta) + offset_y;
 
-        double corrected_dist = raw_dist * cos(phi_rad);
-
-        Vec2 offset = sensor_offsets[dir];
-        double offset_x = offset.x * cos(theta_rad) - offset.y * sin(theta_rad);
-        double offset_y = offset.x * sin(theta_rad) + offset.y * cos(theta_rad);
-        double sensor_x = x0 + offset_x;
-        double sensor_y = y0 + offset_y;
-
-        Vec2 predicted;
-
-        if (dir == "front") {
-            predicted.y = 72.0 - corrected_dist;
-            predicted.x = sensor_x;
-        } else if (dir == "back") {
-            predicted.y = -72.0 + corrected_dist;
-            predicted.x = sensor_x;
-        } else if (dir == "left") {
-            predicted.x = -72.0 + corrected_dist;
-            predicted.y = sensor_y;
-        } else if (dir == "right") {
-            predicted.x = 72.0 - corrected_dist;
-            predicted.y = sensor_y;
-        }
-
-        if (std::abs(predicted.x - x0) > correction_threshold ||
-            std::abs(predicted.y - y0) > correction_threshold) {
-            continue;
-        }
-
-        double confidence = cos(phi_rad);
-        corrected_positions.push_back(predicted);
-        weights.push_back(confidence);
+        cases.push_back({x_value, y_value});
     }
 
-    if (!corrected_positions.empty()) {
-        double sum_x = 0, sum_y = 0, total_weight = 0;
-        for (size_t i = 0; i < corrected_positions.size(); i++) {
-            sum_x += corrected_positions[i].x * weights[i];
-            sum_y += corrected_positions[i].y * weights[i];
-            total_weight += weights[i];
+    double actualX = chassis->getPose().x;
+    double actualY = chassis->getPose().y;
+
+    for(int i=0; i<cases.size(); i++){
+        for(int j=i+1; j<cases.size(); j++){
+            if(cases[i].x == cases[j].x && cases[i].y == cases[j].y) continue;
+            if (abs(abs(cases[i].x-cases[j].x)-fieldSize) < correction_threshold) {
+                if (abs(cases[i].x) < abs(cases[j].x)) {
+                    actualX = fieldSize+cases[i].x;
+                } else {
+                    actualX = fieldSize+cases[j].x;
+                }
+                if (actualX > fieldSize) {
+                    actualX -= fieldSize;
+                }
+                actualX -= fieldSize/2;
+            }
+            if (abs(abs(cases[i].y-cases[j].y)-fieldSize) < correction_threshold) {
+                if (abs(cases[i].y) < abs(cases[j].y)) {
+                    actualX = fieldSize+cases[i].y;
+                } else {
+                    actualX = fieldSize+cases[j].y;
+                }
+                if (actualX > fieldSize) {
+                    actualX -= fieldSize;
+                }
+                actualX -= fieldSize/2;
+            }
+
         }
-
-        double avg_x = sum_x / total_weight;
-        double avg_y = sum_y / total_weight;
-
-        chassis->setPose({avg_x, avg_y, chassis->getPose().theta});
     }
+
+
+
+
+
+
+    chassis->setPose(actualX,actualY,theta);
+    return lemlib::Pose(actualX, actualY, theta);
+    
 }

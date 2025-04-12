@@ -12,10 +12,9 @@ void clamp_() {
 	// 		clampStat = true;
 	// 	}
 	// }
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) {
-		clampStat = !clampStat;
-	} 
-	// else {
-	// 	clampStat = true;
-	// }
+	if(master.get_digital(E_CONTROLLER_DIGITAL_R2)) {
+		clampStat = false;
+	} else {
+		clampStat = true;
+	}
 }

@@ -1,7 +1,7 @@
-#include "globals.hpp"
-
 #ifndef PISTON_CPP
 #define PISTON_CPP
+
+#include "globals.hpp"
 
 class Piston {
     private:

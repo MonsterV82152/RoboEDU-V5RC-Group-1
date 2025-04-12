@@ -65,8 +65,8 @@ class Controls {
                 }
             } 
             if (master->get_digital_new_press(Controller::button_B)) {
-                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING) {                    
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
+                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING2) {                    
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING2);
                 } else {
                     ladyBrown->setSetPoint(0);
                 }
