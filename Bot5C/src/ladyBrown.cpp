@@ -57,9 +57,9 @@ class LadyBrown {
                 LB->move(output);
                 if (currentLBPosition < LadyBrownConfigs::NOCONTACTZONE && currentLBPosition > LadyBrownConfigs::LOADING-2 && error > 10) {
                     intake->setOverwriteSpeed(-40);
-                } else if (currentLBPosition > LadyBrownConfigs::NOCONTACTZONE) {
-                    intake->setOverwriteSpeed(0);
-                } else if (intake->getOverwriteSpeed() == -40 || intake->getOverwriteSpeed() == 0) {
+                // } else if (currentLBPosition > LadyBrownConfigs::NOCONTACTZONE) {
+                //     intake->setOverwriteSpeed(0);
+                } else if (intake->getOverwriteSpeed() == -40) {
                     intake->clearOverwrite();
                 }
             } else {
@@ -74,6 +74,12 @@ class LadyBrown {
         }
         bool isAtSetPoint() {
             return abs(currentLBPosition - setPoint) < 2;
+        }
+        void waitUntilAtSetpoint(double timeout) {
+            while (!isAtSetPoint() && timeout > 0) {
+                timeout -= 5;
+                pros::delay(5);
+            }
         }
         void waitUntilAtSetpoint() {
             while (!isAtSetPoint()) {

@@ -34,7 +34,7 @@ void initialize() {
 	pros::delay(500);
 	master.rumble(".");
 	colourSorter.setDelay(70);
-	colourSorter.start();
+	// colourSorter.start();
 	controls.start();
 
 }
@@ -47,7 +47,7 @@ void autonomous() {
 
 	autonomousPeriod = true;
 	driverControl = false;
-	colourSorter.setSorting(true);
+	colourSorter.setSorting(false);
 	if (team) {
 		if (auton == 1) {
 			
@@ -66,11 +66,10 @@ void autonomous() {
 void opcontrol() {
 	autonomousPeriod = false;
 	driverControl = true;
-	chassis.setPose(30,52,0);
+	chassis.setPose(-48,-48,0);
 	while (true) {
 		controls.driverControls();
 		if (master.get_digital_new_press(Controller::button_R1)) {
-			double heading = OdometryConfigs::IMU.get_heading();
     		lemlib::Pose newPose = sensorLoc.correct_position_with_sensors();
 			pros::lcd::print(3, "X: %f", newPose.x); // x
 			pros::lcd::print(4, "Y: %f", newPose.y); // y

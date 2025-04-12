@@ -56,35 +56,36 @@ namespace Pneumatics {
 namespace DriveTrain {
     inline pros::MotorGroup left({-1, 2, -3});
     inline pros::MotorGroup right({-4, 5, 6});
-    inline pros::Distance frontDS(99);
-    inline pros::Distance backDS(99);
-    inline pros::Distance rightDS(99);
+    inline pros::Distance frontDS(17);
+    // inline pros::Distance backDS(99);
+    // inline pros::Distance rightDS(99);
     inline pros::Distance leftDS(16);
     
 }
 
 namespace Manipulator {
-    inline pros::Motor intakeMotor(15);
+    inline pros::Motor intakeMotor(-15);
 
     inline pros::Optical colourSensor(11);
+    inline pros::Distance dist(14);
 }
 
 namespace LadyBrownConfigs {
     struct PID {
-        static constexpr double kP = 0.3;
+        static constexpr double kP = 1;
         static constexpr double kI = 0;
-        static constexpr double kD = 0.62;
+        static constexpr double kD = 0;
     };
 
     enum Setpoints {
-        LOADING = 26,
+        LOADING = 35,
         SCORING = 60,
-        SCORING2 = 125,
-        SCORING3 = 180,
+        SCORING2 = 170,
+        SCORING3 = 200,
         NOCONTACTZONE = 60
     };
     inline double LBOFFSET = -300;
-    inline double POT_TICK_2_DEGREE = 11.11;
+    inline double POT_TICK_2_DEGREE = 12;
 
     inline pros::ADIAnalogIn potentiometer('F');
     inline pros::MotorGroup motor({12,-13});

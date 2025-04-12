@@ -16,13 +16,13 @@ class MogoClamp {
         void toggle() {
             mogoClamp->toggle();
             if (!mogoClamp->getState()) {
-                intake->setOverwriteSpeed(-127,2);
+                intake->setOverwriteSpeed(-126,100);
             }
         }
         void setState(bool state) {
             mogoClamp->setState(state);
             if (!mogoClamp->getState()) {
-                intake->setOverwriteSpeed(-127,2);
+                intake->setOverwriteSpeed(-126,100);
             }
         }
 

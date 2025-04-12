@@ -122,7 +122,7 @@ void intake_() {
 		}
 	}
 	
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1)) {
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
 		if (intake.get_target_velocity() == 550) {
 			intake.move_velocity(0);
 		} else {

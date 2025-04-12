@@ -6,6 +6,7 @@
 class Intake {
     private:
         pros::Motor *intake;
+        pros::Task task;
         double defaultSpeed;
         double overwriteSpeed;
         double timeOverwriteSpeed;
@@ -19,6 +20,7 @@ class Intake {
             overwriteSpeed(0),
             timeOverwriteSpeed(0),
             overwriteCountdown(0),
+            task([&](){}),
             isTimeOverwrite(false),
             isOverwrite(false)
         {}
@@ -45,14 +47,17 @@ class Intake {
         /*------------------------------------------------------------*/
         
         void setOverwriteSpeed(double speed, int countdown) {
-            pros::Task([&]() {
-                isTimeOverwrite = true;
-                timeOverwriteSpeed = speed;
-                intake->move(speed);
-                while (countdown > 0 && isTimeOverwrite) {
-                    pros::delay(5);
-                    countdown -= 5;
-                }
+            double count = countdown;
+            isTimeOverwrite = true;
+            timeOverwriteSpeed = speed;
+            intake->move(speed);
+            pros::Task([&] () {
+                pros::delay(countdown);
+                // while (count > 0 && isTimeOverwrite) {
+                //     pros::delay(20);
+                //     count -= 20;
+                // }
+                
                 isTimeOverwrite = false;
                 if (isOverwrite) {
                     intake->move(overwriteSpeed);
@@ -60,6 +65,7 @@ class Intake {
                     intake->move(defaultSpeed);
                 }
             });
+            
         }
         void setOverwriteSpeed(double speed) {
             isOverwrite = true;
@@ -96,7 +102,10 @@ class Intake {
 
         void clearOverwrite() {
             isOverwrite = false;
-            intake->move(defaultSpeed);
+            if (!timeOverwriteSpeed) {
+                intake->move(defaultSpeed);
+            }
+            
         }
 
         void clearAllOverwrites() {
@@ -115,13 +124,16 @@ class Intake {
             return intake->get_actual_velocity();
         }
         double getOverwriteSpeed() {
+            if (isOverwrite) {
+                return overwriteSpeed;
+            }
+            return 0;
+        }
+        double getTimeOverwriteSpeed() {
             if (isTimeOverwrite) {
                 return timeOverwriteSpeed;
-            } else if (isOverwrite) {
-                return overwriteSpeed;
-            } else {
-                return 0;
             }
+            return 0;
         }
         double getDefaultSpeed() {
             return defaultSpeed;

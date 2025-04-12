@@ -22,7 +22,7 @@ class Controls {
 
         void updateAll(void *param) {
             while (true) {
-                // ladyBrown->update();
+                ladyBrown->update();
                 pros::delay(20); // Add a delay to prevent the loop from running too fast
             }
         }
@@ -41,6 +41,24 @@ class Controls {
         }
         void driverControls() {
             chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
+            if (master->get_digital_new_press(Controller::button_R1)) {
+                pros::Task([&]() {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING2);
+                    ladyBrown->waitUntilAtSetpoint(500);
+                    ladyBrown->setSetPoint(LadyBrownConfigs::LOADING);
+                    ladyBrown->waitUntilAtSetpoint(500);
+                    intake->setSpeed(127);
+                    while (Manipulator::dist.get_distance() > 30) {
+                        pros::delay(10);
+                    }
+                    pros::delay(100);
+                    intake->setSpeed(0);
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING2);
+                    ladyBrown->waitUntilAtSetpoint(500);
+                    ladyBrown->setSetPoint(0);
+
+                });
+            }
             if (master->get_digital(Controller::button_L1)) {
                 intake->setOverwriteSpeed(-127);
             } else {
@@ -49,7 +67,18 @@ class Controls {
                 }
             }
             if (master->get_digital_new_press(Controller::button_L2)) {
-                tierThree->toggle();
+                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING3) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING3);
+                } else {
+                    ladyBrown->setSetPoint(0);
+                };
+            }
+            if (master->get_digital_new_press(Controller::button_A)) {
+                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
+                } else {
+                    ladyBrown->setSetPoint(0);
+                };
             }
             if (master->get_digital_new_press(Controller::button_R2)) {
                 if (intake->getDefaultSpeed() > 0) intake->setSpeed(0);
@@ -65,8 +94,8 @@ class Controls {
                 }
             } 
             if (master->get_digital_new_press(Controller::button_B)) {
-                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING) {                    
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
+                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING2) {                    
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING2);
                 } else {
                     ladyBrown->setSetPoint(0);
                 }
@@ -80,13 +109,6 @@ class Controls {
             // }
             if (master->get_digital_new_press(Controller::button_X)) {
                 mogoClamp->toggle();
-            }
-            if (master->get_digital_new_press(Controller::button_RIGHT)) {
-                if (colourSorter->isSorting()) {
-                    colourSorter->setSorting(false);
-                } else {
-                    colourSorter->setSorting(true);
-                }
             }
         }
         void init() {

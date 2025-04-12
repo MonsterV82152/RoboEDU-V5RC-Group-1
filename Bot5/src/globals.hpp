@@ -77,7 +77,7 @@ namespace LadyBrownConfigs {
     };
 
     enum Setpoints {
-        LOADING = 38,
+        LOADING = 34,
         SCORING = 60,
         SCORING2 = 180,
         SCORING3 = 220,
@@ -86,8 +86,8 @@ namespace LadyBrownConfigs {
     inline double LBOFFSET = -127;
     inline double POT_TICK_2_DEGREE = 11.11;
 
-    inline pros::ADIAnalogIn potentiometer('D');
-    inline pros::MotorGroup motor({19,-11});
+    inline pros::ADIAnalogIn potentiometer('E');
+    inline pros::MotorGroup motor({-19});
     inline lemlib::PID PID(PID::kP, PID::kI, PID::kD);
 }
 

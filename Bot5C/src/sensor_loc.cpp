@@ -1,4 +1,4 @@
-#include "include/sensor_loc.hpp"
+#include "sensor_loc.hpp"
 
 
 SensorLocalizer::SensorLocalizer(std::map<pros::Distance*, Vec3> sensors, lemlib::Chassis* ch)
