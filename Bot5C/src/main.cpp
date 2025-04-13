@@ -69,11 +69,8 @@ void opcontrol() {
 	chassis.setPose(-48,-48,0);
 	while (true) {
 		controls.driverControls();
-		if (master.get_digital_new_press(Controller::button_R1)) {
-    		lemlib::Pose newPose = sensorLoc.correct_position_with_sensors();
-			pros::lcd::print(3, "X: %f", newPose.x); // x
-			pros::lcd::print(4, "Y: %f", newPose.y); // y
-			pros::lcd::print(5, "Theta: %f", newPose.theta); // heading
+		if (master.get_digital_new_press(Controller::button_LEFT)) {
+    		correct_position(frontSensor, &chassis, true);
 		}
 		pros::delay(20);
 		

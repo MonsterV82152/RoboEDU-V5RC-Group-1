@@ -1,71 +1,48 @@
-#include "sensor_loc.hpp"
-
-
-SensorLocalizer::SensorLocalizer(std::map<pros::Distance*, Vec3> sensors, lemlib::Chassis* ch)
-    : sensor_list(sensors), chassis(ch) {}
-
-lemlib::Pose SensorLocalizer::correct_position_with_sensors() {
-    std::vector<Vec2> cases;
-
-    double theta_rad = chassis->getPose().theta * M_PI / 180.0;
-    double theta = chassis->getPose().theta;
-    double x0 = chassis->getPose().x;
-    double y0 = chassis->getPose().y;
-
-    for (auto& entry : sensor_list) {
-        pros::Distance* sensor = entry.first;
-        Vec3 position = entry.second;
-
-        double raw_dist = sensor->get_distance()*0.0393701;
-        if (raw_dist > max_valid) continue;
-
-        double offset_x = position.x * cos(theta_rad) - position.y * sin(theta_rad);
-        double offset_y = position.x * sin(theta_rad) + position.y * cos(theta_rad);
-
-        double x_value = raw_dist * sin(theta+position.theta) + offset_x;
-        double y_value = raw_dist * cos(theta+position.theta) + offset_y;
-
-        cases.push_back({x_value, y_value});
-    }
-
-    double actualX = chassis->getPose().x;
-    double actualY = chassis->getPose().y;
-
-    for(int i=0; i<cases.size(); i++){
-        for(int j=i+1; j<cases.size(); j++){
-            if(cases[i].x == cases[j].x && cases[i].y == cases[j].y) continue;
-            if (abs(abs(cases[i].x-cases[j].x)-fieldSize) < correction_threshold) {
-                if (abs(cases[i].x) < abs(cases[j].x)) {
-                    actualX = fieldSize+cases[i].x;
-                } else {
-                    actualX = fieldSize+cases[j].x;
-                }
-                if (actualX > fieldSize) {
-                    actualX -= fieldSize;
-                }
-                actualX -= fieldSize/2;
-            }
-            if (abs(abs(cases[i].y-cases[j].y)-fieldSize) < correction_threshold) {
-                if (abs(cases[i].y) < abs(cases[j].y)) {
-                    actualX = fieldSize+cases[i].y;
-                } else {
-                    actualX = fieldSize+cases[j].y;
-                }
-                if (actualX > fieldSize) {
-                    actualX -= fieldSize;
-                }
-                actualX -= fieldSize/2;
-            }
-
+#ifndef SENSORLOC_CPP
+#define SENSORLOC_CPP
+#include "pros/distance.hpp"
+#include "lemlib/chassis/chassis.hpp"
+#include "lemlib/pose.hpp"
+#include <math.h>
+/**
+ * @brief A struct to hold the distance sensor and its offset
+ */
+struct dist_sensor {
+    pros::Distance *sensor;
+    lemlib::Pose offset;
+};
+/**
+ * @brief A function to correct the position of the robot using a distance sensor
+ * @param sensor The distance sensor to use
+ * @param chassis The chassis to correct
+ * @param x If true, correct the x position, otherwise correct the y position
+ * @param correct_rate The rate at which to correct the position
+ * @param forced If true, force the correction even if the distance is not valid
+ */
+void correct_position(dist_sensor sensor, lemlib::Chassis *chassis, bool x, double correct_rate = 5, bool forced = false) {
+    double wall_dist = 70.5;
+    lemlib::Pose currentPos = chassis->getPose(true);
+    double distanceValue = sensor.sensor->get_distance();
+    /*double offset_x = offset.x * cos(theta_rad) - offset.y * sin(theta_rad);
+        double offset_y = offset.x * sin(theta_rad) + offset.y * cos(theta_rad);*/
+    double offset_y = sensor.offset.x * sin(currentPos.theta) + sensor.offset.y * cos(currentPos.theta);
+    double offset_x = sensor.offset.x * cos(currentPos.theta) - sensor.offset.y * sin(currentPos.theta);
+    double x_value = distanceValue * sin(currentPos.theta) + offset_x;
+    double y_value = distanceValue * cos(currentPos.theta) + offset_y;
+    if (x) {
+        x_value = wall_dist*x_value/abs(x_value) - x_value;
+        if (abs(x_value-currentPos.x) < correct_rate || forced) {
+            chassis->setPose(x_value, currentPos.y, currentPos.theta, true);
+        }
+    } else {
+        y_value = wall_dist*y_value/abs(y_value) - y_value;
+        if (abs(y_value-currentPos.y) < correct_rate || forced) {
+            chassis->setPose(currentPos.x, y_value, currentPos.theta, true);
         }
     }
 
 
 
-
-
-
-    chassis->setPose(actualX,actualY,theta);
-    return lemlib::Pose(actualX, actualY, theta);
-    
 }
+
+#endif

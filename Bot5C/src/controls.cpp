@@ -43,7 +43,7 @@ class Controls {
             chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
             if (master->get_digital_new_press(Controller::button_R1)) {
                 pros::Task([&]() {
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING2);
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
                     ladyBrown->waitUntilAtSetpoint(500);
                     ladyBrown->setSetPoint(LadyBrownConfigs::LOADING);
                     ladyBrown->waitUntilAtSetpoint(500);
@@ -53,7 +53,7 @@ class Controls {
                     }
                     pros::delay(100);
                     intake->setSpeed(0);
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING2);
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
                     ladyBrown->waitUntilAtSetpoint(500);
                     ladyBrown->setSetPoint(0);
 
@@ -67,18 +67,32 @@ class Controls {
                 }
             }
             if (master->get_digital_new_press(Controller::button_L2)) {
-                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING3) {
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING3);
+                if (ladyBrown->getSetPoint() != LadyBrownConfigs::ALLIANCE) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::ALLIANCE);
                 } else {
                     ladyBrown->setSetPoint(0);
                 };
             }
             if (master->get_digital_new_press(Controller::button_A)) {
-                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING) {
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
+                if (ladyBrown->getSetPoint() != LadyBrownConfigs::HOLD) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::HOLD);
                 } else {
                     ladyBrown->setSetPoint(0);
                 };
+            }
+            // Make a button that cycles through descore ladybrown states
+            if (master->get_digital_new_press(Controller::button_Y)) {
+                if (ladyBrown->getSetPoint() == LadyBrownConfigs::DESCORE4) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::DESCORE5);
+                } else if (ladyBrown->getSetPoint() == LadyBrownConfigs::DESCORE3) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::DESCORE4);
+                } else if (ladyBrown->getSetPoint() == LadyBrownConfigs::DESCORE2) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::DESCORE3);
+                } else if (ladyBrown->getSetPoint() == LadyBrownConfigs::DESCORE1) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::DESCORE2);
+                } else if (ladyBrown->getSetPoint() != LadyBrownConfigs::DESCORE1) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::DESCORE1);
+                }
             }
             if (master->get_digital_new_press(Controller::button_R2)) {
                 if (intake->getDefaultSpeed() > 0) intake->setSpeed(0);
@@ -94,8 +108,8 @@ class Controls {
                 }
             } 
             if (master->get_digital_new_press(Controller::button_B)) {
-                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING2) {                    
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING2);
+                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING) {                    
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
                 } else {
                     ladyBrown->setSetPoint(0);
                 }

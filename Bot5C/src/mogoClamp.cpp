@@ -15,15 +15,15 @@ class MogoClamp {
             : mogoClamp(mogoClamp), intake(intake) {}
         void toggle() {
             mogoClamp->toggle();
-            // if (!mogoClamp->getState()) {
-            //     intake->setOverwriteSpeed(-126,100);
-            // }
+            if (!mogoClamp->getState()) {
+                pros::Task([&](){intake->setOverwriteSpeed(-126,200);});
+            }
         }
         void setState(bool state) {
             mogoClamp->setState(state);
-            // if (!mogoClamp->getState()) {
-            //     intake->setOverwriteSpeed(-126,100);
-            // }
+            if (!mogoClamp->getState()) {
+                pros::Task([&](){intake->setOverwriteSpeed(-126,200);});
+            }
         }
 
         bool getState() {

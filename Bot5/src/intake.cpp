@@ -1,7 +1,7 @@
-#include "globals.hpp"
-
 #ifndef INTAKE_CPP
 #define INTAKE_CPP
+
+#include "globals.hpp"
 
 class Intake {
     private:
@@ -44,15 +44,17 @@ class Intake {
         /*------------------------------------------------------------*/
         /*------------------------------------------------------------*/
         
-        void setOverwriteSpeed(double speed, int countdown) {
-            pros::Task([&]() {
+        void setOverwriteSpeed(double speed, double countdown) {
+            pros::Task([&] () {
                 isTimeOverwrite = true;
                 timeOverwriteSpeed = speed;
                 intake->move(speed);
-                while (countdown > 0 && isTimeOverwrite) {
-                    pros::delay(5);
-                    countdown -= 5;
-                }
+                pros::delay(countdown);
+                // while (count > 0 && isTimeOverwrite) {
+                //     pros::delay(20);
+                //     count -= 20;
+                // }
+                
                 isTimeOverwrite = false;
                 if (isOverwrite) {
                     intake->move(overwriteSpeed);
@@ -60,6 +62,7 @@ class Intake {
                     intake->move(defaultSpeed);
                 }
             });
+            
         }
         void setOverwriteSpeed(double speed) {
             isOverwrite = true;
@@ -96,7 +99,10 @@ class Intake {
 
         void clearOverwrite() {
             isOverwrite = false;
-            intake->move(defaultSpeed);
+            if (!isTimeOverwrite) {
+                intake->move(defaultSpeed);
+            }
+            
         }
 
         void clearAllOverwrites() {
@@ -115,13 +121,16 @@ class Intake {
             return intake->get_actual_velocity();
         }
         double getOverwriteSpeed() {
+            if (isOverwrite) {
+                return overwriteSpeed;
+            }
+            return 0;
+        }
+        double getTimeOverwriteSpeed() {
             if (isTimeOverwrite) {
                 return timeOverwriteSpeed;
-            } else if (isOverwrite) {
-                return overwriteSpeed;
-            } else {
-                return 0;
             }
+            return 0;
         }
         double getDefaultSpeed() {
             return defaultSpeed;

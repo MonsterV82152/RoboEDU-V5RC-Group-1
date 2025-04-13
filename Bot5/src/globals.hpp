@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include "lemlib/api.hpp"
+#include "sensor_loc.cpp"
 
 /*----------------------Defines----------------------*/
 
@@ -47,7 +48,7 @@ namespace MotorConfigs {
 
 namespace Pneumatics {
     inline pros::ADIDigitalOut mogoClampPiston('C');
-    inline pros::ADIDigitalOut ladyBrownPiston('G');
+    inline pros::ADIDigitalOut ladyBrownPiston('D');
     inline pros::ADIDigitalOut PTOPiston('A');
     inline pros::ADIDigitalOut doinkerPiston('A');
 }
@@ -71,15 +72,15 @@ namespace Manipulator {
 
 namespace LadyBrownConfigs {
     struct PID {
-        static constexpr double kP = 1;
-        static constexpr double kI = 0;
+        static constexpr double kP = 2;
+        static constexpr double kI = 0.02;
         static constexpr double kD = 1;
     };
 
     enum Setpoints {
-        LOADING = 34,
+        LOADING = 28,
         SCORING = 60,
-        SCORING2 = 190,
+        SCORING2 = 135,
         SCORING3 = 220,
         NOCONTACTZONE = 60
     };

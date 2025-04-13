@@ -1,9 +1,9 @@
+#ifndef LB_CPP
+#define LB_CPP
+
 #include "globals.hpp"
 #include "intake.cpp"
 #include "colourSorter.cpp"
-
-#ifndef LB_CPP
-#define LB_CPP
 
 class LadyBrown {
     private:
@@ -50,16 +50,16 @@ class LadyBrown {
             this->velocity = velocity;
         }
         void update() {
-            currentLBPosition = (LBEncoder->get_value() + LadyBrownConfigs::LBOFFSET) / LadyBrownConfigs::POT_TICK_2_DEGREE;
+            currentLBPosition = (LBEncoder->get_value()+LadyBrownConfigs::LBOFFSET) / LadyBrownConfigs::POT_TICK_2_DEGREE;
             if (setPointMovement) {
                 double error = setPoint - currentLBPosition;
                 double output = LB_PID->update(error);
                 LB->move(output);
                 if (currentLBPosition < LadyBrownConfigs::NOCONTACTZONE && currentLBPosition > LadyBrownConfigs::LOADING-2 && error > 10) {
                     intake->setOverwriteSpeed(-40);
-                } else if (currentLBPosition > LadyBrownConfigs::NOCONTACTZONE) {
-                    intake->setOverwriteSpeed(0);
-                } else if (intake->getOverwriteSpeed() == -40 || intake->getOverwriteSpeed() == 0) {
+                // } else if (currentLBPosition > LadyBrownConfigs::NOCONTACTZONE) {
+                //     intake->setOverwriteSpeed(0);
+                } else if (intake->getOverwriteSpeed() == -40) {
                     intake->clearOverwrite();
                 }
             } else {
@@ -74,6 +74,12 @@ class LadyBrown {
         }
         bool isAtSetPoint() {
             return abs(currentLBPosition - setPoint) < 2;
+        }
+        void waitUntilAtSetpoint(double timeout) {
+            while (!isAtSetPoint() && timeout > 0) {
+                timeout -= 5;
+                pros::delay(5);
+            }
         }
         void waitUntilAtSetpoint() {
             while (!isAtSetPoint()) {

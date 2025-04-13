@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include "lemlib/api.hpp"
+#include "sensor_loc.cpp"
 
 /*----------------------Defines----------------------*/
 
@@ -60,8 +61,10 @@ namespace DriveTrain {
     // inline pros::Distance backDS(99);
     // inline pros::Distance rightDS(99);
     inline pros::Distance leftDS(16);
-    
 }
+
+inline dist_sensor frontSensor = {&DriveTrain::frontDS, lemlib::Pose(-5, 2.5, 0)};
+inline dist_sensor leftSensor = {&DriveTrain::leftDS, lemlib::Pose(-6, 0, 270)};
 
 namespace Manipulator {
     inline pros::Motor intakeMotor(-15);
@@ -79,9 +82,14 @@ namespace LadyBrownConfigs {
 
     enum Setpoints {
         LOADING = 35,
-        SCORING = 60,
-        SCORING2 = 170,
-        SCORING3 = 200,
+        HOLD = 60,
+        SCORING = 170,
+        ALLIANCE = 200,
+        DESCORE1 = 170,
+        DESCORE2 = 180,
+        DESCORE3 = 190,
+        DESCORE4 = 205,
+        DESCORE5 = 215,
         NOCONTACTZONE = 60
     };
     inline double LBOFFSET = -300;

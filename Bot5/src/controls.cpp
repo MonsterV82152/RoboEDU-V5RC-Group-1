@@ -1,12 +1,12 @@
+#ifndef CONTROLS_CPP
+#define CONTROLS_CPP
+
 #include "globals.hpp"
 #include "intake.cpp"
 #include "piston.cpp"
 #include "ladyBrown.cpp"
 #include "colourSorter.cpp"
 #include "mogoClamp.cpp"
-
-#ifndef CONTROLS_CPP
-#define CONTROLS_CPP
 
 class Controls {
     private:
@@ -18,6 +18,7 @@ class Controls {
         Piston *doinker;
         pros::Controller *master;
         Piston *tierThree;
+        bool moveChassis = true;
         int LadyBrownState = 0;
 
         void updateAll(void *param) {
@@ -40,7 +41,22 @@ class Controls {
         Controls(Intake *intake, LadyBrown *ladyBrown, ColourSorter *colourSorter, MogoClamp *mogoClamp, Piston *doinker, Piston *tierThree, pros::Controller *master) : intake(intake), ladyBrown(ladyBrown), colourSorter(colourSorter), mogoClamp(mogoClamp), doinker(doinker), tierThree(tierThree), master(master) {
         }
         void driverControls() {
-            chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
+            if (moveChassis) chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
+            if (master->get_digital_new_press(Controller::button_R1)) {
+                pros::Task([&]() {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING2);
+                    ladyBrown->waitUntilAtSetpoint(500);
+                    ladyBrown->setSetPoint(LadyBrownConfigs::LOADING);
+                    ladyBrown->waitUntilAtSetpoint(500);
+                    intake->setSpeed(127);
+                    pros::delay(500);
+                    intake->setSpeed(0);
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING2);
+                    ladyBrown->waitUntilAtSetpoint(500);
+                    ladyBrown->setSetPoint(0);
+
+                });
+            }
             if (master->get_digital(Controller::button_L1)) {
                 intake->setOverwriteSpeed(-127);
             } else {
@@ -49,7 +65,18 @@ class Controls {
                 }
             }
             if (master->get_digital_new_press(Controller::button_L2)) {
-                tierThree->toggle();
+                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING3) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING3);
+                } else {
+                    ladyBrown->setSetPoint(0);
+                };
+            }
+            if (master->get_digital_new_press(Controller::button_A)) {
+                if (ladyBrown->getSetPoint() != LadyBrownConfigs::SCORING) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
+                } else {
+                    ladyBrown->setSetPoint(0);
+                };
             }
             if (master->get_digital_new_press(Controller::button_R2)) {
                 if (intake->getDefaultSpeed() > 0) intake->setSpeed(0);
@@ -81,13 +108,19 @@ class Controls {
             if (master->get_digital_new_press(Controller::button_X)) {
                 mogoClamp->toggle();
             }
-            if (master->get_digital_new_press(Controller::button_RIGHT)) {
-                if (colourSorter->isSorting()) {
-                    colourSorter->setSorting(false);
-                } else {
-                    colourSorter->setSorting(true);
-                }
-            }
+
+            // if (master->get_digital_new_press(Controller::button_UP)) {
+            //     pros::Task([&](){
+            //         moveChassis = false;
+            //         chassis.arcade(-50,0);
+            //         pros::delay(220);
+            //         chassis.arcade(10,0);
+            //         pros::delay(50);
+            //         moveChassis = true;
+            //     });
+                
+            // }
+
         }
         void init() {
             task = new pros::Task([this] { updateAll(nullptr); });
