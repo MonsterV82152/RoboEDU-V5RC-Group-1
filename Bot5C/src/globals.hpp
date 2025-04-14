@@ -21,7 +21,7 @@ inline pros::Controller master2(pros::E_CONTROLLER_PARTNER);
 inline bool team = true;
 inline bool driverControl = false, autonomousPeriod = false;
 inline int user = 0;
-inline int auton = 1;
+inline int auton = 2;
 
 
 
