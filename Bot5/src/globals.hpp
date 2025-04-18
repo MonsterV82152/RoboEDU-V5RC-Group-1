@@ -18,11 +18,13 @@ constexpr double PI = 3.141592;
 inline pros::Controller master(pros::E_CONTROLLER_MASTER);
 inline pros::Controller master2(pros::E_CONTROLLER_PARTNER);
 
+inline bool skills = false;
 inline bool team = true;
 inline bool driverControl = false, autonomousPeriod = false;
-inline int user = 0;
 inline int auton = 1;
-
+inline bool moveChassis = true;
+inline bool isClimbing = false;
+inline bool safeMode = false;
 
 
 namespace Controller {
@@ -47,10 +49,10 @@ namespace MotorConfigs {
 }
 
 namespace Pneumatics {
-    inline pros::ADIDigitalOut mogoClampPiston('C');
-    inline pros::ADIDigitalOut ladyBrownPiston('D');
-    inline pros::ADIDigitalOut PTOPiston('A');
-    inline pros::ADIDigitalOut doinkerPiston('A');
+    inline pros::ADIDigitalOut mogoClampPiston('A');
+    inline pros::ADIDigitalOut ladyBrownPiston('B');
+    inline pros::ADIDigitalOut PTOPiston('C');
+    inline pros::ADIDigitalOut doinkerPiston('D');
 }
 
 
@@ -67,21 +69,21 @@ namespace DriveTrain {
 namespace Manipulator {
     inline pros::Motor intakeMotor(21);
 
-    inline pros::Optical colourSensor(99);
+    inline pros::Optical colourSensor(6);
 }
 
 namespace LadyBrownConfigs {
     struct PID {
-        static constexpr double kP = 2;
+        static constexpr double kP = 2.4;
         static constexpr double kI = 0.02;
-        static constexpr double kD = 1;
+        static constexpr double kD = 2;
     };
 
     enum Setpoints {
         LOADING = 28,
-        SCORING = 60,
-        SCORING2 = 135,
-        SCORING3 = 220,
+        HOLD = 60,
+        SCORING = 135,
+        ALLIANCE = 220,
         NOCONTACTZONE = 60
     };
     inline double LBOFFSET = -127;
@@ -89,25 +91,25 @@ namespace LadyBrownConfigs {
 
     inline pros::ADIAnalogIn potentiometer('E');
     inline pros::MotorGroup motor({-19});
-    inline lemlib::PID PID(PID::kP, PID::kI, PID::kD);
+    inline lemlib::PID PID(PID::kP, PID::kI, PID::kD, 0, true);
 }
 
 namespace OdometryConfigs {
     struct PID {
-        static constexpr double lateralKp = 3.0;
-        static constexpr double lateralKi = 0.0;
-        static constexpr double lateralKd = 0.0;
-        static constexpr double angularKp = 3.5;
-        static constexpr double angularKi = 0.01;
-        static constexpr double angularKd = 50.0;
+        static constexpr double lateralKp = 6.0;
+        static constexpr double lateralKi = 0.02;
+        static constexpr double lateralKd = 30.0;
+        static constexpr double angularKp = 3.2;
+        static constexpr double angularKi = 0.02;
+        static constexpr double angularKd = 30.0;
     };
-    inline pros::Rotation vertical_TWL(9);
-    inline pros::Rotation vertical_TWR(8);
-    inline pros::Imu IMU(11);
+    inline pros::Rotation vertical_TWL(6);
+    inline pros::Rotation vertical_TWR(-13);
+    inline pros::Imu IMU(7);
 
     inline lemlib::Drivetrain LEMLIB_drivetrain(&DriveTrain::left, &DriveTrain::right, 13, lemlib::Omniwheel::NEW_275, 450, 2);
-    inline lemlib::TrackingWheel LEMLIB_vertical_TWL(&vertical_TWL, 2, -1.25);
-    inline lemlib::TrackingWheel LEMLIB_vertical_TWR(&vertical_TWR, 2, -1.25);
+    inline lemlib::TrackingWheel LEMLIB_vertical_TWL(&vertical_TWL, 2, -1.5);
+    inline lemlib::TrackingWheel LEMLIB_vertical_TWR(&vertical_TWR, 2, 1.5);
 
     inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TWL, &LEMLIB_vertical_TWR, nullptr, nullptr, &IMU);
     inline lemlib::ControllerSettings LEMLIB_lateral_controller(

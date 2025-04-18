@@ -210,5 +210,129 @@ void AutonomousSelector(void* param) {
     }
 
 }
+double currentx = 0;
+double currenty = 0;
+
+// Draw a button with label
+void draw_button(int x, int y, int width, int height, const char* label, pros::Color color) {
+    pros::screen::set_pen(pros::Color::black);
+    pros::screen::draw_rect(x, y, x + width, y + height);
+    pros::screen::set_pen(color);
+    pros::screen::print(TEXT_MEDIUM_CENTER,x + 5, y + 15, label);
+}
+
+bool button_pressed(int x, int y, int width, int height) {
+    pros::screen_touch_status_s_t status = pros::screen::touch_status();
+    if (status.x != currentx || status.y != currenty) {
+        currentx = status.x;
+        currenty = status.y;
+        if (status.x >= x && status.x <= x + width && status.y >= y && status.y <= y + height) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void draw_back_button() {
+    draw_button(5, 200, 60, 30, "Back", pros::Color::red);
+}
+
+bool back_pressed() {
+    return button_pressed(5, 200, 60, 30);
+}
+
+// Draw first screen
+void draw_main_menu() {
+    pros::screen::erase();
+    draw_button(20, 40, 80, 40, "Red", pros::Color::red);
+    draw_button(120, 40, 80, 40, "Blue", pros::Color::blue);
+    draw_button(70, 100, 100, 40, "Skills", pros::Color::green);
+}
+
+void draw_skills_menu() {
+    pros::screen::erase();
+    draw_button(30, 50, 160, 40, "Auton Skills", pros::Color::orange);
+    draw_button(30, 110, 160, 40, "Driver Skills", pros::Color::yellow);
+    draw_back_button();
+}
+
+void draw_auton_menu() {
+    pros::screen::erase();
+    draw_button(10, 30, 140, 40, "Auton 1", pros::Color::white);
+    draw_button(170, 30, 140, 40, "Auton 2", pros::Color::white);
+    draw_button(10, 100, 140, 40, "Auton 3", pros::Color::white);
+    draw_button(170, 100, 140, 40, "Auton 4", pros::Color::white);
+    draw_back_button();
+}
+
+// GUI state machine
+void gui_task(void *param) {
+    enum ScreenState { MAIN_MENU, AUTON_MENU, SKILLS_MENU };
+    ScreenState current = MAIN_MENU;
+
+    draw_main_menu();
+
+    while (auton == 0) {
+        switch (current) {
+            case MAIN_MENU:
+                if (button_pressed(20, 40, 80, 40)) {
+                    team = true;
+                    skills = false;
+                    current = AUTON_MENU;
+                    draw_auton_menu();
+                    pros::delay(300);
+                } else if (button_pressed(120, 40, 80, 40)) {
+                    team = false;
+                    skills = false;
+                    current = AUTON_MENU;
+                    draw_auton_menu();
+                    pros::delay(300);
+                } else if (button_pressed(70, 100, 100, 40)) {
+                    skills = true;
+                    team = true;  // default red for skills
+                    current = SKILLS_MENU;
+                    draw_skills_menu();
+                    pros::delay(300);
+                }
+                break;
+
+            case SKILLS_MENU:
+                if (button_pressed(30, 50, 160, 40)) {
+                    auton = 6;  // auton skills
+                } else if (button_pressed(30, 110, 160, 40)) {
+                    auton = 5;  // driver skills
+                } else if (back_pressed()) {
+                    current = MAIN_MENU;
+                    draw_main_menu();
+                    pros::delay(300);
+                }
+                break;
+
+            case AUTON_MENU:
+                if (button_pressed(10, 30, 140, 40)) auton = 1;
+                else if (button_pressed(170, 30, 140, 40)) auton = 2;
+                else if (button_pressed(10, 100, 140, 40)) auton = 3;
+                else if (button_pressed(170, 100, 140, 40)) auton = 4;
+                else if (back_pressed()) {
+                    current = MAIN_MENU;
+                    draw_main_menu();
+                    pros::delay(300);
+                }
+                break;
+        }
+        pros::delay(50);
+    }
+
+    // Final selection screen
+    pros::screen::erase();
+    if (skills) {
+        if (auton == 5)
+            pros::screen::print(TEXT_MEDIUM_CENTER, 30, 60, "Driver Skills Selected!");
+        else
+            pros::screen::print(TEXT_MEDIUM_CENTER, 30, 60, "Auton Skills Selected!");
+    } else {
+        pros::screen::print(TEXT_MEDIUM_CENTER, 30, 60, "%s Auton %d Selected!", team ? "Red" : "Blue", auton);
+    }
+}
 
 #endif

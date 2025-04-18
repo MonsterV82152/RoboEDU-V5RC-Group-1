@@ -601,11 +601,11 @@
             "-funwind-tables",
             "--std=gnu++20",
             "-o",
-            "bin/intake.cpp.o",
-            "src/intake.cpp"
+            "bin/colourSorter.cpp.o",
+            "src/colourSorter.cpp"
         ],
         "directory": "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot5C",
-        "file": "src/intake.cpp"
+        "file": "src/colourSorter.cpp"
     },
     {
         "arguments": [
@@ -639,11 +639,11 @@
             "-funwind-tables",
             "--std=gnu++20",
             "-o",
-            "bin/colourSorter.cpp.o",
-            "src/colourSorter.cpp"
+            "bin/intake.cpp.o",
+            "src/intake.cpp"
         ],
         "directory": "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot5C",
-        "file": "src/colourSorter.cpp"
+        "file": "src/intake.cpp"
     },
     {
         "arguments": [
@@ -753,11 +753,11 @@
             "-funwind-tables",
             "--std=gnu++20",
             "-o",
-            "bin/ladyBrown.cpp.o",
-            "src/ladyBrown.cpp"
+            "bin/main.cpp.o",
+            "src/main.cpp"
         ],
         "directory": "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot5C",
-        "file": "src/ladyBrown.cpp"
+        "file": "src/main.cpp"
     },
     {
         "arguments": [
@@ -829,11 +829,11 @@
             "-funwind-tables",
             "--std=gnu++20",
             "-o",
-            "bin/main.cpp.o",
-            "src/main.cpp"
+            "bin/ladyBrown.cpp.o",
+            "src/ladyBrown.cpp"
         ],
         "directory": "/Users/eddyliang/Public/pythoncode/Bot/RoboEDU-V5RC-Group-1/Bot5C",
-        "file": "src/main.cpp"
+        "file": "src/ladyBrown.cpp"
     },
     {
         "arguments": [

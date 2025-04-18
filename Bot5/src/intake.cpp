@@ -45,23 +45,22 @@ class Intake {
         /*------------------------------------------------------------*/
         
         void setOverwriteSpeed(double speed, double countdown) {
-            pros::Task([&] () {
-                isTimeOverwrite = true;
-                timeOverwriteSpeed = speed;
-                intake->move(speed);
-                pros::delay(countdown);
-                // while (count > 0 && isTimeOverwrite) {
-                //     pros::delay(20);
-                //     count -= 20;
-                // }
-                
-                isTimeOverwrite = false;
-                if (isOverwrite) {
-                    intake->move(overwriteSpeed);
-                } else {
-                    intake->move(defaultSpeed);
-                }
-            });
+            double count = countdown;
+            isTimeOverwrite = true;
+            timeOverwriteSpeed = speed;
+            intake->move(speed);
+            // pros::delay(countdown);
+            while (count > 0 && isTimeOverwrite) {
+                pros::delay(10);
+                count = count - 10;
+            }
+            
+            if (isOverwrite) {
+                intake->move(overwriteSpeed);
+            } else {
+                intake->move(defaultSpeed);
+            }
+            isTimeOverwrite = false;
             
         }
         void setOverwriteSpeed(double speed) {

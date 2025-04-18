@@ -23,13 +23,9 @@ class Piston {
                 piston->set_value(false);
             }
         }
-        void setState(bool state) {
-            this->state = state;
-            if (this->state) {
-                piston->set_value(true);
-            } else {
-                piston->set_value(false);
-            }
+        void setState(bool Istate) {
+            state = Istate;
+            piston->set_value(state);
         }
         bool getState() {
             return state;

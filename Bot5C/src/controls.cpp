@@ -40,23 +40,32 @@ class Controls {
         Controls(Intake *intake, LadyBrown *ladyBrown, ColourSorter *colourSorter, MogoClamp *mogoClamp, Piston *doinker, Piston *tierThree, pros::Controller *master) : intake(intake), ladyBrown(ladyBrown), colourSorter(colourSorter), mogoClamp(mogoClamp), doinker(doinker), tierThree(tierThree), master(master) {
         }
         void driverControls() {
-            chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
-            if (master->get_digital_new_press(Controller::button_R1)) {
-                pros::Task([&]() {
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
-                    ladyBrown->waitUntilAtSetpoint(500);
-                    ladyBrown->setSetPoint(LadyBrownConfigs::LOADING);
-                    ladyBrown->waitUntilAtSetpoint(500);
-                    intake->setSpeed(127);
-                    while (Manipulator::dist.get_distance() > 30) {
-                        pros::delay(10);
-                    }
-                    pros::delay(100);
-                    intake->setSpeed(0);
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
-                    ladyBrown->waitUntilAtSetpoint(500);
-                    ladyBrown->setSetPoint(0);
+            if (driverTrain) chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
+            // if (master->get_digital_new_press(Controller::button_R1)) {
+            //     pros::Task([&]() {
+            //         ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
+            //         ladyBrown->waitUntilAtSetpoint(500);
+            //         ladyBrown->setSetPoint(LadyBrownConfigs::LOADING);
+            //         ladyBrown->waitUntilAtSetpoint(500);
+            //         intake->setSpeed(127);
+            //         while (Manipulator::dist.get_distance() > 30) {
+            //             pros::delay(10);
+            //         }
+            //         pros::delay(100);
+            //         intake->setSpeed(0);
+            //         ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
+            //         ladyBrown->waitUntilAtSetpoint(500);
+            //         ladyBrown->setSetPoint(0);
 
+            //     });
+            // }
+            if (master->get_digital_new_press(Controller::button_UP)) {
+                pros::Task([&]() {
+                    driverTrain = false;
+                    chassis.setPose(0,0,0);
+                    chassis.moveToPoint(0,-7.5,700,{false});
+                    chassis.waitUntilDone();
+                    driverTrain = true;
                 });
             }
             if (master->get_digital(Controller::button_L1)) {

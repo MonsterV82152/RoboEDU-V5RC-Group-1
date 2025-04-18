@@ -23,7 +23,10 @@ void initialize() {
     });
 
 	// pros::Task(AutonomousSelector, nullptr, "AutonSelector");
-	
+	if (500 < potmeterBot.get_value() && potmeterBot.get_value() < 1400) { // skills, point right
+		skill = true;
+	}
+
 	chassis.calibrate();
 	chassis.setPose(0,0,90);
 	intake.init();
@@ -47,26 +50,35 @@ void autonomous() {
 
 	autonomousPeriod = true;
 	driverControl = false;
-	colourSorter.setSorting(false);
-	if (team) {
-		if (auton == 1) {
+	// colourSorter.setSorting(false);
+	redNeg();
+	// if (team) {
+	// 	if (auton == 1) {
 			
-		} else if (auton == 2) {
+	// 	} else if (auton == 2) {
 
-		}
-	} else {
-		if (auton == 1) {
+	// 	}
+	// } else {
+	// 	if (auton == 1) {
 
-		} else if (auton == 2) {
+	// 	} else if (auton == 2) {
 
-		}
-	}
+	// 	}
+	// }
 }
 
 void opcontrol() {
 	autonomousPeriod = false;
 	driverControl = true;
-	chassis.setPose(-48,-48,0);
+	// colourSorter.setSorting(true);	
+	chassis.setPose(0,0,0);
+	if (skill) {
+		ladyBrown.setSetPoint(LadyBrownConfigs::ALLIANCE);
+		ladyBrown.waitUntilAtSetpoint(700);
+		chassis.moveToPoint(0,-13,700,{false});
+		pros::delay(300);
+		ladyBrown.setSetPoint(0);
+	}
 	while (true) {
 		controls.driverControls();
 		if (master.get_digital_new_press(Controller::button_LEFT)) {

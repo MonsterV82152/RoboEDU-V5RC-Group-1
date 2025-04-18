@@ -13,7 +13,7 @@
 
 // Constants
 constexpr double PI = 3.141592;
-
+inline bool skill = false;
 /*---Controller---*/
 inline pros::Controller master(pros::E_CONTROLLER_MASTER);
 inline pros::Controller master2(pros::E_CONTROLLER_PARTNER);
@@ -22,6 +22,7 @@ inline bool team = true;
 inline bool driverControl = false, autonomousPeriod = false;
 inline int user = 0;
 inline int auton = 1;
+inline bool driverTrain = true;
 
 
 
@@ -62,6 +63,7 @@ namespace DriveTrain {
     // inline pros::Distance rightDS(99);
     inline pros::Distance leftDS(16);
 }
+inline pros::ADIPotentiometer potmeterBot('G');
 
 inline dist_sensor frontSensor = {&DriveTrain::frontDS, lemlib::Pose(-5, 2.5, 0)};
 inline dist_sensor leftSensor = {&DriveTrain::leftDS, lemlib::Pose(-6, 0, 270)};
