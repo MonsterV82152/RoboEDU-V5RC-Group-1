@@ -90,7 +90,7 @@ void redPos(){
     pros::delay(420);
     doinker.setState(false);
     chassis.waitUntilDone();
-    chassis.turnToPoint(-12, -23, 700, {false});
+    chassis.turnToPoint(-12, -27, 700, {false});
     chassis.moveToPoint(-12, -30, 700, {false});
     chassis.waitUntilDone();
     mogoClamp.setState(true);
