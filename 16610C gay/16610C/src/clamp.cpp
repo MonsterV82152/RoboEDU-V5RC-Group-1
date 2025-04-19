@@ -12,9 +12,11 @@ void clamp_() {
 	// 		clampStat = true;
 	// 	}
 	// }
-	if(master.get_digital(E_CONTROLLER_DIGITAL_R2)) {
-		clampStat = false;
-	} else {
-		clampStat = true;
+	if(master.get_digital(E_CONTROLLER_DIGITAL_X)) {
+		if (clampStat) {
+			clamp.set_value(false);
+		} else {
+			clamp.set_value(true);
+		}
 	}
 }

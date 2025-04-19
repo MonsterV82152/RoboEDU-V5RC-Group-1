@@ -23,6 +23,7 @@ inline bool driverControl = false, autonomousPeriod = false;
 inline int user = 0;
 inline int auton = 1;
 inline bool driverTrain = true;
+inline bool hookAtFullSpeed = false;
 
 
 
@@ -122,9 +123,9 @@ namespace OdometryConfigs {
     );
 
     inline lemlib::ControllerSettings LEMLIB_angular_controller(
-        2.5,      // proportional gain (kP)   2.5
-        0.078,      // integral gain (kI)   0.1   0.078
-        20.25,      // derivative gain (kD)    19.2
+        2,      // proportional gain (kP)   2.5
+        0.02,      // integral gain (kI)   0.1   0.078
+        25,      // derivative gain (kD)    19.2
         38.88,      // anti windup 6.95   38.88
         0,      // small error range, in degrees
         0,      // small error range timeout, in milliseconds

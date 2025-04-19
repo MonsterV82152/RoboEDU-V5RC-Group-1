@@ -32,7 +32,7 @@ void misc_() {
     //     chassis.turnToHeading(test, 750);
     //     test += 90;
     // }
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)) {
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
 		if(wingStat) {
 			wingStat = false;
             wing.set_value(false);

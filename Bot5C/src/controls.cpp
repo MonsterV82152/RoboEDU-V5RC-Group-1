@@ -5,7 +5,7 @@
 #include "intake.cpp"
 #include "piston.cpp"
 #include "ladyBrown.cpp"
-#include "colourSorter.cpp"
+#include "hookTasks.cpp"
 #include "mogoClamp.cpp"
 
 class Controls {
@@ -13,7 +13,7 @@ class Controls {
         pros::Task *task = nullptr;
         Intake *intake;
         LadyBrown *ladyBrown;
-        ColourSorter *colourSorter;
+        HookTasks *colourSorter;
         MogoClamp *mogoClamp;
         Piston *doinker;
         pros::Controller *master;
@@ -37,7 +37,7 @@ class Controls {
          * @param mogoClamp MogoClamp object
          * @param master Controller object
          */
-        Controls(Intake *intake, LadyBrown *ladyBrown, ColourSorter *colourSorter, MogoClamp *mogoClamp, Piston *doinker, Piston *tierThree, pros::Controller *master) : intake(intake), ladyBrown(ladyBrown), colourSorter(colourSorter), mogoClamp(mogoClamp), doinker(doinker), tierThree(tierThree), master(master) {
+        Controls(Intake *intake, LadyBrown *ladyBrown, HookTasks *colourSorter, MogoClamp *mogoClamp, Piston *doinker, Piston *tierThree, pros::Controller *master) : intake(intake), ladyBrown(ladyBrown), colourSorter(colourSorter), mogoClamp(mogoClamp), doinker(doinker), tierThree(tierThree), master(master) {
         }
         void driverControls() {
             if (driverTrain) chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
@@ -69,9 +69,9 @@ class Controls {
                 });
             }
             if (master->get_digital(Controller::button_L1)) {
-                intake->setOverwriteSpeed(-127);
+                intake->setOverwriteSpeed(-600);
             } else {
-                if (intake->getOverwriteSpeed() == -127) {
+                if (intake->getOverwriteSpeed() == -600) {
                     intake->clearOverwrite();
                 }
             }
@@ -105,7 +105,7 @@ class Controls {
             }
             if (master->get_digital_new_press(Controller::button_R2)) {
                 if (intake->getDefaultSpeed() > 0) intake->setSpeed(0);
-                else {intake->setSpeed(127); intake->clearAllOverwrites();}
+                else {intake->setSpeed(600); intake->clearAllOverwrites();}
             }
             
 

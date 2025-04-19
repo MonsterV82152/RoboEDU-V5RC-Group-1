@@ -142,7 +142,7 @@ bin/controls.cpp.o: src/controls.cpp src/globals.hpp include/main.h \
  include/lemlib/logger/infoSink.hpp \
  include/lemlib/logger/telemetrySink.hpp src/sensor_loc.cpp \
  include/pros/distance.hpp src/intake.cpp src/piston.cpp \
- src/ladyBrown.cpp src/colourSorter.cpp src/mogoClamp.cpp
+ src/ladyBrown.cpp src/hookTasks.cpp src/mogoClamp.cpp
 src/globals.hpp:
 include/main.h:
 include/api.h:
@@ -386,5 +386,5 @@ include/pros/distance.hpp:
 src/intake.cpp:
 src/piston.cpp:
 src/ladyBrown.cpp:
-src/colourSorter.cpp:
+src/hookTasks.cpp:
 src/mogoClamp.cpp:

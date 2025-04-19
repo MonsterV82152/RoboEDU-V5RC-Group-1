@@ -16,13 +16,13 @@ class MogoClamp {
         void toggle() {
             mogoClamp->toggle();
             if (!mogoClamp->getState()) {
-                pros::Task([&](){intake->setOverwriteSpeed(-127,100);});
+                pros::Task([&](){intake->setOverwriteSpeed(-560,100);});
             }
         }
         void setState(bool state) {
             mogoClamp->setState(state);
             if (!mogoClamp->getState()) {
-                pros::Task([&](){intake->setOverwriteSpeed(-127,100);});
+                pros::Task([&](){intake->setOverwriteSpeed(-560,100);});
             }
         }
 

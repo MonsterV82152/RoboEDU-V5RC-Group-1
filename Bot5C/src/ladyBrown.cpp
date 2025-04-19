@@ -3,14 +3,14 @@
 
 #include "globals.hpp"
 #include "intake.cpp"
-#include "colourSorter.cpp"
+#include "hookTasks.cpp"
 
 class LadyBrown {
     private:
         pros::MotorGroup *LB;
         pros::ADIAnalogIn *LBEncoder;
         Intake *intake;
-        ColourSorter *colourSorter;
+        HookTasks *colourSorter;
         double currentLBPosition;
         double setPoint;
         double velocity;
@@ -19,7 +19,7 @@ class LadyBrown {
 
     public:
         // Constructor to initialize all member variables
-        LadyBrown(pros::MotorGroup *LB, pros::ADIAnalogIn *LBEncoder, lemlib::PID *LB_PID, Intake *intake, ColourSorter *colourSorter) 
+        LadyBrown(pros::MotorGroup *LB, pros::ADIAnalogIn *LBEncoder, lemlib::PID *LB_PID, Intake *intake, HookTasks *colourSorter) 
             : LB(LB), 
               LBEncoder(LBEncoder),
               LB_PID(LB_PID),  // Initializing PID with specific gains
@@ -56,10 +56,10 @@ class LadyBrown {
                 double output = LB_PID->update(error);
                 LB->move(output);
                 if (currentLBPosition < LadyBrownConfigs::NOCONTACTZONE && currentLBPosition > LadyBrownConfigs::LOADING-2 && error > 10) {
-                    intake->setOverwriteSpeed(-40);
+                    intake->setOverwriteSpeed(-200);
                 // } else if (currentLBPosition > LadyBrownConfigs::NOCONTACTZONE) {
                 //     intake->setOverwriteSpeed(0);
-                } else if (intake->getOverwriteSpeed() == -40) {
+                } else if (intake->getOverwriteSpeed() == -200) {
                     intake->clearOverwrite();
                 }
             } else {

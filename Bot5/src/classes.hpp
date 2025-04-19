@@ -1,7 +1,7 @@
 #include "ladyBrown.cpp"
 #include "intake.cpp"
 #include "piston.cpp"
-#include "colourSorter.cpp"
+#include "hookTasks.cpp"
 #include "controls.cpp"
 #include "mogoClamp.cpp"
 #include "sensor_loc.cpp"
@@ -10,7 +10,7 @@
 #define CLASSES_HPP
 
 inline Intake intake(&Manipulator::intakeMotor);
-inline ColourSorter colourSorter(&intake, &Manipulator::colourSensor, 20);
+inline HookTasks colourSorter(&intake, &Manipulator::colourSensor, &Manipulator::distanceSensor, 20);
 inline Piston mogoClampP(&Pneumatics::mogoClampPiston);
 inline MogoClamp mogoClamp(&mogoClampP, &intake);
 inline Piston doinker(&Pneumatics::doinkerPiston);

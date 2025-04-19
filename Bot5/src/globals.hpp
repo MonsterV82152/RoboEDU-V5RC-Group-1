@@ -25,6 +25,7 @@ inline int auton = 1;
 inline bool moveChassis = true;
 inline bool isClimbing = false;
 inline bool safeMode = false;
+inline bool hookAtFullSpeed = false;
 
 
 namespace Controller {
@@ -69,7 +70,8 @@ namespace DriveTrain {
 namespace Manipulator {
     inline pros::Motor intakeMotor(21);
 
-    inline pros::Optical colourSensor(6);
+    inline pros::Optical colourSensor(5);
+    inline pros::Distance distanceSensor(4);
 }
 
 namespace LadyBrownConfigs {

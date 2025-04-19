@@ -36,7 +36,7 @@ void initialize() {
 	colourSorter.setDelay(70);
 	colourSorter.start();
 	controls.start();
-
+	colourSorter.setSorting(true);
 }
 
 void disabled() {}
@@ -47,7 +47,6 @@ void autonomous() {
 
 	autonomousPeriod = true;
 	driverControl = false;
-	colourSorter.setSorting(true);
 	// chassis.setPose(0,0,0);
 	// chassis.turnToHeading(90,10000);
 	redSAWP();

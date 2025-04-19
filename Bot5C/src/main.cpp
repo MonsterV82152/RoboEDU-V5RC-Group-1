@@ -8,7 +8,7 @@ void on_center_button() {}
 
 void initialize() {
 	pros::lcd::initialize();
-	pros::screen::erase();
+	// pros::screen::erase();
 
 
 	pros::Task screen_task([&]() {
@@ -32,12 +32,12 @@ void initialize() {
 	intake.init();
 	ladyBrown.init();
 	mogoClampP.init();
-	colourSorter.init();
+	hookTasks.init();
 	controls.init();
 	pros::delay(500);
 	master.rumble(".");
-	colourSorter.setDelay(70);
-	// colourSorter.start();
+	hookTasks.setDelay(70);
+	hookTasks.start();
 	controls.start();
 
 }
@@ -50,8 +50,10 @@ void autonomous() {
 
 	autonomousPeriod = true;
 	driverControl = false;
-	// colourSorter.setSorting(false);
+	hookTasks.setSorting(true);
 	redNeg();
+	// chassis.setPose(0,0,0);
+	// chassis.turnToHeading(90, 1000);
 	// if (team) {
 	// 	if (auton == 1) {
 			
@@ -70,7 +72,7 @@ void autonomous() {
 void opcontrol() {
 	autonomousPeriod = false;
 	driverControl = true;
-	// colourSorter.setSorting(true);	
+	hookTasks.setSorting(true);	
 	chassis.setPose(0,0,0);
 	if (skill) {
 		ladyBrown.setSetPoint(LadyBrownConfigs::ALLIANCE);
@@ -81,9 +83,6 @@ void opcontrol() {
 	}
 	while (true) {
 		controls.driverControls();
-		if (master.get_digital_new_press(Controller::button_LEFT)) {
-    		correct_position(frontSensor, &chassis, true);
-		}
 		pros::delay(20);
 		
 	}

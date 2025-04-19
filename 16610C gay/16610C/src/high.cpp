@@ -47,7 +47,7 @@ void highFun(void *param) {
 }
 
 void high_() {
-    if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
+    if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)) {
 		if (highStat == 1) {
 			highStat = 0;
 		} else {
@@ -67,7 +67,7 @@ void high_() {
 	}
 	
 
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {
 		if (highStat == 3) {
 			highStat = 0;
 		} else {
@@ -78,7 +78,7 @@ void high_() {
 		}
 	}
 
-    if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)) {
+    if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)) {
 		if (highStat == 4) {
 			highStat = 0;
 		} else {
@@ -89,16 +89,16 @@ void high_() {
 		}
 	}
 
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
-		if (highStat == 5) {
-			highStat = 0;
-		} else {
-			// if (highStat == 1) {
-			// 	unjamLB = true;
-			// }
-			highStat = 5;
-		}
-	}
+	// if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
+	// 	if (highStat == 5) {
+	// 		highStat = 0;
+	// 	} else {
+	// 		// if (highStat == 1) {
+	// 		// 	unjamLB = true;
+	// 		// }
+	// 		highStat = 5;
+	// 	}
+	// }
 
     //-------------------------------------------pid stuff-----------------------------------
 

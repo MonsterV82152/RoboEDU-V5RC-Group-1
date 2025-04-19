@@ -114,7 +114,7 @@ void intakeFun (void *param) {
 }
 
 void intake_() {
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1)) {
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)) {
 		if (intake.get_target_velocity() == -550) {
 			intake.move_velocity(0);
 		} else {
@@ -122,7 +122,7 @@ void intake_() {
 		}
 	}
 	
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)) {
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)) {
 		if (intake.get_target_velocity() == 550) {
 			intake.move_velocity(0);
 		} else {
@@ -130,14 +130,14 @@ void intake_() {
 		}
 	}
 
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {
-		if (holdTop) {
-			holdTop = false;
-			intake.move_velocity(prevIntSpeed);
-		} else if (!holdTop) {
-			holdTop = true;
-			prevIntSpeed = intake.get_target_velocity();
-			intake.move_velocity(-300);
-		}
-	}
+	// if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)) {
+	// 	if (holdTop) {
+	// 		holdTop = false;
+	// 		intake.move_velocity(prevIntSpeed);
+	// 	} else if (!holdTop) {
+	// 		holdTop = true;
+	// 		prevIntSpeed = intake.get_target_velocity();
+	// 		intake.move_velocity(-300);
+	// 	}
+	// }
 }

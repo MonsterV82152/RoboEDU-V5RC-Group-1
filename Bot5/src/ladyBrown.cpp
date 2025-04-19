@@ -3,14 +3,14 @@
 
 #include "globals.hpp"
 #include "intake.cpp"
-#include "colourSorter.cpp"
+#include "hookTasks.cpp"
 
 class LadyBrown {
     private:
         pros::MotorGroup *LB;
         pros::ADIAnalogIn *LBEncoder;
         Intake *intake;
-        ColourSorter *colourSorter;
+        HookTasks *colourSorter;
         double currentLBPosition;
         double setPoint;
         double velocity;
@@ -19,7 +19,7 @@ class LadyBrown {
 
     public:
         // Constructor to initialize all member variables
-        LadyBrown(pros::MotorGroup *LB, pros::ADIAnalogIn *LBEncoder, lemlib::PID *LB_PID, Intake *intake, ColourSorter *colourSorter) 
+        LadyBrown(pros::MotorGroup *LB, pros::ADIAnalogIn *LBEncoder, lemlib::PID *LB_PID, Intake *intake, HookTasks *colourSorter) 
             : LB(LB), 
               LBEncoder(LBEncoder),
               LB_PID(LB_PID),  // Initializing PID with specific gains
@@ -40,6 +40,11 @@ class LadyBrown {
                 LB->set_brake_mode(MotorConfigs::COAST);
             } else {
                 LB->set_brake_mode(MotorConfigs::HOLD);
+            }
+            if (setPoint > 0 && setPoint < LadyBrownConfigs::HOLD) {
+                colourSorter->setUnjam(false);
+            } else {
+                colourSorter->setUnjam(true);
             }
             setPointMovement = true;
             this->setPoint = setPoint;
