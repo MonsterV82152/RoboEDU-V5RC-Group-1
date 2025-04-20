@@ -52,8 +52,8 @@ namespace MotorConfigs {
 namespace Pneumatics {
     inline pros::ADIDigitalOut mogoClampPiston('A');
     inline pros::ADIDigitalOut ladyBrownPiston('B');
-    inline pros::ADIDigitalOut PTOPiston('C');
-    inline pros::ADIDigitalOut doinkerPiston('D');
+    inline pros::ADIDigitalOut PTOPiston('D');
+    inline pros::ADIDigitalOut doinkerPiston('C');
 }
 
 
@@ -76,19 +76,23 @@ namespace Manipulator {
 
 namespace LadyBrownConfigs {
     struct PID {
-        static constexpr double kP = 2.4;
-        static constexpr double kI = 0.02;
-        static constexpr double kD = 2;
+        // static constexpr double kP = 2;
+        // static constexpr double kI = 0.02;
+        // static constexpr double kD = 2;
+        static constexpr double kP = 0.7;
+        static constexpr double kI = 0;
+        static constexpr double kD = 0;
     };
 
     enum Setpoints {
-        LOADING = 28,
+        // LOADING = 28,
+        LOADING = 25,
         HOLD = 60,
         SCORING = 135,
         ALLIANCE = 220,
         NOCONTACTZONE = 60
     };
-    inline double LBOFFSET = -127;
+    inline double LBOFFSET = -140;
     inline double POT_TICK_2_DEGREE = 11.11;
 
     inline pros::ADIAnalogIn potentiometer('E');

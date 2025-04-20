@@ -34,7 +34,6 @@ void initialize() {
 	pros::delay(500);
 	master.rumble(".");
 	colourSorter.setDelay(70);
-	colourSorter.start();
 	controls.start();
 	colourSorter.setSorting(true);
 }
@@ -57,7 +56,7 @@ void opcontrol() {
 	driverControl = true;
 	
 	while (true) {
-		controls.driverControls();
+		controls.climbControlsNOMACROS();
 		pros::delay(20);
 		
 	}

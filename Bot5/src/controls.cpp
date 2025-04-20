@@ -45,7 +45,7 @@ class Controls {
         
         void driverControls() {
             if (moveChassis) chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
-            if (master->get_digital(Controller::button_L1)) {
+            if (master->get_digital(Controller::button_X)) {
                 intake->setOverwriteSpeed(-600);
             } else {
                 if (intake->getOverwriteSpeed() == -600) {
@@ -59,7 +59,7 @@ class Controls {
                     ladyBrown->setSetPoint(0);
                 };
             }
-            if (master->get_digital_new_press(Controller::button_A)) {
+            if (master->get_digital_new_press(Controller::button_L1)) {
                 if (ladyBrown->getSetPoint() != LadyBrownConfigs::HOLD) {
                     ladyBrown->setSetPoint(LadyBrownConfigs::HOLD);
                 } else {
@@ -93,11 +93,19 @@ class Controls {
             // } else {
             //     ladyBrown->setVelocity(0);
             // }
-            if (master->get_digital_new_press(Controller::button_X)) {
+            if (master->get_digital_new_press(Controller::button_R1)) {
                 mogoClamp->toggle();
             }
 
             if (master->get_digital_new_press(Controller::button_UP)) {
+                pros::Task([&](){
+                    moveChassis = false;
+                    ladyBrown->setSetPoint(LadyBrownConfigs::ALLIANCE);
+                    chassis.setPose(0,0,0);
+                    chassis.moveToPoint(0,-7,700);
+                    chassis.waitUntilDone();
+                    moveChassis = true;
+                });
                 
             }
 

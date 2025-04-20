@@ -58,7 +58,7 @@ class HookTasks {
                 if (!hookAtFullSpeed && intake->atTargetSpeed()) {
                     hookAtFullSpeed = true;
                 }
-                if ((intake->getTargetSpeed() > 50 && intake->getSpeed() < 20 && hookAtFullSpeed)) {
+                if ((intake->getTargetSpeed() > 50 && intake->getSpeed() < 10 && hookAtFullSpeed && shouldUnjam)) {
                     intake->setOverwriteSpeed(-590, 200);
                 }
             
@@ -77,7 +77,6 @@ class HookTasks {
         void init() {
             colourSensor->set_led_pwm(100);
             sorterTask = pros::Task([&] { multiThread();}, 5, 8192, "colour");
-            sorterTask.suspend();
         }
 
         void setSorting(bool state) {
@@ -85,7 +84,7 @@ class HookTasks {
         }
 
         void setUnjam(bool state) {
-
+            shouldUnjam = state;
         }
 
 
