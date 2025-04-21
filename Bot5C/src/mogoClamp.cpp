@@ -1,9 +1,9 @@
-#ifndef MOGOCLAMP_CPP
-#define MOGOCLAMP_CPP
-
 #include "globals.hpp"
 #include "intake.cpp"
 #include "piston.cpp"
+
+#ifndef MOGOCLAMP_CPP
+#define MOGOCLAMP_CPP
 
 class MogoClamp {
     private:
@@ -16,13 +16,13 @@ class MogoClamp {
         void toggle() {
             mogoClamp->toggle();
             if (!mogoClamp->getState()) {
-                pros::Task([&](){intake->setOverwriteSpeed(-500,200);});
+                pros::Task([&](){intake->setOverwriteSpeed(-560,100);});
             }
         }
         void setState(bool state) {
             mogoClamp->setState(state);
             if (!mogoClamp->getState()) {
-                pros::Task([&](){intake->setOverwriteSpeed(-500,200);});
+                pros::Task([&](){intake->setOverwriteSpeed(-560,100);});
             }
         }
 

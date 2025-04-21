@@ -25,17 +25,16 @@ void initialize() {
 	// pros::Task(gui_task, nullptr, "AutonSelector");
 	
 	chassis.calibrate();
-	chassis.setPose(0,0,0);
 	intake.init();
 	ladyBrown.init();
 	mogoClampP.init();
-	colourSorter.init();
+	hookTasks.init();
 	controls.init();
 	pros::delay(500);
 	master.rumble(".");
-	colourSorter.setDelay(70);
+	hookTasks.setDelay(70);
 	controls.start();
-	colourSorter.setSorting(true);
+	hookTasks.setSorting(true);
 }
 
 void disabled() {}
@@ -48,15 +47,17 @@ void autonomous() {
 	driverControl = false;
 	// chassis.setPose(0,0,0);
 	// chassis.turnToHeading(90,10000);
-	redSAWP();
+	redNeg();
 }
-
+ 
 void opcontrol() {
+	chassis.setPose(0,0,90);
+
 	autonomousPeriod = false;
 	driverControl = true;
 	
 	while (true) {
-		controls.climbControlsNOMACROS();
+		controls.driverControls();
 		pros::delay(20);
 		
 	}

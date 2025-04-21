@@ -45,6 +45,12 @@ class Controls {
         
         void driverControls() {
             if (moveChassis) chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
+            if (master->get_digital_new_press(Controller::button_LEFT)) {
+                colourSorter->setSorting(!colourSorter->isSorting());
+            }
+            if (master->get_digital_new_press(Controller::button_UP)) {
+                doinker->toggle();
+            }
             if (master->get_digital(Controller::button_X)) {
                 intake->setOverwriteSpeed(-600);
             } else {
@@ -52,7 +58,17 @@ class Controls {
                     intake->clearOverwrite();
                 }
             }
+            if (master->get_digital_new_press(Controller::button_RIGHT)) {
+                colourSorter->holdNextRing();
+            }
             if (master->get_digital_new_press(Controller::button_L2)) {
+                if (ladyBrown->getSetPoint() != LadyBrownConfigs::MOGOTIP) {
+                    ladyBrown->setSetPoint(LadyBrownConfigs::MOGOTIP);
+                } else {
+                    ladyBrown->setSetPoint(0);
+                };
+            }
+            if (master->get_digital_new_press(Controller::button_A)) {
                 if (ladyBrown->getSetPoint() != LadyBrownConfigs::ALLIANCE) {
                     ladyBrown->setSetPoint(LadyBrownConfigs::ALLIANCE);
                 } else {
@@ -86,29 +102,29 @@ class Controls {
                     ladyBrown->setSetPoint(0);
                 }
             }
-            // if (master->get_digital(Controller::button_X)) {
-            //     ladyBrown->setVelocity(-127);
-            // } else if (master->get_digital(Controller::button_DOWN)) {
-            //     ladyBrown->setVelocity(127);
-            // } else {
-            //     ladyBrown->setVelocity(0);
-            // }
             if (master->get_digital_new_press(Controller::button_R1)) {
                 mogoClamp->toggle();
             }
 
-            if (master->get_digital_new_press(Controller::button_UP)) {
-                pros::Task([&](){
-                    moveChassis = false;
-                    ladyBrown->setSetPoint(LadyBrownConfigs::ALLIANCE);
-                    chassis.setPose(0,0,0);
-                    chassis.moveToPoint(0,-7,700);
-                    chassis.waitUntilDone();
-                    moveChassis = true;
-                });
+            if (master->get_digital_new_press(Controller::button_Y)) {
+                moveChassis = false;
+                chassis.setPose(0,0,0);
+                chassis.moveToPoint(0,-8, 1000,{false});
+                pros::delay(400);
+                ladyBrown->setSetPoint(LadyBrownConfigs::ALLIANCE);
+                chassis.waitUntilDone();
+                moveChassis = true;
                 
             }
-
+        }
+        void programmerControls() {
+            if (moveChassis) chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
+            if (master->get_digital_new_press(Controller::button_A)) {
+                correct_position(rightSensor, &chassis, false, true);
+            }
+            if (master->get_digital_new_press(Controller::button_X)) {
+                mogoClamp->toggle();
+            }
         }
         void init() {
             task = new pros::Task([this] { updateAll(nullptr); });
@@ -169,12 +185,27 @@ class Controls {
                 if (master->get_digital_new_press(Controller::button_UP)) {
                     safeMode = true;
                     moveChassis = false;
-                    PTO->setState(false);
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING);
+                    chassis.arcade(100,0);
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING, true);
                     ladyBrown->waitUntilAtSetpoint();
                     tierThree->setState(true);
                     pros::delay(500);
-                    ladyBrown->setSetPoint(LadyBrownConfigs::HOLD);
+                    ladyBrown->setSetPoint(LadyBrownConfigs::HOLD, true);
+                    PTO->setState(true);
+                    chassis.arcade(-50,0);
+                    ladyBrown->waitUntilAtSetpoint(800);
+                    chassis.arcade(0,0);
+                    safeMode = false;
+                }
+                if (master->get_digital_new_press(Controller::button_X)) {
+                    safeMode = true;
+                    moveChassis = false;
+                    PTO->setState(false);
+                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING, true);
+                    ladyBrown->waitUntilAtSetpoint();
+                    tierThree->setState(true);
+                    pros::delay(500);
+                    ladyBrown->setSetPoint(LadyBrownConfigs::HOLD, true);
                     PTO->setState(true);
                     chassis.arcade(-50,0);
                     ladyBrown->waitUntilAtSetpoint(800);
@@ -183,9 +214,6 @@ class Controls {
                 }
                 if (master->get_digital(Controller::button_DOWN)) {
                     moveChassis = false;
-                    if (OdometryConfigs::IMU.get_accel().z > 1 && tierThree->getState()) {
-                        tierThree->setState(false);
-                    }
                     isClimbing = true; 
                     chassis.setBrakeMode(MotorConfigs::HOLD);
                     ladyBrown->setVelocity(-127);

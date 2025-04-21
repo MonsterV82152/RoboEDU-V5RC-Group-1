@@ -26,7 +26,7 @@ class Intake {
         {}
         void init() {
             intake->set_brake_mode(MotorConfigs::COAST);
-            intake->set_gearing(MOTOR_GEAR_GREEN);
+            intake->set_gearing(MOTOR_GEAR_BLUE);
             intake->set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
         }
 
@@ -138,12 +138,13 @@ class Intake {
             return abs(intake->get_actual_velocity()) > 5;
         }
         bool atTargetSpeed() {
-            return abs(intake->get_target_velocity() - intake->get_actual_velocity()) < 10;
+            return abs(intake->get_target_velocity() - intake->get_actual_velocity()) < 50;
         }
         double getTargetSpeed() {
             return intake->get_target_velocity();;
         }
         double getSpeed() {
+            // pros::lcd::print(0, "Intake Speed: %f", intake->get_actual_velocity());
             return intake->get_actual_velocity();
         }
         double getOverwriteSpeed() {

@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <iostream>
 #include <sstream>
+#include <string>
+#include <cmath>
 #include "lemlib/api.hpp"
 #include "sensor_loc.cpp"
 
@@ -26,6 +28,9 @@ inline bool moveChassis = true;
 inline bool isClimbing = false;
 inline bool safeMode = false;
 inline bool hookAtFullSpeed = false;
+inline std::string LBState = "none";
+inline std::string ringPos = "none";
+
 
 
 namespace Controller {
@@ -52,7 +57,7 @@ namespace MotorConfigs {
 namespace Pneumatics {
     inline pros::ADIDigitalOut mogoClampPiston('A');
     inline pros::ADIDigitalOut ladyBrownPiston('B');
-    inline pros::ADIDigitalOut PTOPiston('D');
+    inline pros::ADIDigitalOut PTOPiston('D');    
     inline pros::ADIDigitalOut doinkerPiston('C');
 }
 
@@ -62,10 +67,13 @@ namespace DriveTrain {
     inline pros::MotorGroup right({1, 2, 3});
     inline pros::Distance frontDS(99);
     inline pros::Distance backDS(99);
-    inline pros::Distance rightDS(99);
-    inline pros::Distance leftDS(99);
-    
+    inline pros::Distance rightDS(12);
+    inline pros::Distance leftDS(18);
 }
+
+inline dist_sensor rightSensor = {&DriveTrain::rightDS, lemlib::Pose(5, 0, 90)};
+inline dist_sensor leftSensor = {&DriveTrain::leftDS, lemlib::Pose(-5, 0, 270)};
+
 
 namespace Manipulator {
     inline pros::Motor intakeMotor(21);
@@ -76,21 +84,23 @@ namespace Manipulator {
 
 namespace LadyBrownConfigs {
     struct PID {
-        // static constexpr double kP = 2;
-        // static constexpr double kI = 0.02;
-        // static constexpr double kD = 2;
-        static constexpr double kP = 0.7;
-        static constexpr double kI = 0;
-        static constexpr double kD = 0;
+        static constexpr double kP = 2;
+        static constexpr double kI = 0.02;
+        static constexpr double kD = 2;
+        // static constexpr double kP = 0.7;
+        // static constexpr double kI = 0;
+        // static constexpr double kD = 0;
     };
 
     enum Setpoints {
-        // LOADING = 28,
-        LOADING = 25,
+        LOADING = 37,
+        // LOADING = 25,
         HOLD = 60,
-        SCORING = 135,
+        SCORING = 165,
         ALLIANCE = 220,
+        MOGOTIP = 250,
         NOCONTACTZONE = 60
+
     };
     inline double LBOFFSET = -140;
     inline double POT_TICK_2_DEGREE = 11.11;
@@ -102,12 +112,12 @@ namespace LadyBrownConfigs {
 
 namespace OdometryConfigs {
     struct PID {
-        static constexpr double lateralKp = 6.0;
-        static constexpr double lateralKi = 0.02;
+        static constexpr double lateralKp = 5.0;
+        static constexpr double lateralKi = 0.01;
         static constexpr double lateralKd = 30.0;
         static constexpr double angularKp = 3.2;
-        static constexpr double angularKi = 0.02;
-        static constexpr double angularKd = 30.0;
+        static constexpr double angularKi = 0.01;
+        static constexpr double angularKd = 40.0;
     };
     inline pros::Rotation vertical_TWL(6);
     inline pros::Rotation vertical_TWR(-13);
@@ -117,7 +127,7 @@ namespace OdometryConfigs {
     inline lemlib::TrackingWheel LEMLIB_vertical_TWL(&vertical_TWL, 2, -1.5);
     inline lemlib::TrackingWheel LEMLIB_vertical_TWR(&vertical_TWR, 2, 1.5);
 
-    inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TWL, &LEMLIB_vertical_TWR, nullptr, nullptr, &IMU);
+    inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TWL, nullptr, nullptr, nullptr, &IMU);
     inline lemlib::ControllerSettings LEMLIB_lateral_controller(
         PID::lateralKp, // proportional gain (kP)
         PID::lateralKi, // integral gain (kI)

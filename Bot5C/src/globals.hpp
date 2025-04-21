@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <sstream>
-#include "lemlib/api.hpp"
+#include "lemlib/api.hpp"s
 #include "sensor_loc.cpp"
 
 /*----------------------Defines----------------------*/
@@ -18,12 +18,16 @@ inline bool skill = false;
 inline pros::Controller master(pros::E_CONTROLLER_MASTER);
 inline pros::Controller master2(pros::E_CONTROLLER_PARTNER);
 
+inline bool skills = false;
 inline bool team = true;
 inline bool driverControl = false, autonomousPeriod = false;
-inline int user = 0;
 inline int auton = 1;
-inline bool driverTrain = true;
+inline bool moveChassis = true;
+inline bool isClimbing = false;
+inline bool safeMode = false;
 inline bool hookAtFullSpeed = false;
+inline std::string LBState = "none";
+inline std::string ringPos = "none";
 
 
 
