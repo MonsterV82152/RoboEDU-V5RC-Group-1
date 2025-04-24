@@ -57,7 +57,7 @@ class LadyBrown {
             this->velocity = velocity;
         }
         void update() {
-            currentLBPosition = (LBEncoder->get_value()+LadyBrownConfigs::LBOFFSET) / LadyBrownConfigs::POT_TICK_2_DEGREE;
+            currentLBPosition = (4095-(LBEncoder->get_value()-LadyBrownConfigs::LBOFFSET)) / LadyBrownConfigs::POT_TICK_2_DEGREE;
             if (setPointMovement) {
                 double error = setPoint - currentLBPosition;
                 double output = LB_PID->update(error);

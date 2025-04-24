@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <sstream>
-#include "lemlib/api.hpp"s
+#include "lemlib/api.hpp"
 #include "sensor_loc.cpp"
 
 /*----------------------Defines----------------------*/
@@ -97,6 +97,7 @@ namespace LadyBrownConfigs {
         DESCORE3 = 190,
         DESCORE4 = 205,
         DESCORE5 = 215,
+        MOGOTIP = 270,
         NOCONTACTZONE = 60
     };
     inline double LBOFFSET = -300;

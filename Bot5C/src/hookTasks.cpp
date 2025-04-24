@@ -118,7 +118,7 @@ class HookTasks {
             shouldUnjam = state;
         }
         void holdNextRing() {
-            intake->setSpeed(400);
+            intake->setSpeed(300);
             nextCommand = "hold";
         }
 

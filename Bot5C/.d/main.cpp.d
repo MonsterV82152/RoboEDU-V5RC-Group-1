@@ -142,7 +142,7 @@ bin/main.cpp.o: src/main.cpp src/globals.hpp include/main.h include/api.h \
  include/lemlib/logger/infoSink.hpp \
  include/lemlib/logger/telemetrySink.hpp src/sensor_loc.cpp \
  src/AutonSelector.hpp src/Autonomous_Paths.hpp src/classes.hpp \
- src/ladyBrown.cpp src/intake.cpp src/hookTasks.cpp src/piston.cpp \
+ src/ladyBrown.cpp src/intake.cpp src/piston.cpp src/hookTasks.cpp \
  src/controls.cpp src/mogoClamp.cpp
 src/globals.hpp:
 include/main.h:
@@ -388,7 +388,7 @@ src/Autonomous_Paths.hpp:
 src/classes.hpp:
 src/ladyBrown.cpp:
 src/intake.cpp:
-src/hookTasks.cpp:
 src/piston.cpp:
+src/hookTasks.cpp:
 src/controls.cpp:
 src/mogoClamp.cpp:

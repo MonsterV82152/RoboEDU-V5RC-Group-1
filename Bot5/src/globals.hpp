@@ -20,6 +20,7 @@ constexpr double PI = 3.141592;
 inline pros::Controller master(pros::E_CONTROLLER_MASTER);
 inline pros::Controller master2(pros::E_CONTROLLER_PARTNER);
 
+inline int bot = 2;
 inline bool skills = false;
 inline bool team = true;
 inline bool driverControl = false, autonomousPeriod = false;
@@ -55,20 +56,20 @@ namespace MotorConfigs {
 }
 
 namespace Pneumatics {
-    inline pros::ADIDigitalOut mogoClampPiston('A');
-    inline pros::ADIDigitalOut ladyBrownPiston('B');
-    inline pros::ADIDigitalOut PTOPiston('D');    
-    inline pros::ADIDigitalOut doinkerPiston('C');
+    inline pros::ADIDigitalOut mogoClampPiston('A'); // BOT 1 - 'A', BOT 2 - 'H'
+    inline pros::ADIDigitalOut ladyBrownPiston('B'); // BOT 1 - 'B', BOT 2 - 'E'
+    inline pros::ADIDigitalOut PTOPiston('D'); // BOT 1 - 'D', BOT 2 - 'F'
+    inline pros::ADIDigitalOut doinkerPiston('C'); // BOT 1 - 'C', BOT 2 - 'C'
 }
 
 
 namespace DriveTrain {
-    inline pros::MotorGroup left({-8, -9, -10});
-    inline pros::MotorGroup right({1, 2, 3});
+    inline pros::MotorGroup left({-8, -9, -10}); // BOT 1 - {-8, -9, -10}, BOT 2 - {-18, -19, -20}
+    inline pros::MotorGroup right({1, 2, 3}); // BOT 1 - {1, 2, 3}, BOT 2 - {11, 12, 13}
     inline pros::Distance frontDS(99);
     inline pros::Distance backDS(99);
-    inline pros::Distance rightDS(12);
-    inline pros::Distance leftDS(18);
+    inline pros::Distance rightDS(12); // BOT 1 - 12
+    inline pros::Distance leftDS(18); // BOT 1 - 18
 }
 
 inline dist_sensor rightSensor = {&DriveTrain::rightDS, lemlib::Pose(5, 0, 90)};
@@ -76,7 +77,7 @@ inline dist_sensor leftSensor = {&DriveTrain::leftDS, lemlib::Pose(-5, 0, 270)};
 
 
 namespace Manipulator {
-    inline pros::Motor intakeMotor(21);
+    inline pros::Motor intakeMotor(21); // BOT 1 - 21, BOT 2 - 9
 
     inline pros::Optical colourSensor(5);
     inline pros::Distance distanceSensor(4);
@@ -105,8 +106,8 @@ namespace LadyBrownConfigs {
     inline double LBOFFSET = -140;
     inline double POT_TICK_2_DEGREE = 11.11;
 
-    inline pros::ADIAnalogIn potentiometer('E');
-    inline pros::MotorGroup motor({-19});
+    inline pros::ADIAnalogIn potentiometer('E'); // BOT 1 - 'E', BOT 2 - 'D'
+    inline pros::MotorGroup motor({-19}); // BOT 1 - {-9}, BOT 2 - {-10}
     inline lemlib::PID PID(PID::kP, PID::kI, PID::kD, 0, true);
 }
 
@@ -120,12 +121,12 @@ namespace OdometryConfigs {
         static constexpr double angularKd = 40.0;
     };
     inline pros::Rotation vertical_TWL(6);
-    inline pros::Rotation vertical_TWR(-13);
+    // inline pros::Rotation vertical_TWR(-13);
     inline pros::Imu IMU(7);
 
     inline lemlib::Drivetrain LEMLIB_drivetrain(&DriveTrain::left, &DriveTrain::right, 13, lemlib::Omniwheel::NEW_275, 450, 2);
-    inline lemlib::TrackingWheel LEMLIB_vertical_TWL(&vertical_TWL, 2, -1.5);
-    inline lemlib::TrackingWheel LEMLIB_vertical_TWR(&vertical_TWR, 2, 1.5);
+    inline lemlib::TrackingWheel LEMLIB_vertical_TWL(&vertical_TWL, 2, 0);
+    // inline lemlib::TrackingWheel LEMLIB_vertical_TWR(&vertical_TWR, 2, 1.5);
 
     inline lemlib::OdomSensors LEMLIB_sensors(&LEMLIB_vertical_TWL, nullptr, nullptr, nullptr, &IMU);
     inline lemlib::ControllerSettings LEMLIB_lateral_controller(

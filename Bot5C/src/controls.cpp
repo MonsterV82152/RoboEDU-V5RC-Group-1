@@ -119,9 +119,9 @@ class Controls {
         }
         void programmerControls() {
             if (moveChassis) chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
-            if (master->get_digital_new_press(Controller::button_A)) {
-                correct_position(rightSensor, &chassis, false, true);
-            }
+            // if (master->get_digital_new_press(Controller::button_A)) {
+            //     correct_position(rightSensor, &chassis, false, true);
+            // }
             if (master->get_digital_new_press(Controller::button_X)) {
                 mogoClamp->toggle();
             }

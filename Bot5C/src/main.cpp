@@ -47,7 +47,7 @@ void autonomous() {
 	driverControl = false;
 	// chassis.setPose(0,0,0);
 	// chassis.turnToHeading(90,10000);
-	redNeg();
+	redPos();
 }
  
 void opcontrol() {

@@ -141,7 +141,7 @@ bin/ladyBrown.cpp.o: src/ladyBrown.cpp src/globals.hpp include/main.h \
  include/fmt/args.h include/lemlib/logger/message.hpp \
  include/lemlib/logger/infoSink.hpp \
  include/lemlib/logger/telemetrySink.hpp src/sensor_loc.cpp \
- src/intake.cpp src/hookTasks.cpp
+ src/intake.cpp
 src/globals.hpp:
 include/main.h:
 include/api.h:
@@ -382,4 +382,3 @@ include/lemlib/logger/infoSink.hpp:
 include/lemlib/logger/telemetrySink.hpp:
 src/sensor_loc.cpp:
 src/intake.cpp:
-src/hookTasks.cpp:
