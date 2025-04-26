@@ -45,9 +45,14 @@ void autonomous() {
 
 	autonomousPeriod = true;
 	driverControl = false;
-	// chassis.setPose(0,0,0);
-	// chassis.turnToHeading(90,10000);
-	blueSAWP();
+	// chassis.setPose(48,-48,270);
+	// chassis.moveToPoint(-48,-48,4000);
+	// chassis.turnToPoint(-48,48,2000);
+	// chassis.moveToPoint(-48,48,4000);
+	// chassis.turnToPoint(48,48,2000);
+	// chassis.moveToPoint(48,48,4000);
+	// chassis.turnToPoint(48,-48,2000);
+	// chassis.moveToPoint(48,-48,4000);
 }
  
 void opcontrol() {
@@ -57,7 +62,7 @@ void opcontrol() {
 	driverControl = true;
 	
 	while (true) {
-		controls.climbControlsNOMACROS();
+		controls.driverControls();
 		pros::delay(20);
 		
 	}
