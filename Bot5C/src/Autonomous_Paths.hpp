@@ -76,8 +76,8 @@ void redPosA() {
 
     pros::delay(200);
     correct_position(frontSensor, &chassis, false);
-    chassis.turnToPoint(-52,-50, 500);
-    chassis.moveToPoint(-52,-50, 700);
+    chassis.turnToPoint(-52,-52, 500);
+    chassis.moveToPoint(-52,-52, 700);
     pros::delay(200);
     correct_position(frontSensor, &chassis, true);
     chassis.turnToPoint(-75,-75,700);
@@ -99,7 +99,7 @@ void redPosA() {
     chassis.waitUntilDone();
     chassis.moveToPoint(48,48,700,{false});
     chassis.turnToPoint(0,0,700);
-    chassis.moveToPoint(-22,-22,1000,{.maxSpeed = 40});
+    chassis.moveToPoint(-25,-25,1000,{.maxSpeed = 40});
     mogoClamp.setState(false);
     chassis.waitUntilDone();
     ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
