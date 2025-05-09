@@ -99,8 +99,9 @@ void redPosA() {
     chassis.waitUntilDone();
     chassis.moveToPoint(48,48,700,{false});
     chassis.turnToPoint(0,0,700);
-    chassis.moveToPoint(-22,-22,1000,{.maxSpeed = 60});
+    chassis.moveToPoint(-22,-22,1000,{.maxSpeed = 40});
     mogoClamp.setState(false);
+    chassis.waitUntilDone();
     ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
     
 
