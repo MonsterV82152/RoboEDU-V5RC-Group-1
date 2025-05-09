@@ -9,14 +9,14 @@
 #ifndef CLASSES_HPP
 #define CLASSES_HPP
 
-inline Intake intake(&Manipulator::intakeMotor);
+inline Intake intake(&Manipulator::intakeMotor, &Manipulator::rollerMotor);
 inline Piston mogoClampP(&Pneumatics::mogoClampPiston);
 inline MogoClamp mogoClamp(&mogoClampP, &intake);
 inline Piston doinker(&Pneumatics::doinkerPiston);
 inline Piston PTO(&Pneumatics::PTOPiston);
 inline Piston tierThree(&Pneumatics::ladyBrownPiston);
 inline LadyBrown ladyBrown(&LadyBrownConfigs::motor, &LadyBrownConfigs::potentiometer, &LadyBrownConfigs::PID, &LadyBrownConfigs::feedForward, &intake);
-inline HookTasks hookTasks(&intake, &ladyBrown, &Manipulator::colourSensor, &Manipulator::distanceSensor, 0);
-inline Controls controls(&intake, &ladyBrown, &hookTasks, &mogoClamp, &doinker, &tierThree, &master, &PTO);
+inline HookTasks hookTasks(&intake, &ladyBrown, &Manipulator::colourSensor, &Manipulator::distanceSensor, 100);
+inline Controls controls(&intake, &ladyBrown, &hookTasks, &mogoClamp, &doinker, &tierThree, &master, &slave, &PTO);
 
 #endif

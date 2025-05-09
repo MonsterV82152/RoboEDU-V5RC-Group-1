@@ -42,7 +42,6 @@ class Controls {
          */
         Controls(Intake *intake, LadyBrown *ladyBrown, HookTasks *colourSorter, MogoClamp *mogoClamp, Piston *doinker, Piston *tierThree, pros::Controller *master, Piston *PTO) : intake(intake), ladyBrown(ladyBrown), colourSorter(colourSorter), mogoClamp(mogoClamp), doinker(doinker), tierThree(tierThree), master(master), PTO(PTO) {
         }
-    =
         void init() {
             task = new pros::Task([this] { updateAll(nullptr); });
             task->suspend();

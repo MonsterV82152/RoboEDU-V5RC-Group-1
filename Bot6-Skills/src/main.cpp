@@ -1,6 +1,5 @@
 #include "globals.hpp"
 #include "AutonSelector.hpp"
-#include "Autonomous_Paths.hpp"
 #include "skillsRoute.hpp"
 #include "classes.hpp"
 
@@ -64,7 +63,6 @@ void opcontrol() {
 	driverControl = true;
 	
 	while (true) {
-		controls.driverControls();
 		pros::delay(20);
 		
 	}

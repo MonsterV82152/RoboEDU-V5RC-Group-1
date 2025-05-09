@@ -16,12 +16,12 @@ constexpr double PI = 3.141592;
 inline bool skill = false;
 /*---Controller---*/
 inline pros::Controller master(pros::E_CONTROLLER_MASTER);
-inline pros::Controller master2(pros::E_CONTROLLER_PARTNER);
+inline pros::Controller slave(pros::E_CONTROLLER_PARTNER);
 
 inline bool skills = false;
 inline bool team = true;
 inline bool driverControl = false, autonomousPeriod = false;
-inline int auton = 1;
+inline std::string auton = "none";
 inline bool moveChassis = true;
 inline bool isClimbing = false;
 inline bool safeMode = false;
@@ -29,7 +29,7 @@ inline bool hookAtFullSpeed = false;
 inline std::string LBState = "none";
 inline std::string ringPos = "none";
 
-
+ASSET(Red_Ring_Rush_txt)
 
 namespace Controller {
     constexpr auto button_R1 = pros::E_CONTROLLER_DIGITAL_R1;
@@ -54,8 +54,6 @@ namespace MotorConfigs {
 
 namespace Pneumatics {
     inline pros::ADIDigitalOut mogoClampPiston('E');
-    inline pros::ADIDigitalOut ladyBrownPiston('G');
-    inline pros::ADIDigitalOut PTOPiston('A');
     inline pros::ADIDigitalOut doinkerPiston('D');
 }
 
@@ -63,15 +61,16 @@ namespace Pneumatics {
 namespace DriveTrain {
     inline pros::MotorGroup left({-1, 2, -3});
     inline pros::MotorGroup right({-4, 5, 6});
-    inline pros::Distance frontDS(17);
+    inline pros::Distance frontDS(18);
     // inline pros::Distance backDS(99);
-    // inline pros::Distance rightDS(99);
+    inline pros::Distance rightDS(17);
     inline pros::Distance leftDS(16);
 }
 inline pros::ADIPotentiometer potmeterBot('G');
 
-inline dist_sensor frontSensor = {&DriveTrain::frontDS, lemlib::Pose(-5, 2.5, 0)};
-inline dist_sensor leftSensor = {&DriveTrain::leftDS, lemlib::Pose(-6, 0, 270)};
+inline dist_sensor rightSensor = {&DriveTrain::rightDS, lemlib::Pose(5.5, 1, 90)};
+inline dist_sensor leftSensor = {&DriveTrain::leftDS, lemlib::Pose(-5.5, 1, 270)};
+inline dist_sensor frontSensor = {&DriveTrain::frontDS, lemlib::Pose(-5, 3.5, 0)};
 
 namespace Manipulator {
     inline pros::Motor intakeMotor(-15);
@@ -88,10 +87,10 @@ namespace LadyBrownConfigs {
     };
 
     enum Setpoints {
-        LOADING = 35,
-        HOLD = 60,
-        SCORING = 170,
-        ALLIANCE = 200,
+        LOADING = 37,
+        HOLD = 80,
+        SCORING = 190,
+        ALLIANCE = 220,
         DESCORE1 = 170,
         DESCORE2 = 180,
         DESCORE3 = 190,

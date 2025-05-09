@@ -3,7 +3,6 @@
 
 #include "globals.hpp"
 #include "intake.cpp"
-#include "TrapezoidalProfile.hpp"
 
 class LadyBrown {
 private:
@@ -67,7 +66,8 @@ public:
     void update() {
         currentLBPosition = (LBEncoder->get_value() + LadyBrownConfigs::LBOFFSET) / LadyBrownConfigs::POT_TICK_2_DEGREE;
         double ff = LB_FF->update(currentLBPosition - LadyBrownConfigs::LB_HORIZONTAL);
-
+        // pros::lcd::print(5, "LB: %s", LBState);
+        // pros::lcd::print(6, "RING: %s", ringPos);
 
         if (setPointMovement) {
 
@@ -97,7 +97,7 @@ public:
 
     double getPosition() { return currentLBPosition; }
     double getSetPoint() { return setPoint; }
-    bool isAtSetPoint() { return abs(currentLBPosition - setPoint) < 2; }
+    bool isAtSetPoint() { return abs(currentLBPosition - setPoint) < 1; }
 
     void waitUntilAtSetpoint(double timeout) {
         while (!isAtSetPoint() && timeout > 0) {

@@ -3,7 +3,6 @@
 
 #include "globals.hpp"
 #include "intake.cpp"
-#include "TrapezoidalProfile.hpp"
 
 class LadyBrown {
 private:

@@ -13,10 +13,8 @@ inline Intake intake(&Manipulator::intakeMotor);
 inline Piston mogoClampP(&Pneumatics::mogoClampPiston);
 inline MogoClamp mogoClamp(&mogoClampP, &intake);
 inline Piston doinker(&Pneumatics::doinkerPiston);
-inline Piston PTO(&Pneumatics::PTOPiston);
-inline Piston tierThree(&Pneumatics::ladyBrownPiston);
 inline LadyBrown ladyBrown(&LadyBrownConfigs::motor, &LadyBrownConfigs::potentiometer, &LadyBrownConfigs::PID, &intake);
 inline HookTasks hookTasks(&intake, &ladyBrown, &Manipulator::colourSensor, &Manipulator::dist, 0);
-inline Controls controls(&intake, &ladyBrown, &hookTasks, &mogoClamp, &doinker, &tierThree, &master, &PTO);
+inline Controls controls(&intake, &ladyBrown, &hookTasks, &mogoClamp, &doinker, &master, &slave);
 
 #endif

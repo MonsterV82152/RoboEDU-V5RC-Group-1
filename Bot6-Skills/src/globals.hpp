@@ -11,7 +11,6 @@
 #include "lemlib/api.hpp"
 #include "sensor_loc.cpp"
 #include "feedForward.hpp"
-#include "trapezoidalProfile.hpp"
 
 /*----------------------Defines----------------------*/
 

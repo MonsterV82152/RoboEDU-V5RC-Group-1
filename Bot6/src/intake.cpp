@@ -6,6 +6,7 @@
 class Intake {
     private:
         pros::Motor *intake;
+        pros::Motor *roller;
         double defaultSpeed;
         double overwriteSpeed;
         double timeOverwriteSpeed;
@@ -14,8 +15,9 @@ class Intake {
         bool isTimeOverwrite;
         bool isOverwrite;
     public:
-        Intake(pros::Motor *intakeMotor) 
+        Intake(pros::Motor *intakeMotor, pros::Motor *roller) 
         :   intake(intakeMotor),
+            roller(roller),
             defaultSpeed(0),
             overwriteSpeed(0),
             timeOverwriteSpeed(0),
@@ -27,6 +29,7 @@ class Intake {
         void init() {
             intake->set_brake_mode(MotorConfigs::COAST);
             intake->set_gearing(MOTOR_GEAR_BLUE);
+            roller->set_gearing(MOTOR_GEAR_GREEN);
             intake->set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
         }
 
@@ -39,10 +42,17 @@ class Intake {
                 hookAtFullSpeed = false;
                 currentSpeed = speed;
             }
+            roller->move_velocity(speed/3);
             defaultSpeed = speed;
         }
         void stop() {
             setSpeed(0);
+        }
+        void setIntakeSpeed(double speed) {
+            roller->move_velocity(speed/3);
+        }
+        void resetRoller() {
+            roller->move_velocity(intake->get_target_velocity());
         }
 
         /*------------------------------------------------------------*/
@@ -79,6 +89,7 @@ class Intake {
             isOverwrite = true;
             if (!isTimeOverwrite) {
                 intake->move_velocity(speed);
+                roller->move_velocity(speed/3);
                 hookAtFullSpeed = false;
                 currentSpeed = speed;
             }
@@ -115,6 +126,7 @@ class Intake {
             if (!isTimeOverwrite) {
                 hookAtFullSpeed = false;
                 intake->move_velocity(defaultSpeed);
+                roller->move_velocity(defaultSpeed/3);
                 currentSpeed = defaultSpeed;
             }
             
@@ -125,6 +137,7 @@ class Intake {
             isOverwrite = false;
             hookAtFullSpeed = false;
             intake->move_velocity(defaultSpeed);
+            roller->move_velocity(defaultSpeed/3);
             currentSpeed = defaultSpeed;
         }
 
@@ -135,7 +148,7 @@ class Intake {
             return intake;
         }
         bool getIsMoving() {
-            return abs(intake->get_actual_velocity()) > 5;
+            return abs(intake->get_actual_velocity()) > 20;
         }
         bool atTargetSpeed() {
             return abs(intake->get_target_velocity() - intake->get_actual_velocity()) < 50;

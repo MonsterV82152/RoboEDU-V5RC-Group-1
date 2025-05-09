@@ -135,7 +135,7 @@ class Intake {
             return intake;
         }
         bool getIsMoving() {
-            return abs(intake->get_actual_velocity()) > 5;
+            return abs(intake->get_actual_velocity()) > 20;
         }
         bool atTargetSpeed() {
             return abs(intake->get_target_velocity() - intake->get_actual_velocity()) < 50;

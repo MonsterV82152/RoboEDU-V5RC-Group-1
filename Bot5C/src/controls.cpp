@@ -19,8 +19,7 @@ class Controls {
         MogoClamp *mogoClamp;
         Piston *doinker;
         pros::Controller *master;
-        Piston *tierThree;
-        Piston *PTO;
+        pros::Controller *slave;
         int LadyBrownState = 0;
 
         void updateAll(void *param) {
@@ -40,7 +39,7 @@ class Controls {
          * @param mogoClamp MogoClamp object
          * @param master Controller object
          */
-        Controls(Intake *intake, LadyBrown *ladyBrown, HookTasks *colourSorter, MogoClamp *mogoClamp, Piston *doinker, Piston *tierThree, pros::Controller *master, Piston *PTO) : intake(intake), ladyBrown(ladyBrown), colourSorter(colourSorter), mogoClamp(mogoClamp), doinker(doinker), tierThree(tierThree), master(master), PTO(PTO) {
+        Controls(Intake *intake, LadyBrown *ladyBrown, HookTasks *colourSorter, MogoClamp *mogoClamp, Piston *doinker, pros::Controller *master, pros::Controller *slave) : intake(intake), ladyBrown(ladyBrown), colourSorter(colourSorter), mogoClamp(mogoClamp), doinker(doinker),  master(master), slave(slave) {
         }
         
         void driverControls() {
@@ -119,9 +118,18 @@ class Controls {
         }
         void programmerControls() {
             if (moveChassis) chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
-            // if (master->get_digital_new_press(Controller::button_A)) {
-            //     correct_position(rightSensor, &chassis, false, true);
-            // }
+            if (master->get_digital_new_press(Controller::button_R1)) {
+                correct_position(rightSensor, &chassis, true, true);
+            }
+            if (master->get_digital_new_press(Controller::button_R2)) {
+                correct_position(rightSensor, &chassis, false, true);
+            }
+            if (master->get_digital_new_press(Controller::button_L1)) {
+                correct_position(leftSensor, &chassis, true, true);
+            }
+            if (master->get_digital_new_press(Controller::button_L2)) {
+                correct_position(leftSensor, &chassis, false, true);
+            }
             if (master->get_digital_new_press(Controller::button_X)) {
                 mogoClamp->toggle();
             }
@@ -150,103 +158,16 @@ class Controls {
                 delete task;
             }
         }
-        void climbControlsNOMACROS() {
-            if (moveChassis) chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
-            if (master->get_digital(Controller::button_UP)) {
-                ladyBrown->setVelocity(127);
-            } else if (master->get_digital(Controller::button_DOWN)) {
-                ladyBrown->setVelocity(-127);
-            } else {
-                ladyBrown->setVelocity(0);
-            }
-            if (master->get_digital_new_press(Controller::button_L2)) {
-                tierThree->toggle();
-            }
-            if (master->get_digital_new_press(Controller::button_L1)) {
-                PTO->toggle();
-            }
-            // Code intake controls
-            if (master->get_digital(Controller::button_R1)) {
-                intake->setOverwriteSpeed(-127);
-            } else {
-                if (intake->getOverwriteSpeed() == -127) {
-                    intake->clearOverwrite();
+        void slaveControls() {
+            if (slave->get_digital_new_press(Controller::button_Y)) {
+                colourSorter->setSorting(!colourSorter->isSorting());
+                if (colourSorter->isSorting()) {
+                    slave->print(1, 0, "C");
+                } else {
+                    slave->print(1,0," ");
                 }
-            }
-            if (master->get_digital_new_press(Controller::button_R2)) {
-                if (intake->getDefaultSpeed() > 0) intake->setSpeed(0);
-                else {intake->setSpeed(127); intake->clearAllOverwrites();}
             }
             
-        }
-        void climbControlsMacro() {
-            if (moveChassis && !isClimbing && !safeMode) chassis.arcade(master->get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), master->get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), false, 0.54);
-            if (!safeMode) {
-                if (master->get_digital_new_press(Controller::button_UP)) {
-                    safeMode = true;
-                    moveChassis = false;
-                    chassis.arcade(100,0);
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING, true);
-                    ladyBrown->waitUntilAtSetpoint();
-                    tierThree->setState(true);
-                    pros::delay(500);
-                    ladyBrown->setSetPoint(LadyBrownConfigs::HOLD, true);
-                    PTO->setState(true);
-                    chassis.arcade(-50,0);
-                    ladyBrown->waitUntilAtSetpoint(800);
-                    chassis.arcade(0,0);
-                    safeMode = false;
-                }
-                if (master->get_digital_new_press(Controller::button_X)) {
-                    safeMode = true;
-                    moveChassis = false;
-                    PTO->setState(false);
-                    ladyBrown->setSetPoint(LadyBrownConfigs::SCORING, true);
-                    ladyBrown->waitUntilAtSetpoint();
-                    tierThree->setState(true);
-                    pros::delay(500);
-                    ladyBrown->setSetPoint(LadyBrownConfigs::HOLD, true);
-                    PTO->setState(true);
-                    chassis.arcade(-50,0);
-                    ladyBrown->waitUntilAtSetpoint(800);
-                    chassis.arcade(0,0);
-                    safeMode = false;
-                }
-                if (master->get_digital(Controller::button_DOWN)) {
-                    moveChassis = false;
-                    isClimbing = true; 
-                    chassis.setBrakeMode(MotorConfigs::HOLD);
-                    ladyBrown->setVelocity(-127);
-                    chassis.arcade(-127,OdometryConfigs::IMU.get_pitch());
-                } else if (master->get_digital_new_press(Controller::button_Y)) {
-                    isClimbing = false;
-                    moveChassis = true;
-                    chassis.setBrakeMode(MotorConfigs::COAST);
-                } else if (isClimbing) {
-                    chassis.arcade(0,0);
-                }
-                
-                if (master->get_digital(Controller::button_R1)) {
-                    ladyBrown->setVelocity(127);
-                } else if (master->get_digital(Controller::button_R2)) {
-                    ladyBrown->setVelocity(-127);
-                } else {
-                    ladyBrown->setVelocity(0);
-                }
-                if (master->get_digital_new_press(Controller::button_L2)) {
-                    tierThree->toggle();
-                }
-                if (master->get_digital_new_press(Controller::button_L1)) {
-                    PTO->toggle();
-                    if (PTO->getState()) {
-                        moveChassis = false;
-                    } else {
-                        moveChassis = true;
-                    }
-                }
-            }
-
-
         }
         
         

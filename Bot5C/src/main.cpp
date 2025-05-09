@@ -47,7 +47,7 @@ void autonomous() {
 	driverControl = false;
 	// chassis.setPose(0,0,0);
 	// chassis.turnToHeading(90,10000);
-	redPos();
+	redPosA();
 }
  
 void opcontrol() {
@@ -58,6 +58,7 @@ void opcontrol() {
 	
 	while (true) {
 		controls.driverControls();
+		controls.slaveControls();
 		pros::delay(20);
 		
 	}

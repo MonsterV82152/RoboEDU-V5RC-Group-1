@@ -53,16 +53,18 @@ void autonomous() {
 	// chassis.moveToPoint(48,48,4000);
 	// chassis.turnToPoint(48,-48,2000);
 	// chassis.moveToPoint(48,-48,4000);
+	blueSAWP();
 }
  
 void opcontrol() {
-	chassis.setPose(0,0,90);
+	chassis.setPose(0,0,0);
 
 	autonomousPeriod = false;
 	driverControl = true;
-	
+	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
 	while (true) {
 		controls.driverControls();
+		controls.slaveControls();
 		pros::delay(20);
 		
 	}
