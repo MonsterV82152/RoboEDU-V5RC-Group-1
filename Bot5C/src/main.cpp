@@ -47,7 +47,7 @@ void autonomous() {
 	driverControl = false;
 	// chassis.setPose(0,0,0);
 	// chassis.turnToHeading(90,10000);
-	redPosA();
+	blueSAWP();
 }
  
 void opcontrol() {
@@ -55,7 +55,6 @@ void opcontrol() {
 
 	autonomousPeriod = false;
 	driverControl = true;
-	
 	while (true) {
 		controls.driverControls();
 		controls.slaveControls();

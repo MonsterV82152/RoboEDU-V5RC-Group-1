@@ -91,14 +91,14 @@ class HookTasks {
                 if ((intake->getTargetSpeed() > 50 && intake->getSpeed() < 10)) {
                     if (hookAtFullSpeed) {
                         if (LBState == "loading"
-                             && (ringPos == "blueTop" || ringPos == "redTop" || ringPos == "Top")
+                            //  && (ringPos == "blueTop" || ringPos == "redTop" || ringPos == "Top")
                             ) {intake->setOverwriteSpeed(0);}
                         else if (shouldUnjam) {intake->setOverwriteSpeed(-590, 200);}
                     } else {
                         pros::delay(500);
                         if ((intake->getTargetSpeed() > 50 && intake->getSpeed() < 10)) {
                             if (LBState == "loading"
-                                 && (ringPos == "blueTop" || ringPos == "redTop" || ringPos == "Top")
+                                //  && (ringPos == "blueTop" || ringPos == "redTop" || ringPos == "Top")
                                 ) {intake->setOverwriteSpeed(0);}
                             else if (shouldUnjam) {intake->setOverwriteSpeed(-590, 200);};
                         }
@@ -141,7 +141,7 @@ class HookTasks {
             } else {
                 nextCommand = "hold";
             }
-            intake->setSpeed(300);
+            intake->setSpeed(200);
         }
         void clearCommand() {
             nextCommand = "none";

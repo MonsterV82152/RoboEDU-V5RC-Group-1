@@ -99,10 +99,10 @@ void redPosA() {
     chassis.waitUntilDone();
     chassis.moveToPoint(48,48,700,{false});
     chassis.turnToPoint(0,0,700);
-    chassis.moveToPoint(-25,-25,1000,{.maxSpeed = 40});
+    chassis.moveToPoint(-27,-27,1000,{.maxSpeed = 40});
     mogoClamp.setState(false);
-    chassis.waitUntilDone();
     ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
+    chassis.waitUntilDone();
     
 
     // chassis.moveToPoint(-12,-12,1000,{false});
@@ -199,42 +199,47 @@ void bluePosA() {
     mogoClamp.setState(true);
     intake.setSpeed(600);
     pros::delay(200);
-    chassis.turnToPoint(24,-45, 500);
-    chassis.moveToPoint(24,-45, 900);
+    chassis.turnToPoint(26,-52, 500);
+    chassis.moveToPoint(26,-52, 900);
 
     pros::delay(200);
     correct_position(frontSensor, &chassis, false);
-    chassis.turnToPoint(48,-45, 500);
-    chassis.moveToPoint(48,-45, 700);
+    chassis.turnToPoint(52,-54, 500);
+    chassis.moveToPoint(52,-54, 700);
     pros::delay(200);
     correct_position(frontSensor, &chassis, true);
     chassis.turnToPoint(75,-75,700);
-    chassis.moveToPoint(65,-65, 700, {.maxSpeed = 100});
+    chassis.moveToPoint(65,-65, 700);
     chassis.moveToPoint(75,-75, 700);
     chassis.moveToPoint(60,-60, 500, {.forwards = false});
     chassis.moveToPoint(75,-75, 700);
     chassis.moveToPoint(60,-60, 500, {.forwards = false});
     chassis.moveToPoint(75,-75, 700);
-    // chassis.moveToPoint(-44,-44,1000,{false});
-    // chassis.moveToPoint(-65,-65,1000);
-    chassis.moveToPoint(75,-48,1000,{false});
-    chassis.turnToHeading(120, 700);
-    chassis.waitUntilDone();
-    doinker.setState(true);
-    pros::delay(800);
-    chassis.arcade(50,0);
-    pros::delay(200);
+    chassis.moveToPoint(44,-44,1000,{false});
+    // // chassis.moveToPoint(-65,-65,1000);
+    // // chassis.moveToPoint(75,-48,1000,{false});
+    // // chassis.turnToHeading(120, 700);
+    // // chassis.waitUntilDone();
+    // // doinker.setState(true);
+    // // pros::delay(800);
+    // // chassis.arcade(50,0);
+    // // pros::delay(200);
 
-    // chassis.moveToPoint(-12,-12,1000,{false});
+    // // chassis.moveToPoint(-12,-12,1000,{false});
     
-    chassis.turnToHeading(45,700);
+    // // chassis.turnToHeading(45,700);
+    chassis.waitUntilDone();
+    chassis.turnToPoint(0,0,700);
     chassis.waitUntilDone();
     mogoClamp.setState(false);
     doinker.setState(false);
-    chassis.moveToPoint(24,-55,1000,{false});
-    chassis.turnToPoint(0,-48, 700,{false});
-    chassis.moveToPoint(12,-48, 1000, {.forwards = false, .maxSpeed = 50});
-    // ladyBrown.setSetPoint(LadyBrownConfigs::HOLD);
+    // pros::delay(200);
+    // chassis.turnToPoint(30,-30,700);
+    chassis.moveToPoint(30,-30,700);
+    // chassis.turnToPoint(0,-48, 700,{false});
+    // chassis.moveToPoint(12,-48, 1000, {.forwards = false, .maxSpeed = 50});
+    chassis.waitUntilDone();
+    ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
 
     
 
@@ -327,7 +332,7 @@ void redSAWP() {
     chassis.setPose(-57,13,225);
     correct_position(rightSensor, &chassis, true);
     ladyBrown.setSetPoint(LadyBrownConfigs::LOADING);
-    ladyBrown.waitUntilAtSetpoint(400);
+    pros::delay(400);
     intake.setSpeed(600);
     pros::delay(500);
     chassis.arcade(50,0);
@@ -347,24 +352,26 @@ void redSAWP() {
     chassis.turnToPoint(-13,33, 300);
     chassis.moveToPoint(-13,33, 700, {.minSpeed = 30, .earlyExitRange = 3});
     chassis.swingToHeading(0, lemlib::DriveSide::LEFT, 500, {.minSpeed = 50, .earlyExitRange = 3});
-    chassis.moveToPoint(-10,58, 700);
+    chassis.moveToPoint(-9.5,58, 700);
     correct_position(leftSensor, &chassis, true);
-    chassis.moveToPoint(-10,32, 700, {false});
+    chassis.moveToPoint(-10,30, 700, {false});
     chassis.swingToPoint(-24,48, lemlib::DriveSide::LEFT, 1000, {.minSpeed = 50, .earlyExitRange = 3});
     chassis.moveToPoint(-24,48, 600,{.minSpeed = 50, .earlyExitRange = 2});
-    chassis.turnToPoint(-48,14, 300);
-    chassis.moveToPoint(-48,14,1000,{.minSpeed = 50, .earlyExitRange = 3});
+    chassis.turnToPoint(-45,14, 300);
+    chassis.waitUntilDone();
     correct_position(rightSensor, &chassis, true);
-    chassis.turnToPoint(-48,-32, 400);
-    chassis.moveToPoint(-48,-32,2200, {.maxSpeed = 70});
+    chassis.moveToPoint(-45,14,1000,{.minSpeed = 50, .earlyExitRange = 3});
+    correct_position(rightSensor, &chassis, true);
+    chassis.turnToPoint(-46,-32, 400);
+    chassis.moveToPoint(-46,-32,2200, {.maxSpeed = 70});
     chassis.turnToPoint(-24,-48,300);
     chassis.waitUntilDone();
     mogoClamp.setState(false);
-    chassis.moveToPoint(-24,-48,1000);
+    chassis.moveToPoint(-24,-52,1000);
     correct_position(rightSensor, &chassis, false);  
     hookTasks.holdNextRing(true);
-    chassis.turnToPoint(-26,-24,400,{false});
-    chassis.moveToPoint(-26,-24,1000,{.forwards = false, .maxSpeed = 70});
+    chassis.turnToPoint(-24,-24,400,{false});
+    chassis.moveToPoint(-24,-24,1000,{.forwards = false, .maxSpeed = 70});
     chassis.waitUntilDone();
     mogoClamp.setState(true);
     pros::delay(300);
@@ -378,7 +385,7 @@ void blueSAWP() {
     chassis.setPose(57,13,135);
     correct_position(leftSensor, &chassis, true);
     ladyBrown.setSetPoint(LadyBrownConfigs::LOADING);
-    ladyBrown.waitUntilAtSetpoint(400);
+    pros::delay(600);
     intake.setSpeed(600);
     pros::delay(500);
     chassis.arcade(50,0);
@@ -400,7 +407,7 @@ void blueSAWP() {
     chassis.swingToHeading(0, lemlib::DriveSide::RIGHT, 500, {.minSpeed = 50, .earlyExitRange = 3});
     chassis.moveToPoint(9,58, 700);
     correct_position(rightSensor, &chassis, true);
-    chassis.moveToPoint(10,32, 700, {false});
+    chassis.moveToPoint(10,30, 700, {false});
     chassis.swingToPoint(24,48, lemlib::DriveSide::RIGHT, 1000, {.minSpeed = 50, .earlyExitRange = 3});
     chassis.moveToPoint(24,48, 600,{.minSpeed = 50, .earlyExitRange = 2});
     chassis.turnToPoint(43,14, 300);
@@ -456,11 +463,13 @@ void RedRingRushA() {
     hookTasks.raiseLBNextRing();
     chassis.turnToPoint(-80,80,1000,{.maxSpeed = 70});
     
-    chassis.moveToPoint(-80,80,1000);
-    // chassis.moveToPoint(-48,48,700,{false});
-    // chassis.moveToPoint(-52,52,800);
-    // pros::delay(200);
-    // ladyBrown.setSetPoint(LadyBrownConfigs::HOLD);
+    // chassis.moveToPoint(-80,80,1000);
+    chassis.moveToPoint(-80,80,1000,{.maxSpeed = 50});
+    chassis.moveToPoint(-52,52,700,{false});
+    chassis.moveToPoint(-80,80,700,{.maxSpeed = 50});
+    chassis.moveToPoint(-52,52,700,{false});
+    ladyBrown.setSetPoint(LadyBrownConfigs::HOLD);
+    chassis.moveToPoint(-80,80,700,{.maxSpeed = 50});
     chassis.moveToPoint(-48,-2,1100,{false});
     chassis.turnToPoint(-70,-2,700);
     chassis.moveToPoint(-70,-2,700);
@@ -535,7 +544,7 @@ void fastBlueNegA() {
     chassis.moveToPoint(28,37,500,{.minSpeed = 70, .earlyExitRange = 5}); 
     intake.setSpeed(600);
     doinker.setState(true);
-    chassis.moveToPoint(8.5, 44.5, 500);
+    chassis.moveToPoint(10, 43.5, 500);
     pros::delay(800);
     intake.setSpeed(0);
     // chassis.moveToPoint(9.5,41,200,{.forwards = false, .minSpeed = 70, .earlyExitRange = 1});
@@ -544,8 +553,10 @@ void fastBlueNegA() {
     mogoClamp.setState(true);
     pros::delay(200);
     intake.setSpeed(600);
-    doinker.setState(false);
     chassis.turnToHeading(350, 500);
+    pros::delay(100);
+    doinker.setState(false);
+
     // intake.stop();
     // pros::delay(200);
     // chassis.turnToPoint(10,14.5,700);
@@ -562,21 +573,21 @@ void fastBlueNegA() {
     chassis.moveToPoint(45,48,800);
     correct_position(leftSensor, &chassis, false);
     chassis.turnToPoint(80,80,300);
-    chassis.moveToPoint(80,80,800,{.maxSpeed = 90});
+    chassis.moveToPoint(80,80,800,{.maxSpeed = 75});
     correct_position(rightSensor, &chassis, true);
-    pros::delay(300);
+    pros::delay(500);
     ladyBrown.setSetPoint(LadyBrownConfigs::LOADING);
 
     chassis.waitUntilDone();
     pros::delay(600);
     // chassis.moveToPoint(44,44,700,{false});
     // chassis.moveToPoint(56,56,800);
-    chassis.moveToPoint(55,5,1200,{false});
+    chassis.moveToPoint(55,3,1200,{false});
 
     pros::delay(200);
     correct_position(rightSensor, &chassis, true);
     chassis.turnToPoint(70,0,700);
-    chassis.moveToPoint(70,0,700,{.maxSpeed = 100});
+    chassis.moveToPoint(70,0,700,{.maxSpeed = 75});
     chassis.waitUntilDone();
     lemlib::Pose pose = chassis.getPose();
     chassis.setPose(0,0,0);
@@ -586,11 +597,11 @@ void fastBlueNegA() {
     chassis.setPose(pose.x+newPose.x, pose.y+newPose.y, pose.theta+newPose.theta);
     ladyBrown.setSetPoint(LadyBrownConfigs::ALLIANCE);
     ladyBrown.waitUntilAtSetpoint(700);
-    chassis.moveToPoint(24,24,1000,{false});
+    chassis.moveToPoint(22,28,1000,{false});
     pros::delay(200);
     ladyBrown.setSetPoint(100);
     chassis.swingToPoint(0,0,lemlib::DriveSide::RIGHT,700);
-    ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
+    ladyBrown.setSetPoint(LadyBrownConfigs::SCORING-10);
 
 }
 void fastBlueNeg() {
@@ -678,11 +689,11 @@ void autonSkills() {
     intake.clearAllOverwrites();
     chassis.waitUntilDone();
     ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
-    pros::delay(900);
+    pros::delay(700);
     ladyBrown.setSetPoint(LadyBrownConfigs::LOADING);
     ladyBrown.waitUntilAtSetpoint(700);
     intake.setSpeed(600);
-    pros::delay(700);
+    pros::delay(900);
     ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
     pros::delay(900);
     ladyBrown.setSetPoint(0);
@@ -697,7 +708,7 @@ void autonSkills() {
     pros::delay(200);
     correct_position(leftSensor, &chassis, false);
     chassis.moveToPoint(-48,-40,700,{.forwards = false});
-    chassis.turnToPoint(-45,-65,700);
+    chassis.turnToPoint(-45,-65,400);
     chassis.moveToPoint(-45,-65,700);
     chassis.moveToPoint(-48,-48,700,{.forwards = false});
     chassis.turnToPoint(0,0,600);
@@ -723,12 +734,12 @@ void autonSkills() {
     chassis.turnToPoint(48,63,500);
     chassis.moveToPoint(25,50,1000);
     correct_position(leftSensor, &chassis, false);
-    pros::delay(800);
-    hookTasks.raiseLBNextRing();
+    // pros::delay(900);
     chassis.moveToPoint(48,65,1200,{.maxSpeed = 50});
-    chassis.moveToPoint(0,42,1200,{.forwards = false});
-    chassis.turnToPoint(0,80,700);
-    chassis.moveToPoint(0,80,1000,{.maxSpeed = 70});
+    hookTasks.raiseLBNextRing();
+    chassis.moveToPoint(-2,42,1200,{.forwards = false});
+    chassis.turnToPoint(-2,80,700);
+    chassis.moveToPoint(-2,80,1000,{.maxSpeed = 70});
     ladyBrown.setSetPoint(LadyBrownConfigs::HOLD);
     pros::delay(300);
     intake.clearAllOverwrites();
@@ -736,7 +747,7 @@ void autonSkills() {
     chassis.waitUntilDone();
 
     ladyBrown.setSetPoint(LadyBrownConfigs::SCORING);
-    pros::delay(900);
+    pros::delay(700);
     ladyBrown.setSetPoint(LadyBrownConfigs::LOADING);
     ladyBrown.waitUntilAtSetpoint(700);
     intake.setSpeed(600);
@@ -755,7 +766,7 @@ void autonSkills() {
     pros::delay(200);
     correct_position(rightSensor, &chassis, false);
     chassis.moveToPoint(-48,40,600,{.forwards = false});
-    chassis.turnToPoint(-45,65,600);
+    chassis.turnToPoint(-45,65,400);
     chassis.moveToPoint(-45,65,600);
     chassis.moveToPoint(-48,48,500,{.forwards = false});
     chassis.turnToPoint(0,0,600);
@@ -770,8 +781,8 @@ void autonSkills() {
     correct_position(leftSensor, &chassis, false);
     chassis.waitUntilDone();
     // correct_position(frontSensor, &chassis, true);
-    chassis.turnToPoint(26,14,400);
-    chassis.moveToPoint(26,14,1000);
+    chassis.turnToPoint(24,14,400);
+    chassis.moveToPoint(24,14,1000);
     ladyBrown.setSetPoint(LadyBrownConfigs::LOADING);
     chassis.turnToPoint(42,-3,600,{.forwards = false});
     chassis.moveToPoint(42,-3,900,{.forwards = false, .maxSpeed = 70});
@@ -780,17 +791,20 @@ void autonSkills() {
     pros::delay(200);
     // chassis.moveToPoint(40,0,400);
     chassis.turnToPoint(70,-3,600);
-    chassis.moveToPoint(70,-3,1000,{.maxSpeed = 50});
+    chassis.moveToPoint(70,-3,700,{.maxSpeed = 50});
     correct_position(frontSensor, &chassis, true);
-    chassis.moveToPoint(50,-2, 700,{false});
+    chassis.moveToPoint(47,-2, 700,{false});
     pros::delay(400);
     ladyBrown.setSetPoint(LadyBrownConfigs::ALLIANCE);
     ladyBrown.waitUntilAtSetpoint(600);
     chassis.moveToPoint(40,0,500,{false});
     pros::delay(200);
-    intake.setSpeed(600);
-    ladyBrown.setSetPoint(0);
+    intake.setSpeed(-600);
+    ladyBrown.setSetPoint(LadyBrownConfigs::LOADING);
+
     chassis.turnToPoint(44,46,600);
+    ladyBrown.setSetPoint(0);
+    intake.setSpeed(200);
     chassis.moveToPoint(44,46,1000);
     pros::delay(200);
     correct_position(rightSensor, &chassis, true);
@@ -802,18 +816,21 @@ void autonSkills() {
     intake.setSpeed(300);
     chassis.turnToPoint(24,-24,700);
     chassis.moveToPoint(24,-24,700,{.minSpeed = 50, .earlyExitRange = 3});
+    doinker.setState(true);
     chassis.moveToPoint(48,-48,700,{.maxSpeed = 60});
     intake.setSpeed(600);
-    chassis.turnToPoint(60,-48,700);
+    chassis.turnToPoint(60,-48,400);
     chassis.moveToPoint(60,-48,700);
     chassis.turnToHeading(340, 700);
     chassis.moveToPoint(70,-70,700,{.forwards = false});
     chassis.waitUntilDone();
     mogoClamp.setState(false);
+    doinker.setState(false);
     pros::delay(200);
-    chassis.moveToPoint(24,-48,1000);
-    chassis.turnToPoint(70,70,700);
-    chassis.moveToPoint(70,70,1500);
+    chassis.moveToPoint(20,-48,700);
+    chassis.turnToPoint(90,70,700);
+    chassis.moveToPoint(90,70,700,{.minSpeed = 127, .earlyExitRange = 6});
+    chassis.moveToPoint(70,70,700,{.minSpeed = 127});
 
 
 

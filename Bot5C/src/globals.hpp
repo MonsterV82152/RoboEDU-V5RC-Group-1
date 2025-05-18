@@ -87,7 +87,7 @@ namespace LadyBrownConfigs {
     };
 
     enum Setpoints {
-        LOADING = 37,
+        LOADING = 39,
         HOLD = 80,
         SCORING = 190,
         ALLIANCE = 220,
