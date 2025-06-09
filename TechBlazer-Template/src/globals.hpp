@@ -44,7 +44,7 @@ const pros::motor_brake_mode_e_t hold = pros::E_MOTOR_BRAKE_HOLD;
 /*-------------Define all configurations-------------*/
 inline pros::MotorGroup leftDT({1, 2, 3}); // Change these ports to match your left drivetrain motors
 inline pros::MotorGroup rightDT({-4, -6, -7}); // Change these ports to match your left drivetrain motors
-inline pros::Imu IMU(18);
+inline pros::Imu IMU(8);
 
 
 namespace OdometryConfigs {

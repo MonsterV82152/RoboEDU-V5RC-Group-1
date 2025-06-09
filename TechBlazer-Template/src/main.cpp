@@ -29,12 +29,15 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-
+    exampleAuton();
 }
  
 void opcontrol() {
 	while (true) {
-
+        double rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        double leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+        chassis.arcade(leftY, rightX);
+        
 		pros::delay(20);
 		
 	}
