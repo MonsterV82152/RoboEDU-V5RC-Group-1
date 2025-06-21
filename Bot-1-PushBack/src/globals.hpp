@@ -46,6 +46,13 @@ inline pros::MotorGroup leftDT({1, 2, 3}); // Change these ports to match your l
 inline pros::MotorGroup rightDT({-4, -6, -7}); // Change these ports to match your left drivetrain motors
 inline pros::Imu IMU(8);
 
+inline pros::Motor bottom(1);
+inline pros::Motor middle(2);
+inline pros::Motor top(3);
+inline pros::Motor bucket(4);
+
+
+
 
 namespace OdometryConfigs {
     struct PID {
