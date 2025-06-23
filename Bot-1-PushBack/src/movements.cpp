@@ -3,40 +3,154 @@
 #include "globals.hpp"
 
 namespace rollers {
-    inline std::string state = "none";
+    struct rollerState {
+        std::string name;
+        double bottomSpeed;
+        double middleSpeed;
+        double topSpeed;
+        double bucketSpeed;
+    };
+    struct temporaryRollerState {
+        std::string name;
+        double bottomSpeed;
+        double middleSpeed;
+        double topSpeed;
+        double bucketSpeed;
+        int importance; // 0 for high importance, 10 for low importance
+    };
+    inline rollerState state = {"none", 0, 0, 0, 0};
+
+    inline std::vector<rollerState> rollerStates = {
+        {"intake",      127,    127,    127,    0},
+        {"outtake",     -127,   -127,   -127,   0},
+        {"scoreBottom", -127,   -127,   -127,   127},
+        {"scoreMiddle", 127,    -127,   0,      127},
+        {"scoreTop",    127,    127,    -127,   127},
+        {"directIntake",127,    0,      0,      -127},
+        {"none",        0,      0,      0,      0}
+    };
+    inline std::vector<temporaryRollerState> temporaryRollerStates;
+    inline temporaryRollerState currentTemporaryState = {"none", 0, 0, 0, 0, 10};
+    inline temporaryRollerState _stateToTemp(rollerState state, int importance = 0) {
+        return temporaryRollerState{
+            state.name,
+            state.bottomSpeed,
+            state.middleSpeed,
+            state.topSpeed,
+            state.bucketSpeed,
+            importance
+        };
+    }
+
+
+    inline void setState(std::string newState) {
+        for (const auto &rollerState : rollerStates) {
+            if (rollerState.name == newState) {
+                if (temporaryRollerStates.empty()) {
+                    bottom.move(rollerState.bottomSpeed);
+                    middle.move(rollerState.middleSpeed);
+                    top.move(rollerState.topSpeed);
+                    bucket.move(rollerState.bucketSpeed);
+                }
+                state = rollerState;
+                return;
+            }
+        }
+
+        std::cerr << "Invalid roller state: " << newState << std::endl;
+    }
+    inline void setState(rollerState newState) {
+        for (const auto &rollerState : rollerStates) {
+            if (rollerState.name == newState.name) {
+                bottom.move(newState.bottomSpeed);
+                middle.move(newState.middleSpeed);
+                top.move(newState.topSpeed);
+                bucket.move(newState.bucketSpeed);
+                state = newState;
+                return;
+            }
+        }
+        rollerStates.push_back(newState);
+        bottom.move(newState.bottomSpeed);
+        middle.move(newState.middleSpeed);
+        top.move(newState.topSpeed);
+        bucket.move(newState.bucketSpeed);
+        state = newState;
+    }
+    inline void _runLowestTemporaryState() {
+        if (temporaryRollerStates.empty()) {
+            bottom.move(state.bottomSpeed);
+            middle.move(state.middleSpeed);
+            top.move(state.topSpeed);
+            bucket.move(state.bucketSpeed);
+            return;
+        }
+        temporaryRollerState lowest = temporaryRollerStates[0];
+        for (const auto &tempState : temporaryRollerStates) {
+            if (tempState.importance <= lowest.importance) {
+                lowest = tempState;
+            }
+        }
+        currentTemporaryState = lowest;
+        bottom.move(lowest.bottomSpeed);
+        middle.move(lowest.middleSpeed);
+        top.move(lowest.topSpeed);
+        bucket.move(lowest.bucketSpeed);
+        
+    }
+    inline void addTemporaryState(std::string newState, int importance) {
+        for (const auto &rollerState : rollerStates) {
+            if (rollerState.name == newState) {
+                temporaryRollerStates.push_back(_stateToTemp(rollerState, importance));
+                break;
+            }
+        }
+        _runLowestTemporaryState();
+        
+
+
+    }
+
+    inline void addTemporaryState(rollerState newState, int importance) {
+        rollerStates.push_back(newState);
+        temporaryRollerStates.push_back(_stateToTemp(newState, importance));
+        _runLowestTemporaryState();
+    }
+    inline void removeTemporaryState(std::string stateName) {
+        for (auto it = temporaryRollerStates.begin(); it != temporaryRollerStates.end(); ++it) {
+            if (it->name == stateName) {
+                temporaryRollerStates.erase(it);
+                break;
+            }
+        }
+        _runLowestTemporaryState();
+    }
+    inline void removeAllTemporaryState() {
+        temporaryRollerStates.clear();
+        _runLowestTemporaryState();
+    }
+
+
+
+
+
     inline void intake() {
-        bottom.move(127);
-        middle.move(127);
-        top.move(127);
-        state = "intake";
+        setState("intake");
     }
     inline void outtake() {
-        bottom.move(-127);
-        middle.move(-127);
-        top.move(-127);
-        bucket.move(-127);
-        state = "outtake";
+        setState("outtake");
     }
     inline void stop() {
-        bottom.move(0);
-        middle.move(0);
-        top.move(0);
-        bucket.move(0);
-        state = "none";
+        setState("none");
     }
     inline void scoreMiddle() {
-        bottom.move(127);
-        bucket.move(127);
-        middle.move(-127);
-        top.move(0);
-        state = "scoreMiddle";
+        setState("scoreMiddle");
     }
     inline void scoreTop() {
-        bottom.move(127);
-        middle.move(127);
-        top.move(-127);
-        bucket.move(127);
-        state = "scoreTop";
+        setState("scoreTop");
+    }
+    inline void scoreBottom() {
+        setState("scoreBottom");
     }
 }
 

@@ -3,13 +3,13 @@
 #include "Autonomous_Paths.hpp"
 #include "movements.cpp"
 
-void on_center_button() {}	
+void on_center_button() {}
 
-void initialize() {
-	pros::lcd::initialize();
+void initialize()
+{
+    pros::lcd::initialize();
 
-
-	// pros::Task screen_task([&]() {
+    // pros::Task screen_task([&]() {
     //     while (true) {
     //         // print robot location to the brain screen
     //         pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
@@ -19,56 +19,73 @@ void initialize() {
     //         pros::delay(20);
     //     }
     // });
-	
-	// chassis.calibrate();
-	// chassis.setPose(0,0,0);
+
+    // chassis.calibrate();
+    // chassis.setPose(0,0,0);
 }
 
 void disabled() {}
-   
+
 void competition_initialize() {}
 
-void autonomous() {
+void autonomous()
+{
     exampleAuton();
 }
- 
-void opcontrol() {
-	while (true) {
+
+void opcontrol()
+{
+    while (true)
+    {
         double rightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
         double leftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         chassis.arcade(leftY, rightX);
-        if (master.get_digital_new_press(buttons::R1)) {
-            if (rollers::state == "intake") {
+        if (master.get_digital_new_press(buttons::R1))
+        {
+            if (rollers::state.name == "intake")
+            {
                 rollers::stop();
-            } else {
+            }
+            else
+            {
                 rollers::intake();
             }
         }
-        if (master.get_digital_new_press(buttons::R2)) {
-            if (rollers::state == "outtake") {
-                rollers::stop();
-            } else {
-                rollers::outtake();
-            }
+        if (master.get_digital_new_press(buttons::A))
+        {
+            rollers::addTemporaryState("directIntake", 7);
         }
-        if (master.get_digital_new_press(buttons::L2)) {
-            if (rollers::state == "scoreTop") {
-                rollers::stop();
-            } else {
-                rollers::scoreTop();
-            }
+        else if (rollers::currentTemporaryState.name == "directIntake" && !master.get_digital(buttons::A))
+        {
+            rollers::removeTemporaryState("directIntake");
         }
-        if (master.get_digital_new_press(buttons::L2)) {
-            if (rollers::state == "scoreMiddle") {
-                rollers::stop();
-            } else {
-                rollers::scoreMiddle();
-            }
+        if (master.get_digital_new_press(buttons::R2))
+        {
+            rollers::addTemporaryState("scoreBottom", 7);
+        }
+        else if (rollers::currentTemporaryState.name == "scoreBottom" && !master.get_digital(buttons::R2))
+        {
+            rollers::removeTemporaryState("scoreBottom");
+        }
+        if (master.get_digital_new_press(buttons::L2))
+        {
+            rollers::addTemporaryState("scoreTop", 7);
+        }
+        else if (rollers::currentTemporaryState.name == "scoreTop" && !master.get_digital(buttons::L2))
+        {
+            rollers::removeTemporaryState("scoreTop");
+        }
+        if (master.get_digital_new_press(buttons::L1))
+        {
+            rollers::addTemporaryState("scoreMiddle", 7);
+        }
+        else if (rollers::currentTemporaryState.name == "scoreMiddle" && !master.get_digital(buttons::L1))
+        {
+            rollers::removeTemporaryState("scoreMiddle");
         }
 
         // chassis.arcade(leftY, rightX);
-        
-		pros::delay(20);
-		
-	}
+
+        pros::delay(20);
+    }
 }
