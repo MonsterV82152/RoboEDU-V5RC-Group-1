@@ -47,6 +47,8 @@ inline pros::MotorGroup rightDT({-4, -6, -7}); // Change these ports to match yo
 inline pros::Imu IMU(8);
 
 
+/*
+=================COMING SOON================= 
 namespace OdometryConfigs {
     struct PID {
         static constexpr double lateralKp = 1.0;
@@ -106,8 +108,7 @@ inline lemlib::Chassis chassis(OdometryConfigs::LEMLIB_drivetrain,         // dr
                                OdometryConfigs::LEMLIB_sensors             // odometry sensors
 );
 
-/*----------------------LEMLIB INIT----------------------*/
-
+*/
 
 
 #endif
