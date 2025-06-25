@@ -12,6 +12,8 @@
 #include "sensor_loc.cpp"
 
 /*----------------------Defines----------------------*/
+inline std::string autonomousPath = "none"; // Default autonomous path
+inline std::string teamColor = "none"; // Default team color
 
 // Constants
 constexpr double PI = 3.141592;

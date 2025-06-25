@@ -299,7 +299,7 @@
     },
     "upload_options": {
       "icon": "X",
-      "slot": 1,
+      "slot": 2,
       "description": "Templateocde"
     },
     "use_early_access": false

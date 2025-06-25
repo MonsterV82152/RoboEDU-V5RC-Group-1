@@ -42,8 +42,8 @@ const pros::motor_brake_mode_e_t coast = pros::E_MOTOR_BRAKE_COAST;
 const pros::motor_brake_mode_e_t hold = pros::E_MOTOR_BRAKE_HOLD;
 
 /*-------------Define all configurations-------------*/
-inline pros::MotorGroup leftDT({11, 12, 13}); // Change these ports to match your left drivetrain motors
-inline pros::MotorGroup rightDT({-14, -16, -17}); // Change these ports to match your left drivetrain motors
+inline pros::MotorGroup leftDT({-11, -12, 13}); // Change these ports to match your left drivetrain motors
+inline pros::MotorGroup rightDT({14, 15, -16}); // Change these ports to match your left drivetrain motors
 inline pros::Imu IMU(8);
 
 inline pros::Motor bottom(-1);
