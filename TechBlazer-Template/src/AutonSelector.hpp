@@ -49,9 +49,11 @@ public:
     std::string name;
     std::vector<screenElement> elements;
     std::vector<button> buttons;
-    page(std::string name, std::vector<screenElement> elements = {}, std::vector<button> buttons = {})
+    std::vector<bool> traits;
+    page(std::string name, std::vector<bool> traits, std::vector<screenElement> elements = {}, std::vector<button> buttons = {})
     {
         this->name = name;
+        this->traits = traits;
         this->elements = elements;
         this->buttons = buttons;
     }
@@ -126,6 +128,7 @@ public:
         pages = {
             page(
                 "home",
+                {true, false},
                 std::vector<screenElement>{
                     screenElement{"lineRect", pros::Color::white, 20, 15, 225, 220},
                     screenElement{"lineRect", pros::Color::white, 25, 20, 230, 225},
@@ -138,6 +141,7 @@ public:
                     button(250, 15, 455, 220, "match")}),
             page(
                 "skills",
+                {true, true},
                 std::vector<screenElement>{
                     screenElement{"lineRect", pros::Color::white, 20, 15, 225, 220},
                     screenElement{"lineRect", pros::Color::white, 25, 20, 230, 225},
@@ -154,6 +158,7 @@ public:
                     button(250, 15, 455, 220, "driverSkills")}),
             page(
                 "match",
+                {true, false},
                 std::vector<screenElement>{
                     screenElement{"fillRect", pros::Color::dark_red, 0, 0, 240, 240},
                     screenElement{"fillRect", pros::Color::dark_blue, 240, 0, 480, 240},
@@ -164,10 +169,11 @@ public:
                     screenElement{"text", pros::Color::white, 322, 105, 0, 0, 0, pros::text_format_e_t::E_TEXT_LARGE_CENTER, "Blue"}},
                 std::vector<button>{
                     button(180, 180, 300, 220, "home"),
-                    button(0, 0, 240, 240, "red"),
-                    button(240, 0, 480, 240, "blue")}),
+                    button(0, 0, 240, 240, "redAutonPage"),
+                    button(240, 0, 480, 240, "blueAutonPage")}),
             page(
-                "red",
+                "redAutonPage",
+                {true, false},
                 std::vector<screenElement>{
                     screenElement{"lineRect", pros::Color::white, 10, 10, 235, 77},
                     screenElement{"lineRect", pros::Color::white, 10, 87, 235, 153},
@@ -192,7 +198,8 @@ public:
                     button(245, 87, 470, 153, ""),
                 }),
             page(
-                "blue",
+                "blueAutonPage",
+                {false, false},
                 std::vector<screenElement>{
                     screenElement{"lineRect", pros::Color::white, 10, 10, 235, 77},
                     screenElement{"lineRect", pros::Color::white, 10, 87, 235, 153},
@@ -215,6 +222,16 @@ public:
                     button(10, 163, 235, 230, ""),
                     button(245, 10, 470, 77, ""),
                     button(245, 87, 470, 153, ""),
+                }),
+            page(
+                "driverSkills",
+                {true, true},
+                std::vector<screenElement>{
+                    screenElement{"lineRect", pros::Color::white, 10, 163, 470, 230},
+                    screenElement{"text", pros::Color::white, 40, 40, 0, 0, 0, pros::text_format_e_t::E_TEXT_LARGE_CENTER, "Driver Skills"},
+                    screenElement{"text", pros::Color::white, 220, 190, 0, 0, 0, pros::text_format_e_t::E_TEXT_MEDIUM_CENTER, "Back"}},
+                std::vector<button>{
+                    button(10, 163, 470, 230, "skills"),
                 })};
     }
     void start()
@@ -222,13 +239,36 @@ public:
         pros::Task autonSelectorTask([&]()
                                      { autonSelectorF(); });
     }
-    void runAuton() {
-        for (autonomousRoute &route : autonomousRoutes) {
-            if (route.name == currentPage) {
+    void runAuton()
+    {
+        if (currentPage.name == "autonomousSkills")
+        {
+            autonSkills.autonFunction();
+            return;
+        }
+        for (autonomousRoute &route : autonomousRoutes)
+        {
+            if (route.name == currentPage.name)
+            {
                 route.autonFunction();
                 return;
             }
         }
+    }
+    void setSkillsAuton(autonomousRoute auton)
+    {
+        autonSkills = auton;
+        pages.push_back(page(
+            "autonomousSkills",
+            {true, true},
+            std::vector<screenElement>{
+                screenElement{"lineRect", pros::Color::white, 10, 163, 470, 230},
+                screenElement{"text", pros::Color::white, 20, 20, 0, 0, 0, pros::text_format_e_t::E_TEXT_LARGE_CENTER, auton.name},
+                screenElement{"text", pros::Color::white, 20, 60, 0, 0, 0, pros::text_format_e_t::E_TEXT_MEDIUM_CENTER, auton.description},
+                screenElement{"text", pros::Color::white, 220, 190, 0, 0, 0, pros::text_format_e_t::E_TEXT_MEDIUM_CENTER, "Back"}},
+            std::vector<button>{
+                button(10, 163, 470, 230, "skills"),
+            }));
     }
     void setAutons(std::vector<autonomousRoute> autons)
     {
@@ -245,14 +285,15 @@ public:
                 pages.push_back(
                     page(
                         auton.name,
+                        {true, false},
                         std::vector<screenElement>{
                             screenElement{"text", pros::Color::white, 20, 20, 0, 0, 0, pros::text_format_e_t::E_TEXT_LARGE_CENTER, auton.name},
                             screenElement{"text", pros::Color::white, 20, 60, 0, 0, 0, pros::text_format_e_t::E_TEXT_MEDIUM_CENTER, auton.description},
                             screenElement{"fillCircle", pros::Color::red, 434, 196, 0, 0, 33},
-                            screenElement{"lineRect", pros::Color::white, 10, 163, 394, 230},
-                            screenElement{"text", pros::Color::white, 210, 190, 0, 0, 0, pros::text_format_e_t::E_TEXT_MEDIUM_CENTER, "Back"}},
+                            screenElement{"lineRect", pros::Color::white, 10, 163, 390, 230},
+                            screenElement{"text", pros::Color::white, 190, 190, 0, 0, 0, pros::text_format_e_t::E_TEXT_MEDIUM_CENTER, "Back"}},
                         std::vector<button>{
-                            button(10, 163, 394, 230, "red")}));
+                            button(10, 163, 394, 230, "redAutonPage")}));
             }
             else if (toLowerCase(auton.teamColor).find("blue") != std::string::npos)
             {
@@ -262,21 +303,52 @@ public:
                 pages.push_back(
                     page(
                         auton.name,
+                        {false, false},
                         std::vector<screenElement>{
                             screenElement{"text", pros::Color::white, 20, 20, 0, 0, 0, pros::text_format_e_t::E_TEXT_LARGE_CENTER, auton.name},
                             screenElement{"text", pros::Color::white, 20, 60, 0, 0, 0, pros::text_format_e_t::E_TEXT_MEDIUM_CENTER, auton.description},
-                            screenElement{"fillCircle", pros::Color::red, 434, 196, 0, 0, 33},
-                            screenElement{"lineRect", pros::Color::white, 10, 163, 394, 230},
-                            screenElement{"text", pros::Color::white, 210, 190, 0, 0, 0, pros::text_format_e_t::E_TEXT_MEDIUM_CENTER, "Back"}},
+                            screenElement{"fillCircle", pros::Color::blue, 434, 196, 0, 0, 33},
+                            screenElement{"lineRect", pros::Color::white, 10, 163, 390, 230},
+                            screenElement{"text", pros::Color::white, 190, 190, 0, 0, 0, pros::text_format_e_t::E_TEXT_MEDIUM_CENTER, "Back"}},
                         std::vector<button>{
-                            button(10, 163, 394, 230, "blue")}));
+                            button(10, 163, 394, 230, "blueAutonPage")}));
             }
         }
     }
+    bool isRedTeam()
+    {
+        return (currentPage.traits[0]);
+    }
+    bool isSkills()
+    {
+        return (currentPage.traits[1]);
+    }
+    bool exit() {
+        exitCode = true;
+    }
 
 private:
+    bool exitCode = false;
     std::vector<page> pages;
-    std::string currentPage = "home";
+    autonomousRoute autonSkills;
+    page currentPage = page(
+        "home",
+        {true, false},
+        std::vector<screenElement>{
+            screenElement{"lineRect", pros::Color::white, 20, 15, 225, 220},
+            screenElement{"lineRect", pros::Color::white, 25, 20, 230, 225},
+            screenElement{"lineRect", pros::Color::white, 250, 15, 455, 220},
+            screenElement{"lineRect", pros::Color::white, 255, 20, 460, 225},
+            screenElement{"text", pros::Color::white, 70, 105, 0, 0, 0, pros::text_format_e_t::E_TEXT_LARGE_CENTER, "Skills"},
+            screenElement{"text", pros::Color::white, 312, 105, 0, 0, 0, pros::text_format_e_t::E_TEXT_LARGE_CENTER, "Match"}},
+        std::vector<button>{
+            button(20, 15, 225, 220, "skills"),
+            button(250, 15, 455, 220, "match")});
+
+    /**
+     * Defaults to red team if no auton selected
+     * @returns boolean - true = Red, false = Blue
+     */
     void drawPage(std::string pageName)
     {
         for (page &screen : pages)
@@ -284,7 +356,7 @@ private:
             if (screen.name == pageName)
             {
                 screen.draw();
-                currentPage = pageName;
+                currentPage = screen;
                 return;
             }
         }
@@ -293,7 +365,7 @@ private:
     {
         for (auto &screen : pages)
         {
-            if (screen.name == currentPage)
+            if (screen.name == currentPage.name)
             {
                 std::string nextPage = screen.checkButtons(touch);
                 if (nextPage != "none")
@@ -321,7 +393,10 @@ private:
             {
                 newTouch = true;
             }
-            pros::delay(8); // Prevents the task from running too fast
+            if (exitCode) {
+                break;
+            }
+            pros::delay(20); // Prevents the task from running too fast
         }
     }
 };

@@ -8,8 +8,12 @@
 #include <sstream>
 #include <string>
 #include <cmath>
+#include "AutonSelector.hpp"
 #include "lemlib/api.hpp"
 #include "sensor_loc.cpp"
+
+
+inline AutonSelector autonSelect;
 
 /*----------------------Defines----------------------*/
 
@@ -50,6 +54,10 @@ inline pros::Motor bottom(-1);
 inline pros::Motor middle(2);
 inline pros::Motor top(-3);
 inline pros::Motor bucket(-4);
+
+inline pros::Optical topColor(5);
+
+inline pros::ADIDigitalOut matchLoader('A');
 
 
 
